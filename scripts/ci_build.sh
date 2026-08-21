@@ -40,8 +40,9 @@ echo "  lib chain compiled"
 
 echo "=== 3. PSA 核心编译 ==="
 for f in PSA_framework PSA_audit PSA_refcheck; do
-  echo "  coqc $f.v"
-  coqc -R "coq" PSA -Q "$MC" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi "coq/$f.v"
+  echo "  coqc core/$f.v"
+  # -Q coq/core PSA（PSA 前缀）+ -Q coq/lib ""（lib 顶层，避免 -R 递归映射冲突）
+  coqc -Q "coq/core" PSA -Q "coq/lib" "" -Q "$MC" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi "coq/core/$f.v"
 done
 echo "  ✅ PSA 核心编译通过"
 
