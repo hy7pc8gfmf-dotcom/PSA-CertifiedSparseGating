@@ -31,9 +31,13 @@ jobs:
           opam list --available rocq-mathcomp-ssreflect 2>/dev/null || true
           echo "--- installing coq.9.0.0 + rocq-mathcomp-ssreflect + coq-elpi ---"
           opam install -y coq.9.0.0 rocq-mathcomp-ssreflect coq-elpi
-          echo "--- mathcomp ssreflect/prime check ---"
+          echo "--- mathcomp prime location check ---"
           COQLIB=$(coqc -where)
           ls "$COQLIB/user-contrib/mathcomp/ssreflect/prime.vo" 2>&1 || echo "NO ssreflect/prime"
+          echo "--- find any prime* in mathcomp ---"
+          find "$COQLIB/user-contrib/mathcomp" -iname "*prime*" 2>/dev/null | head -20
+          echo "--- mathcomp top dirs ---"
+          ls "$COQLIB/user-contrib/mathcomp" 2>/dev/null
 
       - name: Cache vendored dependency .vo (Coquelicot only)
         uses: actions/cache@v4
