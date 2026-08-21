@@ -86,7 +86,7 @@ def fallback_mask(M, vals):
 
 
 def frame_check_instance(ladder):
-    """反射框架检查器：任意梯子 → 判定 Gershgorin μ ≤ 4/5（可认证性）。
+    """反射框架检查器：任意阶梯 → 判定 Gershgorin μ ≤ 4/5（可认证性）。
     ladder: 升序正整数列表（如 [3,13,53,213]）。
     返回 True 表示对任意系数向量，框架界 [1/5,9/5] 成立（窗口=末元素）。
     注意：实现为原生 int（psa_guard_main.ml 的 frame_check_instance_int），

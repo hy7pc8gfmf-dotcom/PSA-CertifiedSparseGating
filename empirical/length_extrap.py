@@ -119,7 +119,7 @@ def rope_theta(d, device, base=10000.0):
     return base ** (-torch.arange(0, d, 2, dtype=torch.float32, device=device) / d)
 
 def psi_rope_theta(d, device, ladder):
-    """psi-rope：旋转角 = 2π/n_j，n_j 取截断梯子频带（循环填充 d/2 维）。"""
+    """psi-rope：旋转角 = 2π/n_j，n_j 取截断阶梯频带（循环填充 d/2 维）。"""
     ns = torch.tensor([n for n in ladder], dtype=torch.float32, device=device)
     half = d // 2
     idx = torch.arange(half, device=device) % len(ns)
@@ -262,13 +262,13 @@ def main():
     ap.add_argument("--cpu-util-max", type=float, default=70.0)  # v2: 70（v1 是 90）
     ap.add_argument("--check-interval", type=float, default=0.5)  # v3: 0.5s 高频探测（v2 是 15s，E5 第三次宕机教训）
     ap.add_argument("--cooldown", type=float, default=60.0)   # v2: 60（v1 是 30）
-    ap.add_argument("--gen-c", type=int, default=4)           # E5: 2（C=2 八频带全相位梯子）
-    ap.add_argument("--bands", type=int, default=0)           # E5'/E5'': 截断梯子到前 N 带（0 = 全部）
+    ap.add_argument("--gen-c", type=int, default=4)           # E5: 2（C=2 八频带全相位阶梯）
+    ap.add_argument("--bands", type=int, default=0)           # E5'/E5'': 截断阶梯到前 N 带（0 = 全部）
     ap.add_argument("--seed", type=int, default=1337)         # 多 seed 实验用（>=3 确认稳定性）
     ap.add_argument("--psi-variant", type=str, default="none",
-                    help="E1 消融：none|rand（log-uniform 随机梯子 [3,54613]）|lin（线性梯子 [3,54613]）")
+                    help="E1 消融：none|rand（log-uniform 随机阶梯 [3,54613]）|lin（线性阶梯 [3,54613]）")
     ap.add_argument("--rope-rand", action="store_true",
-                    help="E1 psi-rope-rand：旋转角来自随机全相位梯子（log-uniform [3,511]）")
+                    help="E1 psi-rope-rand：旋转角来自随机全相位阶梯（log-uniform [3,511]）")
     ap.add_argument("--modes", type=str, default="dense,psi,psi-trunc,rope,psi-rope")
     ap.add_argument("--eval-only", type=str, default="")      # 只评估已存模型（纯前向），如 "psi-trunc"
     ap.add_argument("--rope-variant", type=str, default="none",
@@ -314,7 +314,7 @@ def main():
             theta = rope_theta(config["n_embd"] // config["n_head"], DEVICE)
         if mode == "psi-rope":
             if args.rope_rand:
-                # rr：旋转角来自随机全相位梯子（与训练路径逐字对齐）
+                # rr：旋转角来自随机全相位阶梯（与训练路径逐字对齐）
                 rl = [n for n in log_uniform_ladder(3, 511, 128, args.seed, sort=False) if n <= args.block]
                 theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl)
             else:
@@ -372,11 +372,11 @@ def main():
         if mode == "rope":
             theta = rope_theta(config["n_embd"] // config["n_head"], DEVICE)
         if mode == "psi-rope":
-            # 旋转角 = 2π/n_j，n_j 取截断梯子（训练内见过全相位）——检验"psi 频率做相对旋转"
+            # 旋转角 = 2π/n_j，n_j 取截断阶梯（训练内见过全相位）——检验"psi 频率做相对旋转"
             if args.rope_rand:
                 rl = [n for n in log_uniform_ladder(3, 511, 128, args.seed, sort=False) if n <= args.block]
                 theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl)
-                print(f"  psi-rope-rand: 旋转角来自随机全相位梯子（log-uniform [3,511]，未排序）首 16: {[round(math.log(n)/math.log(3),1) for n in rl[:6]]}", flush=True)
+                print(f"  psi-rope-rand: 旋转角来自随机全相位阶梯（log-uniform [3,511]，未排序）首 16: {[round(math.log(n)/math.log(3),1) for n in rl[:6]]}", flush=True)
             else:
                 theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE,
                                        [n for n in config["psi_indices"] if n <= args.block])

@@ -193,7 +193,7 @@ Print Assumptions FrameCheckInstance.row_sum_frac_den_neq0.
 Print Assumptions FrameCheckInstance.frame_check_instance_row_bound.
 Print Assumptions FrameCheckInstance.frame_check_instance_sound.
 
-(* M4 E5'' 冠军证书（会话 14）：七带 [3,7,15,31,63,127,255] 端到端复合界
+(* M4 E5'' 复合证书（会话 14）：七带 [3,7,15,31,63,127,255] 端到端复合界
    （零 classic：15 个新 pair 界 + coh_delta_bound（42 方向）+ term_bound_upper/lower
     + champion_e5_composite_certificate；axiom 集 = Stdlib Reals 基底
     sig_not_dec/sig_forall_dec/fext，与 3D/4D 同款） *)

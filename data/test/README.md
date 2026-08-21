@@ -9,7 +9,7 @@
 |------|------|------|
 | 模型权重 `model_*.pt` | 26 | dense / psi / psi-trunc / psi-rope / rope / nope × b256/b512 × seed 变体——训练产物，不可再生（重训需 GPU 时间），**核心证据** |
 | 训练日志 `train_log*.txt` | 25 | 各 run 完整日志（含 multi-seed 8 run：ms_c2/c3/c4/e5pp × s42/s7、nope、extrap 系列等） |
-| 评估结果 `eval_*.txt` | 3 | eval_rope_ntk / eval_rope_pi / eval_psitrunc_c2——诚实性对照 |
+| 评估结果 `eval_*.txt` | 3 | eval_rope_ntk / eval_rope_pi / eval_psitrunc_c2——对照组 |
 | 主表 | 1 | `multi_seed_main_table.md`（论文 B 核心数据表） |
 | 温控日志 | 1 | `thermal_probe_log.txt`（温控治理环境证据） |
 | 语料/输入数据 `*.txt` | 9 | gutenberg_corpus（5.1M 字符训练语料，**复现必需**）、arxiv_corpus、paper_corpus、tinyshakespeare、1342/1661/2600/2701-0.txt |

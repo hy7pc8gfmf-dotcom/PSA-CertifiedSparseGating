@@ -30,7 +30,7 @@
 
 | 组件 | 类型 | 说明 |
 |------|------|------|
-| `psa_guard.exe` | Coq 提取的 OCaml 检查器 | `frame_check_instance` 原生整数镜像（任意梯子 μ≤4/5 判定） |
+| `psa_guard.exe` | Coq 提取的 OCaml 检查器 | `frame_check_instance` 原生整数镜像（任意阶梯 μ≤4/5 判定） |
 | `PSA_framework.vo` / `PSA_audit.vo` | Coq 编译产物 | 165 项审计（全零 classic）的编译证据 |
 | 未来新增的 Coq 提取模块 | Coq/OCaml 编译产物 | 授权方在本协议有效期内发布的任何新增提取（如 2D/3D 反射检查器） |
 

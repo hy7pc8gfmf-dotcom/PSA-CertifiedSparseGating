@@ -12,7 +12,7 @@
      - zeta_re_series  ：Re ζ(s) = lim Σ re_term（分量收敛）
      - zeta_re_series_sum：Re ζ(s) = Σ_{n≥0} re_term s n（sum_f_R0 形式）
 
-   诚实性说明（Print Assumptions）：
+   审计说明（Print Assumptions）：
      zeta_series_identity 依赖 经典选择 constructive_indefinite_description
      （仅用于从"存在极限"提取见证值，标准做法，数学lib/Isabelle 亦如此），
      以及 ca_gamma 链条的经典逻辑/完备性/函数外延性。无任何自定义公理。

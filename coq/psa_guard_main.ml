@@ -51,7 +51,7 @@ let rec bool_list_of_coq_list = function
    FrameCheckInstance.frame_check_instance 定义，逐行同构）
    用 OCaml int 替代 Peano nat——提取的 Peano 版在 DkMLNative 字节码下
    对大分母乘法（b*d ≈ 2e9）会栈溢出；这里用机器字整数无此问题。
-   soundness 与 Coq 定义的等价性由逐行镜像 + 提取版小梯子核对保证。
+   soundness 与 Coq 定义的等价性由逐行镜像 + 提取版小阶梯核对保证。
    ============================================================ *)
 
 (* floor-sqrt 有理化对界：bound(n1,n2)=n1*n2/(2*(n2-n1)*f), f=isqrt(n1*n2) *)
