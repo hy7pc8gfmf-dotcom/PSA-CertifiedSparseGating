@@ -27,7 +27,7 @@
 2. **有限化守卫衰减界**（PSA_Pipeline）：全局增长前提 → 运行时可判定检查，系数 2/ 与 tight 1/ 两版；
 3. **行截断能量预算**（RowTruncation）与 **softmax 稳定性**（SoftmaxStability，$\|\mathrm{softmax}\,z - \mathrm{softmax}\,z'\|_1 \le 2(e^d - 1)$）；
 4. **认证注意力近似**（CertifiedAttention）：谱能量 ≤ ε ⟹ 输出偏差 ≤ $(e^{2\sqrt{\varepsilon}}-1)\cdot V_{\max}$；
-5. **实例证书**（Gershgorin + InstanceCertificate）：对 C=4 阶梯 [3,13,53,213] 证明框架界 [1/5, 9/5]（μ=4/5）——参数化最坏情形 1±4K(C) 在 C=4 真空、需 C>25 的问题就此终结；
+5. **实例证书**（Gershgorin + InstanceCertificate）：对 C=4 阶梯 [3,13,53,213] 证明框架界 [1/5, 9/5]（μ=4/5）——参数化最坏情形 1±4K(C) 在 C=4 真空、要 C>25 的问题就此终结；
 6. **有理支配方法论**（实现贡献）：证书全部常数经 floor-sqrt / Jordan / Dirichlet 单侧松弛化为有理数，`compute; field` 封口——零数值策略、零区间算术、可判定、可提取；
 7. **可执行提取**：门控/检查器 → OCaml（psa_guard.exe）→ Python FFI，24/24 参考值对齐；
 8. **反射检查器及其健全性**（FrameCheckInstance）：`frame_check_instance` 把"任意阶梯 → μ≤4/5"做成可判定有理判定，提取为原生整数镜像（与 Coq 定义逐行同构）；健全性定理 `frame_check_instance_sound`（Qed）证明判定通过 ⟹ Gershgorin 框架界——检查器本身带机器证明的健全性；
@@ -38,7 +38,7 @@
 ## 2 背景
 
 - **ψ 基**：$\psi_n(k) = (1/\sqrt{n})\cdot e^{2\pi i k/n}$，有限支撑（$k \ge n$ 时为 0）。
-- **阶梯生成器**：$n_{j+1} = \max(C\cdot n_j + 1,\, n_j + 2)$（非精确几何——证书必须认证实际值，这是需要运行时检查器而非纸面公式的理由）。
+- **阶梯生成器**：$n_{j+1} = \max(C\cdot n_j + 1,\, n_j + 2)$（非精确几何——证书必须认证实际值，这是要要运行时检查器而非纸面公式的理由）。
 - **三处语义勘误**（线性 vs 平方门、`<=?` vs `<?`、≥2 并集）——每处附反例，体现形式化对原草案的纠错价值。
 - **一处常数级勘误（3D 张量基，已修正）**：2D 引擎的离对角界常数 K0 = Rmax 8C³/4 在 3D 等轴退化配置（两轴索引相同、仅第三轴差 ≤6）下不可证——归一化三重内积可逼近 1，而 /4 常数只给 1/2。3D 模块改为 K0′ = Rmax 8C³/2（退化配置恰好紧，worst case = 1）。
 
@@ -119,7 +119,7 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 
 ### 5.2 有理支配与可判定性溢价
 
-全部超越量被朝可判定方向单侧支配：$\sqrt{m} \leftarrow \lfloor\sqrt{m}\rfloor$、$|\sin(\pi\Delta)| \leftarrow$ Jordan 2Δ、Dirichlet 分子 $|\sin(\pi N\Delta)| \leftarrow 1$、（Tier 2 的 π ← 22/7）。**证书层只需要 ℚ**——运行时验证只做有理算术，这是可提取性的根源。
+全部超越量被朝可判定方向单侧支配：$\sqrt{m} \leftarrow \lfloor\sqrt{m}\rfloor$、$|\sin(\pi\Delta)| \leftarrow$ Jordan 2Δ、Dirichlet 分子 $|\sin(\pi N\Delta)| \leftarrow 1$、（Tier 2 的 π ← 22/7）。**证书层只要要 ℚ**——运行时验证只做有理算术，这是可提取性的根源。
 
 - **可判定性溢价**：精确 μ = 0.312 → 有理保守 μ = 4/5，因子 2.55——机器可检查性的已量化代价。溢价是设计对象：松弛链可枚举、可优化（`cert_optimize` 方向，未来工作）。
 - **检查器的保守性（充分非必要）**：`frame_check_instance = true` 是框架界的充分非必要条件——floor-sqrt 有理松弛的保守因子约 1.5×，存在满足 Gershgorin 条件但因保守上界超 4/5 而被误拒的合法阶梯（假阴性）。典型案例：论文 B 的七带基线阶梯 E5'' 被检查器判 false，不代表它不满足框架条件。正是这一不完备性使**复合证书成为必要**。宁可误拒、绝不放行的保守取向是可判定性的设计选择。
@@ -133,17 +133,17 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **直接证书**（C=4）：`certified_c4_frame_bounds` 直接覆盖；
 - **T8 复合证书**（E5''）：隔带子核 [3,15,63,255] 的 `certified_t8_core_frame_bounds`（μ=4/5）覆盖最优阶梯的认证核；
 - **端到端"军证书**（ChampionCertificate）：顶层组合定理 `champion_e5_composite_certificate`（Qed，零 classic）——代码实际证明的目标形状（全矩阵相干加权）：`length coeffs = 7 → (S − coh_e5 c) ≤ ‖F‖²_{255} ≤ (S + coh_e5 c)`，其中 coh_e5 为 21 对上三角 δ 表经 `term_bound_upper/lower` 加权得到的对称相干交叉项界。构件链：15 个新 pair 界 → 内积/范数引理 → δ 表（21 对）→ `coh_delta_bound`（42 方向）→ 上下界项 → 主定理。注意：早期草拟的"核带框架 + 边带能量"分段形式是装配前的设计稿，最终实现收敛为单一定理下的对称界。
-- **酉不变性（已机器检查）**：旋转是酉变换，对任意酉算子 U 与系数向量 c，$\|\sum c_i U\psi_i\|^2 = \|\sum c_i \psi_i\|^2$——框架界/衰减界/证书自动覆盖旋转版本（论文 B 的"旋转组"）。Module UnitaryInvariance：`unitary_invariance_point`（U 保内积 ⟹ 范数不变）+ 位置索引 psi-rope 实例 + 显式 RoPE 实例 `unitary_invariance_psi_rope_theta`（`u k := Cexp (0+i·INR k·θ k)`，`Cexp_unit_mod` 证单位模）。实验的 2×2 块旋转矩阵（`apply_rope_theta`）与复数乘法 $e^{i\theta}$ 是同一酉群的同构表示（SO(2)≅U(1)），实/虚部逐行对应已显式机器检查（`rope_matrix_real/imag/eq`，零 classic）。注：原"每带乘 u_i"逐点版本为假命题（交叉项需 $u_i = u_j$；反例 u0=1, u1=−1, g0=g1=1），未并入。范围限定：酉不变性适用于**特征表示的范数层**；不保证学习到的 Q/K 投影下注意力 logits 不变。
+- **酉不变性（已机器检查）**：旋转是酉变换，对任意酉算子 U 与系数向量 c，$\|\sum c_i U\psi_i\|^2 = \|\sum c_i \psi_i\|^2$——框架界/衰减界/证书自动覆盖旋转版本（论文 B 的"旋转组"）。Module UnitaryInvariance：`unitary_invariance_point`（U 保内积 ⟹ 范数不变）+ 位置索引 psi-rope 实例 + 显式 RoPE 实例 `unitary_invariance_psi_rope_theta`（`u k := Cexp (0+i·INR k·θ k)`，`Cexp_unit_mod` 证单位模）。实验的 2×2 块旋转矩阵（`apply_rope_theta`）与复数乘法 $e^{i\theta}$ 是同一酉群的同构表示（SO(2)≅U(1)），实/虚部逐行对应已显式机器检查（`rope_matrix_real/imag/eq`，零 classic）。注：原"每带乘 u_i"逐点版本为假命题（交叉项要 $u_i = u_j$；反例 u0=1, u1=−1, g0=g1=1），未并入。范围限定：酉不变性适用于**特征表示的范数层**；不保证学习到的 Q/K 投影下注意力 logits 不变。
 - **相干熵桥接**（PhaseCoherence，`coherence_controls_attention`，Qed，零 classic）：对任意相干核 K（$|K_{ij}| \le \mathrm{coh}$）与系数差 $\ell_1 \le \delta$，logit 扰动 $|z_i - z'_i| \le \mathrm{coh}\cdot\delta$，组合 softmax 稳定性得 $\|\mathrm{softmax}\,z - \mathrm{softmax}\,z'\|_1 \le e^{2\cdot\mathrm{coh}\cdot\delta} - 1$——相干上界 ⟹ softmax 输出 TVD 界的抽象桥梁。当前为已证抽象桥梁 + 未实例化状态；实证支撑（会话 18）：ΔCoh 仅在稀疏几何族内排序（4 点 R²=0.982），13 点扩充后跨族崩溃（max 型 R²=0.101）——相干性定性叙事保留、定量预测收缩为族内指标。
 
 ### 5.4 维度推广：三维/四维/2D-wide 张量积无条件基
 
 价值在于**组合性演示**：同一 `abstract_unconditional_basis` 骨架逐轴实例化到任意维。常数非紧性与未提取状态是两条独立限制，共同构成"存在性结果"而非"实用工具"的定位。
 
-- **3D**：φ3D(a,b,c)(k) = γ⁻¹ψ_aψ_bψ_c，M_bound = K0′·((1+4K_C)³−1)，K0′ = Rmax 8C³/2。全量编译 RC=0，审计 10 项零 classic。数值紧度：`M_bound_3d 4 = 3968`（≫2 ⟹ 3D 证书目前仅作为存在性证明）。松弛可机械分解为两个正交因子：**编码因子 K0′ = C³/2 = 32**（等轴退化病理，格雷码类方案可望收回）与**行和乘积因子 (1+4K_C)³−1 = 124**（维数灾难主导项，需联合行和界突破）。
+- **3D**：φ3D(a,b,c)(k) = γ⁻¹ψ_aψ_bψ_c，M_bound = K0′·((1+4K_C)³−1)，K0′ = Rmax 8C³/2。全量编译 RC=0，审计 10 项零 classic。数值紧度：`M_bound_3d 4 = 3968`（≫2 ⟹ 3D 证书目前仅作为存在性证明）。松弛可机械分解为两个正交因子：**编码因子 K0′ = C³/2 = 32**（等轴退化病理，格雷码类方案可望收回）与**行和乘积因子 (1+4K_C)³−1 = 124**（维数灾难主导项，要联合行和界突破）。
 - **4D**：`ca_basis_4d.v`（2073 行）已全部 Qed + coqchk 复验 RC=0；`M_bound_4d 4 = 19968`；16 分支常数引理再次机械确认 /4 常数的单轴退化不可满足性是**维数无关**病理。
 - **2D-wide**：φ2D(i,j)(k) = γ⁻¹ψ_i(k)ψ_j(k)，**免 H_dom**（扁平 idx1≠idx2 ⟹ i1≠i2 ∨ j1≠j2，div/mod 解码唯一性）——宽轨家族中唯一免支配假设、可运行时判定的成员；`M_bound_2d_wide 4 = 768`（= 32 × 24）已 Qed，与论文 B §6 N 维公式 N=2 预测完全一致。
-- **双轨设计**：窄轨（1D 实例证书 μ=4/5、2D K0=C³/4——收紧前提换常数减半，**实用证书**）与宽轨（2D-wide/3D/4D K0=C³/2——全覆盖换 ×2，**组合性/存在性叙事**）。仅需 1D/2D 的场景采用窄轨。
+- **双轨设计**：窄轨（1D 实例证书 μ=4/5、2D K0=C³/4——收紧前提换常数减半，**实用证书**）与宽轨（2D-wide/3D/4D K0=C³/2——全覆盖换 ×2，**组合性/存在性叙事**）。仅要 1D/2D 的场景采用窄轨。
 
 ### 5.5 退化 2D（单轴）反射检查器（FrameCheck2DNarrow）
 
@@ -165,7 +165,7 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **反射层纠错实例（形式化发现并修复真 bug）**：反射层原 `row_sum_frac_aux` 在收缩列表上重算 nth，使 Coq 判定与生产原生检查器不一致（[3,13] 误判 false、C4 行和退化为 (0,0) 真空通过）；加 orig 参数修正后 Coq 与原生逐行同构（FFI 24/24 复核）。
 - **方法论教训：逐行同构原则**——"定义等价"不足以保证提取保真性（`row_sum_frac_aux` 的两个版本数学上定义等价，但在收缩列表上计算路径分叉）。提取代码应尽可能镜像 Coq Fixpoint 的结构，而非依赖高阶重写得到的"语义等价"的另一份代码。
 
-## 7 公理记账（诚实性小节）
+## 7 公理记账（审计小节）
 
 - **审计总量**：PSA_audit.v **165 项** Print Assumptions，RC=0，零 Admitted（111 段 Axioms + 54 项 Closed）。
 - **公理脚印（全部 165 项仅此）**：ClassicalDedekindReals.sig_not_dec / sig_forall_dec + functional_extensionality_dep（标准库反射层基础设施）；**`Classical_Prop.classic` 出现 0 次**。
@@ -195,7 +195,7 @@ psi-rope 行 3 种子均值±std、dense 单种子（b64 s1337）、rope 为 b32
 
 ## 10 局限性
 
-- **高维证书的诚实定位**：3D 定理是形式化体系的关键组成部分，它证明验证方法学在高维逻辑闭合，并机械固定"维数灾难"的精确表达式（1D μ=0.8 → 3D M_bound=3968）。但定位是"Theoretically Composable, Practically Non-Tight"：(i) H_dom 尚未反射化（N≥3，真值可在 O(n₁n₂n₃·(n₁+n₂+n₃)) 次比较内完全判定，但我们尚未为其编写反射判定器）；(ii) H_dom 经验苛刻（真实数据三轴频率独立增长，要求三轴同调增长很少满足）。2D-wide 不受此限制（免 H_dom）。
+- **高维证书的定位**：3D 定理是形式化体系的关键组成部分，它证明验证方法学在高维逻辑闭合，并机械固定"维数灾难"的精确表达式（1D μ=0.8 → 3D M_bound=3968）。但定位是"Theoretically Composable, Practically Non-Tight"：(i) H_dom 尚未反射化（N≥3，真值可在 O(n₁n₂n₃·(n₁+n₂+n₃)) 次比较内完全判定，但我们尚未为其编写反射判定器）；(ii) H_dom 经验苛刻（真实数据三轴频率独立增长，要求三轴同调增长很少满足）。2D-wide 不受此限制（免 H_dom）。
 - 学习分量（W_Q/W_K、softmax 身份）不在覆盖内——覆盖的是**敏感性**而非身份。
 - **What is not certified**：本框架不证明——(a) 学习投影下的注意力 logits/softmax 有界（仅能量界 ⟹ 输出扰动界）；(b) 学习 Q/K 投影与位置旋转对易（酉不变性仅覆盖基函数层）；(c) 多头拼接、残差连接、LayerNorm/激活的数值稳定性；(d) 训练后权重的任何保证（证书对任意系数 c 成立，与训练无关）；(e) 外推 PPL 与框架界之间的语义联系（经验桥梁，未形式化）。
 - 证书为框架/能量级保证，不直接给出端到端 ppl 界（跨层合成为未来工作）。
@@ -207,7 +207,7 @@ psi-rope 行 3 种子均值±std、dense 单种子（b64 s1337）、rope 为 b32
 
 生成 → 守卫 → 门控 → 衰减 → 框架 → 截断 → 稳定性 → 注意力近似 → **实例证书（有理、可判定）** → 长度一致性（∀N≥214）→ T8 复合证书 → **反射检查器及其健全性定理（165 项审计，全部零经典排中）**：一条完整的、零 Admitted 的**表示层认证管线**——为解析核保证服务，与论文 B 的实证性能正交。
 
-**可组合的反射化（方法论贡献）**：反射检查器的健全性证明是可组合的——3D 张量核的静态定理与 1D `gershgorin_frame_mu` 共享同一骨架，其反射化是提取链的直和扩展而非基础理论修正。宽轨家族 2D/3D/4D 成员齐备（N 维公式 M_bound^{(N)} = (C³/2)·((1+4K_C)^N − 1) 的 N=2/3/4 校验全部定理级成立）。诚实地讲，3D/4D 证书当前是非紧的存在性结果，其价值在架构可组合性与维度推广叙事，而非常数本身；1D 证书（μ=4/5）保持紧且不受影响。
+**可组合的反射化（方法论贡献）**：反射检查器的健全性证明是可组合的——3D 张量核的静态定理与 1D `gershgorin_frame_mu` 共享同一骨架，其反射化是提取链的直和扩展而非基础理论修正。宽轨家族 2D/3D/4D 成员齐备（N 维公式 M_bound^{(N)} = (C³/2)·((1+4K_C)^N − 1) 的 N=2/3/4 校验全部定理级成立）。实实地讲，3D/4D 证书当前是非紧的存在性结果，其价值在架构可组合性与维度推广叙事，而非常数本身；1D 证书（μ=4/5）保持紧且不受影响。
 
 ## 参考文献
 
