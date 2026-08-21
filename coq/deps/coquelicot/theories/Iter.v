@@ -20,7 +20,7 @@ COPYING file for more details.
 *)
 
 From Coq Require Import ZArith Reals Lia List ssreflect ssrbool.
-From mathcomp Require Import seq eqtype.
+From mathcomp Require Import boot.seq boot.eqtype.
 
 Require Import Rcomplements.
 Set SsrOldRewriteGoalsOrder.

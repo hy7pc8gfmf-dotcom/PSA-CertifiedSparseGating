@@ -59,7 +59,7 @@ jobs:
             for f in theories/*.v; do
               b=$(basename "$f" .v)
               [ -f "theories/$b.vo" ] && continue
-              if coqc -R theories Coquelicot -Q "$MC" mathcomp -Q "$MC/boot" mathcomp -Q "$HB" HB -Q "$ELPI" elpi "$f" 2>/tmp/cq_err; then progress=1; fi
+              if coqc -R theories Coquelicot -Q "$MC" mathcomp -Q "$HB" HB -Q "$ELPI" elpi "$f" 2>/tmp/cq_err; then progress=1; fi
             done
             [ "$progress" = "0" ] && break
           done

@@ -20,7 +20,7 @@ COPYING file for more details.
 *)
 
 From Coq Require Import ZArith Reals Psatz.
-From mathcomp Require Import ssreflect ssrbool ssrfun eqtype seq.
+From mathcomp Require Import ssreflect boot.ssrbool boot.ssrfun boot.eqtype boot.seq.
 
 Require Import Markov Rcomplements Rbar Lub Lim_seq SF_seq Continuity Hierarchy.
 Set SsrOldRewriteGoalsOrder.

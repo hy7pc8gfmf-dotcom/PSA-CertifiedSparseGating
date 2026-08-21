@@ -61,7 +61,6 @@ Require Import Stdlib.Reals.Rseries.                  (* 实数序列收敛理�
 Require Import Stdlib.Reals.SeqProp.                  (* 序列性质定理，如有界性、单调收敛等（标准库补充）*)
 Require Import Stdlib.Reals.Rlimit.                   (* 实数函数极限理论，定义极限、连续性等 *)
 Require Import Coquelicot.Coquelicot.    (* Coquelicot 分析库，提供更现代化的实数分析形式化 *)
-Require Import mathcomp.analysis.derive. (* MathComp 分析库的导数定义与定理 *)
 Require Import Stdlib.Reals.Reals.          (* 实数公理系统及全套定理（重复导入，保证完备性）*)
 Require Import Stdlib.Reals.Ranalysis1.     (* 实分析第1部分，导数、可导性、连续性基础 *)
 Require Import Stdlib.Reals.Ranalysis5.     (* 实分析第5部分（重复导入），含 Rolle 定理等 *)
@@ -69,7 +68,6 @@ Require Import Stdlib.Logic.FunctionalExtensionality. (* 函数外延性公理�
 Require Import Stdlib.micromega.Lra.        (* 线性实数算术自动化策略，提供 lra 策略（显式全名导入）*)
 Require Import Stdlib.Reals.Rpower.         (* 实数幂函数 Rpower（重复导入，确保可用）*)
 Require Import Coquelicot.Coquelicot.    (* Coquelicot 分析库：提供极限、导数、级数、积分等现代化分析形式化 *)
-Require Import mathcomp.analysis.derive. (* MathComp 分析库的导数模块：基于滤子的导数定义及相关定理 *)
 Open Scope R_scope.                      (* 开启实数作用域，使实数运算符自动生效 *)
 
 (* 阶乘函数 *)

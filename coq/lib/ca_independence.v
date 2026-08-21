@@ -933,8 +933,8 @@ Proof.
     apply reduced_system_equation_middle with (i0 := i0); auto.
 Qed.
 
-From mathcomp Require Import ssreflect ssrbool ssrnat eqtype seq prime.
-From mathcomp Require Import ssreflect ssrbool ssrnat eqtype seq prime div.
+From mathcomp Require Import ssreflect boot.ssrbool boot.ssrnat boot.eqtype boot.seq boot.prime.
+From mathcomp Require Import ssreflect boot.ssrbool boot.ssrnat boot.eqtype boot.seq boot.prime boot.div.
 
 (* 素数整除相等 *)
 Lemma prime_div_prime_eq : forall (p q : Prime),

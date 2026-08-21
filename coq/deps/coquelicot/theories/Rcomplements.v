@@ -133,7 +133,7 @@ Qed.
 End MyNat.
 
 From Coq Require Import ssrbool.
-From mathcomp Require Import seq.
+From mathcomp Require Import boot.seq.
 Set SsrOldRewriteGoalsOrder.
 
 Open Scope R_scope.

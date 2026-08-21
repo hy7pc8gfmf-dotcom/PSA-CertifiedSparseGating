@@ -19,7 +19,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 From Coq Require Import ZArith Reals Psatz ssreflect ssrbool.
-From mathcomp Require Import seq.
+From mathcomp Require Import boot.seq.
 
 Require Import Rcomplements Rbar Lub Hierarchy.
 Set SsrOldRewriteGoalsOrder.

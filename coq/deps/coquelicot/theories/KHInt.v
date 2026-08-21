@@ -22,7 +22,7 @@ COPYING file for more details.
 *)
 
 From Coq Require Import ZArith Reals ssreflect ssrbool.
-From mathcomp Require Import seq.
+From mathcomp Require Import boot.seq.
 
 Require Import Rcomplements Hierarchy SF_seq RInt.
 Set SsrOldRewriteGoalsOrder.

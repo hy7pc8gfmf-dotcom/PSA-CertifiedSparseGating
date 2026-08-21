@@ -22,7 +22,7 @@ COPYING file for more details.
 *)
 
 From Coq Require Import Reals Psatz ssreflect ssrbool.
-From mathcomp Require Import eqtype seq.
+From mathcomp Require Import boot.eqtype boot.seq.
 
 Require Import Markov Rcomplements Rbar Lub Lim_seq Derive SF_seq.
 Set SsrOldRewriteGoalsOrder.

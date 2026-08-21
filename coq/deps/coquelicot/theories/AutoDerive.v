@@ -20,7 +20,7 @@ COPYING file for more details.
 *)
 
 From Coq Require Import Reals Datatypes ssreflect ssrbool.
-From mathcomp Require Import seq.
+From mathcomp Require Import boot.seq.
 
 Require Import Rcomplements Hierarchy Derive RInt RInt_analysis Derive_2d Continuity ElemFct.
 Set SsrOldRewriteGoalsOrder.
