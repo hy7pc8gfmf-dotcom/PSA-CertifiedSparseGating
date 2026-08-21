@@ -26,6 +26,7 @@ jobs:
       - name: Install Rocq 9.0 + mathcomp (rocq pkg) + elpi
         run: |
           export OPAMSANDBOXING=disabled
+          eval "$(opam env)"
           echo "--- available rocq-mathcomp-ssreflect versions ---"
           opam list --available rocq-mathcomp-ssreflect 2>/dev/null || true
           echo "--- installing coq.9.0.0 + rocq-mathcomp-ssreflect + coq-elpi ---"
