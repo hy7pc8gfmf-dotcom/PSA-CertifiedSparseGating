@@ -10,19 +10,14 @@ echo "coqc: $rocq_version"
 
 echo "=== 1. 依赖（mathcomp + Coquelicot）==="
 eval "$(opam env 2>/dev/null || true)"
-if ! ocamlfind query mathcomp >/dev/null 2>&1; then
-  echo "  安装 mathcomp..."
-  opam install -y coq-mathcomp-ssreflect || true
-fi
-if ! ocamlfind query coquelicot >/dev/null 2>&1; then
-  echo "  安装 Coquelicot..."
-  opam install -y coq-coquelicot || true
-fi
-MC=$(ocamlfind query mathcomp 2>/dev/null || echo /usr/lib/ocaml/mathcomp)
-CQ=$(ocamlfind query coquelicot 2>/dev/null || echo /usr/lib/ocaml/coquelicot)
+COQLIB=$(coqc -where 2>/dev/null)
+MC="$COQLIB/user-contrib/mathcomp"
+CQ="$COQLIB/user-contrib/Coquelicot"
+echo "  COQLIB: $COQLIB"
 echo "  mathcomp: $MC"
 echo "  Coquelicot: $CQ"
-test -d "$MC" && test -d "$CQ"
+test -d "$MC" && echo "  ✅ mathcomp 就绪" || { echo "  ⚠ mathcomp 缺失，尝试 opam 安装..."; opam install -y coq-mathcomp-ssreflect; test -d "$MC"; }
+test -d "$CQ" && echo "  ✅ Coquelicot 就绪" || { echo "  ⚠ Coquelicot 缺失，尝试 opam 安装..."; opam install -y coq-coquelicot; test -d "$CQ"; }
 
 echo "=== 2. lib/ 依赖链编译 ==="
 cd /repo 2>/dev/null || cd "$(dirname "$0")/.."

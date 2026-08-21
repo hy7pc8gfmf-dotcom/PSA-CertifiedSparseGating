@@ -7,21 +7,25 @@ on:
 
 jobs:
   coq-build:
-    name: Rocq build + audit
+    name: Rocq 9.0 build + audit
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        coq: ['9.0']
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Run Coq build (lib chain + PSA core + audit)
-        uses: coq-community/docker-coq-action@v1.5.2
+
+      - name: Set up OCaml/opam
+        uses: ocaml/setup-ocaml@v3
         with:
-          coq_version: ${{ matrix.coq }}
-          custom_script: |
-            startGroup "Coq build"
-              bash scripts/ci_build.sh
-            endGroup
+          ocaml-compiler: ocaml-variants.4.14.2+options,ocaml-option-flambda
+          opam-repositories: |
+            default: https://github.com/ocaml/opam-repository.git
+
+      - name: Install Rocq 9.0 + mathcomp + Coquelicot
+        run: |
+          opam install -y coq.9.0.0 coq-mathcomp-ssreflect coq-coquelicot
+
+      - name: Run Coq build (lib chain + PSA core + audit)
+        run: |
+          eval "$(opam env)"
+          bash scripts/ci_build.sh
