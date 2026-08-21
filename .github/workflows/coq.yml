@@ -43,13 +43,15 @@ jobs:
           HB="$COQLIB/user-contrib/HB"
           ELPI="$COQLIB/user-contrib/elpi"
           cd coq/deps/mathcomp
-          for pass in $(seq 1 30); do
+          for pass in $(seq 1 50); do
             progress=0
             for f in $(find . -name "*.v"); do
               b="${f%.v}"
               [ -f "$b.vo" ] && continue
               if coqc -Q . mathcomp -Q "$HB" HB -Q "$ELPI" elpi "$f" 2>/tmp/mc_err; then progress=1; fi
             done
+            done_n=$(find . -name "*.vo" | wc -l)
+            echo "[pass $pass] compiled $done_n/217 .vo ($(date -u +%H:%M:%S))"
             [ "$progress" = "0" ] && break
           done
           n=$(find . -name "*.vo" | wc -l)
