@@ -28,6 +28,14 @@ jobs:
           export OPAMSANDBOXING=disabled
           opam install -y coq.9.0.0 coq-hierarchy-builder
 
+      - name: Cache vendored dependency .vo (mathcomp + Coquelicot)
+        uses: actions/cache@v4
+        with:
+          path: |
+            coq/deps/mathcomp/**/*.vo
+            coq/deps/coquelicot/**/*.vo
+          key: ${{ runner.os }}-vendored-${{ hashFiles('coq/deps/mathcomp/**/*.v', 'coq/deps/coquelicot/**/*.v') }}
+
       - name: Build vendored mathcomp (platform edition, 217 files)
         run: |
           eval "$(opam env)"
