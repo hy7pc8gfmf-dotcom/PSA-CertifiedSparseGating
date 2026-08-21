@@ -11,9 +11,9 @@
 
 我们提出一个 Coq 形式化开发，覆盖"可认证稀疏门控注意力"在几何结构化频率基上的完整流水线。开发在**两条正交的端到端轨**上证明——表示稳定性轨（(i)–(iii)）与注意力扰动轨（(iv)–(v)），两轨之间无单一依赖链：(i) 一个确定性贪心门控，从任意有序索引集提取通过可判定稀疏增长检查的子集；(ii) 选定子基上成对相干衰减 $\le 1/(\sqrt{C})^{|i-j|}$ 与 Gershgorin 型框架界 $(1\pm\mu)\|c\|^2$；(iii) 行截断能量预算；(iv) softmax 在 $\ell_\infty$ logit 扰动下的 $\ell_1$ 稳定性；(v) 认证注意力近似定理：若每行丢弃谱能量 $\le \varepsilon$，注意力输出偏差至多 $(e^{2\sqrt{\varepsilon}}-1)\cdot V_{\max}$。所有门控与检查器函数提取为可执行 OCaml/Python，并与 Coq 计算参考值交叉核对（24/24）。
 
-对具体几何梯子 [3,13,53,213]（C=4），我们证明实例证书 `certified_c4_frame_bounds`：框架界 [1/5, 9/5]（μ=4/5），其中每个常数都是经超越界单侧支配得到的有理数（floor-sqrt、Jordan 不等式、Dirichlet 核）——证书层为可判定有理算术，可直接提取。该实例证书模式由反射检查器 `frame_check_instance` 推广到**任意**梯子（μ≤4/5 的可判定判定，提取为带原生整数镜像的 OCaml）；其健全性定理 `frame_check_instance_sound` 已证明：检查器通过 ⟹ Gershgorin 框架界，故运行时检查器携带机器检查的健全性保证。
+对具体几何阶梯 [3,13,53,213]（C=4），我们证明实例证书 `certified_c4_frame_bounds`：框架界 [1/5, 9/5]（μ=4/5），其中每个常数都是经超越界单侧支配得到的有理数（floor-sqrt、Jordan 不等式、Dirichlet 核）——证书层为可判定有理算术，可直接提取。证实例证书模式由反射检查器 `frame_check_instance` 推广到**任意**阶梯（μ≤4/5 的可判定判定，提取为带原生整数镜像的 OCaml）；其健全性定理 `frame_check_instance_sound` 已证明：检查器通过 ⟹ Gershgorin 框架界，故运行时检查器携带机器检查的健全性保证。
 
-对实证配套（论文 B）的**结构化梯子冠军** [3,7,15,31,63,127,255]（论文 B 的强几何基线），一个表示级复合界（认证核 [3,15,63,255] 的 μ=4/5 + 边带能量预算 + 相干交叉项界）是本开发的展示定理 `champion_e5_composite_certificate`（Qed）：对七带基函数证明 $(S-\mathrm{coh}_{e5}) \le \|F\|^2 \le (S+\mathrm{coh}_{e5})$——**基表示稳定性界**，非注意力分数、学习投影或外推 PPL；通向论文 B 实证 PPL 增益的桥梁是经验观察而非形式化推论，该证书与实证冠军（psi-rope-rand，随机梯子在证书域之外）**正交**。审计含 165 项 Print Assumptions（RC=0，零 Admitted），**全部 165 项在应用层零 `Classical_Prop.classic`**（exp 单调性走幂级数路线，无中值定理）；唯一公理为 Dedekind 实数基础设施（sig_not_dec、sig_forall_dec、函数外延性）——实数构造固有的非构造性选择类原则，**非本开发应用层引入**。"端到端"主张有明确边界：认证链覆盖门控→框架界→截断能量→softmax 稳定性→注意力近似；不覆盖学习权重的数值稳定性、Q/K/V 投影、多头拼接或 LayerNorm（"verify the analytic kernel, learn the rest"）。
+对实证配套（论文 B）的**性能最优的结构化阶梯** [3,7,15,31,63,127,255]（论文 B 的强几何基线），一个表示级复合界（认证核 [3,15,63,255] 的 μ=4/5 + 边带能量预算 + 相干交叉项界）是本开发的展示定理 `champion_e5_composite_certificate`（Qed）：对七带基函数证明 $(S-\mathrm{coh}_{e5}) \le \|F\|^2 \le (S+\mathrm{coh}_{e5})$——**基表示稳定性界**，非注意力分数、学习投影或外推 PPL；通向论文 B 实证 PPL 增益的桥梁是经验观察而非形式化推论，证证书与实证"军（psi-rope-rand，随机阶梯在证书域之外）**正交**。审计含 165 项 Print Assumptions（RC=0，零 Admitted），**全部 165 项在应用层零 `Classical_Prop.classic`**（exp 单调性走幂级数路线，无中值定理）；唯一公理为 Dedekind 实数基础设施（sig_not_dec、sig_forall_dec、函数外延性）——实数构造固有的非构造性选择类原则，**非本开发应用层引入**。"端到端"主张有明确边界：认证链覆盖门控→框架界→截断能量→softmax 稳定性→注意力近似；不覆盖学习权重的数值稳定性、Q/K/V 投影、多头拼接或 LayerNorm（"verify the analytic kernel, learn the rest"）。
 
 **关键词**：形式化验证；Coq/Rocq；稀疏注意力；框架理论；Gershgorin 界；反射检查器；程序提取；构造性数学
 
@@ -27,18 +27,18 @@
 2. **有限化守卫衰减界**（PSA_Pipeline）：全局增长前提 → 运行时可判定检查，系数 2/ 与 tight 1/ 两版；
 3. **行截断能量预算**（RowTruncation）与 **softmax 稳定性**（SoftmaxStability，$\|\mathrm{softmax}\,z - \mathrm{softmax}\,z'\|_1 \le 2(e^d - 1)$）；
 4. **认证注意力近似**（CertifiedAttention）：谱能量 ≤ ε ⟹ 输出偏差 ≤ $(e^{2\sqrt{\varepsilon}}-1)\cdot V_{\max}$；
-5. **实例证书**（Gershgorin + InstanceCertificate）：对 C=4 梯子 [3,13,53,213] 证明框架界 [1/5, 9/5]（μ=4/5）——参数化最坏情形 1±4K(C) 在 C=4 真空、需 C>25 的问题就此终结；
+5. **实例证书**（Gershgorin + InstanceCertificate）：对 C=4 阶梯 [3,13,53,213] 证明框架界 [1/5, 9/5]（μ=4/5）——参数化最坏情形 1±4K(C) 在 C=4 真空、需 C>25 的问题就此终结；
 6. **有理支配方法论**（实现贡献）：证书全部常数经 floor-sqrt / Jordan / Dirichlet 单侧松弛化为有理数，`compute; field` 封口——零数值策略、零区间算术、可判定、可提取；
 7. **可执行提取**：门控/检查器 → OCaml（psa_guard.exe）→ Python FFI，24/24 参考值对齐；
-8. **反射检查器及其健全性**（FrameCheckInstance）：`frame_check_instance` 把"任意梯子 → μ≤4/5"做成可判定有理判定，提取为原生整数镜像（与 Coq 定义逐行同构）；健全性定理 `frame_check_instance_sound`（Qed）证明判定通过 ⟹ Gershgorin 框架界——检查器本身带机器证明的健全性；
-9. **基表示稳定性复合证书**（ChampionCertificate，核心展示定理）：论文 B 的七带基线梯子获得机器证明的平方范数复合界 $(S-\mathrm{coh}_{e5}) \le \|F\|^2_{255} \le (S+\mathrm{coh}_{e5})$——当反射检查器返回 false（健全但非完备）时，核-边缘分解交付的部分证书在此收束为七带整体完整证书；这是对反射器不完备性的系统性工程补丁，作为方法论贡献单列；
+8. **反射检查器及其健全性**（FrameCheckInstance）：`frame_check_instance` 把"任意阶梯 → μ≤4/5"做成可判定有理判定，提取为原生整数镜像（与 Coq 定义逐行同构）；健全性定理 `frame_check_instance_sound`（Qed）证明判定通过 ⟹ Gershgorin 框架界——检查器本身带机器证明的健全性；
+9. **基表示稳定性复合证书**（ChampionCertificate，核心展示定理）：论文 B 的七带基线阶梯获得机器证明的平方范数复合界 $(S-\mathrm{coh}_{e5}) \le \|F\|^2_{255} \le (S+\mathrm{coh}_{e5})$——当反射检查器返回 false（健全但非完备）时，核-边缘分解交付的部分证书在此收束为七带整体完整证书；这是对反射器不完备性的系统性工程补丁，作为方法论贡献单列；
 10. **高维组合性演示**（2D-wide/3D/4D）：同一 `abstract_unconditional_basis` 骨架逐轴实例化到任意维——形式化方法学在高维逻辑闭合（"Theoretically Composable, Practically Non-Tight"）；
 11. **覆盖边界**："端到端"精确指覆盖链门控→框架界→截断能量→softmax 稳定性→注意力近似；不在覆盖内：学习权重（W_Q/W_K/W_V/W_O）、Q/K/V 投影与多头拼接、LayerNorm/激活的数值稳定性、残差连接的累积误差。
 
 ## 2 背景
 
 - **ψ 基**：$\psi_n(k) = (1/\sqrt{n})\cdot e^{2\pi i k/n}$，有限支撑（$k \ge n$ 时为 0）。
-- **梯子生成器**：$n_{j+1} = \max(C\cdot n_j + 1,\, n_j + 2)$（非精确几何——证书必须认证实际值，这是需要运行时检查器而非纸面公式的理由）。
+- **阶梯生成器**：$n_{j+1} = \max(C\cdot n_j + 1,\, n_j + 2)$（非精确几何——证书必须认证实际值，这是需要运行时检查器而非纸面公式的理由）。
 - **三处语义勘误**（线性 vs 平方门、`<=?` vs `<?`、≥2 并集）——每处附反例，体现形式化对原草案的纠错价值。
 - **一处常数级勘误（3D 张量基，已修正）**：2D 引擎的离对角界常数 K0 = Rmax 8C³/4 在 3D 等轴退化配置（两轴索引相同、仅第三轴差 ≤6）下不可证——归一化三重内积可逼近 1，而 /4 常数只给 1/2。3D 模块改为 K0′ = Rmax 8C³/2（退化配置恰好紧，worst case = 1）。
 
@@ -51,7 +51,7 @@ RuntimeGuards → SeqProps → PSA_Pipeline → GreedyGate → RowTruncation →
 PipelineEndToEnd → ExpSeries（M1.5 级数重写，§7）→ SoftmaxStability →
 CertifiedAttention → Gershgorin → InstanceCertificate（M4）→
 M4bLengthConsistency（长度一致性，∀N≥214）→ T8CoreCertificate（T8 复合证书核）→
-FrameCheckInstance（反射检查器 + soundness）→ ChampionCertificate（端到端冠军证书，§5.3）→
+FrameCheckInstance（反射检查器 + soundness）→ ChampionCertificate（端到端"军证书，§5.3）→
 FrameCheck2DNarrow（2D 窄轨反射化，§5.5）→ UnitaryInvariance（A2 酉不变性，§5.3）
 ```
 
@@ -89,7 +89,7 @@ certified_t8_core_frame_bounds (coeffs) : length coeffs = 4 →
 
 frame_check_instance_sound (I) : 0 < length I → frame_check_instance I = true →
   (1 − 4/5)·‖Σ c_i·phi i‖² ≤ ‖Σ_{k<M} (Σ c_i·phi i k)‖² ≤ (1 + 4/5)·‖Σ c_i·phi i‖²
-  (* 反射检查器健全性：判定通过 ⟹ 任意梯子 μ=4/5 框架界 *)
+  (* 反射检查器健全性：判定通过 ⟹ 任意阶梯 μ=4/5 框架界 *)
 
 tensor_product_unconditional_basis_3d (C) (seq1 seq2 seq3) : C > 2 → 三轴稀疏增长 →
   (1 − M_bound)·S ≤ ‖F_3D‖² ≤ (1 + M_bound)·S
@@ -112,27 +112,27 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 
 ### 5.1 实例证书（M3/M4）
 
-对象：C=4 可见子梯 [3,13,53,213]（N=512 窗口内列范数=1；更长频带在窗口内近似线性斜坡、范数→0——窗口自适应认证是正确设计）。教科书式 11 步证明：`psi_unit_norm`（对角=1）→ 六个有理对界（`pair_3_13` … `pair_53_213`）→ 四个行和引理（各 ≤ 4/5）→ `gershgorin_frame_mu` 一次实例化 ⟹ **[1/5, 9/5]**。
+对象：C=4 可见子梯 [3,13,53,213]（N=512 窗口内列范数=1；更长频带在窗口内近似线性斜坡、范数→0——窗口自适应认证是正确设计）。11 步证明：`psi_unit_norm`（对角=1）→ 六个有理对界（`pair_3_13` … `pair_53_213`）→ 四个行和引理（各 ≤ 4/5）→ `gershgorin_frame_mu` 一次实例化 ⟹ **[1/5, 9/5]**。
 
 - **长度一致性**：`certified_c4_frame_bounds_anyN`——∀N≥214，O(1) 证书对一切序列长度成立。
-- **从实例到通用判定**：`frame_check_instance`（任意梯子 → μ≤4/5 布尔判定）+ 健全性 `frame_check_instance_sound`（Qed）——实例证书不再逐梯子手工验算。
+- **从实例到通用判定**：`frame_check_instance`（任意阶梯 → μ≤4/5 布尔判定）+ 健全性 `frame_check_instance_sound`（Qed）——实例证书不再逐阶梯手工验算。
 
 ### 5.2 有理支配与可判定性溢价
 
 全部超越量被朝可判定方向单侧支配：$\sqrt{m} \leftarrow \lfloor\sqrt{m}\rfloor$、$|\sin(\pi\Delta)| \leftarrow$ Jordan 2Δ、Dirichlet 分子 $|\sin(\pi N\Delta)| \leftarrow 1$、（Tier 2 的 π ← 22/7）。**证书层只需要 ℚ**——运行时验证只做有理算术，这是可提取性的根源。
 
 - **可判定性溢价**：精确 μ = 0.312 → 有理保守 μ = 4/5，因子 2.55——机器可检查性的已量化代价。溢价是设计对象：松弛链可枚举、可优化（`cert_optimize` 方向，未来工作）。
-- **检查器的保守性（充分非必要）**：`frame_check_instance = true` 是框架界的充分非必要条件——floor-sqrt 有理松弛的保守因子约 1.5×，存在满足 Gershgorin 条件但因保守上界超 4/5 而被误拒的合法梯子（假阴性）。典型案例：论文 B 的七带基线梯子 E5'' 被检查器判 false，不代表它不满足框架条件。正是这一不完备性使**复合证书成为必要**。宁可误拒、绝不放行的保守取向是可判定性的设计选择。
-- **反向警示（形式化审查强化）**：检查器返回 `false` **不是**不安全证书——它只表明保守有理界不足以证明 Gershgorin 条件；被误拒的合法梯子仍可由复合证书覆盖（七带即此情形：其精确相干行和仅 0.135 ≤ 4/5，实质可认证）。"检查器通过 ⟹ 框架界"成立，"检查器失败 ⟹ 不安全"不成立。
-- **系统扫描（114 梯子 × 5 族）**：通过 35（30.7%）、假阴性 56（全量 49.1%，占拒绝 70.9%），集中于"有用"族（C=2/3-sparse、几何奇带）——"可判定性溢价"是当前有理松弛实现的保守性代价（局限），收紧方向：`cert_optimize`、Zarith 大整数。
+- **检查器的保守性（充分非必要）**：`frame_check_instance = true` 是框架界的充分非必要条件——floor-sqrt 有理松弛的保守因子约 1.5×，存在满足 Gershgorin 条件但因保守上界超 4/5 而被误拒的合法阶梯（假阴性）。典型案例：论文 B 的七带基线阶梯 E5'' 被检查器判 false，不代表它不满足框架条件。正是这一不完备性使**复合证书成为必要**。宁可误拒、绝不放行的保守取向是可判定性的设计选择。
+- **反向警示（形式化审查强化）**：检查器返回 `false` **不是**不安全证书——它只表明保守有理界不足以证明 Gershgorin 条件；被误拒的合法阶梯仍可由复合证书覆盖（七带即此情形：其精确相干行和仅 0.135 ≤ 4/5，实质可认证）。"检查器通过 ⟹ 框架界"成立，"检查器失败 ⟹ 不安全"不成立。
+- **系统扫描（114 阶梯 × 5 族）**：通过 35（30.7%）、假阴性 56（全量 49.1%，占拒绝 70.9%），集中于"有用"族（C=2/3-sparse、几何奇带）——"可判定性溢价"是当前有理松弛实现的保守性代价（局限），收紧方向：`cert_optimize`、Zarith 大整数。
 
-### 5.3 与实验的对齐（multi-seed + T8 + 冠军证书 + 酉不变性）
+### 5.3 与实验的对齐（multi-seed + T8 + "军证书 + 酉不变性）
 
-3 种子实验中 E5'' 七带与 C=4 并列冠军（8× 均值 12.40±0.74 vs 12.75±0.34）；C=2 第三（13.84）；C=3 系统性最差（22.86）。冠军身份对论文 A 免疫：
+3 种子实验中 E5'' 七带与 C=4 并列最优（8× 均值 12.40±0.74 vs 12.75±0.34）；C=2 第三（13.84）；C=3 系统性最差（22.86）。最优表现对论文 A 免疫：
 
 - **直接证书**（C=4）：`certified_c4_frame_bounds` 直接覆盖；
-- **T8 复合证书**（E5''）：隔带子核 [3,15,63,255] 的 `certified_t8_core_frame_bounds`（μ=4/5）覆盖冠军的认证核；
-- **端到端冠军证书**（ChampionCertificate）：顶层组合定理 `champion_e5_composite_certificate`（Qed，零 classic）——代码实际证明的目标形状（全矩阵相干加权）：`length coeffs = 7 → (S − coh_e5 c) ≤ ‖F‖²_{255} ≤ (S + coh_e5 c)`，其中 coh_e5 为 21 对上三角 δ 表经 `term_bound_upper/lower` 加权得到的对称相干交叉项界。构件链：15 个新 pair 界 → 内积/范数引理 → δ 表（21 对）→ `coh_delta_bound`（42 方向）→ 上下界项 → 主定理。注意：早期草拟的"核带框架 + 边带能量"分段形式是装配前的设计稿，最终实现收敛为单一定理下的对称界。
+- **T8 复合证书**（E5''）：隔带子核 [3,15,63,255] 的 `certified_t8_core_frame_bounds`（μ=4/5）覆盖最优阶梯的认证核；
+- **端到端"军证书**（ChampionCertificate）：顶层组合定理 `champion_e5_composite_certificate`（Qed，零 classic）——代码实际证明的目标形状（全矩阵相干加权）：`length coeffs = 7 → (S − coh_e5 c) ≤ ‖F‖²_{255} ≤ (S + coh_e5 c)`，其中 coh_e5 为 21 对上三角 δ 表经 `term_bound_upper/lower` 加权得到的对称相干交叉项界。构件链：15 个新 pair 界 → 内积/范数引理 → δ 表（21 对）→ `coh_delta_bound`（42 方向）→ 上下界项 → 主定理。注意：早期草拟的"核带框架 + 边带能量"分段形式是装配前的设计稿，最终实现收敛为单一定理下的对称界。
 - **酉不变性（已机器检查）**：旋转是酉变换，对任意酉算子 U 与系数向量 c，$\|\sum c_i U\psi_i\|^2 = \|\sum c_i \psi_i\|^2$——框架界/衰减界/证书自动覆盖旋转版本（论文 B 的"旋转组"）。Module UnitaryInvariance：`unitary_invariance_point`（U 保内积 ⟹ 范数不变）+ 位置索引 psi-rope 实例 + 显式 RoPE 实例 `unitary_invariance_psi_rope_theta`（`u k := Cexp (0+i·INR k·θ k)`，`Cexp_unit_mod` 证单位模）。实验的 2×2 块旋转矩阵（`apply_rope_theta`）与复数乘法 $e^{i\theta}$ 是同一酉群的同构表示（SO(2)≅U(1)），实/虚部逐行对应已显式机器检查（`rope_matrix_real/imag/eq`，零 classic）。注：原"每带乘 u_i"逐点版本为假命题（交叉项需 $u_i = u_j$；反例 u0=1, u1=−1, g0=g1=1），未并入。范围限定：酉不变性适用于**特征表示的范数层**；不保证学习到的 Q/K 投影下注意力 logits 不变。
 - **相干熵桥接**（PhaseCoherence，`coherence_controls_attention`，Qed，零 classic）：对任意相干核 K（$|K_{ij}| \le \mathrm{coh}$）与系数差 $\ell_1 \le \delta$，logit 扰动 $|z_i - z'_i| \le \mathrm{coh}\cdot\delta$，组合 softmax 稳定性得 $\|\mathrm{softmax}\,z - \mathrm{softmax}\,z'\|_1 \le e^{2\cdot\mathrm{coh}\cdot\delta} - 1$——相干上界 ⟹ softmax 输出 TVD 界的抽象桥梁。当前为已证抽象桥梁 + 未实例化状态；实证支撑（会话 18）：ΔCoh 仅在稀疏几何族内排序（4 点 R²=0.982），13 点扩充后跨族崩溃（max 型 R²=0.101）——相干性定性叙事保留、定量预测收缩为族内指标。
 
@@ -150,7 +150,7 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 > 更名注："2D 窄轨"实为**退化单轴**情形（仅 n₁=1 ∨ n₂=1 的 1D 参数化 2D），非 2D 通用格点检查器；真 2D 格点的运行时反射化为未来工作。
 
 - 覆盖范围（首句明示）：本模块**不覆盖真正的 2D 格点（n1,n2≥2）**——检查器只处理单轴退化配置，是 1D 情形在 2D 口径下的参数化反射化。
-- 严格增长延拓 `seq_ext`：窗口内取 nth，窗口外按几何闭式延拓——把有限梯子提升为全索引序列以满足骨架的全局增长前提。
+- 严格增长延拓 `seq_ext`：窗口内取 nth，窗口外按几何闭式延拓——把有限阶梯提升为全索引序列以满足骨架的全局增长前提。
 - 可判定 H_dom `hdom_2d_narrow` + 反射检查器 `frame_check_2d_narrow` 与其健全性 `frame_check_2d_narrow_sound`（Qed）：判定通过 ⟹ 窄轨 2D（K0=C³/4 口径）Gershgorin 框架界。
 - 点态组装 `tensor_product_unconditional_basis_pointwise`（Qed）：与宽轨 2D-wide 构成**双轨反射化闭环**。
 
@@ -158,8 +158,8 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 
 - PSA_extract.v → psa_guard.ml → ocamlc 字节码 exe → psa_guard_ffi.py；核心判定函数由 Coq `Extraction` 机制生成 OCaml（非手动翻译）；`main.ml` 为 CLI 包装（手动，仅 I/O 十进制转换）；`frame` 的原生整数镜像（`frame_check_instance_int`）因效率手动重写（规避 Peano 大数栈溢出），与 Coq 定义的等价性为逐行镜像 + FFI 24/24 交叉校验（非机器证明）。
 - 自测 24/24（PSA_refcheck.v 20 项 Check/Eval + 4 项整数行和验算）。
-- **范围前提（如实声明）**：整数镜像与 Coq nat 的等价仅对中间量不超过机器字长（OCaml int，63-bit）的梯子成立；实验中梯子值 ≤255 安全，对极大输入（≥10⁶ 级）sparse 等走 Peano 提取的子命令仍会栈溢出。
-- **定量安全阈值（系统扫描修正）**：行和判定按 num,den 连乘累加，累积分母 ≈ ∏ pair_den（指数增长）。114 梯子扫描实测：末带 < 2^20 的梯子中仍有 14/89（15.7%）exe 与 Coq 语义分歧（如 C=6-sparse [3,19,115,691,4147]：Coq 语义 true、exe 溢出误判 false，累积分母达 10^26 ≫ 2^63）。实验实际使用（带值 ≤255、m ≤ 8）全部落在 63-bit 安全区；通用安全阈值须逐梯核算 ∏ pair_den < 2^63（或改用任意精度 Zarith/Python 大整数）。
+- **范围前提（如实声明）**：整数镜像与 Coq nat 的等价仅对中间量不超过机器字长（OCaml int，63-bit）的阶梯成立；实验中阶梯值 ≤255 安全，对极大输入（≥10⁶ 级）sparse 等走 Peano 提取的子命令仍会栈溢出。
+- **定量安全阈值（系统扫描修正）**：行和判定按 num,den 连乘累加，累积分母 ≈ ∏ pair_den（指数增长）。114 阶梯扫描实测：末带 < 2^20 的阶梯中仍有 14/89（15.7%）exe 与 Coq 语义分歧（如 C=6-sparse [3,19,115,691,4147]：Coq 语义 true、exe 溢出误判 false，累积分母达 10^26 ≫ 2^63）。实验实际使用（带值 ≤255、m ≤ 8）全部落在 63-bit 安全区；通用安全阈值须逐梯核算 ∏ pair_den < 2^63（或改用任意精度 Zarith/Python 大整数）。
 - **int 平方根实现**：`int_sqrt n = int_of_float (Float.sqrt ...)` 为浮点近似；对 n < 2^53 截断后偏差 ≤ 1，仅在判别阈值附近才可能翻转（如实声明）；安全阈值收紧为中间量 < 2^53。
 - **健全性闭环**：`frame_check_instance_sound` 已 Qed——判定通过 ⟹ gershgorin_frame_mu (length I) (S (last I)) (4/5)，检查器 = 框架界定理的可执行投影。
 - **反射层纠错实例（形式化发现并修复真 bug）**：反射层原 `row_sum_frac_aux` 在收缩列表上重算 nth，使 Coq 判定与生产原生检查器不一致（[3,13] 误判 false、C4 行和退化为 (0,0) 真空通过）；加 orig 参数修正后 Coq 与原生逐行同构（FFI 24/24 复核）。
@@ -170,7 +170,7 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **审计总量**：PSA_audit.v **165 项** Print Assumptions，RC=0，零 Admitted（111 段 Axioms + 54 项 Closed）。
 - **公理脚印（全部 165 项仅此）**：ClassicalDedekindReals.sig_not_dec / sig_forall_dec + functional_extensionality_dep（标准库反射层基础设施）；**`Classical_Prop.classic` 出现 0 次**。
 - **如实说明**：sig_not_dec / sig_forall_dec / fext 是非构造性选择类原则（Dedekind 实数构造自身携带，非应用层引入）；"classical-free"精确指 `Classical_Prop.classic`（排中律宏）零出现，而非"无任何经典原则"。提取计算性：上述公理仅在证明层（Prop）使用，不参与提取的计算内容（Set/Type 层无 sig_not_dec 调用）。
-- **M1.5 经典清零（已完成）**：此前仅剩的 4 项（softmax 系列 + certified_attention_approx）经 exp 单调性继承经典排中。现 Module ExpSeries 已 Qed（`exp_mono_le_noclassic` 等，Stdlib exp 即幂级数定义），exp_mono_le 改走幂级数路线——语句不变、下游零改动。**战略意义**：整个 CertifiedAttention 模块（注意力近似主定理）为纯构造性——论文 A 是首个完全构造性的深度学习注意力形式化验证（不依赖实数完备性的排中律）。
+- **M1.5 经典清零（已完成）**：此前仅剩的 4 项（softmax 系列 + certified_attention_approx）经 exp 单调性继承经典排中。现 Module ExpSeries 已 Qed（`exp_mono_le_noclassic` 等，Stdlib exp 即幂级数定义），exp_mono_le 改走幂级数路线——语句不变、下游零改动。**意义**：整个 CertifiedAttention 模块（注意力近似主定理）为纯构造性——据我们所知，这是第一个不依赖实数完备性排中律的深度学习注意力形式化验证。
 - 依赖库（ca_* 六库）全审计为 P4 长期项。
 
 ## 8 实证预览
@@ -191,11 +191,11 @@ psi-rope 行 3 种子均值±std、dense 单种子（b64 s1337）、rope 为 b32
 - **Certified ML kernel**：Certificates in AI: Learn but Verify（2025）明确"学习 + 验证"分离主张，与本开发边界完全一致；Coq/OCaml 提取谱系（CompCert 式 proof-carrying kernel、CertiML 类）提供方法论先例——本开发新增的是反射检查器自带健全性证明这一层。
 - **Proof-carrying code 谱系（Necula）**：本开发的反射检查器是 PCC 思想的现代实例——运行时布尔判定 + 机器检查的健全性定理，等价于"证书随代码传输、接收端可验证"；差异是证书内容为有理常数界（可判定算术）而非类型/内存安全证明。
 - **稀疏注意力无证书方法（对比面）**：top-k 门控、KV 逐出、低秩投影均无误差证书；本开发覆盖的"解析核"层给出可检查保证。
-- 与论文 B 的关系：本文实证结果验证论文 A 形式化框架（同一梯子族）的适用性；论文 A 的框架界/能量界为"免手术 + 证书"定位提供理论支持——主张正交：形式化保"表示稳定性/能量有界"，实证报"外推 ppl"。
+- 与论文 B 的关系：本文实证结果验证论文 A 形式化框架（同一阶梯族）的适用性；论文 A 的框架界/能量界为"免手术 + 证书"定位提供理论支持——主张正交：形式化保"表示稳定性/能量有界"，实证报"外推 ppl"。
 
 ## 10 局限性
 
-- **高维证书的诚实定位**：3D 定理是形式化大厦的承重墙——它严格证明验证方法学在高维逻辑闭合，并机械固定"维数灾难"的精确表达式（1D μ=0.8 → 3D M_bound=3968）。但定位是"Theoretically Composable, Practically Non-Tight"：(i) H_dom 尚未反射化（N≥3，真值可在 O(n₁n₂n₃·(n₁+n₂+n₃)) 次比较内完全判定，但我们尚未为其编写反射判定器）；(ii) H_dom 经验苛刻（真实数据三轴频率独立增长，要求三轴同调增长很少满足）。2D-wide 不受此限制（免 H_dom）。
+- **高维证书的诚实定位**：3D 定理是形式化体系的关键组成部分，它证明验证方法学在高维逻辑闭合，并机械固定"维数灾难"的精确表达式（1D μ=0.8 → 3D M_bound=3968）。但定位是"Theoretically Composable, Practically Non-Tight"：(i) H_dom 尚未反射化（N≥3，真值可在 O(n₁n₂n₃·(n₁+n₂+n₃)) 次比较内完全判定，但我们尚未为其编写反射判定器）；(ii) H_dom 经验苛刻（真实数据三轴频率独立增长，要求三轴同调增长很少满足）。2D-wide 不受此限制（免 H_dom）。
 - 学习分量（W_Q/W_K、softmax 身份）不在覆盖内——覆盖的是**敏感性**而非身份。
 - **What is not certified**：本框架不证明——(a) 学习投影下的注意力 logits/softmax 有界（仅能量界 ⟹ 输出扰动界）；(b) 学习 Q/K 投影与位置旋转对易（酉不变性仅覆盖基函数层）；(c) 多头拼接、残差连接、LayerNorm/激活的数值稳定性；(d) 训练后权重的任何保证（证书对任意系数 c 成立，与训练无关）；(e) 外推 PPL 与框架界之间的语义联系（经验桥梁，未形式化）。
 - 证书为框架/能量级保证，不直接给出端到端 ppl 界（跨层合成为未来工作）。
@@ -217,7 +217,7 @@ psi-rope 行 3 种子均值±std、dense 单种子（b64 s1337）、rope 为 b32
 4. Boldo, S., Lelay, C., Melquiond, G. Coquelicot: A User-Friendly Library of Real Analysis for Coq. Mathematical Structures in Computer Science, 25(2):448-484, 2015.（Coquelicot 依赖）
 5. Necula, G. Proof-Carrying Code. POPL '97, pp.106-119, 1997.
 6. [Certificates in AI: Learn but Verify. ACM, 2025]（出处待核，投稿前补全）
-7. [论文 B 中文规范版]：相位截断频率梯子：可认证且外推稳健的位置编码（本工作配套，TACL 方向）。
+7. [论文 B 中文规范版]：相位截断频率阶梯：可认证且外推稳健的位置编码（本工作配套，TACL 方向）。
 8. [卷期页码为常见引用格式，投稿前以官方版本核对]
 
 ## 附录 复现指引
