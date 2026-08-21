@@ -23,45 +23,24 @@ jobs:
             default: https://github.com/ocaml/opam-repository.git
             coq-released: https://coq.inria.fr/opam/released
 
-      - name: Install Rocq 9.0 + HB + elpi
+      - name: Install Rocq 9.0 + mathcomp 2.5.0 (paired HB/elpi) + elpi
         run: |
           export OPAMSANDBOXING=disabled
-          opam install -y coq.9.0.0 coq-hierarchy-builder coq-elpi
+          opam install -y coq.9.0.0 coq-mathcomp-ssreflect.2.5.0
+          opam install -y coq-elpi
 
-      - name: Cache vendored dependency .vo (mathcomp + Coquelicot)
+      - name: Cache vendored dependency .vo (Coquelicot only)
         uses: actions/cache@v4
         with:
           path: |
-            coq/deps/mathcomp/**/*.vo
             coq/deps/coquelicot/**/*.vo
-          key: ${{ runner.os }}-vendored-${{ hashFiles('coq/deps/mathcomp/**/*.v', 'coq/deps/coquelicot/**/*.v') }}
-
-      - name: Build vendored mathcomp (platform edition, 217 files)
-        run: |
-          eval "$(opam env)"
-          COQLIB=$(coqc -where)
-          HB="$COQLIB/user-contrib/HB"
-          ELPI="$COQLIB/user-contrib/elpi"
-          cd coq/deps/mathcomp
-          for pass in $(seq 1 50); do
-            progress=0
-            for f in $(find . -name "*.v"); do
-              b="${f%.v}"
-              [ -f "$b.vo" ] && continue
-              if coqc -Q . mathcomp -Q "$HB" HB -Q "$ELPI" elpi "$f" 2>/tmp/mc_err; then progress=1; fi
-            done
-            done_n=$(find . -name "*.vo" | wc -l)
-            echo "[pass $pass] compiled $done_n/217 .vo ($(date -u +%H:%M:%S))"
-            [ "$progress" = "0" ] && break
-          done
-          n=$(find . -name "*.vo" | wc -l)
-          echo "mathcomp compiled: $n .vo"
-          [ "$n" -ge 200 ] || { echo "mathcomp build FAILED"; tail -40 /tmp/mc_err; exit 1; }
+          key: ${{ runner.os }}-coquelicot-${{ hashFiles('coq/deps/coquelicot/**/*.v') }}
 
       - name: Build vendored Coquelicot (gitlab master, 24 files)
         run: |
           eval "$(opam env)"
           COQLIB=$(coqc -where)
+          MC="$COQLIB/user-contrib/mathcomp"
           HB="$COQLIB/user-contrib/HB"
           ELPI="$COQLIB/user-contrib/elpi"
           cd coq/deps/coquelicot
@@ -70,7 +49,7 @@ jobs:
             for f in theories/*.v; do
               b=$(basename "$f" .v)
               [ -f "theories/$b.vo" ] && continue
-              if coqc -R theories Coquelicot -Q ../mathcomp mathcomp -Q "$HB" HB -Q "$ELPI" elpi "$f" 2>/tmp/cq_err; then progress=1; fi
+              if coqc -R theories Coquelicot -Q "$MC" mathcomp -Q "$HB" HB -Q "$ELPI" elpi "$f" 2>/tmp/cq_err; then progress=1; fi
             done
             [ "$progress" = "0" ] && break
           done

@@ -8,26 +8,23 @@ echo "=== 0. 环境 ==="
 rocq_version=$(coqc --version 2>/dev/null | head -1 || true)
 echo "coqc: $rocq_version"
 
-echo "=== 1. 依赖（vendored mathcomp + Coquelicot）==="
+echo "=== 1. 依赖（mathcomp opam + Coquelicot vendored）==="
 eval "$(opam env 2>/dev/null || true)"
 SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(dirname "$SCRIPTS_DIR")"
-# 使用仓库 vendored 源码（与本地平台版一致；opam mathcomp 2.6.0 结构不兼容）
-MC="$REPO_DIR/coq/deps/mathcomp"
-CQ="$REPO_DIR/coq/deps/coquelicot/theories"
 COQLIB=$(coqc -where 2>/dev/null || true)
+# mathcomp 2.5.0 经 opam 安装（配 HB/elpi）；Coquelicot 用仓库 vendored master 编译
+MC="$COQLIB/user-contrib/mathcomp"
+CQ="$REPO_DIR/coq/deps/coquelicot/theories"
 HB="$COQLIB/user-contrib/HB"
 ELPI="$COQLIB/user-contrib/elpi"
-echo "  mathcomp (vendored): $MC"
+echo "  mathcomp (opam): $MC"
 echo "  Coquelicot (vendored): $CQ"
 echo "  HB (opam): $HB"
 echo "  elpi (opam): $ELPI"
-test -d "$MC" && test -d "$CQ" || { echo "  ✗ vendored 依赖缺失"; exit 1; }
-test -d "$HB" && test -d "$ELPI" || { echo "  ✗ opam 依赖缺失（需 coq-hierarchy-builder + coq-elpi）"; exit 1; }
-# vendored 依赖的 .vo 由 workflow 的 Build 步骤预先编译；此处校验就绪
-test -f "$MC/ssreflect/prime.vo" && echo "  ✅ mathcomp .vo 就绪" || { echo "  ✗ mathcomp 未编译——需 workflow 'Build vendored mathcomp' 步骤"; exit 1; }
+test -d "$CQ" || { echo "  ✗ vendored Coquelicot 缺失"; exit 1; }
+test -d "$MC" && test -d "$HB" && test -d "$ELPI" || { echo "  ✗ opam 依赖缺失（需 coq-mathcomp-ssreflect.2.5.0 + coq-elpi）"; exit 1; }
 test -f "$CQ/Coquelicot.vo" && echo "  ✅ Coquelicot .vo 就绪" || { echo "  ✗ Coquelicot 未编译——需 workflow 'Build vendored Coquelicot' 步骤"; exit 1; }
-test -d "$MC" && test -d "$CQ"
 
 echo "=== 2. lib/ 依赖链编译 ==="
 cd /repo 2>/dev/null || cd "$(dirname "$0")/.."
