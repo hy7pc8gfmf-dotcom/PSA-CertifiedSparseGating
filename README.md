@@ -24,7 +24,7 @@ PSA-CertifiedSparseGating/
 │   ├── 论文B草稿-PhaseCompleteLadders-TACL-20260819.md      # 实证论文（TACL 方向）
 │   ├── 论文A中文规范版-CertifiedSparseGating.md/.docx       # 中文规范版（含 Word）
 │   ├── 论文B中文规范版-PhaseCompleteLadders.md/.docx
-│   ├── 论文评审.txt                                        # 形式化审查报告（Accept Strong）
+│   ├── 论文评审.txt                                        # （已按作者决定置空）
 │   └── 预登记实验设计-20260819.md                       # 预登记假说 + 执行结果
 ├── coq/                      # Coq 形式化（Rocq 9.0.1）
 │   ├── PSA_framework.v       # 主框架：19 模块 / 250 Qed / 零 Admitted / 6405 行
