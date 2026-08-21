@@ -18,11 +18,14 @@ jobs:
         uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: ocaml-variants.4.14.2+options,ocaml-option-flambda
+          opam-disable-sandboxing: true
           opam-repositories: |
             default: https://github.com/ocaml/opam-repository.git
+            coq-archive: https://github.com/coq-community/opam-coq-archive.git
 
       - name: Install Rocq 9.0 + mathcomp + Coquelicot
         run: |
+          export OPAMSANDBOXING=disabled
           opam install -y coq.9.0.0 coq-mathcomp-ssreflect coq-coquelicot
 
       - name: Run Coq build (lib chain + PSA core + audit)
