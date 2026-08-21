@@ -8,31 +8,19 @@ echo "=== 0. 环境 ==="
 rocq_version=$(coqc --version 2>/dev/null | head -1 || true)
 echo "coqc: $rocq_version"
 
-echo "=== 1. 依赖（mathcomp + Coquelicot）==="
+echo "=== 1. 依赖（vendored mathcomp + Coquelicot）==="
 eval "$(opam env 2>/dev/null || true)"
-# 依赖由 workflow 预装：mathcomp 经 opam，Coquelicot 经 gitlab master 编译安装（见下方 1b 定位）
-
-echo "=== 1b. 定位 mathcomp / Coquelicot 安装路径 ==="
-# 优先 coqc -where 的 user-contrib；其次 ocamlfind；再次 opam lib 目录搜索；最后兜底
-# 注意：Linux runner 文件系统大小写敏感，目录名须为小写 coquelicot
-COQLIB=$(coqc -where 2>/dev/null || true)
-MC=""
-CQ=""
-if [ -n "$COQLIB" ] && [ -d "$COQLIB/user-contrib/mathcomp" ]; then
-  MC="$COQLIB/user-contrib/mathcomp"
-fi
-if [ -n "$COQLIB" ] && [ -d "$COQLIB/user-contrib/coquelicot" ]; then
-  CQ="$COQLIB/user-contrib/coquelicot"
-fi
-if [ -z "$MC" ]; then MC=$(ocamlfind query mathcomp 2>/dev/null || true); fi
-if [ -z "$CQ" ]; then CQ=$(ocamlfind query coquelicot 2>/dev/null || true); fi
-OPAM_LIB=$(opam var lib 2>/dev/null || true)
-if [ -z "$MC" ] && [ -n "$OPAM_LIB" ]; then MC=$(find "$OPAM_LIB" -maxdepth 4 -type d -name mathcomp 2>/dev/null | head -1); fi
-if [ -z "$CQ" ] && [ -n "$OPAM_LIB" ]; then CQ=$(find "$OPAM_LIB" -maxdepth 4 -type d -name coquelicot 2>/dev/null | head -1); fi
-if [ -z "$MC" ]; then MC="/usr/lib/ocaml/mathcomp"; fi
-if [ -z "$CQ" ]; then CQ="/usr/lib/ocaml/coquelicot"; fi
-echo "  mathcomp: $MC"
-echo "  Coquelicot: $CQ"
+SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(dirname "$SCRIPTS_DIR")"
+# 使用仓库 vendored 源码（与本地平台版一致；opam mathcomp 2.6.0 结构不兼容）
+MC="$REPO_DIR/coq/deps/mathcomp"
+CQ="$REPO_DIR/coq/deps/coquelicot/theories"
+echo "  mathcomp (vendored): $MC"
+echo "  Coquelicot (vendored): $CQ"
+test -d "$MC" && test -d "$CQ" || { echo "  ✗ vendored 依赖缺失"; exit 1; }
+# vendored 依赖的 .vo 由 workflow 的 Build 步骤预先编译；此处校验就绪
+test -f "$MC/ssreflect/prime.vo" && echo "  ✅ mathcomp .vo 就绪" || { echo "  ✗ mathcomp 未编译——需 workflow 'Build vendored mathcomp' 步骤"; exit 1; }
+test -f "$CQ/Coquelicot.vo" && echo "  ✅ Coquelicot .vo 就绪" || { echo "  ✗ Coquelicot 未编译——需 workflow 'Build vendored Coquelicot' 步骤"; exit 1; }
 test -d "$MC" && test -d "$CQ"
 
 echo "=== 2. lib/ 依赖链编译 ==="

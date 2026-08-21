@@ -23,37 +23,44 @@ jobs:
             default: https://github.com/ocaml/opam-repository.git
             coq-released: https://coq.inria.fr/opam/released
 
-      - name: Install Rocq 9.0 + mathcomp
+      - name: Install Rocq 9.0
         run: |
           export OPAMSANDBOXING=disabled
-          opam install -y coq.9.0.0 coq-mathcomp-ssreflect
+          opam install -y coq.9.0.0
 
-      - name: Build Coquelicot (gitlab master, Rocq 9.0 compatible)
+      - name: Build vendored mathcomp (platform edition, 217 files)
         run: |
           eval "$(opam env)"
-          COQLIB=$(coqc -where)
-          MC="$COQLIB/user-contrib/mathcomp"
-          # opam coq-released 的 3.4.1 (<8.20) 不兼容 9.0；3.4.4 在 9.0 编译失败。
-          # gitlab master 已适配 9.0（本地 Rocq 9.0 24/24 编译验证）。
-          git clone --depth 1 https://gitlab.inria.fr/coquelicot/coquelicot.git /tmp/coquelicot
-          cd /tmp/coquelicot
+          cd coq/deps/mathcomp
+          for pass in $(seq 1 30); do
+            progress=0
+            for f in $(find . -name "*.v"); do
+              b="${f%.v}"
+              [ -f "$b.vo" ] && continue
+              if coqc -Q . mathcomp "$f" 2>/tmp/mc_err; then progress=1; fi
+            done
+            [ "$progress" = "0" ] && break
+          done
+          n=$(find . -name "*.vo" | wc -l)
+          echo "mathcomp compiled: $n .vo"
+          [ "$n" -ge 200 ] || { echo "mathcomp build FAILED"; tail -30 /tmp/mc_err; exit 1; }
+
+      - name: Build vendored Coquelicot (gitlab master, 24 files)
+        run: |
+          eval "$(opam env)"
+          cd coq/deps/coquelicot
           for pass in $(seq 1 15); do
             progress=0
             for f in theories/*.v; do
               b=$(basename "$f" .v)
               [ -f "theories/$b.vo" ] && continue
-              if coqc -R theories Coquelicot -Q "$MC" mathcomp "$f" 2>/tmp/cq_err; then
-                progress=1
-              fi
+              if coqc -R theories Coquelicot -Q ../mathcomp mathcomp "$f" 2>/tmp/cq_err; then progress=1; fi
             done
             [ "$progress" = "0" ] && break
           done
           n=$(ls theories/*.vo 2>/dev/null | wc -l)
           echo "Coquelicot compiled: $n/24"
           [ "$n" = "24" ] || { echo "Coquelicot build FAILED"; tail -30 /tmp/cq_err; exit 1; }
-          mkdir -p "$COQLIB/user-contrib/coquelicot"
-          cp theories/*.vo "$COQLIB/user-contrib/coquelicot/"
-          echo "Coquelicot installed to $COQLIB/user-contrib/coquelicot"
 
       - name: Run Coq build (lib chain + PSA core + audit)
         run: |
