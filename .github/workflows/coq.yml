@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 1
       - name: Run Coq build (lib chain + PSA core + audit)
-        uses: coq-community/docker-coq-action@v2
+        uses: coq-community/docker-coq-action@v1.5.2
         with:
           coq_version: ${{ matrix.coq }}
           custom_script: |
