@@ -118,19 +118,40 @@ def apply_rope_theta(q, k, T, device, theta):
 def rope_theta(d, device, base=10000.0):
     return base ** (-torch.arange(0, d, 2, dtype=torch.float32, device=device) / d)
 
-def psi_rope_theta(d, device, ladder):
-    """psi-rope：旋转角 = 2π/n_j，n_j 取截断阶梯频带（循环填充 d/2 维）。"""
+def psi_rope_theta(d, device, ladder, grid_N=None):
+    """psi-rope：旋转角 = 2π/n_j（n_j 取截断阶梯频带，循环填充 d/2 维）。
+    grid_N 设置时用网格角 θ = 2π·m/grid_N（m 为互异整数，DFT 精确正交，μ=0 全长度成立）。"""
     ns = torch.tensor([n for n in ladder], dtype=torch.float32, device=device)
     half = d // 2
     idx = torch.arange(half, device=device) % len(ns)
+    if grid_N:
+        return 2.0 * math.pi * ns[idx] / grid_N
     return 2.0 * math.pi / ns[idx]
 
+def _t5_relative_bucket(rel, num_buckets=32, max_distance=128):
+    """T5 式相对位置分桶（单向：只处理因果过去的距离）。
+    rel: (T,T) int，rel[i,j] = i − j（≥0 为过去）。返回同形桶索引张量。"""
+    num_buckets //= 2
+    n = rel.clamp(min=0)
+    is_small = n < num_buckets
+    log_denom = math.log(max_distance / num_buckets)
+    log_part = ((n.float().log() - math.log(num_buckets)) / log_denom * (num_buckets - 1)).floor().long()
+    large = num_buckets + log_part.clamp(min=0, max=num_buckets - 1)
+    return torch.where(is_small, n, large).clamp(max=2 * num_buckets - 1)
+
+
 class CausalSelfAttention(nn.Module):
-    def __init__(self, n_embd, n_head, mode, theta=None):
+    def __init__(self, n_embd, n_head, mode, theta=None, alibi=False, rel_bias=None):
         super().__init__()
         self.n_head, self.n_embd, self.mode, self.theta = n_head, n_embd, mode, theta
+        self.alibi, self.rel_bias = alibi, rel_bias
         self.c_attn = nn.Linear(n_embd, 3 * n_embd)
         self.c_proj = nn.Linear(n_embd, n_embd)
+        if alibi:
+            # ALiBi 斜率（Press et al. 2021）：m_h = 2^(−8(h+1)/n_head)
+            slopes = torch.tensor([2.0 ** (-8.0 * (h + 1) / n_head) for h in range(n_head)],
+                                  dtype=torch.float32)
+            self.register_buffer("alibi_slopes", slopes)
     def forward(self, x):
         B, T, C = x.shape
         qkv = self.c_attn(x)
@@ -141,23 +162,43 @@ class CausalSelfAttention(nn.Module):
         if self.mode in ("rope", "psi-rope"):
             q, k = apply_rope_theta(q, k, T, x.device, self.theta)
         w = getattr(self, "kv_window", None)
-        if w is not None and T > w:
-            # KV 逐出模拟（kv_eviction.py）：只保留最近 w 个 key/value（丢弃更远 KV），
-            # query 全保留（位置语义不变）；显式 (T,w) 因果窗口 mask（True=可 attend）。
-            k, v = k[..., -w:, :], v[..., -w:, :]
-            i_glob = torch.arange(T, device=x.device)
-            j_glob = torch.arange(T - w, T, device=x.device)
-            attn_mask = j_glob[None, :] <= i_glob[:, None]
-            y = F.scaled_dot_product_attention(q, k, v, attn_mask=attn_mask, is_causal=False)
+        if self.alibi or self.rel_bias is not None:
+            # 手工注意力：ALiBi 线性偏置 / T5 相对位置偏置（均需在 softmax 前注入）
+            scale = (C // self.n_head) ** -0.5
+            scores = torch.matmul(q, k.transpose(-2, -1)) * scale          # (B,H,T,T)
+            pos = torch.arange(T, device=x.device)
+            if self.alibi:
+                rel = pos[None, :] - pos[:, None]                          # rel[i,j] = j − i ≤ 0（过去为负）
+                bias = self.alibi_slopes.view(-1, 1, 1) * rel               # (H,T,T)
+                scores = scores + bias.unsqueeze(0)
+            else:
+                rel = pos[:, None] - pos[None, :]                          # rel[i,j] = i − j ≥ 0（过去）
+                buckets = _t5_relative_bucket(rel, self.rel_bias.shape[1])
+                scores = scores + self.rel_bias[:, buckets].unsqueeze(0)   # (H,T,T)
+            causal = torch.tril(torch.ones(T, T, dtype=torch.bool, device=x.device))
+            if w is not None and T > w:
+                causal = causal & (pos[:, None] - pos[None, :] < w)        # 只保留最近 w（KV 逐出口径）
+            scores = scores.masked_fill(~causal.unsqueeze(0), float("-inf"))
+            attn = torch.softmax(scores, dim=-1)
+            y = attn @ v                                                   # (B,H,T,d)
         else:
-            y = F.scaled_dot_product_attention(q, k, v, is_causal=True)
+            if w is not None and T > w:
+                # KV 逐出模拟（kv_eviction.py）：只保留最近 w 个 key/value（丢弃更远 KV），
+                # query 全保留（位置语义不变）；显式 (T,w) 因果窗口 mask（True=可 attend）。
+                k, v = k[..., -w:, :], v[..., -w:, :]
+                i_glob = torch.arange(T, device=x.device)
+                j_glob = torch.arange(T - w, T, device=x.device)
+                attn_mask = j_glob[None, :] <= i_glob[:, None]
+                y = F.scaled_dot_product_attention(q, k, v, attn_mask=attn_mask, is_causal=False)
+            else:
+                y = F.scaled_dot_product_attention(q, k, v, is_causal=True)
         return self.c_proj(y.transpose(1, 2).contiguous().view(B, y.shape[-2], C))
 
 class Block(nn.Module):
-    def __init__(self, n_embd, n_head, mode, theta=None):
+    def __init__(self, n_embd, n_head, mode, theta=None, alibi=False, rel_bias=None):
         super().__init__()
         self.ln1 = nn.LayerNorm(n_embd)
-        self.attn = CausalSelfAttention(n_embd, n_head, mode, theta)
+        self.attn = CausalSelfAttention(n_embd, n_head, mode, theta, alibi=alibi, rel_bias=rel_bias)
         self.ln2 = nn.LayerNorm(n_embd)
         self.mlp = nn.Sequential(nn.Linear(n_embd, 4*n_embd), nn.GELU(), nn.Linear(4*n_embd, n_embd))
     def forward(self, x):
@@ -181,11 +222,16 @@ class MiniGPT(nn.Module):
             self.pos_feat = nn.Parameter(torch.randn(1, block_size, 2 * m) * 0.02)
             self.pos_feat.requires_grad_(False)          # 固定，不训练
             self.pos_proj = nn.Linear(2 * m, n_embd, bias=False)  # 学习投影（同 psi_proj）
-        elif mode in ("rope", "psi-rope", "nope"):
+        elif mode in ("rope", "psi-rope", "nope", "alibi", "t5rel"):
             self.pos_emb = None
         else:
             self.pos_emb = nn.Parameter(torch.zeros(1, block_size, n_embd))
-        self.blocks = nn.ModuleList([Block(n_embd, n_head, mode, theta) for _ in range(n_layer)])
+        self.rel_bias = None
+        if mode == "t5rel":
+            self.rel_bias = nn.Parameter(torch.zeros(n_head, 32))   # 32 桶（16 线性 + 16 对数）
+        self.blocks = nn.ModuleList([Block(n_embd, n_head, mode, theta,
+                                           alibi=(mode == "alibi"), rel_bias=self.rel_bias)
+                                     for _ in range(n_layer)])
         self.ln_f = nn.LayerNorm(n_embd)
         self.lm_head = nn.Linear(n_embd, vocab_size, bias=False)
         self.apply(self._init_weights)
@@ -210,8 +256,8 @@ class MiniGPT(nn.Module):
             else:
                 feat = F.pad(self.pos_feat, (0, 0, 0, T - self.block_size))  # 0 延拓（同 dense）
             x = x + self.pos_proj(feat)
-        elif self.mode in ("rope", "psi-rope", "nope"):
-            pass  # rope/psi-rope 位置在注意力内旋转；nope 无位置项（NoPE 对照）
+        elif self.mode in ("rope", "psi-rope", "nope", "alibi", "t5rel"):
+            pass  # rope/psi-rope 位置在注意力内旋转；nope/alibi/t5rel 无位置项（ALiBi/T5 偏置在注意力内）
         else:
             if T <= self.block_size:
                 x = x + self.pos_emb[:, :T, :]
@@ -269,6 +315,8 @@ def main():
                     help="E1 消融：none|rand（log-uniform 随机阶梯 [3,54613]）|lin（线性阶梯 [3,54613]）")
     ap.add_argument("--rope-rand", action="store_true",
                     help="E1 psi-rope-rand：旋转角来自随机全相位阶梯（log-uniform [3,511]）")
+    ap.add_argument("--grid", type=int, default=0,
+                    help="O1 网格阶梯：θ=2π·m/grid（m 从 [3,255] log-uniform 取互异整数，DFT 精确正交 μ=0）")
     ap.add_argument("--modes", type=str, default="dense,psi,psi-trunc,rope,psi-rope")
     ap.add_argument("--eval-only", type=str, default="")      # 只评估已存模型（纯前向），如 "psi-trunc"
     ap.add_argument("--rope-variant", type=str, default="none",
@@ -316,14 +364,19 @@ def main():
             if args.rope_rand:
                 # rr：旋转角来自随机全相位阶梯（与训练路径逐字对齐）
                 rl = [n for n in log_uniform_ladder(3, 511, 128, args.seed, sort=False) if n <= args.block]
-                theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl)
+                if args.grid:
+                    # O1 网格阶梯：m_t 取互异整数（DFT 精确正交 μ=0 的前提）
+                    rl = sorted(set(n for n in log_uniform_ladder(3, 255, 128, args.seed, sort=False)))
+                    theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl, grid_N=args.grid)
+                else:
+                    theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl)
             else:
                 theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE,
                                        [n for n in config["psi_indices"] if n <= args.block])
-        # E1 变体 tag：与训练路径同构（_rand / _rr / _s<seed>）
+        # E1 变体 tag：与训练路径同构（_rand / _rr / _s<seed> / _grid）
         tag = (f"_c{args.gen_c}" if args.gen_c != 4 else "") + (f"_s{args.seed}" if args.seed != 1337 else "") \
               + (f"_{args.psi_variant}" if args.psi_variant != "none" else "") \
-              + ("_rr" if args.rope_rand else "")
+              + ("_rr" if args.rope_rand else "") + ("_grid" if args.grid else "")
         path = resolve_model(mode, args.block, tag)   # 先 HERE 根，再 测试数据/（归档后兼容）
         if not os.path.exists(path):
             print(f"[eval-only] 模型不存在: {path}", flush=True)
@@ -375,15 +428,21 @@ def main():
             # 旋转角 = 2π/n_j，n_j 取截断阶梯（训练内见过全相位）——检验"psi 频率做相对旋转"
             if args.rope_rand:
                 rl = [n for n in log_uniform_ladder(3, 511, 128, args.seed, sort=False) if n <= args.block]
-                theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl)
-                print(f"  psi-rope-rand: 旋转角来自随机全相位阶梯（log-uniform [3,511]，未排序）首 16: {[round(math.log(n)/math.log(3),1) for n in rl[:6]]}", flush=True)
+                if args.grid:
+                    # O1 网格阶梯：m_t 互异整数（[3,255] log-uniform），DFT 精确正交 μ=0
+                    rl = sorted(set(n for n in log_uniform_ladder(3, 255, 128, args.seed, sort=False)))
+                    theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl, grid_N=args.grid)
+                    print(f"  psi-rope-grid: θ=2π·m/{args.grid}，m 互异 {len(rl)} 个，首 16: {rl[:16]}", flush=True)
+                else:
+                    theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl)
+                    print(f"  psi-rope-rand: 旋转角来自随机全相位阶梯（log-uniform [3,511]，未排序）首 16: {[round(math.log(n)/math.log(3),1) for n in rl[:6]]}", flush=True)
             else:
                 theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE,
                                        [n for n in config["psi_indices"] if n <= args.block])
                 print(f"  psi-rope: 旋转角来自频带 {[n for n in config['psi_indices'] if n <= args.block]}", flush=True)
         tag = (f"_c{args.gen_c}" if args.gen_c != 4 else "") + (f"_s{args.seed}" if args.seed != 1337 else "") \
               + (f"_{args.psi_variant}" if args.psi_variant != "none" else "") \
-              + ("_rr" if args.rope_rand else "")
+              + ("_rr" if args.rope_rand else "") + ("_grid" if args.grid else "")
         path = os.path.join(HERE, f"model_{mode}_b{args.block}{tag}.pt")
         model = train_and_save(mode, args.iters, {**config, "psi_indices": idxs},
                                data_train, args.block, DEVICE, path, theta, guard, args.seed)
