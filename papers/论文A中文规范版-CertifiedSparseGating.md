@@ -2,7 +2,8 @@
 
 **Certified Sparse Gating and Attention Approximation: An Executable Coq Development**
 
-> 作者：[作者]、[单位]、[邮箱]（待补）
+> 作者：王宝军、夏挽岚、祖光照、周志农、高雪峰
+> 单位与通讯邮箱：[待补]
 > 版本：中文规范版 v1.0（2026-08-21）｜代码基态：PSA_framework.v（19 模块 / 250 Qed / 165 项审计全零经典排中）
 
 ---

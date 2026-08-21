@@ -30,6 +30,9 @@
 ## Title
 **Phase-Truncated Frequency Ladders: Certified, Extrapolation-Robust Positional Encoding**
 
+## Authors
+王宝军、夏挽岚、祖光照、周志农、高雪峰（单位与通讯邮箱待补）
+
 ## Abstract (EN)
 Positional encodings degrade sharply beyond their training length. We study length
 extrapolation through the lens of the *frequency ladder* — the multiset of rotation

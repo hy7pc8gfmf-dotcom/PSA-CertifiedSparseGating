@@ -47,6 +47,9 @@
 ## Title
 **Certified Sparse Gating and Attention Approximation: An Executable Coq Development**
 
+## Authors
+王宝军、夏挽岚、祖光照、周志农、高雪峰（单位与通讯邮箱待补）
+
 ## Abstract (EN)
 We present a Coq formalization of a complete pipeline for certifiably-gated sparse attention
 over a geometrically-structured frequency basis. Our development proves, in two orthogonal

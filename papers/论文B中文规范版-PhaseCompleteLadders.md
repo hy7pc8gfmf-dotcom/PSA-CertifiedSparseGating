@@ -2,7 +2,8 @@
 
 **Phase-Truncated Frequency Ladders: Certified, Extrapolation-Robust Positional Encoding**
 
-> 作者：[作者]、[单位]、[邮箱]（待补）
+> 作者：王宝军、夏挽岚、祖光照、周志农、高雪峰
+> 单位与通讯邮箱：[待补]
 > 版本：中文规范版 v1.0（2026-08-21）｜数据基线：2026-08-21 凌晨全量实证终态
 
 ---
