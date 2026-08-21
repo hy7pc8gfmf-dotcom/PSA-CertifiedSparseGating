@@ -51,7 +51,7 @@ RuntimeGuards → SeqProps → PSA_Pipeline → GreedyGate → RowTruncation →
 PipelineEndToEnd → ExpSeries（M1.5 级数重写，§7）→ SoftmaxStability →
 CertifiedAttention → Gershgorin → InstanceCertificate（M4）→
 M4bLengthConsistency（长度一致性，∀N≥214）→ T8CoreCertificate（T8 复合证书核）→
-FrameCheckInstance（反射检查器 + soundness）→ ChampionCertificate（端到端"军证书，§5.3）→
+FrameCheckInstance（反射检查器 + soundness）→ ChampionCertificate（端到端冠军证书，§5.3）→
 FrameCheck2DNarrow（2D 窄轨反射化，§5.5）→ UnitaryInvariance（A2 酉不变性，§5.3）
 ```
 
@@ -126,13 +126,13 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **反向警示（形式化审查强化）**：检查器返回 `false` **不是**不安全证书——它只表明保守有理界不足以证明 Gershgorin 条件；被误拒的合法阶梯仍可由复合证书覆盖（七带即此情形：其精确相干行和仅 0.135 ≤ 4/5，实质可认证）。"检查器通过 ⟹ 框架界"成立，"检查器失败 ⟹ 不安全"不成立。
 - **系统扫描（114 阶梯 × 5 族）**：通过 35（30.7%）、假阴性 56（全量 49.1%，占拒绝 70.9%），集中于"有用"族（C=2/3-sparse、几何奇带）——"可判定性溢价"是当前有理松弛实现的保守性代价（局限），收紧方向：`cert_optimize`、Zarith 大整数。
 
-### 5.3 与实验的对齐（multi-seed + T8 + "军证书 + 酉不变性）
+### 5.3 与实验的对齐（multi-seed + T8 + 冠军证书 + 酉不变性）
 
-3 种子实验中 E5'' 七带与 C=4 并列最优（8× 均值 12.40±0.74 vs 12.75±0.34）；C=2 第三（13.84）；C=3 系统性最差（22.86）。最优表现对论文 A 免疫：
+3 个种子实验中 E5'' 七带与 C=4 并列最优（8× 均值 12.40±0.74 vs 12.75±0.34）；C=2 第三（13.84）；C=3 系统性最差（22.86）。最优表现对论文 A 免疫：
 
 - **直接证书**（C=4）：`certified_c4_frame_bounds` 直接覆盖；
 - **T8 复合证书**（E5''）：隔带子核 [3,15,63,255] 的 `certified_t8_core_frame_bounds`（μ=4/5）覆盖最优阶梯的认证核；
-- **端到端"军证书**（ChampionCertificate）：顶层组合定理 `champion_e5_composite_certificate`（Qed，零 classic）——代码实际证明的目标形状（全矩阵相干加权）：`length coeffs = 7 → (S − coh_e5 c) ≤ ‖F‖²_{255} ≤ (S + coh_e5 c)`，其中 coh_e5 为 21 对上三角 δ 表经 `term_bound_upper/lower` 加权得到的对称相干交叉项界。构件链：15 个新 pair 界 → 内积/范数引理 → δ 表（21 对）→ `coh_delta_bound`（42 方向）→ 上下界项 → 主定理。注意：早期草拟的"核带框架 + 边带能量"分段形式是装配前的设计稿，最终实现收敛为单一定理下的对称界。
+- **端到端冠军证书**（ChampionCertificate）：顶层组合定理 `champion_e5_composite_certificate`（Qed，零 classic）——代码实际证明的目标形状（全矩阵相干加权）：`length coeffs = 7 → (S − coh_e5 c) ≤ ‖F‖²_{255} ≤ (S + coh_e5 c)`，其中 coh_e5 为 21 对上三角 δ 表经 `term_bound_upper/lower` 加权得到的对称相干交叉项界。构件链：15 个新 pair 界 → 内积/范数引理 → δ 表（21 对）→ `coh_delta_bound`（42 方向）→ 上下界项 → 主定理。注意：早期草拟的"核带框架 + 边带能量"分段形式是装配前的设计稿，最终实现收敛为单一定理下的对称界。
 - **酉不变性（已机器检查）**：旋转是酉变换，对任意酉算子 U 与系数向量 c，$\|\sum c_i U\psi_i\|^2 = \|\sum c_i \psi_i\|^2$——框架界/衰减界/证书自动覆盖旋转版本（论文 B 的"旋转组"）。Module UnitaryInvariance：`unitary_invariance_point`（U 保内积 ⟹ 范数不变）+ 位置索引 psi-rope 实例 + 显式 RoPE 实例 `unitary_invariance_psi_rope_theta`（`u k := Cexp (0+i·INR k·θ k)`，`Cexp_unit_mod` 证单位模）。实验的 2×2 块旋转矩阵（`apply_rope_theta`）与复数乘法 $e^{i\theta}$ 是同一酉群的同构表示（SO(2)≅U(1)），实/虚部逐行对应已显式机器检查（`rope_matrix_real/imag/eq`，零 classic）。注：原"每带乘 u_i"逐点版本为假命题（交叉项要 $u_i = u_j$；反例 u0=1, u1=−1, g0=g1=1），未并入。范围限定：酉不变性适用于**特征表示的范数层**；不保证学习到的 Q/K 投影下注意力 logits 不变。
 - **相干熵桥接**（PhaseCoherence，`coherence_controls_attention`，Qed，零 classic）：对任意相干核 K（$|K_{ij}| \le \mathrm{coh}$）与系数差 $\ell_1 \le \delta$，logit 扰动 $|z_i - z'_i| \le \mathrm{coh}\cdot\delta$，组合 softmax 稳定性得 $\|\mathrm{softmax}\,z - \mathrm{softmax}\,z'\|_1 \le e^{2\cdot\mathrm{coh}\cdot\delta} - 1$——相干上界 ⟹ softmax 输出 TVD 界的抽象桥梁。当前为已证抽象桥梁 + 未实例化状态；实证支撑（会话 18）：ΔCoh 仅在稀疏几何族内排序（4 点 R²=0.982），13 点扩充后跨族崩溃（max 型 R²=0.101）——相干性定性结论保留、定量预测收缩为族内指标。
 
@@ -183,7 +183,7 @@ char 级 0.5M 参数（0.43M–0.63M 视模式）、T_train=512、种子 {1337,4
 | **psi-rope [3,13,53,213]（本证书对象）** | 4.70±0.14 | 5.64±0.07 | 8.42±0.10 | 12.75±0.34 |
 | **psi-rope 七带 [3,…,255]（T8 复合证书对象）** | 4.53±0.10 | 4.75±0.06 | 8.28±0.28 | **12.40±0.74** |
 
-psi-rope 行 3 种子均值±std、dense 单种子（b64 s1337）、rope 为 b32 3 种子均值±std——定位为 teaser，完整实证与机制分析见配套论文 B。
+psi-rope 行 3 个种子均值±std、dense 单个种子（b64 s1337）、rope 为 b32 3 个种子均值±std——定位为 teaser，完整实证与机制分析见配套论文 B。
 
 ## 9 相关工作
 
@@ -200,7 +200,7 @@ psi-rope 行 3 种子均值±std、dense 单种子（b64 s1337）、rope 为 b32
 - **What is not certified**：本框架不证明——(a) 学习投影下的注意力 logits/softmax 有界（仅能量界 ⟹ 输出扰动界）；(b) 学习 Q/K 投影与位置旋转对易（酉不变性仅覆盖基函数层）；(c) 多头拼接、残差连接、LayerNorm/激活的数值稳定性；(d) 训练后权重的任何保证（证书对任意系数 c 成立，与训练无关）；(e) 外推 PPL 与框架界之间的语义联系（经验桥梁，未形式化）。
 - 证书为框架/能量级保证，不直接给出端到端 ppl 界（跨层合成为未来工作）。
 - 审计 165 项全零 classic；公理脚印仅 sig_not_dec + sig_forall_dec + fext。
-- 实证规模 toy 级、种子有限（dense/rope 已补；NoPE 单种子）。
+- 实证规模 toy 级、种子有限（dense/rope 已补；NoPE 单个种子）。
 - **形式化的适用域以结构存在为前提**：对无位置结构的编码（NoPE 类）本框架无任何可证陈述。论文 B 实证给出定量交易曲线：有结构端以分布内 ppl ~2× 劣化（4.46 vs 9.06）为代价承受 OOD 相位混淆风险；形式化锁定的正是交易中有结构的一端。
 
 ## 11 结论
@@ -225,5 +225,5 @@ psi-rope 行 3 种子均值±std、dense 单种子（b64 s1337）、rope 为 b32
 - 形式化代码 `src/`（`_CoqProject` 声明 load path；各模块独立编译命令见经验卡 E067/E077）。
 - 提取链：`PSA_extract.v` → `psa_guard.ml` → `psa_guard.exe`（DkMLNative ocamlc 字节码 + camlrun）；FFI 自测 `python psa_guard_ffi.py`（24/24）。
 - 审计证据：`AI注意力算法\审计证据\audit_run.txt` 等。
-- 实验代码与数据：`psa_empirical/`（length_extrap.py 等，3 种子固定 {1337,42,7}，见论文 B 附录 B）。
+- 实验代码与数据：`psa_empirical/`（length_extrap.py 等，3 个种子固定 {1337,42,7}，见论文 B 附录 B）。
 - 关键定理行号：ChampionCertificate L4582–5150（定理本体 L5075）、FrameCheck2DNarrow L5166–6290。
