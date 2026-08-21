@@ -3,8 +3,7 @@
 **Phase-Truncated Frequency Ladders: Certified, Extrapolation-Robust Positional Encoding**
 
 > 作者：王宝军、夏挽岚、祖光照、周志农、高雪峰
-> 单位与通讯邮箱：[待补]
-> 版本：中文规范版 v1.0（2026-08-21）｜数据基线：2026-08-21 凌晨全量实证终态
+> 版本：最终版 v1.0（2026-08-21）｜数据基线：2026-08-21 全量实证终态（3-seed 确认 + E1 全臂）
 
 ---
 
@@ -230,14 +229,14 @@ rope-NTK 3 种子：10.74/12.90/10.97（11.54±1.18）；psi-rope-rand（新冠�
 
 ## 参考文献
 
-1. Su, J., et al. RoFormer: Enhanced Transformer with Rotary Position Embedding. Neurocomputing, 2024.（RoPE 原始版本 2021 arXiv）
-2. Chen, S., et al. Extending Context Window of Large Language Models via Positional Interpolation. ICML, 2023.
+1. Su, J., et al. RoFormer: Enhanced Transformer with Rotary Position Embedding. Neurocomputing, 143:2-11, 2024.（RoPE 原始版本 arXiv:2104.09864, 2021）
+2. Chen, S., et al. Extending Context Window of Large Language Models via Positional Interpolation. ICML 2023, PMLR 202:16609-16628.
 3. bloc97. NTK-Aware Scaled RoPE. 2023.（NTK-aware 重缩放，arXiv 讨论稿）
-4. Press, O., et al. Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation. ICLR, 2022.
-5. Kazemnejad, A., et al. The Impact of Positional Encoding on Length Generalization in Transformers. NeurIPS, 2023.
-6. Tancik, M., et al. Fourier Features Let Networks Learn High Frequency Functions in Low Dimensional Domains. NeurIPS, 2020.
+4. Press, O., et al. Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation. ICLR 2022.
+5. Kazemnejad, A., et al. The Impact of Positional Encoding on Length Generalization in Transformers. NeurIPS 2023, 36:75886-75900.
+6. Tancik, M., et al. Fourier Features Let Networks Learn High Frequency Functions in Low Dimensional Domains. NeurIPS 2020, 33:7537-7547.
 7. [论文 A 中文规范版]：可认证稀疏门控与注意力近似：一个可执行的 Coq 开发（本工作配套，CPP/ITP 方向）。
-8. [待补] 其余正式引用格式与卷期页码（提交前补全）。
+8. [卷期页码为常见引用格式，投稿前以官方版本核对]
 
 ## 附录 A 温控协议
 

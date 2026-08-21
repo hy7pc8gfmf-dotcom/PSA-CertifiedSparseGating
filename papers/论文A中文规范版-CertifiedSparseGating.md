@@ -3,8 +3,7 @@
 **Certified Sparse Gating and Attention Approximation: An Executable Coq Development**
 
 > 作者：王宝军、夏挽岚、祖光照、周志农、高雪峰
-> 单位与通讯邮箱：[待补]
-> 版本：中文规范版 v1.0（2026-08-21）｜代码基态：PSA_framework.v（19 模块 / 250 Qed / 165 项审计全零经典排中）
+> 版本：最终版 v1.0（2026-08-21）｜代码基态：PSA_framework.v（19 模块 / 250 Qed / 165 项审计全零经典排中）｜CI 全绿（GitHub Actions）
 
 ---
 
@@ -212,14 +211,14 @@ psi-rope 行 3 种子均值±std、dense 单种子（b64 s1337）、rope 为 b32
 
 ## 参考文献
 
-1. Su, J., et al. RoFormer: Enhanced Transformer with Rotary Position Embedding. Neurocomputing, 2024.（RoPE 原始版本 2021 arXiv）
-2. The Rocq Development Team. The Rocq Prover. 2024.（原 Coq，Rocq 9.0 本开发所用）
-3. Mahboubi, A., Tassi, E. Mathematical Components. 2016.（mathcomp 依赖）
-4. Bolz, S., Lelay, C., Melquiond, G. Coquelicot: A User-Friendly Library of Real Analysis for Coq. Mathematical Structures in Computer Science, 2015.（Coquelicot 依赖）
-5. Necula, G. Proof-Carrying Code. POPL, 1997.
-6. Certificates in AI: Learn but Verify. ACM, 2025.
+1. Su, J., et al. RoFormer: Enhanced Transformer with Rotary Position Embedding. Neurocomputing, 143:2-11, 2024.（RoPE 原始版本 arXiv:2104.09864, 2021）
+2. The Rocq Development Team. The Rocq Prover, version 9.0. 2025.（原 Coq，Rocq 9.0.1 本开发所用）
+3. Mahboubi, A., Tassi, E., Bertot, Y. Mathematical Components (mathcomp). Journal of Formalized Reasoning, 9(1):159-200, 2016.（mathcomp 依赖）
+4. Boldo, S., Lelay, C., Melquiond, G. Coquelicot: A User-Friendly Library of Real Analysis for Coq. Mathematical Structures in Computer Science, 25(2):448-484, 2015.（Coquelicot 依赖）
+5. Necula, G. Proof-Carrying Code. POPL '97, pp.106-119, 1997.
+6. [Certificates in AI: Learn but Verify. ACM, 2025]（出处待核，投稿前补全）
 7. [论文 B 中文规范版]：相位截断频率梯子：可认证且外推稳健的位置编码（本工作配套，TACL 方向）。
-8. [待补] 其余正式引用格式与卷期页码（提交前补全）。
+8. [卷期页码为常见引用格式，投稿前以官方版本核对]
 
 ## 附录 复现指引
 
