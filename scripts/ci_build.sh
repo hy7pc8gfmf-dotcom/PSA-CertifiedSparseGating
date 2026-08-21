@@ -10,23 +10,48 @@ echo "coqc: $rocq_version"
 
 echo "=== 1. 依赖（mathcomp + Coquelicot）==="
 eval "$(opam env 2>/dev/null || true)"
-COQLIB=$(coqc -where 2>/dev/null)
-MC="$COQLIB/user-contrib/mathcomp"
-CQ="$COQLIB/user-contrib/Coquelicot"
-echo "  COQLIB: $COQLIB"
+if ! ocamlfind query mathcomp >/dev/null 2>&1; then
+  echo "  安装 mathcomp..."
+  opam install -y coq-mathcomp-ssreflect || true
+fi
+if ! ocamlfind query coquelicot >/dev/null 2>&1; then
+  echo "  安装 Coquelicot..."
+  opam install -y coq-coquelicot || true
+fi
+
+echo "=== 1b. 定位 mathcomp / Coquelicot 安装路径 ==="
+# 优先 coqc -where 的 user-contrib；其次 ocamlfind；再次 opam lib 目录搜索；最后兜底
+# 注意：Linux runner 文件系统大小写敏感，目录名须为小写 coquelicot
+COQLIB=$(coqc -where 2>/dev/null || true)
+MC=""
+CQ=""
+if [ -n "$COQLIB" ] && [ -d "$COQLIB/user-contrib/mathcomp" ]; then
+  MC="$COQLIB/user-contrib/mathcomp"
+fi
+if [ -n "$COQLIB" ] && [ -d "$COQLIB/user-contrib/coquelicot" ]; then
+  CQ="$COQLIB/user-contrib/coquelicot"
+fi
+if [ -z "$MC" ]; then MC=$(ocamlfind query mathcomp 2>/dev/null || true); fi
+if [ -z "$CQ" ]; then CQ=$(ocamlfind query coquelicot 2>/dev/null || true); fi
+OPAM_LIB=$(opam var lib 2>/dev/null || true)
+if [ -z "$MC" ] && [ -n "$OPAM_LIB" ]; then MC=$(find "$OPAM_LIB" -maxdepth 4 -type d -name mathcomp 2>/dev/null | head -1); fi
+if [ -z "$CQ" ] && [ -n "$OPAM_LIB" ]; then CQ=$(find "$OPAM_LIB" -maxdepth 4 -type d -name coquelicot 2>/dev/null | head -1); fi
+if [ -z "$MC" ]; then MC="/usr/lib/ocaml/mathcomp"; fi
+if [ -z "$CQ" ]; then CQ="/usr/lib/ocaml/coquelicot"; fi
 echo "  mathcomp: $MC"
 echo "  Coquelicot: $CQ"
-test -d "$MC" && echo "  ✅ mathcomp 就绪" || { echo "  ⚠ mathcomp 缺失，尝试 opam 安装..."; opam install -y coq-mathcomp-ssreflect; test -d "$MC"; }
-test -d "$CQ" && echo "  ✅ Coquelicot 就绪" || { echo "  ⚠ Coquelicot 缺失，尝试 opam 安装..."; opam install -y coq-coquelicot; test -d "$CQ"; }
+test -d "$MC" && test -d "$CQ"
 
 echo "=== 2. lib/ 依赖链编译 ==="
 cd /repo 2>/dev/null || cd "$(dirname "$0")/.."
 while read -r f; do
+  # 跳过注释行（# 开头）与空行
   [ -z "$f" ] && continue
+  case "$f" in \#*) continue ;; esac
   echo "  coqc lib/$f.v"
   coqc -Q "coq/lib" "" -Q "$MC" mathcomp -Q "$CQ" Coquelicot "coq/lib/$f.v"
 done < scripts/order.txt
-echo "  ✅ lib 链全部编译通过"
+echo "  lib chain compiled"
 
 echo "=== 3. PSA 核心编译 ==="
 for f in PSA_framework PSA_audit PSA_refcheck; do
