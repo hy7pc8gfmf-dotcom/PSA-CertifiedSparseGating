@@ -1,0 +1,7 @@
+  psi-variant=rand: ladder [4, 5, 5, 5, 6, 6]...
+device=cuda vocab=125 train=5146368 chars block=512 batch=64 gen_c=4 bands=all seed=1337 gpu_max=79.0 gpu_resume=69.0 cpu_util_max=90.0 check_interval=0.5
+===== [eval-only] psi-rope (rope-variant=none)  (model_psi-rope_b512_rand.pt): length extrapolation =====
+  T=  512: loss 1.5231  ppl 4.59
+  T= 1024: loss 1.6381  ppl 5.15
+  T= 2048: loss 1.9108  ppl 6.76
+  T= 4096: loss 2.2844  ppl 9.82

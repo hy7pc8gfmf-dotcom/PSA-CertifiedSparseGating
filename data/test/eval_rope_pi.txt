@@ -1,0 +1,6 @@
+device=cuda vocab=125 train=5146368 chars block=512 batch=64 gen_c=4 bands=all seed=1337 gpu_max=80.0 gpu_resume=70.0 cpu_util_max=70.0 check_interval=0.5
+===== [eval-only] rope (rope-variant=pi)  (model_rope_b512.pt): length extrapolation =====
+  T=  512: loss 1.4961  ppl 4.46
+  T= 1024: loss 2.8090  ppl 16.59
+  T= 2048: loss 3.4683  ppl 32.08
+  T= 4096: loss 3.6341  ppl 37.87

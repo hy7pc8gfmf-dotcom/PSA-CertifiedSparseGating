@@ -1,0 +1,57 @@
+device=cuda vocab=125 train=5146368 chars block=512 batch=32 gen_c=2 seed=1337 gpu_max=58.0 gpu_resume=52.0 cpu_util_max=70.0 check_interval=15.0
+  [dense] step     0 train 4.8036 (0s)
+  [dense] step  1000 train 2.1689 (21s)
+[thermal] dense step 1000: GPU 70.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] dense step 1000: GPU 恢复 50.0°C
+[thermal] dense step 1500: GPU 71.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] dense step 1500: GPU 恢复 50.0°C
+  [dense] step  2000 train 1.7472 (89s)
+[thermal] dense step 2000: GPU 71.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] dense step 2000: GPU 恢复 50.0°C
+[thermal] dense step 2500: GPU 71.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] dense step 2500: GPU 恢复 50.0°C
+  [dense] step  2999 train 1.6180 (172s)
+[thermal] dense done: GPU 72.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] dense done: GPU 恢复 50.0°C
+===== dense: length extrapolation =====
+[thermal] 固定冷却 60.0s
+  T=  512: loss 1.6861  ppl 5.40
+  T= 1024: loss 2.7775  ppl 16.08
+  T= 2048: loss 3.3348  ppl 28.07
+  T= 4096: loss 3.5720  ppl 35.59
+  [thermal] dense 冷却次数: 5（若 > 3 次须降载重跑）
+  [psi] step     0 train 4.9114 (0s)
+  [psi] step  1000 train 1.7456 (19s)
+[thermal] psi step 1000: GPU 72.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] psi step 1000: GPU 恢复 49.0°C
+[thermal] psi step 1500: GPU 72.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] psi step 1500: GPU 恢复 51.0°C
+  [psi] step  2000 train 1.5232 (87s)
+[thermal] psi step 2000: GPU 72.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] psi step 2000: GPU 恢复 49.0°C
+[thermal] psi step 2500: GPU 72.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] psi step 2500: GPU 恢复 51.0°C
+  [psi] step  2999 train 1.4111 (155s)
+[thermal] psi done: GPU 72.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] psi done: GPU 恢复 51.0°C
+===== psi: length extrapolation =====
+[thermal] 固定冷却 60.0s
+  T=  512: loss 1.5053  ppl 4.51
+  T= 1024: loss 2.2383  ppl 9.38
+  T= 2048: loss 3.0094  ppl 20.28
+  T= 4096: loss 3.4513  ppl 31.54
+  [thermal] psi 冷却次数: 5（若 > 3 次须降载重跑）
+  psi-trunc: 保留频带 [3, 7, 15, 31, 63, 127, 255, 511]
+  [psi-trunc] step     0 train 4.8496 (0s)
+  [psi-trunc] step  1000 train 1.7729 (19s)
+[thermal] psi-trunc step 1000: GPU 73.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] psi-trunc step 1000: GPU 恢复 51.0°C
+[thermal] psi-trunc step 1500: GPU 72.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] psi-trunc step 1500: GPU 恢复 51.0°C
+  [psi-trunc] step  2000 train 1.4473 (87s)
+[thermal] psi-trunc step 2000: GPU 72.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] psi-trunc step 2000: GPU 恢复 51.0°C
+[thermal] psi-trunc step 2500: GPU 72.0°C >= 58.0°C，冷却到 52.0°C 以下
+[thermal] psi-trunc step 2500: GPU 恢复 51.0°C
+  [psi-trunc] step  2999 train 1.4120 (186s)
+[thermal] psi-trunc done: GPU 73.0°C >= 58.0°C，冷却到 52.0°C 以下

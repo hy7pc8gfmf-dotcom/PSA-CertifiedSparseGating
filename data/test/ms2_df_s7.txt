@@ -1,0 +1,72 @@
+device=cuda vocab=125 train=5146368 chars block=512 batch=32 gen_c=4 bands=all seed=7 gpu_max=79.0 gpu_resume=69.0 cpu_util_max=90.0 check_interval=0.5
+  [dense-frozen] step     0 train 4.8378 (0s)
+[thermal] dense-frozen step 0: CPU 利用率 91% >= 90.0%，冷却 30s
+[thermal] dense-frozen step 113: GPU 79.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 113: GPU 恢复 68.0°C
+[thermal] dense-frozen step 183: GPU 79.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 183: GPU 恢复 68.0°C
+[thermal] dense-frozen step 308: GPU 82.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 308: GPU 恢复 68.0°C
+[thermal] dense-frozen step 379: GPU 81.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 379: GPU 恢复 68.0°C
+[thermal] dense-frozen step 503: GPU 83.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 503: GPU 恢复 68.0°C
+[thermal] dense-frozen step 551: GPU 80.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 551: GPU 恢复 68.0°C
+[thermal] dense-frozen step 678: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 678: GPU 恢复 68.0°C
+[thermal] dense-frozen step 733: GPU 82.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 733: GPU 恢复 68.0°C
+[thermal] dense-frozen step 865: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 865: GPU 恢复 68.0°C
+[thermal] dense-frozen step 919: GPU 80.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 919: GPU 恢复 68.0°C
+  [dense-frozen] step  1000 train 2.2706 (89s)
+[thermal] dense-frozen step 1052: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 1052: GPU 恢复 68.0°C
+[thermal] dense-frozen step 1202: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 1202: GPU 恢复 68.0°C
+[thermal] dense-frozen step 1328: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 1328: GPU 恢复 68.0°C
+[thermal] dense-frozen step 1457: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 1457: GPU 恢复 68.0°C
+[thermal] dense-frozen step 1556: GPU 83.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 1556: GPU 恢复 68.0°C
+[thermal] dense-frozen step 1670: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 1670: GPU 恢复 68.0°C
+[thermal] dense-frozen step 1798: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 1798: GPU 恢复 68.0°C
+[thermal] dense-frozen step 1931: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 1931: GPU 恢复 68.0°C
+  [dense-frozen] step  2000 train 1.9564 (181s)
+[thermal] dense-frozen step 2064: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 2064: GPU 恢复 68.0°C
+[thermal] dense-frozen step 2193: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 2193: GPU 恢复 68.0°C
+[thermal] dense-frozen step 2325: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 2325: GPU 恢复 68.0°C
+[thermal] dense-frozen step 2459: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 2459: GPU 恢复 68.0°C
+[thermal] dense-frozen step 2598: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 2598: GPU 恢复 68.0°C
+[thermal] dense-frozen step 2734: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 2734: GPU 恢复 68.0°C
+[thermal] dense-frozen step 2857: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 2857: GPU 恢复 68.0°C
+[thermal] dense-frozen step 2988: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] dense-frozen step 2988: GPU 恢复 68.0°C
+  [dense-frozen] step  2999 train 1.7433 (274s)
+===== dense-frozen: length extrapolation =====
+[thermal] 固定冷却 60.0s
+  T=  512: loss 1.7871  ppl 5.97
+  T= 1024: loss 2.5515  ppl 12.83
+  T= 2048: loss 3.1409  ppl 23.12
+  T= 4096: loss 3.4769  ppl 32.36
+  [thermal] dense-frozen 冷却次数: 27（若 > 3 次须降载重跑）
+
+===== 外推对比汇总（训练 T=512）=====
+     T | dense-frozen
+   512 |       5.97
+  1024 |      12.83
+  2048 |      23.12
+  4096 |      32.36

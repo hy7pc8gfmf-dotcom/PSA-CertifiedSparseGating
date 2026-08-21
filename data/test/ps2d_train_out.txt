@@ -1,0 +1,15 @@
+2D patch 实验：grid=64 patch=8 vocab=16 梯子截断 i≤16(带[3, 13, 53, 213]...) j≤16(带[3, 13, 53, 213]...) gpu_max=79.0
+  step     0 train 3.0896 (0s)
+  step   500 train 0.2542 (5s)
+  step  1000 train 0.2389 (8s)
+  step  1500 train 0.2361 (13s)
+  step  2000 train 0.2022 (17s)
+[thermal] 2d step 2364: CPU 利用率 80% >= 70.0%，冷却 30s
+[thermal] 2d step 2470: CPU 利用率 72% >= 70.0%，冷却 30s
+  step  2500 train 0.2756 (82s)
+[thermal] 2d step 2587: CPU 利用率 82% >= 70.0%，冷却 30s
+[thermal] 2d step 2588: CPU 利用率 76% >= 70.0%，冷却 30s
+[thermal] 2d step 2589: CPU 利用率 77% >= 70.0%，冷却 30s
+[thermal] 2d step 2939: CPU 利用率 74% >= 70.0%，冷却 30s
+  step  2999 train 0.1884 (206s)
+DONE 训练完成。外推评估（A 仅截断长轴 vs B 双轴截断）见下一步脚本。

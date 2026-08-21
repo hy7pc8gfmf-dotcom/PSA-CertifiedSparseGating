@@ -1,0 +1,82 @@
+  psi-variant=rand: ladder [3, 4, 4, 4, 5, 5]...
+device=cuda vocab=125 train=5146368 chars block=512 batch=32 gen_c=4 bands=all seed=7 gpu_max=79.0 gpu_resume=69.0 cpu_util_max=90.0 check_interval=0.5
+  [psi] step     0 train 4.8619 (0s)
+[thermal] psi step 82: GPU 79.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 82: GPU 恢复 68.0°C
+[thermal] psi step 142: GPU 79.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 142: GPU 恢复 67.0°C
+[thermal] psi step 255: GPU 82.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 255: GPU 恢复 68.0°C
+[thermal] psi step 315: GPU 80.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 315: GPU 恢复 68.0°C
+[thermal] psi step 400: GPU 82.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 400: GPU 恢复 68.0°C
+[thermal] psi step 445: GPU 80.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 445: GPU 恢复 68.0°C
+[thermal] psi step 569: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 569: GPU 恢复 68.0°C
+[thermal] psi step 604: GPU 79.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 604: GPU 恢复 68.0°C
+[thermal] psi step 688: CPU 利用率 99% >= 90.0%，冷却 30s
+[thermal] psi step 689: CPU 利用率 91% >= 90.0%，冷却 30s
+[thermal] psi step 690: CPU 利用率 98% >= 90.0%，冷却 30s
+[thermal] psi step 840: GPU 80.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 840: GPU 恢复 68.0°C
+[thermal] psi step 906: GPU 80.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 906: GPU 恢复 68.0°C
+  [psi] step  1000 train 1.7405 (153s)
+[thermal] psi step 1022: GPU 82.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 1022: GPU 恢复 68.0°C
+[thermal] psi step 1091: GPU 81.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 1091: GPU 恢复 68.0°C
+[thermal] psi step 1209: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 1209: GPU 恢复 68.0°C
+[thermal] psi step 1262: GPU 81.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 1262: GPU 恢复 68.0°C
+[thermal] psi step 1390: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 1390: GPU 恢复 68.0°C
+[thermal] psi step 1504: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 1504: GPU 恢复 68.0°C
+[thermal] psi step 1629: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 1629: GPU 恢复 68.0°C
+[thermal] psi step 1734: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 1734: GPU 恢复 68.0°C
+[thermal] psi step 1856: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 1856: GPU 恢复 68.0°C
+[thermal] psi step 1985: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 1985: GPU 恢复 68.0°C
+  [psi] step  2000 train 1.5000 (247s)
+[thermal] psi step 2109: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 2109: GPU 恢复 68.0°C
+[thermal] psi step 2240: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 2240: GPU 恢复 68.0°C
+[thermal] psi step 2342: GPU 84.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 2342: GPU 恢复 68.0°C
+[thermal] psi step 2479: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 2479: GPU 恢复 68.0°C
+[thermal] psi step 2596: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 2596: GPU 恢复 68.0°C
+[thermal] psi step 2713: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 2713: GPU 恢复 68.0°C
+[thermal] psi step 2827: GPU 85.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 2827: GPU 恢复 68.0°C
+[thermal] psi step 2906: CPU 利用率 108% >= 90.0%，冷却 30s
+[thermal] psi step 2979: GPU 80.0°C >= 79.0°C，冷却到 69.0°C 以下
+[thermal] psi step 2979: GPU 恢复 68.0°C
+  [psi] step  2999 train 1.4232 (373s)
+===== psi: length extrapolation =====
+[thermal] 固定冷却 60.0s
+  T=  512: loss 1.5211  ppl 4.58
+[thermal] psi eval T=512: CPU 利用率 101% >= 90.0%，冷却 30s
+  T= 1024: loss 2.5748  ppl 13.13
+[thermal] psi eval T=1024: CPU 利用率 96% >= 90.0%，冷却 30s
+  T= 2048: loss 3.2189  ppl 25.00
+  T= 4096: loss 3.6332  ppl 37.83
+  [thermal] psi 冷却次数: 34（若 > 3 次须降载重跑）
+
+===== 外推对比汇总（训练 T=512）=====
+     T |        psi
+   512 |       4.58
+  1024 |      13.13
+  2048 |      25.00
+  4096 |      37.83

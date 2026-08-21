@@ -1,0 +1,54 @@
+device=cuda vocab=125 train=5146368 chars block=512 gpu_max=70.0 cpu_util_max=90.0
+  [dense] step     0 train 4.8088 (0s)
+  [dense] step  1000 train 2.0178 (39s)
+[thermal] dense step 1500: GPU 81.0°C >= 70.0°C，冷却到 65.0°C 以下
+[thermal] dense step 1500: GPU 恢复 59.0°C
+  [dense] step  2000 train 1.6481 (92s)
+[thermal] dense step 2500: GPU 84.0°C >= 70.0°C，冷却到 65.0°C 以下
+[thermal] dense step 2500: GPU 恢复 61.0°C
+  [dense] step  2999 train 1.5350 (145s)
+===== dense: length extrapolation =====
+[thermal] 固定冷却 30.0s
+  T=  512: loss 1.6349  ppl 5.13
+  T= 1024: loss 2.9324  ppl 18.77
+  T= 2048: loss 3.6441  ppl 38.25
+  T= 4096: loss 3.9832  ppl 53.69
+  [psi] step     0 train 4.9190 (0s)
+  [psi] step  1000 train 1.7323 (37s)
+[thermal] psi step 1500: GPU 86.0°C >= 70.0°C，冷却到 65.0°C 以下
+[thermal] psi step 1500: GPU 恢复 63.0°C
+  [psi] step  2000 train 1.4332 (92s)
+[thermal] psi step 2500: GPU 87.0°C >= 70.0°C，冷却到 65.0°C 以下
+[thermal] psi step 2500: GPU 恢复 63.0°C
+  [psi] step  2999 train 1.3282 (146s)
+===== psi: length extrapolation =====
+[thermal] 固定冷却 30.0s
+  T=  512: loss 1.5054  ppl 4.51
+  T= 1024: loss 2.6603  ppl 14.30
+  T= 2048: loss 3.1654  ppl 23.70
+  T= 4096: loss 3.5317  ppl 34.18
+  psi-trunc: 保留频带 [3, 13, 53, 213]
+  [psi-trunc] step     0 train 4.8196 (0s)
+  [psi-trunc] step  1000 train 1.7616 (37s)
+[thermal] psi-trunc step 1500: GPU 87.0°C >= 70.0°C，冷却到 65.0°C 以下
+[thermal] psi-trunc step 1500: GPU 恢复 64.0°C
+  [psi-trunc] step  2000 train 1.4549 (91s)
+[thermal] psi-trunc step 2500: GPU 87.0°C >= 70.0°C，冷却到 65.0°C 以下
+[thermal] psi-trunc step 2500: GPU 恢复 64.0°C
+  [psi-trunc] step  2999 train 1.4162 (145s)
+===== psi-trunc: length extrapolation =====
+[thermal] 固定冷却 30.0s
+  T=  512: loss 1.5293  ppl 4.61
+  T= 1024: loss 2.3302  ppl 10.28
+  T= 2048: loss 2.9251  ppl 18.64
+  T= 4096: loss 3.3366  ppl 28.12
+  [rope] step     0 train 4.8090 (0s)
+  [rope] step  1000 train 1.5868 (40s)
+[thermal] rope step 1500: GPU 87.0°C >= 70.0°C，冷却到 65.0°C 以下
+[thermal] rope step 1500: GPU 恢复 64.0°C
+  [rope] step  2000 train 1.4064 (97s)
+[thermal] rope step 2500: GPU 87.0°C >= 70.0°C，冷却到 65.0°C 以下
+[thermal] rope step 2500: GPU 恢复 64.0°C
+  [rope] step  2999 train 1.3408 (154s)
+===== rope: length extrapolation =====
+[thermal] 固定冷却 30.0s

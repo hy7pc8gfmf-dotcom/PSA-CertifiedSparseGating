@@ -1,0 +1,33 @@
+device=cuda vocab=166 data=75488 chars iters=3000
+psi indices (C=4, start=3): [3, 13, 53, 213, 853, 3413, 13653, 54613]...
+===== mode=dense =====
+  [dense] step     0 train 4.8416 val 4.8561 ppl 128.52 (3s)
+  [dense] step   500 train 2.1266 val 2.4418 ppl 11.49 (18s)
+  [dense] step  1000 train 0.9630 val 1.7574 ppl 5.80 (33s)
+  [dense] step  1500 train 0.5355 val 1.8595 ppl 6.42 (48s)
+  [dense] step  2000 train 0.3129 val 2.0039 ppl 7.42 (63s)
+  [dense] step  2500 train 0.2067 val 2.1907 ppl 8.94 (79s)
+  [dense] step  2999 train 0.1559 val 2.3873 ppl 10.88 (94s)
+===== mode=gated =====
+  [gated] step     0 train 4.8426 val 4.8570 ppl 128.64 (9s)
+  [gated] step   500 train 2.1384 val 2.4641 ppl 11.75 (53s)
+  [gated] step  1000 train 0.9411 val 2.0023 ppl 7.41 (97s)
+  [gated] step  1500 train 0.4136 val 2.3457 ppl 10.44 (140s)
+  [gated] step  2000 train 0.2031 val 2.7142 ppl 15.09 (182s)
+  [gated] step  2500 train 0.1348 val 3.0405 ppl 20.92 (225s)
+  [gated] step  2999 train 0.1041 val 3.3159 ppl 27.55 (270s)
+===== mode=psi =====
+  [psi] step     0 train 4.8937 val 4.9023 ppl 134.59 (9s)
+  [psi] step   500 train 2.1488 val 2.4166 ppl 11.21 (52s)
+  [psi] step  1000 train 0.8375 val 1.6715 ppl 5.32 (103s)
+  [psi] step  1500 train 0.3514 val 1.9949 ppl 7.35 (147s)
+  [psi] step  2000 train 0.1734 val 2.3236 ppl 10.21 (193s)
+  [psi] step  2500 train 0.1167 val 2.5995 ppl 13.46 (239s)
+  [psi] step  2999 train 0.0966 val 2.7618 ppl 15.83 (284s)
+
+===== 对比汇总 =====
+mode          params    val_loss       ppl   seconds
+dense         472064      1.7574      5.80        94
+gated         472064      2.0023      7.41       270
+psi           472064      1.6715      5.32       284
+门控稀疏度（budget=0.2）：每行保留 >= 80% 累计能量

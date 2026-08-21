@@ -1,0 +1,15 @@
+device=cuda vocab=166 data=75488 chars iters=3000
+psi indices (C=4, start=3): [3, 13, 53, 213, 853, 3413, 13653, 54613]...
+===== mode=psi-dense =====
+  [psi-dense] step     0 train 4.8934 val 4.9019 ppl 134.55 (3s)
+  [psi-dense] step   500 train 2.1218 val 2.3779 ppl 10.78 (18s)
+  [psi-dense] step  1000 train 0.9256 val 1.6439 ppl 5.18 (33s)
+  [psi-dense] step  1500 train 0.5084 val 1.7182 ppl 5.57 (46s)
+  [psi-dense] step  2000 train 0.2966 val 1.8759 ppl 6.53 (60s)
+  [psi-dense] step  2500 train 0.1931 val 2.0436 ppl 7.72 (76s)
+  [psi-dense] step  2999 train 0.1424 val 2.1636 ppl 8.70 (91s)
+
+===== 对比汇总 =====
+mode          params    val_loss       ppl   seconds
+psi-dense     472064      1.6439      5.18        91
+门控稀疏度（budget=0.2）：每行保留 >= 80% 累计能量

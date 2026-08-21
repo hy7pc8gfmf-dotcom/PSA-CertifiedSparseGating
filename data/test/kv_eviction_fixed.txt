@@ -1,0 +1,18 @@
+===== KV 逐出模拟 mode=psi-rope T=4096 windows=[512, 256, 128, 64] seeds=[1337, 42, 7] =====
+T= 4096 W=  512  W=  256  W=  128  W=   64   (full=512)
+[评审 11 修正] loss 固定尾部 64 位置（各 W 下相同评估点），W 独立变化——纯逐出净效应
+  [s1337] W=  512: loss 1.5985  ppl 4.95
+  [s1337] W=  256: loss 1.5920  ppl 4.91
+  [s1337] W=  128: loss 1.4672  ppl 4.34
+  [s1337] W=   64: loss 1.6334  ppl 5.12
+  [s1337] W=full: loss 3.0406  ppl 20.92
+  [s42] W=  512: loss 1.4870  ppl 4.42
+  [s42] W=  256: loss 1.5952  ppl 4.93
+  [s42] W=  128: loss 1.5361  ppl 4.65
+  [s42] W=   64: loss 1.4117  ppl 4.10
+  [s42] W=full: loss 3.3220  ppl 27.72
+  [s7] W=  512: loss 1.7103  ppl 5.53
+  [s7] W=  256: loss 1.4144  ppl 4.11
+  [s7] W=  128: loss 1.5044  ppl 4.50
+  [s7] W=   64: loss 1.5408  ppl 4.67
+  [s7] W=full: loss 3.0758  ppl 21.67

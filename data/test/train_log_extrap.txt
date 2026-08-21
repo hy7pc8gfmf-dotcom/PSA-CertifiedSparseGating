@@ -1,0 +1,26 @@
+device=cuda vocab=125 train=5146368 chars block=512
+  [dense] step     0 train 4.8088 (0s)
+  [dense] step  1000 train 2.0857 (52s)
+  [dense] step  2000 train 1.6601 (115s)
+  [dense] step  2999 train 1.5337 (181s)
+===== dense: length extrapolation =====
+  T=  512: loss 1.6345  ppl 5.13
+  T= 1024: loss 2.7692  ppl 15.95
+  T= 2048: loss 3.3444  ppl 28.34
+  T= 4096: loss 3.6544  ppl 38.64
+  [psi] step     0 train 4.9190 (0s)
+  [psi] step  1000 train 1.7301 (72s)
+  [psi] step  2000 train 1.4330 (146s)
+  [psi] step  2999 train 1.3280 (219s)
+===== psi: length extrapolation =====
+  T=  512: loss 1.5053  ppl 4.51
+  T= 1024: loss 2.6593  ppl 14.29
+  T= 2048: loss 3.1643  ppl 23.67
+  T= 4096: loss 3.5310  ppl 34.16
+
+===== 外推对比汇总（训练 T=512）=====
+     T |  dense ppl |    psi ppl | psi/dense
+   512 |       5.13 |       4.51 | 0.88
+  1024 |      15.95 |      14.29 | 0.90
+  2048 |      28.34 |      23.67 | 0.84
+  4096 |      38.64 |      34.16 | 0.88

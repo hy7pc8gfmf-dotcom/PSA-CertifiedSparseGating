@@ -1,0 +1,17 @@
+===== KV 逐出模拟 mode=psi-rope T=4096 windows=[512, 256, 128, 64] seeds=[1337, 42, 7] =====
+T= 4096 W=  512  W=  256  W=  128  W=   64   (full=512)
+  [s1337] W=  512: loss 1.5645  ppl 4.78
+  [s1337] W=  256: loss 1.5519  ppl 4.72
+  [s1337] W=  128: loss 1.5576  ppl 4.75
+  [s1337] W=   64: loss 1.6334  ppl 5.12
+  [s1337] W=full: loss 2.5922  ppl 13.36
+  [s42] W=  512: loss 1.5292  ppl 4.61
+  [s42] W=  256: loss 1.5865  ppl 4.89
+  [s42] W=  128: loss 1.6848  ppl 5.39
+  [s42] W=   64: loss 1.4117  ppl 4.10
+  [s42] W=full: loss 2.6545  ppl 14.22
+  [s7] W=  512: loss 1.5685  ppl 4.80
+  [s7] W=  256: loss 1.5114  ppl 4.53
+  [s7] W=  128: loss 1.5076  ppl 4.52
+  [s7] W=   64: loss 1.5408  ppl 4.67
+  [s7] W=full: loss 2.5396  ppl 12.67

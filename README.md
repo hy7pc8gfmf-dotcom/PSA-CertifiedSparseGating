@@ -85,7 +85,19 @@ python kv_eviction.py && python coherence_analysis.py
 ```
 
 **数据**：Gutenberg 5.1M 字符（词表 125）、模型权重（.pt）、训练日志与原始输出位于原工作区
-`D:\ComplexAnalysis\Live_harness\AI注意力算法\psa_empirical\测试数据\`（本仓库不含大型二进制，.gitignore 已排除）。
+`D:\ComplexAnalysis\Live_harness\AI注意力算法\psa_empirical\测试数据\`（本仓库已归档副本，见下）。
+
+### 数据清单（已归档于 `data/`）
+
+| 目录 | 内容 | 规模 |
+|------|------|------|
+| `data/test/` | 训练日志（ms_*/ms2_*/ntk_*/kv_*/ps2d_*）、eval 输出、相干分析 csv、multi_seed 主表 | 66 MB / 107 文件 |
+| `data/models/` | 训练模型权重（.pt，全部配置 18 个，seed {1337,42,7}） | 32 MB |
+| `data/corpus/` | Gutenberg / arxiv / paper / tinyshakespeare 语料 | ~6 MB |
+
+- 数据与论文 B 各表一一对应（3-seed 均值±std 由 `data/test/` 原始日志核算，脚本见 `empirical/ntk_stats.py` 等）。
+- 复现：`python empirical/length_extrap.py ...`（参数见上文），模型权重可直接加载推理/评估。
+- 未入库：RH 框架的 `certificates_gamma.jsonl`（429MB，非本仓库内容）。
 
 ### 温控协议（必读）
 

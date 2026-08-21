@@ -1,0 +1,45 @@
+device=cuda vocab=125 train=5146368 chars block=512
+  [dense] step     0 train 4.8088 (0s)
+  [dense] step  1000 train 2.0137 (51s)
+  [dense] step  2000 train 1.6494 (105s)
+  [dense] step  2999 train 1.5338 (161s)
+===== dense: length extrapolation =====
+  T=  512: loss 1.6349  ppl 5.13
+  T= 1024: loss 2.9357  ppl 18.83
+  T= 2048: loss 3.6223  ppl 37.43
+  T= 4096: loss 3.9655  ppl 52.75
+  [psi] step     0 train 4.9190 (0s)
+  [psi] step  1000 train 1.7323 (57s)
+  [psi] step  2000 train 1.4332 (113s)
+  [psi] step  2999 train 1.3281 (171s)
+===== psi: length extrapolation =====
+  T=  512: loss 1.5054  ppl 4.51
+  T= 1024: loss 2.6607  ppl 14.31
+  T= 2048: loss 3.1657  ppl 23.71
+  T= 4096: loss 3.5334  ppl 34.24
+  psi-trunc: 保留频带 [3, 13, 53, 213]
+  [psi-trunc] step     0 train 4.8196 (0s)
+  [psi-trunc] step  1000 train 1.7616 (56s)
+  [psi-trunc] step  2000 train 1.4549 (111s)
+  [psi-trunc] step  2999 train 1.4161 (167s)
+===== psi-trunc: length extrapolation =====
+  T=  512: loss 1.5282  ppl 4.61
+  T= 1024: loss 2.3303  ppl 10.28
+  T= 2048: loss 2.9264  ppl 18.66
+  T= 4096: loss 3.3367  ppl 28.13
+  [rope] step     0 train 4.8090 (0s)
+  [rope] step  1000 train 1.5869 (62s)
+  [rope] step  2000 train 1.4064 (124s)
+  [rope] step  2999 train 1.3408 (185s)
+===== rope: length extrapolation =====
+  T=  512: loss 1.4857  ppl 4.42
+  T= 1024: loss 1.8348  ppl 6.26
+  T= 2048: loss 2.5892  ppl 13.32
+  T= 4096: loss 3.2258  ppl 25.17
+
+===== 外推对比汇总（训练 T=512）=====
+     T |  dense ppl |    psi ppl | psi/dense
+   512 |       5.13 |       4.51 | 0.88
+  1024 |      18.83 |      14.31 | 0.76
+  2048 |      37.43 |      23.71 | 0.63
+  4096 |      52.75 |      34.24 | 0.65

@@ -1,0 +1,15 @@
+device=cuda vocab=166 data=75488 chars iters=3000
+psi indices (C=4, start=3): [3, 13, 53, 213, 853, 3413, 13653, 54613]...
+===== mode=gated =====
+  [gated] step     0 train 4.8442 val 4.8588 ppl 128.88 (12s) sparsity=0.735
+  [gated] step   500 train 2.0700 val 2.4054 ppl 11.08 (68s) sparsity=0.913
+  [gated] step  1000 train 0.9568 val 1.9712 ppl 7.18 (125s) sparsity=0.941
+  [gated] step  1500 train 0.4577 val 2.2738 ppl 9.72 (174s) sparsity=0.947
+  [gated] step  2000 train 0.2509 val 2.5829 ppl 13.24 (220s) sparsity=0.944
+  [gated] step  2500 train 0.1731 val 2.8564 ppl 17.40 (266s) sparsity=0.952
+  [gated] step  2999 train 0.1380 val 3.1258 ppl 22.78 (313s) sparsity=0.948
+
+===== 对比汇总 =====
+mode          params    val_loss       ppl   seconds
+gated         472064      1.9712      7.18       313
+门控稀疏度（budget=0.5）：每行保留 >= 50% 累计能量

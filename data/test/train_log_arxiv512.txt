@@ -1,0 +1,42 @@
+device=cuda vocab=293 data=348150 chars iters=3000
+psi indices (C=4, start=3): [3, 13, 53, 213, 853, 3413, 13653, 54613]...
+===== mode=dense =====
+  [dense] step     0 train 5.3915 val 5.3744 ppl 215.81 (5s)
+  [dense] step   500 train 2.6170 val 2.6841 ppl 14.65 (36s)
+  [dense] step  1000 train 2.0606 val 2.3470 ppl 10.45 (70s)
+  [dense] step  1500 train 1.5893 val 2.1160 ppl 8.30 (105s)
+  [dense] step  2000 train 1.3685 val 2.0449 ppl 7.73 (140s)
+  [dense] step  2500 train 1.2325 val 2.0365 ppl 7.66 (175s)
+  [dense] step  2999 train 1.1423 val 2.0587 ppl 7.84 (210s)
+===== mode=psi-dense =====
+  [psi-dense] step     0 train 5.4097 val 5.3999 ppl 221.38 (5s)
+  [psi-dense] step   500 train 2.6356 val 2.6988 ppl 14.86 (48s)
+  [psi-dense] step  1000 train 2.1510 val 2.3282 ppl 10.26 (96s)
+  [psi-dense] step  1500 train 1.5045 val 1.9448 ppl 6.99 (135s)
+  [psi-dense] step  2000 train 1.2747 val 1.8497 ppl 6.36 (172s)
+  [psi-dense] step  2500 train 1.1494 val 1.8639 ppl 6.45 (209s)
+  [psi-dense] step  2999 train 1.0543 val 1.8641 ppl 6.45 (245s)
+===== mode=gated =====
+  [gated] step     0 train 5.3913 val 5.3743 ppl 215.78 (29s) sparsity=0.956
+  [gated] step   500 train 2.6121 val 2.6849 ppl 14.66 (181s) sparsity=0.922
+  [gated] step  1000 train 2.1857 val 2.4577 ppl 11.68 (304s) sparsity=0.985
+  [gated] step  1500 train 1.7048 val 2.2406 ppl 9.40 (435s) sparsity=0.986
+  [gated] step  2000 train 1.3903 val 2.1382 ppl 8.48 (567s) sparsity=0.988
+  [gated] step  2500 train 1.2025 val 2.1299 ppl 8.41 (679s) sparsity=0.986
+  [gated] step  2999 train 1.0795 val 2.2057 ppl 9.08 (801s) sparsity=0.984
+===== mode=psi =====
+  [psi] step     0 train 5.4100 val 5.4002 ppl 221.45 (26s) sparsity=0.956
+  [psi] step   500 train 2.6317 val 2.6988 ppl 14.86 (174s) sparsity=0.919
+  [psi] step  1000 train 2.1515 val 2.3329 ppl 10.31 (309s) sparsity=0.896
+  [psi] step  1500 train 1.4474 val 1.9270 ppl 6.87 (478s) sparsity=0.870
+  [psi] step  2000 train 1.2015 val 1.8948 ppl 6.65 (637s) sparsity=0.868
+  [psi] step  2500 train 1.0506 val 1.9390 ppl 6.95 (818s) sparsity=0.866
+  [psi] step  2999 train 0.9447 val 1.9807 ppl 7.25 (1026s) sparsity=0.865
+
+===== 对比汇总 =====
+mode          params    val_loss       ppl   seconds
+dense         537344      2.0365      7.66       210
+psi-dense     504576      1.8497      6.36       245
+gated         537344      2.1299      8.41       801
+psi           504576      1.8948      6.65      1026
+门控稀疏度（budget=0.2）：每行保留 >= 80% 累计能量
