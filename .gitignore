@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Coq 编译产物
+*.vo
+*.vos
+*.vok
+*.glob
+*.aux
+
+# 模型权重与大数据（保持在原工作区，不入库）
+*.pt
+*.pth
+*.jsonl
+
+# 训练/评估原始输出（数据在原工作区 psa_empirical\测试数据\）
+*.log
+*.csv
+
+# 临时文件
+*.tmp
+*.bak
+*.orig
+
+# 系统
+Thumbs.db
+Desktop.ini
+.DS_Store

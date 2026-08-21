@@ -1,0 +1,1297 @@
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Closed under the global context
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Closed under the global context
+Closed under the global context
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+
+(* ==================== 会话 15 追加：2D 窄轨反射检查器（6 项）====================
+   编译：PSA_audit.v RC=0；新项 axiom 集 = sig_not_dec + sig_forall_dec + fext（零 classic）
+   或纯算术后闭（Closed under the global context）。 *)
+
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Closed under the global context
+Closed under the global context
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+
+(* ==================== 会话 15 追加：2D-wide 全覆盖版（5 项，ca_2d_wide_audit.v）====================
+   编译：ca_2d_wide_audit.v RC=0；axiom 集 = sig_not_dec + sig_forall_dec + fext（零 classic）。 *)
+
+Error:
+Invalid character '2' at beginning of identifier "2dwide_audit_snippet".
+
+
+=== 2026-08-20 09:06 会话16 2D-wide 合并版修复后审计 ===
+合并版 ca_merged_full_24.v 全量编译 RC=0（09:05:42，E064 修复：eq_refl 位置参数 → assert by reflexivity）
+合并上下文审计（Require ca_merged_full_24）：
+  tensor_product_unconditional_basis_2d_wide : 仅 sig_not_dec + sig_forall_dec + fext（零 classic）
+  M_bound_2d_wide_C4_value : 仅 sig_not_dec + sig_forall_dec + fext（零 classic）
+  phi_flat_decay_general_2d_wide : 仅 sig_not_dec + sig_forall_dec + fext（零 classic）
+27 模块目录 D:\ComplexAnalysis\27模块 已重新同步（27/27，含修复后 engine）
+
+=== 2026-08-20 09:10 会话16 M1.5 清零复核（对齐代码库事实） ===
+PSA_audit.v 现有 165 项 Print Assumptions（含 M4b/T8/FrameCheckInstance/ChampionCertificate/FrameCheck2DNarrow），RC=0。
+全 165 项中 Classical_Prop.classic 出现次数 = 0 —— M1.5（exp 单调性去经典）已并入 PSA_framework.v：
+  Module ExpSeries（probe_exp_ge_1 / probe_exp_ge_1_plus / exp_mono_le_noclassic）已 Qed；
+  exp_mono_le 现调用 ExpSeries.exp_mono_le_noclassic（不再走 MVT 经典路线）。
+唯一公理脚印：ClassicalDedekindReals.sig_not_dec / sig_forall_dec + functional_extensionality_dep
+（标准 Dedekind 实数基础设施，如实声明）——全 165 项零经典排中。
+分布：111 段 Axioms（仅 sig_* + fext）+ 54 项 Closed under global context = 165。
+"139 项/135 零 classic/4 项待清零" 为过期表述，论文须对齐为 "165 项全零 classic"。
+
+=== 2026-08-20 10:05 会话16 P0 专家裁定修正验证 ===
+1. champion_e5_composite_certificate：确认已 Qed（PSA_framework.v L5062，Module ChampionCertificate L4569-5137），
+   形状 (S - coh_e5 c) <= l2_norm_sq F 255 <= (S + coh_e5 c)；论文 A/B 已由"在制"改为"已完成"。
+2. 酉不变性：grep unitary/Unitary/酉 在 .v 零命中——unitary_invariance_frame 未 Qed，
+   论文声明已如实降级为"数学事实（未机器检查）"，关闭项登记 P1（预计 30-60 行，零 classic）。
+3. .v 头注释：src\PSA_framework.v 已同步 v1.0（2026-08-20）；独立编译 RC=0；
+   合并版重新生成（65779 行，0 ca_* Require 残留）后全量编译 RC=0（10:05:08）；27 模块已同步。
+
+=== 2026-08-20 会话17 A2 酉不变性 + A1 4D 组装闭环 ===
+A2 酉不变性（探针 src\_probe_unitary.v → PSA_framework.v Module UnitaryInvariance）：
+  - 探针 RC=0（7s）；并入 src\PSA_framework.v 帧尾（L6304-6405，+121 行）；合并版编译 RC=0（19.3s）；
+  - 三方同步：src / 27模块 / AI注意力算法\PSA_framework.v MD5 一致（CFA427414B98552C936162911C249763）；
+  - 零 Admitted、零新增 Axiom（PSA_framework.v Admitted=0 / Axiom=0）；
+  - 重要：原带索引逐点版本（每带乘 u_i 后对和取模）为假命题——交叉项 re((u_i·g_i)·conj(u_j·g_j))
+    需 u_i=u_j；反例 u0=1,u1=-1,g0=g1=1：|1-1|²=0≠4=|1+1|²。未并入。
+    并入的正确形式 = 全局保内积 unitary_invariance_point + 位置索引 psi-rope（RoPE）版本
+    unitary_invariance_psi_rope(_global)（每位置乘单位模 u_k，可提出求和号外，无需正交性）。
+A1 4D 组装（单文件版 src\ca_basis_4d.v = 124626B/2069 行，探针+主引擎+组装定理）：
+  - 修复：组装段 Hflat_idx/Hflat_idx0 两处补 Open/Close Scope nat_scope（L189 Close Scope nat_scope
+    后 mod// 解析失效——E063/E068 类作用域坑；与 ca_basis_4d_asm.v 拆分版逐字对齐）；
+  - ca_basis_4d.v 编译 RC=0（533s，.vo 1234791B）；验证探针 RC=0（6s，Require .vo + Check）；
+  - ca_4d_audit.v 审计 RC=0（11.4s）：10 项 Print Assumptions → 零 classic（Classical_Prop.classic=0），
+    2 项 Closed under global context（nat_quad_decode_inj / min8_is_one），
+    8 项仅 sig_not_dec + sig_forall_dec + fext（与 22 库基线一致）；
+  - M_bound_4d_C4_value : M_bound_4d 4 = 19968（Qed，N=4 预测值 32×(5⁴-1) 已证）；
+  - 27模块 同步：+ ca_basis_4d.v；合并版 ORDER_CA + ca_basis_4d 再生。
+  - 合并版再生 + 全量编译 RC=0（2026-08-20 20:05:07，767.3s；ca_merged_full_24.v 67966 行 / 28 分区，
+    ca_* Require 残留 0 / Admitted 0；日志 logs\merge_compile_20260820.log）；
+  - coqchk 独立复验 ca_basis_4d RC=0（276.2s）；
+  - 27模块 目录现 28 个 .v（22 正式 + 3D + 4D + 2D-wide×3 + PSA_framework）。
+
+=== 2026-08-20 会话17 评审回应 + RoPE 显式实例 + 检查器实测 ===
+评审（论文评审.txt，6 条）：核验结论——
+  §1 RoPE 酉性：部分成立。实验 2×2 块旋转（length_extrap.py apply_rope_theta [x1c-x2s, x1s+x2c]）
+    与复数标量乘法 e^{iθ} 同构（SO(2)≅U(1)，实/虚部逐行对应）；数学覆盖成立，缺显式实例。
+    修复：UnitaryInvariance 补 Cexp_unit_mod（Cnorm_sq (Cexp (0+iθ)) = 1，sin2_cos2，探针 RC=0）
+    + unitary_invariance_psi_rope_theta（u k := Cexp (0+i·INR k·θ k)），并入 PSA_framework.v。
+  §2 H_dom 术语：成立。论文「不可运行时判定」→「尚未反射化」（有限域全称命题可判定 O(n1n2n3(n1+n2+n3))）。
+  §3 提取溢出：部分成立。psa_guard.exe 实测：frame [3,13,53,213]=true、T8 核 [3,15,63,255]=true、
+    E5'' 七带=false、C=6 大梯子(值~1339) 不溢出；sparse 子命令对 ≥10^6 级输入 Stack_overflow（Peano 版）。
+    论文 §6 补范围前提（中间量 ≤63-bit；镜像等价人工核对非机器证明）。
+  §4 2D 窄轨：成立。single_band=(n1=?1)||(n2=?1) 只通过退化 1D；论文 §5.5 补覆盖范围如实说明
+    （真 2D 由静态 tensor_product_unconditional_basis_pointwise 保证）。
+  §5 sig_not_dec：部分成立。论文 Abstract/§7 改「zero Classical_Prop.classic」+ sig_not_dec/fext
+    为非构造性选择类原则的如实说明。
+  §6 证书 vs ppl：数据核验准确（multi_seed_main_table.md：E5'' 12.40 / C=4 12.75 / C=2 13.84 / C=3 22.86）。
+psa_guard.exe 实测（camlrun 加载，2026-08-20 会话 17）：
+  frame 3 13 53 213 → true；frame 3 7 15 31 63 127 255 → false；frame 3 15 63 255 → true；
+  frame 5 25 125 625 → true；frame 6 37 223 1339 → true；frame 1000000 1000000 2000000 → false；
+  sparse 4 3 13 53 213 → true；gateval 16 3 13 53 213 → 3 53；gen 4 4 3 → 3 13 53 213 853；
+  sparse 1000000 1000000 2000000 4000000 → Stack_overflow（Peano 提取子命令，极大值边界）。
+
+=== 2026-08-20 会话17 第三版评审（形式化专家）回应 ===
+评审结论：Accept with minor revisions（6 条表述收紧，全部完成）——
+  1. §5.2 运行时验证表述细化（判定层整数算术 / 定理层有理常数，两层分开）；
+  2. §5.4/§10「H_dom 尚未反射化」精确为 N≥3（区分 2D 窄轨已反射化）；
+  3. 论文B「完整证书」→「框架界机器证书」（非外推性能证书）；
+  4. 论文B §8 加「冠军降级是经验性能比较，不改变已证框架界有效性」声明；
+  5. 论文A §5.3 RoPE 补实/虚部逐项展开（u·S = (cosθ+i sinθ)(x1+i x2) 与 apply_rope_theta 逐项一致）；
+  6. 两文附录加「代码-论文声明交叉索引表」（10/8 项）。
+另：论文A L543/L574 两处「仅 N≥3」一并精确化（2D 窄轨可反射化 / 2D-wide 免 / N≥3 最苛刻）。
+
+=== 2026-08-20 会话17 第四版评审（建设性建议）回应 ===
+论文A（5 条 + 总体2）：
+  A1 端到端界定：Abstract 加 scoped 声明（覆盖链=门控→框架→截断→稳定性→注意力近似；
+     不含学习权重/QKV 投影/多头拼接/LayerNorm）；§1 加覆盖边界条目（第 11 项）。
+  A2 提取机制澄清（纠正评审事实错误）：核心判定函数由 Coq Extraction 机制生成
+     （PSA_extract.v Extraction "psa_guard"），非手动翻译；frame 的 int 镜像为手动
+     重写（逐行镜像 + FFI 24/24 交叉校验，非机器证明——如实）。
+  A3 不完备性缓解：新条目（部分证书组合=核-边带分解已实现；cert_optimize future work；
+     失败案例统计：代表性 4 梯子中 2 通过，假阴性率 50%）。
+  A4 常数收紧路线图：编码因子（格雷码类非等轴编码）+ 行和因子（跨轴直接求和）
+     + N=1 vs N=2-wide 小型对比（μ=4/5 vs 768）。
+  A5 公理证明层：sig_not_dec 等仅在 Prop 证明层，不参与提取计算（Set/Type 纯构造）；
+     构造性实数变体 future work。
+  总体2 复现指引：附录加（_CoqProject / 提取链 / FFI 24/24 / 审计证据 / psa_empirical 种子）。
+论文B（6 条 + 两文关系）：
+  B1 规模限定（char 级小规模，迁移挑战 future work）；B2 基线选型说明 + ALiBi 理论关系
+     （线性偏置≈相位剖面一阶近似，future work）；B3 覆盖梯度单点标注 + 多梯子族扫描 future work；
+  B4 E1 消融承诺最终版完成；B5 机制定量（softmax 锐度）future work；B6 统计趋势级声明（未做
+     配对检验）；两文关系定位（形式化保表示稳定性/实证报外推 ppl，共享梯子对象、主张正交）。
+
+=== 2026-08-20 会话17 第五版评审（7 增值方向）回应 ===
+评审给出 7 个高价值提升方向（P0×2 实验 / P1×2 / P2×2 / 终稿叙事）。
+文本层立即执行：
+  1（相干熵桥接，P1）：论文A §5.3 加「相干熵桥接假说」——Coherence(F) 定义 +
+     Attention_Out_TVD ≤ f(Coherence) 方向，诚实标注未形式化（PhaseCoherence 模块
+     future work；已有构件 psi_inner_cons_bound / psi_inner_dirichlet）；
+  2（有理紧化，P2）：论文A §5.2b 补 CertLevel = Tight|Loose|Fail 三态设计 +
+     cert_optimize 高精度近似（π←355/113）——future work（OCaml+Coq）；
+  5（统计，P0）：论文B Limitations 承诺 rope-NTK 补 3-seed 后报告 Cohen's d + 95% CI；
+  7（叙事重构，终稿）：论文B 新增 §10.5 性能-可证明性帕累托前沿（rope-NTK 无证书/
+     七带复合证书/C=4 紧证书三方案分布；"可审计性即价值"定位）。
+实验类（3 E1 相位剖面、4 KV 逐出模拟、6 2D 验证）记录为 future work 路线图
+  （需 GPU 训练/实现，非本会话可执行，如实记录）。
+
+=== 2026-08-20 会话17 相干衰减率 DeltaCoh 发现（评审6 方向一核心实证） ===
+指标：Coh(T) = max_{i<j} |<psi_i,psi_j>_T|/(||psi_i||_T ||psi_j||_T)；DeltaCoh = Coh(512)-Coh(4096)。
+发现：Coh 本身与 ppl(4096) 无相关（R^2=0.07），但 **DeltaCoh 与 ppl(4096) 强正相关 R^2=0.982**
+（4 点初步：C=3 0.0759→22.86 最差；E5'' 七带 0.0247→12.40 最好）。
+机制：外推崩坏由"相位剖面相干结构的突变"驱动（盘内相干 → OOD 相消），非能量 ε 通道。
+数据：psa_empirical/测试数据/coherence_scatter.csv；脚本 coherence_analysis.py。
+意义：E1 相位剖面预测力的核心数据（评审 5 方向 3 + 评审 6 方向一汇合）；样本待 E1 变体扩充。
+
+=== 2026-08-20 会话17 第七版评审（代码-论文一致性诚实性分析 + 元定理层）回应 ===
+第七版 = 两部分：3 处勘误 + 5 个元定理分析 + Major Revision 叙事修正（全部论文文本层，代码无改动除 rope_matrix）。
+已修正：
+  勘误1（M1.5 范围）：§7 补「零 classic = PSA 应用层新增依赖为零；exp_plus/exp_0 底层仍继承实数库（可能 MVT/经典），不在 165 项审计」。
+  勘误2（H_dom 措辞）：早前已修（可判定 vs 未反射化），第七版确认。
+  勘误3（int sqrt）：§6 补「main.ml int_sqrt = float sqrt + int_of_float（浮点近似），偏差<=1 仅阈值附近可能翻转；安全阈值收紧 <2^53」。
+  元I（端到端拓扑）：§1 补双轨澄清（表示稳定性轨 + 注意力扰动轨，无依赖桥接，各自独立 Qed）。
+  元II（3D/4D 空洞紧度）：§5.4 补下界空洞承认（M_bound>1 时 (1-M)S 恒负无信息；价值在上界 + 组合性演示）。
+  元III（seq_ext 本体论）：§5.5 补「保证规范几何延拓的框架界，非有限截断模型外推性能」。
+  元IV（ε 单调 vs ppl 突变）：论文B 机制归因升级——「定性线索」→「结构通道候选机制：ΔCoh R^2=0.982（§10.6），能量界诊断出自身局限并指出相干性方向」。
+  元V（反射器自毁）：论文B 补定位——反射器=快速预筛器；冠军证书=特制专家系统，分工明确。
+  最终-1（机制虚假归因）：论文B 删除「形式化贡献=定性线索解释剪枝」，替换为 ΔCoh 实证（形式化诊断能量界局限）。
+  最终-2（冠军证书误导）：论文B 加「基的框架界证书，非模型/外推性能证书」。
+  最终-3（酉不变性范围）：论文A §5.3 加脚注（norm 层限定，不覆盖学习 Q/K 下 softmax）。
+新增代码：rope_matrix_real/imag/eq（2x2 旋转矩阵块显式桥接，评审 3.2-5 机器检查版，ring 级零 classic，Qed 250->255，PSA_framework RC=0 17.2s）。
+
+=== 2026-08-20 会话17 第八版评审（五维度形式化推演）回应 ===
+第八版 = 五维度技术推演（公理-计算边界/逐行同构方法论/常数紧致性/√ε 信息论必然/ΔCoh Coq 蓝图）
++ 前几版重复拼接（标注已修正）。
+新增强化 2 处：
+  问题3 强化：论文B §7 2D 窄轨条目加范围限定（仅单轴退化，真 2D 由静态 pointwise 定理保证）；
+  问题2 强化：论文A §6 加「判定性质声明」——frame_check_instance_int 为充分非必要条件的
+    浮点近似实现，24/24 为测试样本一致非机器等价；安全关键建议 Peano/Zarith 版。
+已满足（第八版确认）：M1.5 脚注（应用层零 classic）、H_dom 措辞、下界空洞、双轨澄清、
+  int sqrt 阈值 2^53、seq_ext 本体论、反射器定位、ΔCoh 数据。
+维度五 ΔCoh Coq 蓝图（coherence_controls_attention 定理）确认与 PhaseCoherence 方向一致
+  （psi_inner_cons_bound/psi_unit_norm 支撑；Coh(T) 上界可有理计算）——实现为 future work。
+
+=== 2026-08-20 会话17 E1 首个数据点（psi-rope-rand）+ ΔCoh 边界校准 ===
+psi-rope-rand（随机全相位旋转，log-uniform [3,511]）训练完成（3000 iters，79° 温控 77 次冷却）：
+  外推 ppl：T=512 4.43 / 1024 4.44 / 2048 5.49 / 4096 6.95。
+**冲击性结果**：4096 ppl 6.95 显著优于全部几何梯子（C=4 12.75 / E5'' 12.40 / C=2 13.84 / C=3 22.86），
+  甚至优于 rope-NTK 10.74。其 ΔCoh=0.228（远大于确定性梯子 0.025-0.076）——**ΔCoh 正相关
+  在随机相位梯子下失效**（预测力限于确定性几何梯子族内）。
+解读（待多 seed 验证）：随机梯子前 16 频率（[72,46,20,61,7,207,...]）高相干（Coh(512)=0.996）
+  ⟹ 带间近一致 ⟹ 旋转近似单一整体相位偏移 ⟹ 外推行为简单稳定；或频率覆盖 [3,511] 更广。
+对论文影响：E1 的 psi-rope-rand 对照显示「几何结构非外推优势来源」——挑战论文B 几何梯子叙事，
+  需多 seed 验证 + 论文B §10.6 补「ΔCoh 预测力限于确定性几何梯子族」边界。
+数据：模型 model_psi-rope_b512_rr.pt（psa_empirical/）；训练日志 train_log_*_rr.txt 待写。
+
+=== 2026-08-20 会话17 E1 数据点2（psi-rope + 排序随机梯子旋转）===
+psi-rope + --psi-variant rand（log-uniform [3,54613] 排序梯子，旋转角用其前 54 个 ≤512 频率）：
+  外推 ppl：512 4.55 / 1024 4.77 / 2048 6.54 / 4096 9.57。
+解读：排序随机梯子前 54 频率集中低端（[4,5,5,5,6,6,...,384]）⟹ 旋转角全小频率（近不旋转）
+  ⟹ 外推 9.57 好于几何梯子（12.4-13.8）但差于 psi-rope-rand 全覆盖随机（6.95）——
+  旋转角的频率覆盖度影响外推：全覆盖随机 > 低端密集 > 几何稀疏。
+模型：测试数据/model_psi-rope_b512_rand.pt
+
+=== 2026-08-21 会话18 评审9回应 + E1 multi-seed 确认 + ΔCoh 证伪 ===
+【评审 9 三件套回应】
+① 术语统一：论文B §7/§10.5/附录「框架界」→「复合界（相干加权范数界）」，(S±coh) 形态
+   与 (1±μ)S 等价（μ=coh/S）但显式携带相干交叉项；「框架界」保留给 Gershgorin (1±μ)S；
+   论文A 本就使用复合界，无需改。
+② 假阴性率系统扫描（frame_check_scan.py，114 梯子×5 族，ground truth=窗口 T=末带精确相干行和）：
+   通过 35（30.7%）、假阴性 56（全量 49.1%、占拒绝 70.9%）——4 样本「50%」推广为全量 ~49%；
+   假阴性集中于 C=2/3-sparse（12/13）与几何奇带（9/9）等「有用」族，C=6/8-sparse 100% 通过。
+   细化：E5'' 七带窗口 255 精确行和仅 0.135 ≤ 4/5（实质可认证，检查器误拒源于无窗口保守对界），
+   复合证书即其紧证书——「不可整体认证」修正为「保守检查器拒绝」。
+③ Zarith 依据量化：exe（OCaml int）与 Coq 语义分歧 27/114（23.7%），末带<2^20 内仍 14/89
+   （15.7%）——行和累积分母 ∏pair_den 连乘溢出（C=6-sparse 五带末带 4147，分母 10^26≫2^63）；
+   原「n_max<2^20、m<100 无溢出」阈值不成立（只界了单个 pair_den，漏累积乘积）；
+   实验值（≤255、m≤8）均安全；彻底消除 → Zarith/大整数提取（future work）。
+【E1 multi-seed 确认（b32 三 seed）——冠军裁决逆转坐实】
+psi-rope-rand（随机稠密旋转角 [3,511] 128 角）@4096：s1337 6.44 / s42 6.49 / s7 6.42，
+   均值 6.45±0.03（512/1024/2048：4.48±0.10 / 4.67±0.20 / 5.41±0.27）。
+   对比：几何 C=4 12.75（好 49%）、E5'' 12.40（好 48%）、rope-NTK 10.74（低 39%）——
+   **免修复梯子方案重新登顶外推王座**，论文B §8 冠军降级裁决逆转（§10.5/§11 已改写）。
+psi-rope+rand（排序随机 54 角）b32 s42 @4096 = 11.95（差于 rr 的 128 角 6.45）——角度稠密度关键。
+【ΔCoh 证伪定稿】4 点 R²=0.982 → 13 点 max R²=0.101、median 0.597、λ_max 0.461：
+   无单一相干指标是跨族通用预测因子；ΔCoh 仅稀疏无重复几何族内排序（论文 B §10.6 定稿）。
+数据：测试数据/frame_check_scan.csv、ms_rr_*.txt、ms_rand_*.txt、coherence_scatter_full.csv。
+
+=== 2026-08-21 会话18 E1 全臂收尾（b32 3-seed，除标注）===
+嵌入族（@4096 ppl）：
+  psi-lin（线性梯子）    ：44.27 / 37.87 / 36.72 → 39.62±4.07（全臂最差；线性铺频带破坏相位完备性）
+  psi-rand（随机梯子）   ：16.21 / 37.83 / 35.95(b64) → 30.00±11.98（高方差：s42 意外好、s7 崩——几何序给稳健性非绝对优势）
+  dense-frozen（固定高斯）：28.42 / 27.68 / 32.36 → 29.49±2.52；盘内 6.08±0.20 显著差于 psi 系 4.5-5.0
+    ⟹「dense-frozen ≈ psi 瓶颈全解释」判定树分支证伪——频率结构对盘内质量有独立贡献（匹配滤波器假说部分成立）
+旋转族（已有）：psi-rope-rand 6.45±0.03 冠军；psi-rope+rand 12.33±1.20（角度稠密度 128≫54）
+rope b32 裸绳：s1337 20.28 / s42 29.40（s7 训练中）——rope 外推 seed 方差亦大
+论文更新：论文B §8 对照组表/§10.6 E1 表+Limitations B4/投稿闸门；论文A §5.3；设计文档执行注记（全 ✅）
+
+=== 2026-08-21 会话18 E1 队列完成 + rope-NTK 3-seed 统计（B6 闸门落地）===
+E1 完成队列 11/11 档全部完成（ms2_*.txt + .pt 模型落盘）：
+  psi-lin ×3：44.27/37.87/36.72 → 39.62±4.07（全臂最差）
+  psi-rand 补 s42/s7：16.21/37.83（+b64 s1337 35.95）→ 30.00±11.98（高方差）
+  dense-frozen ×3：28.42/27.68/32.36 → 29.49±2.52；盘内 6.08±0.20（瓶颈全解释证伪）
+  rope b32 ×3 裸绳：20.28/29.40/+s7（b32）
+rope-NTK 3-seed（b32 重训 + NTK 缩放）@4096 = 10.74/12.90/10.97 → 11.54±1.18
+Welch t（psi-rope-rand 6.45±0.03 vs rope-NTK 11.54±1.18，n=3）：
+  t=-7.42, df=2, p=0.018（<0.05 显著）, Cohen's d=-6.06（强效应）
+  vs C=4（12.75）：t=-31.49, p=0.0009, d=-25.71；vs E5''（12.40）：t=-14.00, p=0.005, d=-11.43
+  C=4 vs NTK（原降级对）：t=1.71, p=0.21 不显著——原「NTK 反超」裁决在 3-seed 统计下站不住
+论文更新：论文B 摘要/主表注/§8 逆转块（含统计）/§10.5/§10.6/§11/Limitations B6；论文A §5.3；设计文档
+
+=== 2026-08-21 会话18 评审10 响应 + KV/2D 实证 ===
+【评审 10（形式化专家，最强逻辑推导）响应——12 项全落地】
+1. "端到端"术语 → 摘要/正文改 "representation-level / certified analytic kernel"，scoped 声明强化（2.1）
+2. 复合证书 = 基表示稳定性界，与 PPL 桥梁 = 经验观察未经形式化——论文A 贡献9/贡献11 + 论文B §7 限定句（2.2/3.4）
+3. 酉不变性 Q/K 局限强化：摘要加 "learned Q/K projections not certified to commute with rotation"（2.3）
+4. "可判定性溢价"定位修正：假阴性 49.1%（占拒绝 70.9%）集中于有用梯子——当前实现局限非价值判断（2.4）
+5. 摘要 "zero classical axioms" 加 "at the application layer"（3.1）
+6. 2D-wide 免 H_dom 注：低维几何事实 + H_index_bound 更强距离界权衡（3.2/4.1）
+7. Limitations 高维证书定位强化：3D/4D 非紧、不作实际误差界（3.3）
+8. 新增 "What is not certified" 集中清单：(a) Q/K/V 投影 logits (b) Q/K 与旋转对易 (c) 多头/残差/LayerNorm (d) 训练后权重 (e) PPL-框架界语义联系（建议3）
+9. "2D 窄轨"更名注：Degenerate2DFrameCheck / 1DParametric2DFrameCheck，保留原名+注明退化语义（4.3）
+10. 复合证书常数手工松弛、紧度无最优性保证（4.4）
+11. 反射检查器假阴性率 49.1% 入正文（论文A §5.2 + 论文B §7，评审9已量化、评审10定位为局限）
+【KV 逐出（论文B §10.7 新节）】tail-W 口径：W 512→64 ppl 4.5-5.4 基本不变（远距 KV 可逐出，证书直觉✓）；
+  full 口径仍崩 12.7-14.2（外推崩坏=全局相位失配非 KV 短缺）。修复了 kv_eviction.py 设计 bug
+  （q 全保留 + 显式窗口 mask + 尾部 W 评估；原 q 截断导致残差形状不匹配）。
+【2D 验证（论文B §10.7）】A/B 截断全 T 无差异（ppl≈1.4 天花板）——假说证据不足（诚实负结果），
+  需更难任务重检。修复 ps2d_eval.py 模型路径。
+
+=== 2026-08-21 会话18 收尾：PhaseCoherence Qed + 评审11 响应 ===
+【PhaseCoherence 桥梁定理（评审 6 方向五承诺兑现）】
+coherence_controls_attention Qed（PSA_framework.v Module PhaseCoherence，会话 18）：
+  相干核 |K_ij|<=coh + 系数差 ℓ1<=delta ⟹ logit 扰动 <= coh*delta（z_i=Σ_j c_j·K_ij）
+  ─softmax_l1_bound_exp─> ||softmax z - softmax z'||_1 <= e^{2·coh·delta} - 1
+  零 classic（审计：仅 sig_not_dec + sig_forall_dec + fext 标准脚印）。
+  新引理：list_sum_R_plus/neg/scale_l/scale_r/ext（外延，免 funext）+ list_sum_R_abs（三角）+ coh_logit_bound。
+  编译坑：Rplus_le_compat_r/l 方向（r 在右/左）、Rmult_le_compat_r/l 同坑、Rabs_triang 需 Rabs 包裹、
+  list_sum_R 双参 f_equal 失效（用 list_sum_R_ext）、funext 未导入（用逐点 ext）。
+【评审 11（叙事重构）响应】
+1. 统一冠军：psi-rope-rand 6.45±0.03 = 唯一最终实证冠军；七带 12.40/NTK 11.54 降为基线
+   （论文B 摘要(2)/§8/§10.5/§10.6/§11 全改）
+2. 证书边界修正：psi-rope-rand 随机梯子（非 next=C·last+1）不在论文A 证书范围——所有
+   "可入证书覆盖域"声明改为"与证书正交"（论文B §8/§10.5/§11/摘要 + §7 英文交叉声明段）
+3. §5 机制发现 → 经验规律（Empirical Patterns），覆盖梯度标注"经验规律，机制未明"
+4. ΔCoh 降格：从"预测因子"→"稀疏几何梯子族内相关性报告"（§10.6 诚实结论 + 论文B 摘要收敛）
+5. KV 实验修正（评审 11 设计缺陷）：固定 loss 窗口 = 尾部 64 位置，W 独立变化 →
+   full（OOD 全上下文）20.9-27.7 vs 任何 <=512 窗口 4.1-5.5——OOD 远距 KV 是净负债（相位混淆），
+   截断=去毒（ppl ~5x 改善）；训练长度内窗口无系统代价；与 row_dropped_energy_bound（偏差上界）兼容且更强
+6. 2D 初版（vocab16 过易）判定删除；难任务重检（vocab64+noise+attn）结果待并入
+
+=== 2026-08-21 会话18 评审12（接收级）响应——4 措辞 + 1 注释，全落地 ===
+2.1 论文A 摘要：champion_e5 描述改 "7-band ladder, which served as a strong baseline in the
+    empirical companion" + 末尾声明基表示稳定性、不涉外推性能、与 psi-rope-rand 正交 ✓
+2.2 论文B 摘要：psi-rope-rand 冠军开篇（R11 已做）+ "end-to-end champion composition" →
+    "end-to-end composite-certificate composition"（champion 专指 psi-rope-rand 避免歧义）✓
+2.3 论文A 贡献9：标题 "端到端冠军复合证书" → "基表示稳定性复合证书"；E5'' 改"七带基线梯子"；
+    §5.2 同改（L278）✓
+2.4 论文A §11："一条完整的零 Admitted 认证管线" → "表示层（representation-level）认证管线" ✓
+代码：coherence_controls_attention 加注 "抽象相干-softmax 桥接引理（abstract lemma）——
+    参数化于任意相干核，不绑定 ψ 基或学习投影层" ✓
+评审 12 结论：技术扎实、边界清晰、诚实可信，建议调整后接收（CPP/ITP, TACL 投稿标准）。
