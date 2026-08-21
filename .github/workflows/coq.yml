@@ -23,13 +23,13 @@ jobs:
             default: https://github.com/ocaml/opam-repository.git
             coq-released: https://coq.inria.fr/opam/released
 
-      - name: Install Rocq 9.0 + mathcomp (platform-matching) + elpi
+      - name: Install Rocq 9.0 + mathcomp (rocq pkg) + elpi
         run: |
           export OPAMSANDBOXING=disabled
-          echo "--- available mathcomp versions ---"
-          opam list --available coq-mathcomp-ssreflect 2>/dev/null || true
-          echo "--- installing coq.9.0.0 + mathcomp 2.4.1 + elpi ---"
-          opam install -y coq.9.0.0 coq-mathcomp-ssreflect.2.4.1 coq-elpi
+          echo "--- available rocq-mathcomp-ssreflect versions ---"
+          opam list --available rocq-mathcomp-ssreflect 2>/dev/null || true
+          echo "--- installing coq.9.0.0 + rocq-mathcomp-ssreflect + coq-elpi ---"
+          opam install -y coq.9.0.0 rocq-mathcomp-ssreflect coq-elpi
           echo "--- mathcomp ssreflect/prime check ---"
           COQLIB=$(coqc -where)
           ls "$COQLIB/user-contrib/mathcomp/ssreflect/prime.vo" 2>&1 || echo "NO ssreflect/prime"
