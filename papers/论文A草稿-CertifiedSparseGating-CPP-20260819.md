@@ -106,13 +106,13 @@ validation of the same ladder family; this work supplies the formal guarantees.
   1. **确定性门控的形式化**（GreedyGate，28 引理）：原文概率门控前提不可满足
      （(INR N)²p²<1 恒假，反例已录），我们裁决并证明确定性平方门 M=C² 是唯一可行路线；
   2. **有限化守卫衰减界**（PSA_Pipeline）：全局增长前提 → 运行时可判定检查，
-     系数 2/ 与 tight 1/ 两版；
+     系数 2/√C 与 tight 1/√C 两版；
   3. **行截断能量预算**（RowTruncation）与 **softmax 稳定性**（SoftmaxStability，
      ‖softmax z − softmax z'‖₁ ≤ 2(e^d −1)）；
   4. **认证注意力近似**（CertifiedAttention）：谱能量 ≤ ε ⟹ 输出偏差 ≤ (e^{2√ε}−1)·V_max；
   5. **实例证书**（Gershgorin + InstanceCertificate，**已完成**）：对实际 C=4 梯子
      [3,13,53,213] 证明框架界 [1/5, 9/5]（μ=4/5）——参数化最坏情形 1±4K(C) 在 C=4
-     真空、需 C>25 的问题就此终结；
+     空洞成立、需 C>25 的问题就此终结；
   6. **有理支配方法论**（实现贡献）：证书全部常数经 floor-sqrt / Jordan / Dirichlet
      的单侧松弛化为有理数，`compute; field` 封口——零数值策略、零区间算术、
      可判定、可提取（见 §5.2"可判定性溢价"）；
