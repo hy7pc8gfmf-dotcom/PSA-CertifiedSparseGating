@@ -15,18 +15,18 @@ REPO_DIR="$(dirname "$SCRIPTS_DIR")"
 # 使用仓库 vendored 源码（与本地平台版一致；opam mathcomp 2.6.0 结构不兼容）
 MC="$REPO_DIR/coq/deps/mathcomp"
 CQ="$REPO_DIR/coq/deps/coquelicot/theories"
-HB="$REPO_DIR/coq/deps/HB"
 COQLIB=$(coqc -where 2>/dev/null || true)
+HB="$COQLIB/user-contrib/HB"
 ELPI="$COQLIB/user-contrib/elpi"
 echo "  mathcomp (vendored): $MC"
 echo "  Coquelicot (vendored): $CQ"
-echo "  HB (vendored): $HB"
-echo "  elpi: $ELPI"
-test -d "$MC" && test -d "$CQ" && test -d "$HB" || { echo "  ✗ vendored 依赖缺失"; exit 1; }
+echo "  HB (opam): $HB"
+echo "  elpi (opam): $ELPI"
+test -d "$MC" && test -d "$CQ" || { echo "  ✗ vendored 依赖缺失"; exit 1; }
+test -d "$HB" && test -d "$ELPI" || { echo "  ✗ opam 依赖缺失（需 coq-hierarchy-builder + coq-elpi）"; exit 1; }
 # vendored 依赖的 .vo 由 workflow 的 Build 步骤预先编译；此处校验就绪
 test -f "$MC/ssreflect/prime.vo" && echo "  ✅ mathcomp .vo 就绪" || { echo "  ✗ mathcomp 未编译——需 workflow 'Build vendored mathcomp' 步骤"; exit 1; }
 test -f "$CQ/Coquelicot.vo" && echo "  ✅ Coquelicot .vo 就绪" || { echo "  ✗ Coquelicot 未编译——需 workflow 'Build vendored Coquelicot' 步骤"; exit 1; }
-test -f "$HB/structures.vo" && echo "  ✅ HB .vo 就绪" || { echo "  ✗ HB 未编译——需 workflow 'Build vendored HB' 步骤"; exit 1; }
 test -d "$MC" && test -d "$CQ"
 
 echo "=== 2. lib/ 依赖链编译 ==="
