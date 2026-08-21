@@ -62,12 +62,12 @@ Require Import Stdlib.Reals.Rpower.        (* 实数幂函数 Rpower 及其性�
   
 From mathcomp Require Import ssreflect ssrbool ssrnat eqtype seq prime.   (* SSReflect 核心语言、布尔反射、自然数、可判等类型、序列、素数理论 *)
 From mathcomp Require Import ssrnat.                                (* 自然数理论（重载）*)
-From mathcomp Require Import ssreflect.prime.                       (* SSReflect 素数理论（子模块）*)
+From mathcomp Require Import boot.prime.                            (* 素数理论（mathcomp≥2.6 位于 boot/；旧版 ssreflect/prime 由 CI -Q boot 双映射兼容）*)
 From mathcomp Require Import ssreflect ssrbool ssrnat eqtype seq prime div. (* SSReflect 完整基础库（含整除理论）*)
 From mathcomp Require Import div.                                   (* 整除性理论 *)
 From mathcomp Require Import prime.                                 (* 素数理论 *)
 Import prime.                                                       (* 导入素数命名空间 *)
-Require Import mathcomp.ssreflect.ssrnat.                           (* 自然数理论（路径导入）*)
+Require Import mathcomp.boot.ssrnat.                                (* 自然数理论（mathcomp≥2.6 重构后 boot 路径）*)
 Require Import Stdlib.Strings.String.                                  (* 字符串类型及基本操作 *)
 Import ComplexNumbers.
 Open Scope string_scope.

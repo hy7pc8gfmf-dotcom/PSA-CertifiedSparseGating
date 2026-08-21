@@ -33,14 +33,16 @@ while read -r f; do
   [ -z "$f" ] && continue
   case "$f" in \#*) continue ;; esac
   echo "  coqc lib/$f.v"
-  coqc -Q "coq/lib" "" -Q "$MC" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi "coq/lib/$f.v"
+  # -Q "$MC/boot" mathcomp: mathcomp>=2.6 把 ssrbool/ssrnat/seq/prime/div 移到 boot/，
+  # 双映射使 mathcomp.ssrbool 等旧引用自动解析（Coq 允许同前缀多 -Q）
+  coqc -Q "coq/lib" "" -Q "$MC" mathcomp -Q "$MC/boot" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi "coq/lib/$f.v"
 done < scripts/order.txt
 echo "  lib chain compiled"
 
 echo "=== 3. PSA 核心编译 ==="
 for f in PSA_framework PSA_audit PSA_refcheck; do
   echo "  coqc $f.v"
-  coqc -R "coq" PSA -Q "$MC" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi "coq/$f.v"
+  coqc -R "coq" PSA -Q "$MC" mathcomp -Q "$MC/boot" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi "coq/$f.v"
 done
 echo "  ✅ PSA 核心编译通过"
 
