@@ -1,0 +1,87 @@
+我先从两篇论文的 .docx 中提取参考文献列表，然后逐条在网上文献数据库（arXiv、DBLP、Semantic Scholar、CrossRef 等）核实其真实性与存在性。
+
+两个 .docx 都在，旁边还有同名的 .md 版本。我先从 .docx 中直接提取参考文献部分：
+
+提取正常。现在提取两篇论文的完整参考文献列表：
+
+提取成功。两篇论文的参考文献共涉及 **11 条外部文献**（互相引用的"论文A/论文B"为内部配套引用，不查）。现在分批到文献数据库（CrossRef、DBLP、arXiv）和官方站点（PMLR、NeurIPS proceedings、Springer、Rocq 官网）核实。
+
+**第一批：论文A 的 5 条外部文献**
+
+第一批结果已到手，几个关键发现：
+- **RoFormer** 期刊版真实存在，但真实元数据是 **Neurocomputing 568 (2024) 文章号 127063**——论文里写的"143:2-11"是错的；
+- **Coquelicot** 真实存在，但真实出处是 **Mathematics in Computer Science 9(1):41–62**——论文里写的"MSCS 25(2):448-484"是错的；
+- **Necula PCC (POPL'97, 106-119)**、**Rocq 9.0 (2025-03-12 发布)** 均确认无误；
+- **"Certificates in AI: Learn but Verify"** 竟然真实存在（Barrett/Henzinger/Seshia, CACM），需进一步确认卷期；
+- JFR 查询走错了库（dblp 的 jfr 是 Field Robotics），需换路径。
+
+**第二批：论文B 的 5 条外部文献 + 补查**
+
+第二批收获：**"Certificates in AI: Learn but Verify" 已通过 CrossRef 权威确认**（CACM 69(1):66–75，Barrett/Henzinger/Seshia）——论文A 里标注"出处待核"的这条其实是真实文献；**bloc97 NTK-Aware RoPE 确认真实存在**（Reddit r/LocalLLaMA 帖子，2023 年，被 YaRN 等正式论文广泛引用）。但 Positional Interpolation 在 DBLP 只有 arXiv 记录、没有 ICML 记录，"PMLR 202:16609-16628" 存疑，需直接查 PMLR。另外几条 DBLP 查询被限流/超时，换用其他渠道重查：
+
+主要文献基本都确认真实。还剩三个疑点需要收尾：(1) "Mathematical Components, JFR 9(1):159-200" 在 CrossRef 查无此文，需直接查 JFR 官网第 9 卷；(2) Positional Interpolation 在 DBLP 只有 arXiv 记录、无 ICML 记录，"PMLR 202" 存疑；(3) 两条 NeurIPS 论文的页码需核实。继续查证：
+
+JFR 第 9 卷（2016）确实存在，9(1) 是"QED 宣言二十年"专刊——现在直接查该期目录，看 159-200 页到底是什么文章。Semantic Scholar 被限流，NeurIPS 页码改用 OpenAlex 核查：
+
+三条关键疑点全部水落石出：**"Mathematical Components, JFR 9(1):159-200" 确认为虚构元数据**（JFR 9(1) 是 QED 专刊，实际目录无此文，159-200 页是 Theorema 2.0 和 Carneiro 两篇文章）；**Positional Interpolation 无 ICML/PMLR 发表记录**（OpenAlex 只有 arXiv 预印本记录，"PMLR 202:16609-16628" 属虚构）；**Kazemnejad NeurIPS 2023 真实但页码应为 24892-24928**（论文B 写的 75886-75900 不符）；Tancik 页码 7537-7547 确认无误。
+
+最后补两个收尾核查（mathcomp 的正确替代引用 + PMLR v202 直接确认）：
+
+PMLR v202 官方目录直接确认：**字母 C 段（全部 Chen 论文）里没有 Shouyuan Chen 的 Positional Interpolation**——这是第三个独立来源（PMLR 官网、DBLP、OpenAlex）一致证明该文未在 ICML/PMLR 发表。最后核实 mathcomp 的正确替代引用（SSReflect 论文的确切出处）：
+
+所有核查完毕。mathcomp 的正确替代引用也拿到了（SSReflect 论文真实出处为 JFR 3(2):95–152, 2010）。以下是完整核查报告。
+
+---
+
+# 参考文献真实性核查报告（论文A / 论文B）
+
+**核查渠道**：文献数据库 CrossRef、DBLP、OpenAlex、arXiv API、Semantic Scholar；官方在线站点 PMLR（proceedings.mlr.press）、JFR 官网（jfr.unibo.it）、NeurIPS/OpenReview、Rocq 官网、ACM DL（经 DOI）。
+
+**总裁决**：两篇论文引用的**每一篇文献本身都真实存在，没有凭空虚构的论文**。但有 **2 条引用的“出处元数据”是虚构/嫁接的**（文献真实、发表信息假）、**3 条元数据有误**、1 条载体描述不准。论文A 中自标“出处待核”的 CACM 条目实际是真实文献，可直接补全。
+
+## 论文A（CertifiedSparseGating）— 6 条外部引用
+
+| 引用 | 判定 | 核查结果 |
+|---|---|---|
+| Su et al., RoFormer, Neurocomputing **143:2-11**, 2024 | ⚠️ 卷页错误 | 真实存在。期刊版官方记录为 **Neurocomputing 568 (2024), 文章号 127063**（DOI 10.1016/j.neucom.2023.127063）；Neurocomputing 第 143 卷是 2015 年的，"143:2-11" 与任何官方记录不符。arXiv:2104.09864（2021-04-20 首发，Su/Lu/Pan/Murtadha/Wen/Liu）无误 |
+| The Rocq Development Team, Rocq Prover 9.0, 2025 | ✅ 无误 | Rocq 9.0.0 于 **2025-03-12** 发布（首个以 Rocq 命名的版本），9.0.1 于 2025 年 8 月发布，与工作区实际使用的 9.0.1 一致 |
+| Mahboubi, Tassi, Bertot, Mathematical Components, **JFR 9(1):159-200, 2016** | ❌ 出处虚构 | **该期刊条目不存在**。JFR 官网显示 9(1) 是 "Twenty Years of the QED Manifesto" 专刊，目录中无此文、无这三位作者；159–200 页实际是 Buchberger et al.（Theorema 2.0, 149–185）和 Carneiro（187–200）两篇文章。"Mathematical Components" 真身是 Mahboubi & Tassi 二人的**在线书籍**（2016–，math-comp.github.io/mcb/），Bertot 并非作者 |
+| Boldo, Lelay, Melquiond, Coquelicot, **MSCS 25(2):448-484**, 2015 | ⚠️ 出处错误 | 真实存在，但官方出处为 **Mathematics in Computer Science 9(1):41–62, 2015**（DOI 10.1007/s11786-014-0181-1）——刊名差一个词（"Structures" 应删）、卷期页码全错。另建议核对作者全名：通常为 **Catherine** Boldo、**Sylvie** Lelay，与论文中缩写 "Boldo, S., Lelay, C." 交叉错位 |
+| Necula, Proof-Carrying Code, POPL'97, 106-119 | ✅ 无误 | CrossRef 官方记录逐字一致（POPL '97, pp.106-119, DOI 10.1145/263699.263712） |
+| [Certificates in AI: Learn but Verify. ACM, 2025]（自标“出处待核"） | ✅ 真实，可补全 | **Barrett, C., Henzinger, T.A., Seshia, S.A.** *Communications of the ACM* **69(1):66–75, 2026**（在线发表 2025-12-19），DOI 10.1145/3737447，开放获取 |
+
+## 论文B（PhaseCompleteLadders）— 6 条外部引用
+
+| 引用 | 判定 | 核查结果 |
+|---|---|---|
+| Su et al., RoFormer, 143:2-11 | ⚠️ 同上 | 同论文A |
+| Chen et al., Positional Interpolation, **ICML 2023, PMLR 202:16609-16628** | ❌ 出处虚构 | 论文真实：**arXiv:2306.15595**（2023-06-27，Shouyuan Chen, Sherman Wong, Liangjian Chen, Yuandong Tian）。但**三个独立来源一致证明它从未在 ICML/PMLR 发表**：DBLP 仅有 CoRR 预印本记录；OpenAlex 仅有 preprint 记录（无卷期页）；PMLR v202 官方目录字母 C 段（含全部 Chen 论文）中无此文。"PMLR 202:16609-16628" 为虚构元数据 |
+| bloc97, NTK-Aware Scaled RoPE, 2023（"arXiv 讨论稿"） | ⚠️ 载体描述不准 | 真实存在：Reddit r/LocalLLaMA 帖子（2023-06-30，u/bloc97），被 YaRN（arXiv:2309.00071）等正式论文直接引用。但它是 **Reddit 帖子而非 arXiv 讨论稿**，学术引用应注明 Reddit/URL |
+| Press et al., Train Short, Test Long (ALiBi), ICLR 2022 | ✅ 无误 | Ofir Press, Noah A. Smith, Mike Lewis；ICLR 2022，OpenReview 官方页 R8sQPpGCv0；arXiv:2108.12409 |
+| Kazemnejad et al., Impact of Positional Encoding, NeurIPS 2023, 36:**75886-75900** | ⚠️ 页码错误 | 真实存在：NeurIPS 2023（Advances in NeurIPS 36），作者 Kazemnejad, Padhi, Ramamurthy, Das, Reddy（arXiv:2305.19466, OpenReview Drrl2gcjzl）。但 Curran/OpenAlex 官方页码为 **24892–24928**，与 75886-75900 不符（NeurIPS 官网本身不标页码，建议改用 24892-24928 或删去页码） |
+| Tancik et al., Fourier Features, NeurIPS 2020, 33:7537-7547 | ✅ 无误 | OpenAlex 会议记录逐字一致：vol 33, pp.7537–7547（arXiv:2006.10739） |
+
+（互相引用的“论文A/论文B中文规范版”为同一工作的配套论文，不在外部核查范围。）
+
+## 修正建议（可直接替换）
+
+- **RoFormer**：`Su, J., Ahmed, M., Lu, Y., Pan, S., Bo, W., Liu, Y. RoFormer: Enhanced Transformer with Rotary Position Embedding. Neurocomputing, 568:127063, 2024.（arXiv:2104.09864, 2021）`
+- **mathcomp**：`Mahboubi, A., Tassi, E. Mathematical Components. 2016–. https://math-comp.github.io/mcb/`；如需期刊引用可加 `Gonthier, G., Mahboubi, A. An Introduction to Small Scale Reflection in Coq. Journal of Formalized Reasoning, 3(2):95–152, 2010.`（此条已核实真实，DOI 10.6092/issn.1972-5787/1979）
+- **Coquelicot**：`Boldo, C., Lelay, S., Melquiond, G. Coquelicot: A User-Friendly Library of Real Analysis for Coq. Mathematics in Computer Science, 9(1):41–62, 2015.`
+- **CACM**（替换“出处待核”占位）：`Barrett, C., Henzinger, T.A., Seshia, S.A. Certificates in AI: Learn but Verify. Communications of the ACM, 69(1):66–75, 2026.`
+- **Positional Interpolation**：`Chen, S., Wong, S., Chen, L., Tian, Y. Extending Context Window of Large Language Models via Positional Interpolation. arXiv:2306.15595, 2023.`
+- **Kazemnejad**：页码改为 `36:24892-24928` 或省略页码。
+- **bloc97**：注明 `Reddit r/LocalLLaMA, 2023-06-30` 并附 URL。
+
+两篇论文中"[卷期页码为常见引用格式，投稿前以官方版本核对]"的免责注记方向是对的——本次核查发现的 5 处错误全部集中在卷期页码/出处字段，作者名与标题除 mathcomp 条目（多了 Bertot）外均准确。
+
+Sources:
+- [CrossRef — RoFormer 期刊记录](https://api.crossref.org/works?query.bibliographic=RoFormer+Enhanced+Transformer+Rotary+Position+Embedding) ｜ [arXiv:2104.09864](https://arxiv.org/abs/2104.09864)
+- [JFR Vol. 9 No. 1 (2016) 目录（QED 专刊）](https://jfr.unibo.it/issue/view/554) ｜ [JFR 卷期归档](https://jfr.unibo.it/issue/archive)
+- [CrossRef — Coquelicot](https://doi.org/10.1007/s11786-014-0181-1) ｜ [CrossRef — Necula POPL'97](https://doi.org/10.1145/263699.263712)
+- [CrossRef — Certificates in AI: Learn but Verify](https://dl.acm.org/doi/10.1145/3737447)
+- [Rocq 9.0.0 Release Notes](https://rocq-prover.org/releases/9.0.0)
+- [PMLR v202 (ICML 2023) 官方目录](https://proceedings.mlr.press/v202/) ｜ [arXiv:2306.15595](https://arxiv.org/abs/2306.15595)
+- [bloc97 原帖（Reddit r/LocalLLaMA）](https://www.reddit.com/r/LocalLLaMA/comments/14lz7j5/ntkaware_scaled_rope_allows_llama_models_to_have/) ｜ [YaRN（引用该帖）](https://arxiv.org/pdf/2309.00071)
+- [ALiBi OpenReview（ICLR 2022）](https://openreview.net/forum?id=R8sQPpGCv0) ｜ [Kazemnejad OpenReview（NeurIPS 2023）](https://openreview.net/forum?id=Drrl2gcjzl) ｜ [Tancik arXiv](https://arxiv.org/abs/2006.10739) ｜ [Tancik NeurIPS 2020 论文页](https://proceedings.neurips.cc/paper/2020/hash/55053683268957697aa39fba6f231c68-Abstract.html)
+- [HAL — SSReflect JFR 论文](https://inria.hal.science/inria-00515548)

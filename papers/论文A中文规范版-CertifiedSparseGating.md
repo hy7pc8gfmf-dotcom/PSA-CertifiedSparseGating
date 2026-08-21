@@ -51,7 +51,7 @@ RuntimeGuards → SeqProps → PSA_Pipeline → GreedyGate → RowTruncation →
 PipelineEndToEnd → ExpSeries（M1.5 级数重写，§7）→ SoftmaxStability →
 CertifiedAttention → Gershgorin → InstanceCertificate（M4）→
 M4bLengthConsistency（长度一致性，∀N≥214）→ T8CoreCertificate（T8 复合证书核）→
-FrameCheckInstance（反射检查器 + soundness）→ ChampionCertificate（端到端冠军证书，§5.3）→
+FrameCheckInstance（反射检查器 + soundness）→ ChampionCertificate（端到端复合证书，§5.3）→
 FrameCheck2DNarrow（2D 窄轨反射化，§5.5）→ UnitaryInvariance（A2 酉不变性，§5.3）
 ```
 
@@ -126,13 +126,13 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **反向警示（形式化审查强化）**：检查器返回 `false` **不是**不安全证书——它只表明保守有理界不足以证明 Gershgorin 条件；被误拒的合法阶梯仍可由复合证书覆盖（七带即此情形：其精确相干行和仅 0.135 ≤ 4/5，实质可认证）。"检查器通过 ⟹ 框架界"成立，"检查器失败 ⟹ 不安全"不成立。
 - **系统扫描（114 阶梯 × 5 族）**：通过 35（30.7%）、假阴性 56（全量 49.1%，占拒绝 70.9%），集中于"有用"族（C=2/3-sparse、几何奇带）——"可判定性溢价"是当前有理松弛实现的保守性代价（局限），收紧方向：`cert_optimize`、Zarith 大整数。
 
-### 5.3 与实验的对齐（multi-seed + T8 + 冠军证书 + 酉不变性）
+### 5.3 与实验的对齐（multi-seed + T8 + 复合证书 + 酉不变性）
 
 3 个种子实验中 E5'' 七带与 C=4 并列最优（8× 均值 12.40±0.74 vs 12.75±0.34）；C=2 第三（13.84）；C=3 系统性最差（22.86）。最优表现对论文 A 免疫：
 
 - **直接证书**（C=4）：`certified_c4_frame_bounds` 直接覆盖；
 - **T8 复合证书**（E5''）：隔带子核 [3,15,63,255] 的 `certified_t8_core_frame_bounds`（μ=4/5）覆盖最优阶梯的认证核；
-- **端到端冠军证书**（ChampionCertificate）：顶层组合定理 `champion_e5_composite_certificate`（Qed，零 classic）——代码实际证明的目标形状（全矩阵相干加权）：`length coeffs = 7 → (S − coh_e5 c) ≤ ‖F‖²_{255} ≤ (S + coh_e5 c)`，其中 coh_e5 为 21 对上三角 δ 表经 `term_bound_upper/lower` 加权得到的对称相干交叉项界。构件链：15 个新 pair 界 → 内积/范数引理 → δ 表（21 对）→ `coh_delta_bound`（42 方向）→ 上下界项 → 主定理。注意：早期草拟的"核带框架 + 边带能量"分段形式是装配前的设计稿，最终实现收敛为单一定理下的对称界。
+- **端到端复合证书**（ChampionCertificate）：顶层组合定理 `champion_e5_composite_certificate`（Qed，零 classic）——代码实际证明的目标形状（全矩阵相干加权）：`length coeffs = 7 → (S − coh_e5 c) ≤ ‖F‖²_{255} ≤ (S + coh_e5 c)`，其中 coh_e5 为 21 对上三角 δ 表经 `term_bound_upper/lower` 加权得到的对称相干交叉项界。构件链：15 个新 pair 界 → 内积/范数引理 → δ 表（21 对）→ `coh_delta_bound`（42 方向）→ 上下界项 → 主定理。注意：早期草拟的"核带框架 + 边带能量"分段形式是装配前的设计稿，最终实现收敛为单一定理下的对称界。
 - **酉不变性（已机器检查）**：旋转是酉变换，对任意酉算子 U 与系数向量 c，$\|\sum c_i U\psi_i\|^2 = \|\sum c_i \psi_i\|^2$——框架界/衰减界/证书自动覆盖旋转版本（论文 B 的"旋转组"）。Module UnitaryInvariance：`unitary_invariance_point`（U 保内积 ⟹ 范数不变）+ 位置索引 psi-rope 实例 + 显式 RoPE 实例 `unitary_invariance_psi_rope_theta`（`u k := Cexp (0+i·INR k·θ k)`，`Cexp_unit_mod` 证单位模）。实验的 2×2 块旋转矩阵（`apply_rope_theta`）与复数乘法 $e^{i\theta}$ 是同一酉群的同构表示（SO(2)≅U(1)），实/虚部逐行对应已显式机器检查（`rope_matrix_real/imag/eq`，零 classic）。注：原"每带乘 u_i"逐点版本为假命题（交叉项要 $u_i = u_j$；反例 u0=1, u1=−1, g0=g1=1），未并入。范围限定：酉不变性适用于**特征表示的范数层**；不保证学习到的 Q/K 投影下注意力 logits 不变。
 - **相干熵桥接**（PhaseCoherence，`coherence_controls_attention`，Qed，零 classic）：对任意相干核 K（$|K_{ij}| \le \mathrm{coh}$）与系数差 $\ell_1 \le \delta$，logit 扰动 $|z_i - z'_i| \le \mathrm{coh}\cdot\delta$，组合 softmax 稳定性得 $\|\mathrm{softmax}\,z - \mathrm{softmax}\,z'\|_1 \le e^{2\cdot\mathrm{coh}\cdot\delta} - 1$——相干上界 ⟹ softmax 输出 TVD 界的抽象桥梁。当前为已证抽象桥梁 + 未实例化状态；实证支撑（会话 18）：ΔCoh 仅在稀疏几何族内排序（4 点 R²=0.982），13 点扩充后跨族崩溃（max 型 R²=0.101）——相干性定性结论保留、定量预测收缩为族内指标。
 
@@ -211,14 +211,14 @@ psi-rope 行 3 个种子均值±std、dense 单个种子（b64 s1337）、rope �
 
 ## 参考文献
 
-1. Su, J., et al. RoFormer: Enhanced Transformer with Rotary Position Embedding. Neurocomputing, 143:2-11, 2024.（RoPE 原始版本 arXiv:2104.09864, 2021）
+1. Su, J., Ahmed, M., Lu, Y., Pan, S., Bo, W., Liu, Y. RoFormer: Enhanced Transformer with Rotary Position Embedding. Neurocomputing, 568:127063, 2024.（arXiv:2104.09864, 2021）
 2. The Rocq Development Team. The Rocq Prover, version 9.0. 2025.（原 Coq，Rocq 9.0.1 本开发所用）
-3. Mahboubi, A., Tassi, E., Bertot, Y. Mathematical Components (mathcomp). Journal of Formalized Reasoning, 9(1):159-200, 2016.（mathcomp 依赖）
-4. Boldo, S., Lelay, C., Melquiond, G. Coquelicot: A User-Friendly Library of Real Analysis for Coq. Mathematical Structures in Computer Science, 25(2):448-484, 2015.（Coquelicot 依赖）
+3. Mahboubi, A., Tassi, E. Mathematical Components. 2016–. https://math-comp.github.io/mcb/.（mathcomp 依赖；期刊替代引用：Gonthier, G., Mahboubi, A. An Introduction to Small Scale Reflection in Coq. Journal of Formalized Reasoning, 3(2):95–152, 2010.）
+4. Boldo, C., Lelay, S., Melquiond, G. Coquelicot: A User-Friendly Library of Real Analysis for Coq. Mathematics in Computer Science, 9(1):41–62, 2015.（Coquelicot 依赖）
 5. Necula, G. Proof-Carrying Code. POPL '97, pp.106-119, 1997.
-6. [Certificates in AI: Learn but Verify. ACM, 2025]（出处待核，投稿前补全）
+6. Barrett, C., Henzinger, T.A., Seshia, S.A. Certificates in AI: Learn but Verify. Communications of the ACM, 69(1):66–75, 2026.
 7. [论文 B 中文规范版]：相位截断频率阶梯：可认证且外推稳健的位置编码（本工作配套，TACL 方向）。
-8. [卷期页码为常见引用格式，投稿前以官方版本核对]
+8. 卷期页码已经 2026-08-21 文献数据库核查校准（核查报告：《参考文献真实性核查报告》）。
 
 ## 附录 复现指引
 

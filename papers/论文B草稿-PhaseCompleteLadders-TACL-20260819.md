@@ -1,14 +1,14 @@
 # 论文 B 草稿（TACL/Findings 方向）— 2026-08-20 对齐版 v7
 > **对齐协议**：本版对齐至 2026-08-20 会话 17 终态（A2/A1 完成后基态）——multi-seed 裁决
 > （E5'' 七带均值最优 12.40±0.74@8×，覆盖梯度 3-seed 确认）+ T8 复合证书 +
-> **端到端冠军证书 `champion_e5_composite_certificate`（会话 14 Qed）** 已并入 +
+> **端到端复合证书 `champion_e5_composite_certificate`（会话 14 Qed）** 已并入 +
 > **`frame_check_instance` 反射检查器健全性已 Qed（配套审计 165 项全零经典排中，M1.5 已清零）**。
 > **v7 对齐修正（2026-08-20 会话 17 终态）**：① **A2 酉不变性已完成机器检查**——v6 的
 > "降级为数学事实（未机器检查）"被推翻：Module `UnitaryInvariance` 已并入
 > `PSA_framework.v`（`unitary_invariance_point` 全局保内积 + 位置索引 psi-rope 版，
 > RoPE 语义；带索引逐点版为假命题未并入）；② **A1 4D 组装完成**：
 > `tensor_product_unconditional_basis_4d` 已 Qed（coqchk 复验，合并版 28 分区）。
-> **v6 P0 修正（2026-08-20 专家裁定）**：① 端到端冠军证书表述由"在制"改为
+> **v6 P0 修正（2026-08-20 专家裁定）**：① 端到端复合证书表述由"在制"改为
 > "✅ 已 Qed（`champion_e5_composite_certificate`，七带 `(S−coh_e5) ≤ ‖F‖² ≤ (S+coh_e5)`）"；
 > ② 酉不变性接口声明如实降级为"数学事实（未机器检查）"（unitary 在 .v 零命中）——
 > **该降级已于 v7 被 A2 完成推翻**。
@@ -235,7 +235,7 @@ Welch t（vs NTK）p=0.018、d=−6.06——主表 10.74 列为 s1337 单点，3
 - **T8 复合证书（已并入）**：T8CoreCertificate 模块 11 Qed 零 classic，
   最优阶梯 = 认证核（gershgorin 框架界）+ 边际带（[7,31,127]，行能量预算）——
   "核带框架保证、边带能量保证"——**已证部分即此复合形态**（核 + 边带能量两构件
-  均 Qed）；**端到端冠军证书已 Qed（会话 14）**：`champion_e5_composite_certificate`
+  均 Qed）；**端到端复合证书已 Qed（会话 14）**：`champion_e5_composite_certificate`
   对七带证明 `(S−coh_e5) ≤ ‖F‖²_{255} ≤ (S+coh_e5)`（全矩阵相干加权对称界，
   论文 A §5.3）——**性能最优方案现持复合界机器证书**（`(S−coh_e5) ≤ ‖F‖² ≤ (S+coh_e5)`，
   非外推性能证书；明确为**基的复合界证书**（"认证了性能最优方案所用基函数"，非"认证
@@ -264,7 +264,7 @@ Welch t（vs NTK）p=0.018、d=−6.06——主表 10.74 列为 s1337 单点，3
   手工验算**，而由一台自带健全性证明的运行时检查器统一保证；配套审计
   **165 项** RC=0、零 Admitted（**全部零经典排中**，M1.5 已清零）；
   **定位澄清（评审 7 元 V）**：反射检查器是**快速预筛器**（充分非必要，快速驳回
-  坏阶梯/接受好阶梯）；E5'' 冠军证书（21 对 δ 表手工推导的 `coh_e5`）是**针对
+  坏阶梯/接受好阶梯）；E5'' 复合证书（21 对 δ 表手工推导的 `coh_e5`）是**针对
   特定性能最优方案的特制专家系统**（不可泛化到未知阶梯）——两者分工：预筛器管通用判定、
   专家系统管最优方案深度证书，不可混为一谈；
   **假阴性系统扫描（评审 9 补强，会话 18）**：114 阶梯 × 5 族（C-sparse C∈{2..8}、
@@ -320,7 +320,7 @@ Welch t（vs NTK）p=0.018、d=−6.06——主表 10.74 列为 s1337 单点，3
   未认证七带 12.40）——"带证书"的可证内容止于表示稳定性与能量有界（论文 A
   联合元定理边界），**能量控制 → 外推 ppl 增益的桥梁未经形式化**、依赖本文的
   覆盖梯度经验观察。这一反直觉张力本身是可发表发现，不掩饰；
-  端到端冠军证书的顶层组合定理已 Qed（`champion_e5_composite_certificate`，
+  端到端复合证书的顶层组合定理已 Qed（`champion_e5_composite_certificate`，
   论文 A §5.3，会话 14——七带 `(S−coh_e5) ≤ ‖F‖² ≤ (S+coh_e5)`）。
 
 ## 8. 对照组（判据逐项落地）
@@ -385,7 +385,7 @@ vs dense 5.40 / psi-rope 4.67——分布内差 3.66&nbsp;ppl (>1.5) ⟹ **位�
 RoPE（Su et al.）、位置插值、NTK-aware/YaRN、partial-RoPE、ALiBi、
 LongRoPE（进化搜索频率配置——无保证无理论，本文以证书+机制区分）、
 NoPE（Kazemnejad et al. 2023）、Fourier 特征（Tancik et al.）。
-[⚠️ 提交前补全核对。]
+[⚠️ 参考文献已经 2026-08-21 核查校准（见《参考文献真实性核查报告》），英文终版按修正后元数据引用。]
 
 ## 10. Limitations
 对照组（NoPE/dense 单 seed [待补]；rope/rope-NTK 已补 3-seed，会话 18）；char 级
@@ -555,7 +555,7 @@ M=S(max) 实证）。
 | 实例证书 C=4（mu=4/5） | InstanceCertificate.certified_c4_frame_bounds | ✅ |
 | 长度一致性 forall N>=214 | M4bLengthConsistency.certified_c4_frame_bounds_anyN | ✅ |
 | T8 复合证书核 | T8CoreCertificate.certified_t8_core_frame_bounds | ✅ |
-| 七带冠军复合界证书 | ChampionCertificate.champion_e5_composite_certificate（(S-coh) <= ||F||^2 <= (S+coh)） | ✅ |
+| 七带复合界证书 | ChampionCertificate.champion_e5_composite_certificate（(S-coh) <= ||F||^2 <= (S+coh)） | ✅ |
 | 反射检查器健全性 | FrameCheckInstance.frame_check_instance_sound | ✅ |
 | RoPE 酉性桥接 | UnitaryInvariance.unitary_invariance_psi_rope_theta | ✅ |
 | 165 项全零 classic | PSA_audit.v | ✅ |

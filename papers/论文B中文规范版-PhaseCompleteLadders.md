@@ -194,8 +194,8 @@ rope-NTK 3 个种子：10.74/12.90/10.97（11.54±1.18）；psi-rope-rand（新�
 
 - [3,13,53,213]：**实例证书已证**（Coq，μ=4/5，框架界 [1/5, 9/5]，全有理常数、可判定；∀N≥214 长度一致性已并入）。
 - 并列最优的七带阶梯整体行和 > 1 **不可整体认证**，但其隔带子核 [3,15,63,255] 行和 ≤0.781 ⟹ μ=4/5 可认证。
-- **T8 复合证书**：最优阶梯 = 认证核（gershgorin 框架界）+ 边际带（[7,31,127]，行能量预算）——"核带框架保证、边带能量保证"。**端到端冠军证书已 Qed**：`champion_e5_composite_certificate` 对七带证明 $(S-\mathrm{coh}_{e5}) \le \|F\|^2 \le (S+\mathrm{coh}_{e5})$——明确为**基的复合界证书**（认证了性能最优方案所用基函数，非认证性能最优方案模型；不含注意力分数/外推 ppl 保证）。该复合界与 PPL 改善之间的桥梁由**经验观察**支撑（§8.2 实证），**未经形式化**。
-- **反射检查器**：`frame_check_instance` 对任意阶梯做 μ≤4/5 的可判定有理判定（提取为 OCaml/FFI，24/24 自测）；健全性主定理 `frame_check_instance_sound` 已 Qed——"带机器证书"由一台自带健全性证明的运行时检查器统一保证；配套审计 **165 项** RC=0、零 Admitted（全部零经典排中）。定位：反射检查器是**快速预筛器**（充分非必要）；E5'' 冠军证书是**针对特定最优阶梯的特制专家系统**——两者分工不可混为一谈。假阴性系统扫描（114 阶梯 × 5 族）：通过 35（30.7%）、假阴性 56（全量 49.1%，占拒绝 70.9%）；E5'' 七带精确行和仅 0.135 ≤ 4/5（实质可认证，检查器误拒源于无窗口保守对界）。
+- **T8 复合证书**：最优阶梯 = 认证核（gershgorin 框架界）+ 边际带（[7,31,127]，行能量预算）——"核带框架保证、边带能量保证"。**端到端复合证书已 Qed**：`champion_e5_composite_certificate` 对七带证明 $(S-\mathrm{coh}_{e5}) \le \|F\|^2 \le (S+\mathrm{coh}_{e5})$——明确为**基的复合界证书**（认证了性能最优方案所用基函数，非认证性能最优方案模型；不含注意力分数/外推 ppl 保证）。该复合界与 PPL 改善之间的桥梁由**经验观察**支撑（§8.2 实证），**未经形式化**。
+- **反射检查器**：`frame_check_instance` 对任意阶梯做 μ≤4/5 的可判定有理判定（提取为 OCaml/FFI，24/24 自测）；健全性主定理 `frame_check_instance_sound` 已 Qed——"带机器证书"由一台自带健全性证明的运行时检查器统一保证；配套审计 **165 项** RC=0、零 Admitted（全部零经典排中）。定位：反射检查器是**快速预筛器**（充分非必要）；E5'' 复合证书是**针对特定最优阶梯的特制专家系统**——两者分工不可混为一谈。假阴性系统扫描（114 阶梯 × 5 族）：通过 35（30.7%）、假阴性 56（全量 49.1%，占拒绝 70.9%）；E5'' 七带精确行和仅 0.135 ≤ 4/5（实质可认证，检查器误拒源于无窗口保守对界）。
 - **酉不变性接口声明（已机器检查）**：本文"旋转组"（psi-rope）= 基函数乘旋转矩阵。旋转是酉变换，不改变内积与范数，故论文 A 的框架界/衰减界/证书**自动覆盖旋转版本**——`unitary_invariance_psi_rope_theta` 已 Qed（SO(2)≅U(1)，与实验 `apply_rope_theta` 逐行对应）。
 - **性能与可证性的张力**：认证与外推性能呈**温和负相关**（certified C=4 8× 均值 12.75 vs 未认证七带 12.40）——"带证书"的可证内容止于表示稳定性与能量有界；这一反直觉张力本身是可发表发现。
 
@@ -229,14 +229,14 @@ rope-NTK 3 个种子：10.74/12.90/10.97（11.54±1.18）；psi-rope-rand（新�
 
 ## 参考文献
 
-1. Su, J., et al. RoFormer: Enhanced Transformer with Rotary Position Embedding. Neurocomputing, 143:2-11, 2024.（RoPE 原始版本 arXiv:2104.09864, 2021）
-2. Chen, S., et al. Extending Context Window of Large Language Models via Positional Interpolation. ICML 2023, PMLR 202:16609-16628.
-3. bloc97. NTK-Aware Scaled RoPE. 2023.（NTK-aware 重缩放，arXiv 讨论稿）
+1. Su, J., Ahmed, M., Lu, Y., Pan, S., Bo, W., Liu, Y. RoFormer: Enhanced Transformer with Rotary Position Embedding. Neurocomputing, 568:127063, 2024.（arXiv:2104.09864, 2021）
+2. Chen, S., Wong, S., Chen, L., Tian, Y. Extending Context Window of Large Language Models via Positional Interpolation. arXiv:2306.15595, 2023.
+3. bloc97. NTK-Aware Scaled RoPE. Reddit r/LocalLLaMA, 2023-06-30.（NTK-aware 重缩放；被 YaRN 等正式论文引用）
 4. Press, O., et al. Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation. ICLR 2022.
-5. Kazemnejad, A., et al. The Impact of Positional Encoding on Length Generalization in Transformers. NeurIPS 2023, 36:75886-75900.
+5. Kazemnejad, A., et al. The Impact of Positional Encoding on Length Generalization in Transformers. NeurIPS 2023, 36:24892-24928.
 6. Tancik, M., et al. Fourier Features Let Networks Learn High Frequency Functions in Low Dimensional Domains. NeurIPS 2020, 33:7537-7547.
 7. [论文 A 中文规范版]：可认证稀疏门控与注意力近似：一个可执行的 Coq 开发（本工作配套，CPP/ITP 方向）。
-8. [卷期页码为常见引用格式，投稿前以官方版本核对]
+8. 卷期页码已经 2026-08-21 文献数据库核查校准（核查报告：《参考文献真实性核查报告》）。
 
 ## 附录 A 温控协议
 

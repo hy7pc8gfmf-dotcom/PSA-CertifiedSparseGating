@@ -3,7 +3,7 @@
 > `frame_check_instance_sound` 主定理已 Qed（会话 10+11 装配），**M1.5 已清零**：
 > 审计 **165 项** RC=0、零 Admitted、**全部 165 项零经典排中**
 > （`Classical_Prop.classic` 出现 0 次，证据 `audit_run.txt` 追加段）；M4b 长度一致性 +
-> T8 复合证书 + **端到端冠军证书 `champion_e5_composite_certificate`（会话 14 Qed）**
+> T8 复合证书 + **端到端复合证书 `champion_e5_composite_certificate`（会话 14 Qed）**
 > 已并入；FFI 24/24（refcheck 20 项 + 整数行和验算 4 项）。
 > **v8 对齐修正（2026-08-20 会话 17 终态）**：① **A2 酉不变性已完成**——v6 的
 > "降级为数学事实（未机器检查）"被推翻：探针 `src\_probe_unitary.v` RC=0 后 Module
@@ -156,7 +156,7 @@ validation of the same ladder family; this work supplies the formal guarantees.
       (a) 表示稳定性轨（GreedyGate → PSA_Pipeline → Gershgorin → InstanceCertificate
       → T8CoreCertificate → ChampionCertificate：基的框架界/衰减界）；(b) 注意力扰动轨
       （RowTruncation → SoftmaxStability → CertifiedAttention：能量界 ⟹ 输出扰动界）。
-      两轨**无依赖桥接**（冠军证书不调用注意力定理）——"端到端"指两轨各自完整、
+      两轨**无依赖桥接**（复合证书不调用注意力定理）——"端到端"指两轨各自完整、
       覆盖解析核的两个正交面，非单一依赖链；基证书不构成模型/外推性能证书。
       **评审 10 强化（3.4）**：外推 PPL 改善（如论文 B 的 13.84→12.40）在本形式化
       框架中是**未证明的经验现象**；形式化锁定的是基表示稳定性，与 PPL 之间
@@ -181,7 +181,7 @@ RuntimeGuards → SeqProps → PSA_Pipeline → GreedyGate → RowTruncation →
 PipelineEndToEnd → **ExpSeries（M1.5 级数重写，§7）** → SoftmaxStability →
 CertifiedAttention → Gershgorin → InstanceCertificate（M4）→
 **M4bLengthConsistency（长度一致性，∀N≥214）→ T8CoreCertificate（T8 复合证书核）→
-FrameCheckInstance（反射检查器 + soundness）→ ChampionCertificate（端到端冠军证书，§5.3）
+FrameCheckInstance（反射检查器 + soundness）→ ChampionCertificate（端到端复合证书，§5.3）
 → FrameCheck2DNarrow（2D 窄轨反射化，§5.5）→ UnitaryInvariance（A2 酉不变性，§5.3）**。
 统计：**165 项** Print Assumptions 审计（PSA_audit.v，RC=0，证据 `audit_run.txt`）；
 **全部 165 项零经典排中**（`Classical_Prop.classic` 出现 0 次——M1.5 已清零，
@@ -281,7 +281,7 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
   论文 B 的七带基线阶梯 E5'' [3,7,15,31,63,127,255] 被检查器判 false，**不代表它不满足框架条件**，仅代表
   有理松弛不足以证明它。正是这一不完备性使**复合证书成为必要**（而非补丁式
   workaround）：检查器拒绝整体 ⟹ 核-边缘分解 ⟹ 认证核 + 能量预算
-  （§5.3 端到端冠军证书，✅ 已完成）。宁可误拒、绝不放行的保守取向是可判定性的
+  （§5.3 端到端复合证书，✅ 已完成）。宁可误拒、绝不放行的保守取向是可判定性的
   设计选择，须与"部分证书"机制配套使用。
   **评审 10 定位修正（2.4）**：系统扫描（114 阶梯×5 族，`frame_check_scan.py`，
   会话 18）实测假阴性 **56/114（49.1%，占拒绝 70.9%）**，且**集中于"有用"阶梯**
@@ -326,7 +326,7 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **T8 复合证书**（E5'' 胜，**已并入，会话 9**）：其隔带子核 [3,15,63,255]
   T8CoreCertificate 模块 11 Qed 零 classic，μ=4/5 覆盖最优阶梯的认证核。
 两种排位论文均有主定理覆盖。
-- **端到端冠军证书（✅ 已完成，会话 14 Qed）**：顶层组合定理
+- **端到端复合证书（✅ 已完成，会话 14 Qed）**：顶层组合定理
   `champion_e5_composite_certificate`（`PSA_framework.v` `Module ChampionCertificate`，
   L4582–5150，定理本体 L5075）已 Qed 零 classic。**代码实际证明的目标形状**（全矩阵相干加权）：
   ```
@@ -341,7 +341,7 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
   `delta_e5`（21 对上三角 δ 表）/`coh_e5` → `band_ge2`/`band_le256`/
   `coh_delta_bound`（42 方向）→ `term_bound_upper`/`term_bound_lower` →
   **`champion_e5_composite_certificate`**（`(S−coh) ≤ l2_norm_sq F 255 ≤ (S+coh)`）。
-  实施文档：`E5''端到端冠军证书-缺口分析与实施文档-20260820.md`。
+  实施文档：`E5''端到端复合证书-缺口分析与实施文档-20260820.md`。
 - **反射检查器不完备性：影响与缓解（评审 A3，会话 18 系统扫描补强）**：`frame_check_instance` 是**充分非
   必要**——实际可认证阶梯被判 false（假阴性）。**系统扫描统计（114 阶梯 × 5 族：
   C-sparse C∈{2..8}×m∈{2..14}、几何奇带、C=2 全相位、E1 随机 log-uniform 去重；
@@ -685,7 +685,7 @@ rope 为 b32 3-seed 均值±std（@4096 = 20.28/29.40/26.22 → 25.30±4.63，�
 - **稀疏注意力无证书方法（对比面）**：top-k 门控、KV 逐出、低秩投影等均无误差证书；
   本开发覆盖的"解析核"层（稀疏/近似注意力）在数学上给出可检查保证，是上述方法的
   形式化对照面。
-[⚠️ 提交前补齐正式引用格式与卷期页码。]
+[⚠️ 参考文献卷期页码已经 2026-08-21 文献数据库核查校准（见《参考文献真实性核查报告》），英文终版按修正后元数据引用。]
 
 ## 10. Limitations
 - **高维证书的定位**：3D 定理 `tensor_product_unconditional_basis_3d` 是形式化
@@ -765,7 +765,7 @@ Practically Non-Tight"**，其价值在架构可组合性与维度推广的定�
 | 论文声明 | 代码位置 | 状态 |
 |---------|---------|------|
 | 165 项全零 Classical_Prop.classic | PSA_audit.v（165 项 Print Assumptions） | ✅ |
-| 端到端冠军证书 Qed | PSA_framework.v L5075（Module ChampionCertificate L4582-5150） | ✅ |
+| 端到端复合证书 Qed | PSA_framework.v L5075（Module ChampionCertificate L4582-5150） | ✅ |
 | 反射检查器健全性 Qed | FrameCheckInstance.frame_check_instance_sound | ✅ |
 | M1.5 经典清零 | Module ExpSeries（exp_mono_le_noclassic，exp_mono_le 走级数路线） | ✅ |
 | 酉不变性机器检查（RoPE 显式实例） | Module UnitaryInvariance（unitary_invariance_psi_rope_theta / Cexp_unit_mod） | ✅ |
