@@ -21,7 +21,7 @@ jobs:
           opam-disable-sandboxing: true
           opam-repositories: |
             default: https://github.com/ocaml/opam-repository.git
-            coq-archive: https://github.com/coq-community/opam-coq-archive.git
+            coq-released: https://coq.inria.fr/opam/released
 
       - name: Install Rocq 9.0 + mathcomp + Coquelicot
         run: |
