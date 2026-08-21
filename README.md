@@ -32,7 +32,7 @@ PSA-CertifiedSparseGating/
 │   ├── PSA_extract.v         # 提取链（→ OCaml psa_guard.exe）
 │   ├── PSA_refcheck.v        # 参考值检查（FFI 24/24 的一部分）
 │   ├── psa_guard.ml / psa_guard_main.ml / psa_guard_ffi.py  # OCaml 检查器 + Python FFI
-│   ├── lib/                  # 22 正式库依赖链 + 3D/4D/2D-wide 高维模块（30 个 .v）
+│   ├── lib/                  # 30 个 .v：21 个在 PSA 核心传递闭包内；3D/4D/2D-wide 等 9 个为独立证书模块（各自审计）
 │   └── deps/mathcomp/        # vendored mathcomp 源码（CeCILL-C，217 .v，审计/离线参考）
 ├── scripts/
 │   ├── ci_build.sh           # CI 构建脚本（lib 链 + PSA 核心 + 零 Admitted 检查）

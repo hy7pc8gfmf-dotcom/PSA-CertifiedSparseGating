@@ -102,12 +102,8 @@ Qed.
    Level 4: 质数理论 (Prime Theory)
    Level 5: ζ函数与黎曼猜想 (Zeta Function & Riemann Hypothesis)
 *)
-(*
-(* 设计原则2：有限逼近无限 *)
-Axiom FiniteApproximation : forall (P : nat -> Prop), 
-  (forall n : nat, exists m : nat, (m >= n)%nat /\ P m) -> 
-  (exists f : nat -> nat, forall n : nat, P (f n) /\ (f n >= n)%nat).
-*)
+(* 设计原则2：有限逼近无限 —— 公理化版本已移除（原 Axiom FiniteApproximation 定义删除，
+   构造性版本 FiniteApproximation_constructive 见下，Qed，全库无自定义公理） *)
   
 (* 设计原则2：有限逼近无限 *)
 Require Import Stdlib.Logic.IndefiniteDescription.
