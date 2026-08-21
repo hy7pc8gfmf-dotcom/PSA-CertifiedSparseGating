@@ -11,8 +11,14 @@
 ```
 PSA-CertifiedSparseGating/
 ├── README.md                 # 本文件
-├── LICENSE                   # MIT
+├── LICENSE                   # Apache License 2.0
 ├── .gitignore
+├── CLA/                      # 贡献者许可协议 + 商业授权模板（双许可模式）
+│   ├── ICLA.md               # 个人贡献者 CLA
+│   ├── CCLA.md               # 实体组织（公司）CLA
+│   ├── RLA.md                # 运行时许可协议（特定公司授权）
+│   ├── commercial_license_template.md  # 商业许可模板
+│   └── README.md             # 签署流程说明
 ├── papers/                   # 两篇论文（草稿 + 中文规范版 md/docx）+ 评审 + 实验设计
 │   ├── 论文A草稿-CertifiedSparseGating-CPP-20260819.md      # 形式化论文（CPP/ITP 方向）
 │   ├── 论文B草稿-PhaseCompleteLadders-TACL-20260819.md      # 实证论文（TACL 方向）
@@ -20,15 +26,18 @@ PSA-CertifiedSparseGating/
 │   ├── 论文B中文规范版-PhaseCompleteLadders.md/.docx
 │   ├── 论文评审.txt                                        # 形式化审查报告（Accept Strong）
 │   └── 诚实性支柱实验设计-20260819.md                       # 预登记假说 + 执行结果
-├── coq/                      # Coq 形式化（Rocq 9.0.1，仅 mathcomp + Coquelicot 依赖）
+├── coq/                      # Coq 形式化（Rocq 9.0.1）
 │   ├── PSA_framework.v       # 主框架：19 模块 / 250 Qed / 零 Admitted / 6405 行
 │   ├── PSA_audit.v           # 165 项 Print Assumptions 审计（RC=0，全零 classic）
 │   ├── PSA_extract.v         # 提取链（→ OCaml psa_guard.exe）
 │   ├── PSA_refcheck.v        # 参考值检查（FFI 24/24 的一部分）
 │   ├── psa_guard.ml / psa_guard_main.ml / psa_guard_ffi.py  # OCaml 检查器 + Python FFI
-│   ├── ca_basis_3d.v / ca_basis_4d.v                        # 3D/4D 张量积无条件基（组合性演示）
-│   ├── ca_2d_wide_const.v / _engine.v / _asm.v             # 2D-wide（免 H_dom，M_bound=768）
-│   └── ca_2d_wide_audit.v / ca_4d_audit.v                   # 高维审计
+│   ├── lib/                  # 22 正式库依赖链 + 3D/4D/2D-wide 高维模块（30 个 .v）
+│   └── deps/mathcomp/        # vendored mathcomp 源码（CeCILL-C，217 .v，审计/离线参考）
+├── scripts/
+│   ├── ci_build.sh           # CI 构建脚本（lib 链 + PSA 核心 + 零 Admitted 检查）
+│   └── order.txt             # lib/ 编译顺序（DAG）
+├── .github/workflows/coq.yml # GitHub Actions CI（Rocq 9.0）
 ├── empirical/                # 实证脚本（训练/评估/消融/相干分析/2D/KV 逐出/检查器扫描）
 │   ├── length_extrap.py      # 主训练+外推评估（psi/psi-rope/rope/dense 全模式，温控内置）
 │   ├── frame_check_scan.py   # 反射检查器 114 梯子系统扫描（假阴性率 49.1%）
@@ -93,6 +102,9 @@ RTX 3070 训练治理：80°C 触发 / 70°C 恢复 / 0.5s 轮询 / 60s 冷却�
 | rope 裸绳（3-seed） | 25.30±4.63 | 无 |
 | C=3 | 22.86±5.30 | 间距缺陷+方差放大 |
 
-## 许可与致谢
+## 许可与授权
 
-MIT License。研究用代码，无隐式担保。详见 `LICENSE`。
+- **Apache License 2.0（公开版）**：源码与文档以 Apache-2.0 公开，研究 / 学习 / 参考自由使用。详见 `LICENSE`。
+- **贡献者许可协议（CLA）**：贡献者须签署 `CLA/ICLA.md`（个人）或 `CLA/CCLA.md`（公司），确保贡献既可 Apache-2.0 公开、也可纳入商业许可版本（作者保留商业化权利）。详见 `CLA/README.md`。
+- **商业授权 / 运行时许可（RLA）**：商业使用（嵌入产品、SaaS、生产环境）或需要 `psa_guard.exe` 等运行时组件的**特定公司**，请联系 `psa-legal@cherryclaw.dev` 获取商业许可（模板见 `CLA/commercial_license_template.md`，组件条款见 `CLA/RLA.md`）。开源版不含运行时组件的商业授权。
+- **第三方依赖**：`coq/deps/mathcomp/`（CeCILL-C，vendored，见其 README）；Coquelicot（LGPL 2.1+，CI 经 opam 安装）。各自许可独立适用。

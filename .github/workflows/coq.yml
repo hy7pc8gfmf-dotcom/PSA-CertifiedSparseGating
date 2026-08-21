@@ -1,0 +1,27 @@
+name: Coq CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  coq-build:
+    name: Rocq build + audit
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        coq: ['9.0']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Run Coq build (lib chain + PSA core + audit)
+        uses: coq-community/docker-coq-action@v2
+        with:
+          coq_version: ${{ matrix.coq }}
+          custom_script: |
+            startGroup "Coq build"
+              bash scripts/ci_build.sh
+            endGroup
