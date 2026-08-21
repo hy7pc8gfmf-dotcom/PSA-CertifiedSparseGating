@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing to PSA ("Project"). This Corporate Contributor License Agreement ("Agreement") is entered into between Your Entity and the Project Steward. Individual employees of Your Entity should still sign the Individual CLA (ICLA) but may reference this Corporate CLA for authorization.
 
-**Project Steward:** CherryClaw ("Steward")
+**Project Steward:** 王宝军 ("Steward")
 
 **Effective Date:** Date of signature below
 
@@ -64,6 +64,8 @@ Signature:     _____________________________
 
 ---
 
-**Please submit the signed CCLA to:** `psa-cla@cherryclaw.dev`
+**Please submit the signed CCLA to:** `168888@live.cn`
+
+
 
 

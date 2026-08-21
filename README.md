@@ -106,5 +106,7 @@ RTX 3070 训练治理：80°C 触发 / 70°C 恢复 / 0.5s 轮询 / 60s 冷却�
 
 - **Apache License 2.0（公开版）**：源码与文档以 Apache-2.0 公开，研究 / 学习 / 参考自由使用。详见 `LICENSE`。
 - **贡献者许可协议（CLA）**：贡献者须签署 `CLA/ICLA.md`（个人）或 `CLA/CCLA.md`（公司），确保贡献既可 Apache-2.0 公开、也可纳入商业许可版本（作者保留商业化权利）。详见 `CLA/README.md`。
-- **商业授权 / 运行时许可（RLA）**：商业使用（嵌入产品、SaaS、生产环境）或需要 `psa_guard.exe` 等运行时组件的**特定公司**，请联系 `psa-legal@cherryclaw.dev` 获取商业许可（模板见 `CLA/commercial_license_template.md`，组件条款见 `CLA/RLA.md`）。开源版不含运行时组件的商业授权。
+- **商业授权 / 运行时许可（RLA）**：商业使用（嵌入产品、SaaS、生产环境）或需要 `psa_guard.exe` 等运行时组件的**特定公司**，请联系 `168888@live.cn` 获取商业许可（模板见 `CLA/commercial_license_template.md`，组件条款见 `CLA/RLA.md`）。开源版不含运行时组件的商业授权。
 - **第三方依赖**：`coq/deps/mathcomp/`（CeCILL-C，vendored，见其 README）；Coquelicot（LGPL 2.1+，CI 经 opam 安装）。各自许可独立适用。
+
+

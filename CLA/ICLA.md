@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing to PSA ("Project"). This Individual Contributor License Agreement ("Agreement") sets out the terms under which You submit Contributions to the Project. The Project is licensed under Apache License 2.0, and this Agreement enables the Project to also license Contributions under alternative terms for commercial use.
 
-**Project Steward:** CherryClaw ("Steward")
+**Project Steward:** 王宝军 ("Steward")
 
 **Effective Date:** Date of signature below
 
@@ -59,6 +59,8 @@ Signature:   _____________________________
 
 ---
 
-**Please submit the signed ICLA to:** `psa-cla@cherryclaw.dev` (or attach to your first pull request).
+**Please submit the signed ICLA to:** `168888@live.cn` (or attach to your first pull request).
+
+
 
 

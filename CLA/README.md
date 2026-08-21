@@ -14,12 +14,12 @@ All contributors to PSA must sign a Contributor License Agreement before their p
 ### 个人贡献者 (ICLA)
 1. 打开 `ICLA.md`
 2. 填写签名栏（姓名、邮箱、GitHub ID、日期）
-3. 发送到 `psa-cla@cherryclaw.dev`，或在第一个 Pull Request 中附上扫描件/截图
+3. 发送到 `168888@live.cn`，或在第一个 Pull Request 中附上扫描件/截图
 
 ### 实体组织 (CCLA)
 1. 公司的授权代表打开 `CCLA.md`
 2. 填写公司信息和签名
-3. 发送到 `psa-cla@cherryclaw.dev`
+3. 发送到 `168888@live.cn`
 4. 每位实际贡献代码的雇员仍需签署 ICLA，但可在备注栏引用公司 CCLA 编号
 
 ## 为什么需要 CLA？
@@ -34,5 +34,7 @@ PSA 采用 **Apache 2.0（公开版）+ 商业许可（企业版）** 双许可�
 ## 协议的法律效力
 
 CLA 是具备法律约束力的协议。如有疑问，建议咨询法律顾问后再签署。
+
+
 
 
