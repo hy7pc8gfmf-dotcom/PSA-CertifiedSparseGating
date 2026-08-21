@@ -26,7 +26,7 @@ jobs:
       - name: Install Rocq 9.0 + mathcomp + Coquelicot
         run: |
           export OPAMSANDBOXING=disabled
-          opam install -y coq.9.0.0 coq-mathcomp-ssreflect coq-coquelicot
+          opam install -y coq.9.0.0 coq-mathcomp-ssreflect coq-coquelicot.3.4.1
 
       - name: Run Coq build (lib chain + PSA core + audit)
         run: |
