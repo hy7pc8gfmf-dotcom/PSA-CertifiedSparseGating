@@ -26,7 +26,10 @@ jobs:
       - name: Install Rocq 9.0 + mathcomp + Coquelicot
         run: |
           export OPAMSANDBOXING=disabled
-          opam install -y coq.9.0.0 coq-mathcomp-ssreflect coq-coquelicot.3.4.1
+          opam install -y coq.9.0.0 coq-mathcomp-ssreflect
+          # Coquelicot 3.4.1 (<8.20) 不兼容 9.0；3.4.4 编译失败（Rocq 9.0 tactic 变更）。
+          # dev 版（gitlab master）已适配 9.0；若 opam 无 dev 则回退 3.4.4 并在后处理补丁。
+          opam install -y coq-coquelicot.dev || opam install -y coq-coquelicot.3.4.4
 
       - name: Run Coq build (lib chain + PSA core + audit)
         run: |
