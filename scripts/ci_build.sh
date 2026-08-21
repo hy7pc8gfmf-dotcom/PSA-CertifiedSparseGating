@@ -10,14 +10,7 @@ echo "coqc: $rocq_version"
 
 echo "=== 1. 依赖（mathcomp + Coquelicot）==="
 eval "$(opam env 2>/dev/null || true)"
-if ! ocamlfind query mathcomp >/dev/null 2>&1; then
-  echo "  安装 mathcomp..."
-  opam install -y coq-mathcomp-ssreflect || true
-fi
-if ! ocamlfind query coquelicot >/dev/null 2>&1; then
-  echo "  安装 Coquelicot..."
-  opam install -y coq-coquelicot || true
-fi
+# 依赖由 workflow 预装：mathcomp 经 opam，Coquelicot 经 gitlab master 编译安装（见下方 1b 定位）
 
 echo "=== 1b. 定位 mathcomp / Coquelicot 安装路径 ==="
 # 优先 coqc -where 的 user-contrib；其次 ocamlfind；再次 opam lib 目录搜索；最后兜底

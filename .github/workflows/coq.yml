@@ -23,13 +23,37 @@ jobs:
             default: https://github.com/ocaml/opam-repository.git
             coq-released: https://coq.inria.fr/opam/released
 
-      - name: Install Rocq 9.0 + mathcomp + Coquelicot
+      - name: Install Rocq 9.0 + mathcomp
         run: |
           export OPAMSANDBOXING=disabled
           opam install -y coq.9.0.0 coq-mathcomp-ssreflect
-          # Coquelicot 3.4.1 (<8.20) 不兼容 9.0；3.4.4 编译失败（Rocq 9.0 tactic 变更）。
-          # dev 版（gitlab master）已适配 9.0；若 opam 无 dev 则回退 3.4.4 并在后处理补丁。
-          opam install -y coq-coquelicot.dev || opam install -y coq-coquelicot.3.4.4
+
+      - name: Build Coquelicot (gitlab master, Rocq 9.0 compatible)
+        run: |
+          eval "$(opam env)"
+          COQLIB=$(coqc -where)
+          MC="$COQLIB/user-contrib/mathcomp"
+          # opam coq-released 的 3.4.1 (<8.20) 不兼容 9.0；3.4.4 在 9.0 编译失败。
+          # gitlab master 已适配 9.0（本地 Rocq 9.0 24/24 编译验证）。
+          git clone --depth 1 https://gitlab.inria.fr/coquelicot/coquelicot.git /tmp/coquelicot
+          cd /tmp/coquelicot
+          for pass in $(seq 1 15); do
+            progress=0
+            for f in theories/*.v; do
+              b=$(basename "$f" .v)
+              [ -f "theories/$b.vo" ] && continue
+              if coqc -R theories Coquelicot -Q "$MC" mathcomp "$f" 2>/tmp/cq_err; then
+                progress=1
+              fi
+            done
+            [ "$progress" = "0" ] && break
+          done
+          n=$(ls theories/*.vo 2>/dev/null | wc -l)
+          echo "Coquelicot compiled: $n/24"
+          [ "$n" = "24" ] || { echo "Coquelicot build FAILED"; tail -30 /tmp/cq_err; exit 1; }
+          mkdir -p "$COQLIB/user-contrib/coquelicot"
+          cp theories/*.vo "$COQLIB/user-contrib/coquelicot/"
+          echo "Coquelicot installed to $COQLIB/user-contrib/coquelicot"
 
       - name: Run Coq build (lib chain + PSA core + audit)
         run: |
