@@ -54,4 +54,18 @@ else
   echo "  ✅ 零 Admitted（PSA_framework.v）"
 fi
 
+echo "=== 5. coqchk 内核独立复验 ==="
+# coqchk 不信任 coqc 的证明证书，用 Rocq 内核重新验证全部证明（含依赖闭包）
+if command -v rocqchk >/dev/null 2>&1; then COQCHK=rocqchk; else COQCHK=coqchk; fi
+echo "  使用 $COQCHK 复验 PSA.PSA_framework / PSA.PSA_audit / PSA.PSA_refcheck ..."
+"$COQCHK" -Q "$COQLIB/user-contrib/mathcomp" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi \
+  -Q "coq/lib" "" -Q "coq/core" PSA PSA.PSA_framework PSA.PSA_audit PSA.PSA_refcheck 2>&1 | tail -8
+rc=${PIPESTATUS[0]}
+if [ "$rc" = "0" ]; then
+  echo "  ✅ coqchk 内核复验通过（RC=0）"
+else
+  echo "  ❌ coqchk 复验失败（RC=$rc）"
+  exit 1
+fi
+
 echo "=== CI 全部通过 ==="

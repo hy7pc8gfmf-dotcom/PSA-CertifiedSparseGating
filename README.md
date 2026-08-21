@@ -61,6 +61,8 @@ PSA-CertifiedSparseGating/
 
 ## 复现指引
 
+**CI 验证链（GitHub Actions，全绿）**：Rocq 9.0 编译（lib 链 30 文件 + PSA 核心 3 文件 + 零 Admitted 检查）+ **coqchk 内核独立复验（RC=0，不信任编译器证明证书）**——代码库的证明在 Coq 内核层面独立确认。
+
 ### Coq 形式化（Rocq 9.0.1）
 
 ```powershell
