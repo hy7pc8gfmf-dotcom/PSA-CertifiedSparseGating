@@ -25,19 +25,22 @@ test -d "$MC" && test -d "$CQ"
 
 echo "=== 2. lib/ 依赖链编译 ==="
 cd /repo 2>/dev/null || cd "$(dirname "$0")/.."
+COQLIB=$(coqc -where 2>/dev/null || true)
+HB="$COQLIB/user-contrib/HB"
+[ -d "$HB" ] && echo "  HB: $HB" || { echo "  ✗ HB 缺失"; exit 1; }
 while read -r f; do
   # 跳过注释行（# 开头）与空行
   [ -z "$f" ] && continue
   case "$f" in \#*) continue ;; esac
   echo "  coqc lib/$f.v"
-  coqc -Q "coq/lib" "" -Q "$MC" mathcomp -Q "$CQ" Coquelicot "coq/lib/$f.v"
+  coqc -Q "coq/lib" "" -Q "$MC" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB "coq/lib/$f.v"
 done < scripts/order.txt
 echo "  lib chain compiled"
 
 echo "=== 3. PSA 核心编译 ==="
 for f in PSA_framework PSA_audit PSA_refcheck; do
   echo "  coqc $f.v"
-  coqc -R "coq" PSA -Q "$MC" mathcomp -Q "$CQ" Coquelicot "coq/$f.v"
+  coqc -R "coq" PSA -Q "$MC" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB "coq/$f.v"
 done
 echo "  ✅ PSA 核心编译通过"
 

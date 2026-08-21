@@ -23,21 +23,23 @@ jobs:
             default: https://github.com/ocaml/opam-repository.git
             coq-released: https://coq.inria.fr/opam/released
 
-      - name: Install Rocq 9.0
+      - name: Install Rocq 9.0 + HB (Hierarchy-Builder)
         run: |
           export OPAMSANDBOXING=disabled
-          opam install -y coq.9.0.0
+          opam install -y coq.9.0.0 coq-hierarchy-builder
 
       - name: Build vendored mathcomp (platform edition, 217 files)
         run: |
           eval "$(opam env)"
+          COQLIB=$(coqc -where)
+          HB="$COQLIB/user-contrib/HB"
           cd coq/deps/mathcomp
           for pass in $(seq 1 30); do
             progress=0
             for f in $(find . -name "*.v"); do
               b="${f%.v}"
               [ -f "$b.vo" ] && continue
-              if coqc -Q . mathcomp "$f" 2>/tmp/mc_err; then progress=1; fi
+              if coqc -Q . mathcomp -Q "$HB" HB "$f" 2>/tmp/mc_err; then progress=1; fi
             done
             [ "$progress" = "0" ] && break
           done
@@ -48,13 +50,15 @@ jobs:
       - name: Build vendored Coquelicot (gitlab master, 24 files)
         run: |
           eval "$(opam env)"
+          COQLIB=$(coqc -where)
+          HB="$COQLIB/user-contrib/HB"
           cd coq/deps/coquelicot
           for pass in $(seq 1 15); do
             progress=0
             for f in theories/*.v; do
               b=$(basename "$f" .v)
               [ -f "theories/$b.vo" ] && continue
-              if coqc -R theories Coquelicot -Q ../mathcomp mathcomp "$f" 2>/tmp/cq_err; then progress=1; fi
+              if coqc -R theories Coquelicot -Q ../mathcomp mathcomp -Q "$HB" HB "$f" 2>/tmp/cq_err; then progress=1; fi
             done
             [ "$progress" = "0" ] && break
           done
