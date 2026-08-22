@@ -7,7 +7,7 @@
 >   4D 组装（A1）、2D-wide 免 H_dom、FrameCheck2DNarrow（§5.5）、FFI 24/24（详见正文 §5）。
 > - **可证明性边界新定理族（§5.6，2026-08-22）**：P2/P3/N511（`src/ParetoLaw.v`）、
 >   P1/P1′（`src/P1Coherence.v`）、T2a/T2b（`src/ParetoRandom.v`，T2b 2026-08-22 完成）、
->   CRT/素数链（`src/CRTResolve.v`）、z 区碰撞/分辨率族（**17 探针全 Qed**，含 U5 黄金近碰撞
+>   CRT/素数链（`src/CRTResolve.v`）、z 区碰撞/分辨率族（**18 探针全 Qed**，含 U5 黄金近碰撞
 >   1/(3d)、ALiBi 无碰撞、Parseval 等式、Dirichlet 界、容错 Gershgorin、一般维张量、τ 三分、
 >   核漂移、素数阶梯极限、鸽笼确定性版、ρ^{−3/2} 逐对与行和紧界）；合并版 23/24（31/32 模块）
 >   独立编译 EXIT=0 + coqchk 复核通过；**零 Admitted/零自定义公理**。
@@ -630,13 +630,16 @@ E5''（7 带）在阈值内但实际已失败（累积行和 1.41），C3-trunc�
   ‖Σ e^{ik·t1}·conj(e^{ik·t2})‖ ≤ N/(2·min(j mod N, N−j mod N))（`pair_dirichlet`）；
   推论 `mixed_grid_coherence`：嵌套网格 N 与 a·N 两原子跨网格相干界——grid 崩塌后
   多尺度设计空间的定理（混合网格 512/1024/2048 分维的跨网格相干上界）。
-- **ρ^{−3/2} 紧界（probe_pairbound.v ① + probe_rowsum.v ②，2026-08-22 ①②已 Qed）**：
-  逐对界 ‖⟨ψ_a,ψ_b⟩‖ ≤ sin(πa/b)·√(ab)/(2(b−a))（`pair_inner_norm`，Jordan 分母，
-  逐对 Θ(ρ^{−3/2})，与见证 (2,2C) 之比随 C→∞ → 1）；行和重组 **`row_sum_3halfs`**：
+- **ρ^{−3/2} 紧界三件套（probe_pairbound.v ① + probe_rowsum.v ② + probe_witness.v ③，
+  2026-08-22 全部 Qed）**：逐对界 ‖⟨ψ_a,ψ_b⟩‖ ≤ sin(πa/b)·√(ab)/(2(b−a))
+  （`pair_inner_norm`，Jordan 分母，逐对 Θ(ρ^{−3/2})）；行和重组 **`row_sum_3halfs`**：
   C-稀疏梯子任意行 ≤ 2π·C^{−3/2}/(1−C^{−3/2})，**`row_bound_C4`：C=4 行和 ≤ 2π/7 ≈ 0.898 < 1
-  ——1D C=4 从空洞（2>1，仅存在性）变真实框架界**（crude π 界已证；Jordan 紧版 ≈0.53
-  为紧化目标，未 Qed）。**③ 见证下界（(2,2C) 紧性封顶）进行中——未完成前不入主张**；
-  §19.4 三风险（窗口/归一化对齐、decay_bound 接口、K0=32 高维联动）未清除。
+  ——1D C=4 从空洞（2>1，仅存在性）变真实框架界**；**见证封顶（③ probe_witness.v）**：
+  见证对 (2,2C) 的精确内积 `witness_exact` = sin(π/(2C))/√C，且
+  **`witness_sandwich`：(1−1/C)·[上界] ≤ 见证值 ≤ [上界]——上下界之比 ≥ 1−1/C，C→∞ → 1
+  （Θ(C^{−3/2}) 紧性封顶，机器检查）**。常数演进线 4K → 2K → Θ(C^{−3/2})（紧）封顶；
+  §19.4 风险清单更新：求和窗口口径已对齐 Fpair（消除）；decay_bound 新界接口实例化
+  待 src 侧完成；K0=32 高维联动不承诺。
 - **τ 三分（probe_taudicho.v，零公理）**：`tau_inwindow`/`tau_ood`/`tau_split`/
   `tau_count_link`——碰撞质量 τ 的窗内/OOD/三分刻画（OOD 见证 k := 0 的教训已录）。
 - **U5 黄金近碰撞半径（probe_nearcoll.v，皇冠收官，2026-08-22）**：
@@ -906,7 +909,8 @@ Practically Non-Tight"**，其价值在架构可组合性与维度推广的定�
 | 素数阶梯极限（no_nine_band_ladder） | z/probe_ladderlimit.v（[3,511] 无 9 元素素数阶梯） | ✅（z 区独立验证） |
 | 鸽笼确定性版（ten_bands_reject） | z/probe_pigeon.v（任意 10 带必含 P2 触发对） | ✅（z 区独立验证） |
 | ρ^{−3/2} 逐对紧界（PB3/PB4） | z/probe_pairbound.v（pair_S_bound / pair_inner_norm） | ✅（z 区独立验证） |
-| ρ^{−3/2} 行和重组（row_sum_3halfs / row_bound_C4） | z/probe_rowsum.v（C=4 行和 ≤ 2π/7 < 1） | ✅（z 区独立验证，src 侧复核 EXIT=0） |
+| ρ^{−3/2} 行和重组（row_sum_3halfs / row_bound_C4） | z/probe_rowsum.v（C=4 行和 ≤ 2π/7 < 1） | ✅（z 区独立验证，src 侧复核 EXIT=0 + coqchk） |
+| ρ^{−3/2} 见证封顶（witness_exact / witness_tight / witness_sandwich） | z/probe_witness.v（(1−1/C)·上界 ≤ 见证值 ≤ 上界，比值 → 1） | ✅（z 区独立验证，src 侧复核 EXIT=0 + coqchk） |
 
 ---
 
