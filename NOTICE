@@ -1,0 +1,92 @@
+PSA-CertifiedSparseGating — Certified Sparse Gating & Phase-Complete Frequency Ladders
+Copyright 2026 Wang Baojun, Xia Wanlan, Zu Guangzhao, Zhou Zhinong, Gao Xuefeng & Contributors
+
+==========================================================================
+SOURCE CODE LICENSE
+==========================================================================
+
+The Coq/Rocq formalization source code (coq/lib, coq/core, coq/probes),
+the OCaml/Python checker sources, the papers (papers/), the empirical
+scripts (empirical/), and the documentation in this repository are
+licensed under Apache License, Version 2.0.
+See LICENSE for the full license text.
+
+==========================================================================
+RUNTIME COMPONENTS — LICENSE STATUS
+==========================================================================
+
+Certain runtime components have a different copyright status. See below
+for details.
+
+==========================================================================
+1. REFLECTIVE CHECKER EXECUTABLE — AUTHORS (RLA PROTECTED)
+==========================================================================
+
+The following runtime component is an original work of the authors. It is
+NOT covered by the Apache 2.0 license for commercial purposes. Commercial
+use (embedding in products, SaaS, production environments) or use by
+specific companies requires a signed Runtime License Agreement (CLA/RLA.md).
+
+| Component | Source | Status |
+|-----------|--------|--------|
+| psa_guard.exe | Coq Extraction (PSA_extract.v → psa_guard.ml → bytecode exe) | Proprietary; RLA-protected for commercial use |
+| frame_check_instance runtime | Native-int mirror of the reflective checker | Proprietary; RLA-protected for commercial use |
+
+The Apache 2.0 license covers the source code (research / learning /
+reference use); the RLA governs commercial use of the executable runtime
+components. Contact 168888@live.cn for inquiries.
+
+==========================================================================
+2. NEW THEOREM MODULES & PROBES (2026-08-22) — Apache 2.0
+==========================================================================
+
+The following modules added on 2026-08-22 are distributed under Apache 2.0
+(same terms as the rest of the repository; no per-file marking is used):
+
+- coq/lib/ParetoLaw.v — Pareto law P2/P3/N511 (provability boundary)
+- coq/lib/P1Coherence.v — exact-window coherence lower bounds P1/P1'
+- coq/lib/ParetoRandom.v — randomized negative law T2a/T2b
+- coq/lib/CRTResolve.v — CRT injectivity & prime-ladder resolution
+- coq/probes/*.v — 16 z-zone probes (collision characterization C1–C5,
+  Parseval equality, window-independent Dirichlet bound, tau trichotomy,
+  tolerant Gershgorin, general-dimension tensor, U5 golden near-collision,
+  rho^{-3/2} tight bound, etc.); independently compiled, not merged
+
+The self-contained merged files (ca_merged_full_23/24.v) are NOT in this
+repository; they are kept in the local archive (30模块) and are covered
+by the same Apache 2.0 terms.
+
+==========================================================================
+THIRD-PARTY DEPENDENCIES
+==========================================================================
+
+This product includes or links to the following third-party software,
+each governed by its own license:
+
+1. Mathematical Components (mathcomp) — CeCILL-C
+   - vendored in coq/deps/mathcomp/ (audit / offline reference)
+   - https://math-comp.github.io/
+   - Used for: finite types, seq, prime theory in several Coq libraries
+
+2. Coquelicot — LGPL 2.1+
+   - Installed via opam in CI
+   - https://coq.inria.fr/library/Coquelicot/
+   - Used for: real analysis (RInt, derivability, filters) in the PSA core
+
+3. The Rocq/Coq Proof Assistant — LGPL 2.1 (stdlib)
+   - https://rocq-prover.org/
+   - Used as: the proof assistant compiling all .v sources
+
+==========================================================================
+ADDITIONAL ATTRIBUTIONS
+==========================================================================
+
+Portions of this work build on:
+- The Rocq/Coq proof assistant: https://rocq-prover.org/
+- Mathematical Components: https://math-comp.github.io/
+- Coquelicot: https://coq.inria.fr/library/Coquelicot/
+- Press et al. (2022) ALiBi linear bias; Su et al. RoFormer (RoPE);
+  Kazemnejad et al. (2023) NoPE; Peng et al. (2024) YaRN;
+  Ding et al. (2024) LongRoPE; Li et al. (2024) FIRE;
+  Chen et al. (2022) KERPLE — cited in the papers for the empirical
+  baselines and related work.

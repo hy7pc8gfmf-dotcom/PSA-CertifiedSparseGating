@@ -27,12 +27,13 @@ PSA-CertifiedSparseGating/
 │   ├── 论文评审.txt                                        # （已按作者决定置空）
 │   └── 预登记实验设计-20260819.md                       # 预登记假说 + 执行结果
 ├── coq/                      # Coq 形式化（Rocq 9.0.1）
-│   ├── PSA_framework.v       # 主框架：19 模块 / 250 Qed / 零 Admitted / 6405 行
+│   ├── PSA_framework.v       # 主框架（PhaseCoherence 含 T4 核漂移链 kernel_drift_controls_attention；165 项审计全零 classic 基线）
 │   ├── PSA_audit.v           # 165 项 Print Assumptions 审计（RC=0，全零 classic）
 │   ├── PSA_extract.v         # 提取链（→ OCaml psa_guard.exe）
 │   ├── PSA_refcheck.v        # 参考值检查（FFI 24/24 的一部分）
 │   ├── psa_guard.ml / psa_guard_main.ml / psa_guard_ffi.py  # OCaml 检查器 + Python FFI
-│   ├── lib/                  # 30 个 .v：21 个在 PSA 核心传递闭包内；3D/4D/2D-wide 等 9 个为独立证书模块（各自审计）
+│   ├── lib/                  # 34 个 .v：27 ca_* 库（含 3D/4D/2D-wide 独立证书模块）+ 4 独立定理模块（ParetoLaw 帕累托律 P2/P3/N511 / P1Coherence / ParetoRandom T2a/T2b / CRTResolve；全部独立编译 + coqchk 复核）
+│   ├── probes/               # z 区 16 探针（碰撞刻画 C1–C5 / Parseval 等式 / 窗口无关 Dirichlet 界 / τ 三分 / 容错 Gershgorin / 一般维张量 / U5 黄金近碰撞 / ρ^{−3/2} 紧界等；独立编译验证，不并入合订版）
 │   └── deps/mathcomp/        # vendored mathcomp 源码（CeCILL-C，217 .v，审计/离线参考）
 ├── scripts/
 │   ├── ci_build.sh           # CI 构建脚本（lib 链 + PSA 核心 + 零 Admitted 检查）
@@ -118,9 +119,9 @@ RTX 3070 训练治理：80°C 触发 / 70°C 恢复 / 0.5s 轮询 / 60s 冷却�
 
 ## 许可与授权
 
-- **Apache License 2.0（公开版）**：源码与文档以 Apache-2.0 公开，研究 / 学习 / 参考自由使用。详见 `LICENSE`。
-- **贡献者许可协议（CLA）**：贡献者须签署 `CLA/ICLA.md`（个人）或 `CLA/CCLA.md`（公司），确保贡献既可 Apache-2.0 公开、也可纳入商业许可版本（作者保留商业化权利）。详见 `CLA/README.md`。
+- **Apache License 2.0（公开版）**：源码与文档以 Apache-2.0 公开，研究 / 学习 / 参考自由使用。详见 `LICENSE` 与 `NOTICE`（双协议明细：源码 Apache / 运行时组件 RLA / 第三方依赖各自许可）。**2026-08-22 新增模块（`coq/lib` 的 ParetoLaw/P1Coherence/ParetoRandom/CRTResolve 与 `coq/probes` 全部探针）同受 Apache-2.0 公开条款覆盖**（仓库根 LICENSE/NOTICE 统一适用，无需逐文件标注）。
+- **贡献者许可协议（CLA）**：贡献者须签署 `CLA/ICLA.md`（个人）或 `CLA/CCLA.md`（公司），确保贡献既可 Apache-2.0 公开、也可纳入商业许可版本（作者保留商业化权利）。详见 `CLA/README.md`。新增模块与探针的贡献同样受 CLA 体系约束。
 - **商业授权 / 运行时许可（RLA）**：商业使用（嵌入产品、SaaS、生产环境）或需要 `psa_guard.exe` 等运行时组件的**特定公司**，请联系 `168888@live.cn` 获取商业许可（模板见 `CLA/commercial_license_template.md`，组件条款见 `CLA/RLA.md`）。开源版不含运行时组件的商业授权。
-- **第三方依赖**：`coq/deps/mathcomp/`（CeCILL-C，vendored，见其 README）；Coquelicot（LGPL 2.1+，CI 经 opam 安装）。各自许可独立适用。
+- **第三方依赖**：`coq/deps/mathcomp/`（CeCILL-C，vendored，见其 README）；Coquelicot（LGPL 2.1+，CI 经 opam 安装）。各自许可独立适用。合并版（`ca_merged_full_23/24.v`）自包含但**不入仓库**，仅存于归档 `30模块` 与本地工作区，同样受 Apache-2.0 公开条款覆盖。
 
 
