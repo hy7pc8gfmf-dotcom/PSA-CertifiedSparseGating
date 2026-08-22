@@ -608,8 +608,17 @@ E5''（7 带）在阈值内但实际已失败（累积行和 1.41），C3-trunc�
   **初等替代**（排序 + 相邻比率，不需增长假设的链式归纳）；与 T2b 概率版互补：
   鸽笼 = 确定性、概率版 = whp。
 
+- **备注③（2026-08-22 考古三轮，正向随机侧）**：`pairwise_inner_bound_probabilistic`
+  （`src/ca_sparse_ext.v`，已 Qed；p-偏置子集测度 `sum_over_subsets_weight` 的归一化
+  在 `ca_probabilistic.v` 已证）——对**增长 ≥ c² 的超线性随机阶梯**，随机子阶梯满足
+  逐对内积衰减条件的概率 ≥ **1 − N²·p²**（Janson 型集中）。与 T2b 构成随机侧的
+  完整对偶：**无增长约束的随机（log-uniform）⟹ whp 被拒绝；增长受控的随机
+  （超线性）⟹ whp 可逐对控制**——"随机阶梯三面律"的定理两面（第三面为论文 B
+  的 rand 实证：随机角旋转族内最优 6.45、但不在本证书覆盖范围）。
+
 **意义**：负定律从"确定性密度上限"（P3）延伸到"随机 log-uniform 阶梯 whp 拒绝"——
-7–8 带区间随机不可证性成为定理（z 区交互文档 §2-T2 承接）。
+7–8 带区间随机不可证性成为定理（z 区交互文档 §2-T2 承接）；正向半边
+（备注③）指出**结构化随机**（增长受控）的逐对证书在定理上可行。
 
 ### 5.6.4 碰撞距离框架与认证外推不变族（z 区探针，独立验证）
 
@@ -681,6 +690,48 @@ rand 2.4×）——与 P3 定理互证：**可证性（稀疏）与外推性（�
 
 **落点**：本族与 §5.1–5.5 认证链正交，构成"认证（正）— 可证明性边界（负定律）—
 碰撞/分辨率刻画（机制）"三角；论文 B §10.8 的 τ 机制 5 个正向判决与之一致。
+
+### 5.7 部署级证书族（Certified Deployment Robustness，2026-08-22 新增，z 区探针）
+
+> 框架的核漂移链（§5.6.5 T4）不止覆盖长度外推——部署期的结构化扰动同样落入其
+> 半径。本族把"证书存在性"推进为"部署可用性"：逐出/量化/多头合成各得一枚机器
+> 检查的稳定性证书（共享 KD/分账引擎，一次基建多次收割）。
+
+- **KV 逐出（T-KV，`probe_kvevict.v`，全部 Qed + 审计零 classic）**：逐出 = 核矩阵
+  列删除（`evict_K`）。**精确分账 `kv_drift_exact`**：
+  |logit_i − logit′_i| ≤ Σ_{被逐 j} |c_j·K_ij|（差恰为被逐列和，filter 分割 +
+  有限和三角）；`kv_eviction_drift`：|K| ≤ 1 ⟹ 漂移 ≤ **被逐质量**
+  dropped_mass = Σ_{被逐} |c_j|；**主定理 `kv_eviction_controls_attention`：
+  softmax ℓ1 TVD ≤ e^{2·dropped_mass} − 1——逐出代价 = 被逐质量的显式函数**；
+  先验界 `kv_dropped_le_total`（≤ ‖c‖₁）与零逐出端点 `kv_evict_none_zero`
+  （TVD ≤ 0，经定义性相等）。与论文 B §10.7 的 KV 逐出实证构成定理-实验双轨
+  （可证伪预测：损失应随被逐质量标度；实测"训练长度内逐出无系统代价"与
+  小被逐质量情形的紧界一致）。
+- **量化扰动（T-QUANT，`probe_quant.v`，全部 Qed + 审计零 classic）**：逐项异质
+  误差的行加权分账 `quant_drift_exact`（|K_ij−K′_ij| ≤ e_j ⟹ 漂移 ≤ Σ_j |c_j|·e_j）；
+  **主定理 `quant_column_controls_attention`**：per-key（通道）量化误差 e_j ⟹
+  softmax ℓ1 TVD ≤ e^{2·Σ_j |c_j|·e_j} − 1（INT8 per-channel 量化误差的显式证书）；
+  相对误差的质量型界 `quant_relative_drift`（|K−K′| ≤ δ|K| ⟹ 漂移 ≤ δ·Σ_j |c_j·K_ij|）。
+- **多头合成（T-MH，`probe_multihead.v`，全部 Qed + 审计零 classic）**：
+  **MH1 `head_output_lipschitz`**——期望输出的 ℓ1-直径 Lipschitz 界
+  |Σ_j (p_j−p′_j)·v_j| ≤ ‖p−p′‖₁·Σ_j|v_j|；MH2 逐头证书（logit 漂移 ≤ d ⟹
+  输出漂移 ≤ 直径·(e^{2d}−1)）；**主定理 MH3 `multihead_output_bound`：逐头证书
+  可组合性——多头加权输出的扰动 ≤ Σ_h |w_h|·直径_h·(e^{2d_h}−1)**（每头独立
+  证书/独立阶梯/独立界，输出层三角合成）；MH4 `multihead_top1_stable`（全头
+  间隔条件 ⟹ 决策向量级 top-1 保持）。
+- **TVD 常数可判化（T-EXP，`probe_exprat.v`，全部 Qed + 审计零 classic）**：
+  **E1 `exp_poly_upper`**：0 ≤ x ≤ 1 ⟹ exp x ≤ 1 + x + x²/2 + x³/2——经
+  `exp_taylor_3_direct`（MVT 显式余项）+ e ≤ 3（`exp_le_3`）组合，把超越常数
+  压成有理多项式（ca_taylor 的 Taylor 机器首次承重）；**主定理 E2
+  `tvd_rational_bound`**：漂移 ≤ d 且 2d ≤ 1 ⟹ **TVD ≤ 2d + (2d)²/2 + (2d)³/2
+  ——全有理、检查器可判定**（e^{2d}−1 端有理化，回应前次审计的紧度常数项）；
+  E3/E4 为 KV 逐出与 per-key 量化的有理实例。检查器"全有理可判定"叙事自此
+  覆盖 TVD 端。
+- **决策稳定性（非平凡核心，Q6–Q9）**：`drift_logit_order_stable`——top-1 间隔
+  gap、逐点漂移 ≤ d、2d < gap ⟹ logit 序以 gap−2d 余量保持；`softmax_mono_pair`
+  + **`drift_top1_stable`：漂移源无关的 top-1 概率序保持定理**（KV 逐出/量化/
+  任意核扰动统一复用）；合成证书 `quant_column_top1`：**量化不改变 softmax
+  top-1 决策**（路由/分类稳定性的部署级证书）。
 
 ## 6. 提取与可执行检查器
 - PSA_extract.v → psa_guard.ml → ocamlc 字节码 exe → psa_guard_ffi.py；
@@ -823,7 +874,8 @@ rope 为 b32 3-seed 均值±std（@4096 = 20.28/29.40/26.22 → 25.30±4.63，�
 - **What is not certified（评审 10 建议 3，集中清单）**：本框架**不**证明——
   (a) 学习到的 Q/K/V/O 投影下的注意力 logits/softmax 有界（仅能量界 ⟹ 输出扰动界，
   见 §5 轨 b）；(b) 学习到的 Q/K 投影与位置旋转**对易**（酉不变性仅覆盖基函数层，
-  §5.3）；(c) 多头拼接、残差连接、LayerNorm/激活的数值稳定性；(d) 训练后权重的
+  §5.3）；(c) 残差连接、LayerNorm/激活的数值稳定性（**多头部分已入覆盖**：
+  §5.7 T-MH 的逐头证书可组合性 + 全头决策稳定，2026-08-22）；(d) 训练后权重的
   任何保证（证书对任意系数 c 成立，与训练无关）；(e) 外推 PPL 与框架界之间的
   语义联系（经验桥梁，未形式化）。"verify the analytic kernel, learn the rest"——
   上述 (a)-(e) 均在"learn the rest"一侧；
@@ -844,7 +896,18 @@ rope 为 b32 3-seed 均值±std（@4096 = 20.28/29.40/26.22 → 25.30±4.63，�
   1.27×）；形式化锁定的正是交易中**有结构的一端**（可证性 + 分布内最优性），
   无结构端的平缓外推在本框架的可证范围之外（两文联合边界，见论文 B §8：
   无证书的测试时修复 rope-NTK 与带证书的免修改方案在同一基准上构成
-  不可比的实证-形式化张力）。
+  不可比的实证-形式化张力）；
+- **正交刻画尚为单向（T1b 完备化，future work）**：§5.6.4 的 μ=0 家族目前只证
+  ⟸ 方向（公共偏移 + N-网格 ⟹ 两两正交）；"两两正交 ⟹ 公共偏移 + N-网格"
+  （不存在第三种正交家族）的 ⟹ 方向未形式化——其全部零件已在库
+  （`geom_sum_identity` 逆用 + T-CHAR 的 2πℤ 见证机制），列为后续工作；
+- **形式化复用边界（工程注记，2026-08-22 考古三轮实测）**：z 区探针按自包含
+  纪律不挂 ca_* 链，产生可量化的复用税——`ca_trig.v` 已含 `sin_double`/
+  `sin_pi2_minus`/`sin_pi_minus`（61 定理）但零探针引用（探针自证 2 份同名引理）；
+  `i_split` ×3、`list_sum_R` ×3 重复定义。另一侧的导出缺口由探针自补：
+  `Cnorm_add_le`/`Cnorm_sub_le` 为库内首批 Cnorm 三角不等式
+  （ComplexFoundation 未导出）。收编方向（探针基础件入库 vs 探针挂库链）
+  留给工程后续，不影响本文定理内容。
 
 ## 11. Conclusion
 生成 → 守卫 → 门控 → 衰减 → 框架 → 截断 → 稳定性 → 注意力近似 → **实例证书（有理、
