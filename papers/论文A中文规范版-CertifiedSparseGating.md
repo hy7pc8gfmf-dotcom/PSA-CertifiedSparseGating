@@ -166,6 +166,8 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **P2（单对触发）** `pair_bound_gt_4_5`（`src/ParetoLaw.v`）：0 < n < n′ 且 d = n′−n < (5/8)√(nn′) ⟹ 保守对界 B(n,n′) = √(nn′)/(2d) > 4/5 ⟹ 行和 > 4/5 ⟹ 检查器拒绝。
 - **P3（增长引理 + 完整主定理）** `pair_bound_le_4_5_geometric` + `pareto_law_main`：不触发 P2 ⟹ n′ ≥ c·n，c = ((5+√281)/16)² ≈ 1.8501；m 个相完备带且检查器通过 ⟹ **3·c^(m−1) ≤ N**（几何增长禁止 + 鸽笼组合论证）。
 - **N=511 推论** `pareto_law_N511`：**N=511 时 m ≥ 10 必被拒绝**——"有证书且接近最优"（μ≤4/5 口径）结构性不存在（②的负结果定理化）。实测密集 16–32 带全部拒绝，与定理一致。
+- **备注①（5/8 精确阈值）**：`pair_bound_gt_4_5` 是 iff（d < (5/8)√(nn') ⟺ 64n'²−153nn'+64n² < 0 ⟺ B > 4/5，同一二次型）——"收紧检查器保守界"无空间，假阴性收紧路径在有理松弛→精确算术（Zarith）与 `cert_optimize` 子框架搜索。
+- **备注②（初等替代证明）**：`ten_bands_reject`（probe_pigeon，零公理）——**任意 10 条 [3,511] 带必含 P2 触发对**：插入排序 + 相邻比率 ≥ 9/5 的指数爆炸（Z 层收口）——`pareto_law_main` 的初等替代（不需增长假设的链式归纳）；与 T2b 概率版互补（鸽笼 = 确定性、概率版 = whp）。
 
 ### 5.6.2 精确窗口相干下界（与保守界分层）
 
@@ -182,14 +184,17 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **碰撞完备刻画**（probe_collision/probe_tchar）：精确碰撞 ⟺ 角度有理（全构造性 iff）；有理时最小碰撞距离 = 分母（纯网格 q=1 恰为 N；偏移分母 q 把碰撞推至 q·N——"零成本旋钮"）；**无理偏移（黄金比）⟹ 永无精确碰撞**；**线性偏置（ALiBi）无碰撞端点**（非周期核，碰撞距离 = ∞）。
 - **μ=0 能量守恒等式**（probe_parseval）：互异网格原子在 a·N 窗口 ‖Σc_t·u_t‖² = Σ|c_t|²（等式而非界——框架界退化端点）。
 - **窗口无关 Dirichlet 部分和界**（probe_partial）：j ≢ 0 (mod N) ⟹ ‖Σ_{k<W} e^{2πikj/N}‖ ≤ N/(2·min(j mod N, N−j mod N))，窗口无关。
+- **任意角度对 Dirichlet 界与混合网格相干界**（probe_pairdirichlet）：任意角度 t1 t2，差频 = 2π·j/N（j mod N ≠ 0）⟹ 任意窗口 W 上 ‖Σ e^{ik·t1}·conj(e^{ik·t2})‖ ≤ N/(2·min(j mod N, N−j mod N))（`pair_dirichlet`）；推论 `mixed_grid_coherence`：嵌套网格 N 与 a·N 两原子跨网格相干界——grid 崩塌后多尺度设计空间的定理。
 - **U5 黄金近碰撞半径**（probe_nearcoll，皇冠）：∀ d ≥ 1、∀ m ∈ Z：**|d·φ_gold − m| ≥ 1/(3d)**（代数数范数路线，`square5_zero` 零公理）——近碰撞不能快于 O(1/d) 聚集；与 C5/T2 合成 offset-grid 的完整定量辩护（碰撞谱双向挡死）。
 - **τ 三分**（probe_taudicho，零公理）：碰撞质量 τ 的窗内/OOD/三分刻画。
+- **素数阶梯分辨率与最优性**（`src/CRTResolve.v` + probe_ladderlimit）：存在性 `prime_ladder_8` + `prime_ladder_8_pairwise_coprime`（8 素数链 [3,7,13,29,59,127,251,503]，两两互素）+ 分辨率 `crt_inj`（联合模单射，lcm ≈ 7.49×10¹² ≫ 8× 视界）+ **最优性 `no_nine_band_ladder`**（**[3,511] 不存在 9 元素素数阶梯**，贪心交换论证，贪心链 113/211/397 更紧）——素数叙事完整（存在性 + 分辨率 + 最优性），支撑论文 B 素数阶梯受控对照（prime-7 vs prime-8）。
 
 ### 5.6.5 分级证书、一般维张量与核漂移（z 区探针）
 
 - **容错 Gershgorin**（probe_robust）：坏对每行 ≤ δ·n ⟹ 绝对行和 ≤ n·(μ+δ)；**μ+δ ≤ 4/5 ⟹ 通过帕累托阈值**——检查器从二元升为分级证书。
 - **一般维张量**（probe_tensor）：N 轴张量积 off-diag 行和 ≤ **(1+r)^N − 1（∀N 闭式）**——论文 B §6 跨维推测得证（2D/3D/4D 为 N=2/3/4 特例）。
 - **核漂移（T4 完全体，已并入 PSA_framework PhaseCoherence）**：`kernel_drift_controls_attention`——核逐点漂移 ≤ dc、系数 ℓ1 ≤ dd ⟹ **softmax ℓ1 TVD ≤ e^{2·dc·dd} − 1**（`coherence_controls_attention` 的核漂移姊妹定理）；`kernel_identical_tvd_zero`：K=K' ⟹ 界=0——网格族（任意 a·N 窗口核相同）"注意力核表示级不变性"的证书 0 端点。
+- **ρ^{−3/2} 逐对紧界**（probe_pairbound，① 已 Qed）：‖⟨ψ_a,ψ_b⟩‖ ≤ sin(πa/b)·√(ab)/(2(b−a))（`pair_inner_norm`，Jordan 分母，逐对 Θ(ρ^{−3/2}) 界，与见证 (2,2C) 之比随 C→∞ → 1）——常数演进线 4K → 2K → Θ(C^{−3/2}) 的逐对引擎已证；行和重组与见证下界进行中（②③，未完成前不入主张）。
 
 **意义**：本族与 §5.1–5.5 认证链正交，构成"认证（正）— 可证明性边界（负定律）— 碰撞/分辨率刻画（机制）"三角；offset-grid（无理偏移）的证书保持（T1a/Parseval）、零精确碰撞（C5）与近碰撞护城河（U5）三半均机器检查。
 
