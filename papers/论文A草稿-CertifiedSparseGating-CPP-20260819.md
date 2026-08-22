@@ -1,46 +1,18 @@
-# 论文 A 草稿（CPP/ITP 方向）— 2026-08-20 对齐版 v8
-> **对齐协议**：本版对齐至 2026-08-20 会话 17 终态（A2/A1 完成后基态）——
-> `frame_check_instance_sound` 主定理已 Qed（会话 10+11 装配），**M1.5 已清零**：
-> 审计 **165 项** RC=0、零 Admitted、**全部 165 项零经典排中**
-> （`Classical_Prop.classic` 出现 0 次，证据 `audit_run.txt` 追加段）；M4b 长度一致性 +
-> T8 复合证书 + **端到端复合证书 `champion_e5_composite_certificate`（会话 14 Qed）**
-> 已并入；FFI 24/24（refcheck 20 项 + 整数行和验算 4 项）。
-> **v8 对齐修正（2026-08-20 会话 17 终态）**：① **A2 酉不变性已完成**——v6 的
-> "降级为数学事实（未机器检查）"被推翻：探针 `src\_probe_unitary.v` RC=0 后 Module
-> `UnitaryInvariance` 已并入 `PSA_framework.v` 帧尾（`unitary_invariance_point`
-> 全局保内积版 + 位置索引 psi-rope 版 `unitary_invariance_psi_rope(_global)`，
-> RoPE 语义、无需正交性即保 l2 范数）；原"每带乘 u_i"逐点版本为假命题（交叉项需
-> u_i=u_j，反例 u0=1,u1=-1,g0=g1=1：|1-1|²=0≠4=|1+1|²），未并入。② **A1 4D 组装完成**：
-> `tensor_product_unconditional_basis_4d` 单文件版 `ca_basis_4d.v`（122KB/2073 行）Qed，
-> coqchk 复验 RC=0，已并入 27模块 目录（28 个 .v）与合并版 28 分区。③ PSA_framework.v
-> 现 **6405 行 / 19 个 Module / 250 Qed**；行号修正：ChampionCertificate Module
-> L4582–5150（定理本体 L5075）、FrameCheck2DNarrow L5166–6290；3D 审计 **10 项**
-> （`PSA_3D_audit.v` 实测）。
-> **v7 对齐修正（2026-08-20 会话 17，代码库基态复核）**：PSA_framework.v 实际 **6284 行 /
-> 16 个 Module / 242 Qed**（原"4430 行 / 13 模块"过期，已改）；ChampionCertificate 行号改
-> L4576–5159（定理本体 L5069）；3D 审计项数 **8→10**（`PSA_3D_audit.v` 实测）；FFI 24/24
-> 标注统计口径（refcheck 20 项 + 整数行和验算 4 项）；**新增 §5.5**：FrameCheck2DNarrow
-> （2D 窄轨反射化）——代码库既有模块的正文补写（`hdom_2d_narrow` / `frame_check_2d_narrow_sound` /
-> `tensor_product_unconditional_basis_pointwise`，审计 6 项全零 classic）。
-> **v6 P0 修正（2026-08-20 专家裁定）**：① `champion_e5_composite_certificate` 由
-> "在制"改为"✅ 已完成（会话 14 Qed）"，目标形状据 .v 实际定理改写为对称界
-> `(S−coh_e5) ≤ ‖F‖²_{255} ≤ (S+coh_e5)`；② 酉不变性桥接如实降级为"数学事实
-> （未机器检查）"（unitary 在 .v 零命中），关闭项列为 P1；③ `.v` 头注释已同步
-> v1.0（src\PSA_framework.v）。另增 §5.2b（可判定性溢价独立方法论小节）与
-> §9 Related Work 具体先例。
-> **v5 对齐修正（2026-08-20）**：**M1.5 经典清零已实际完成并入**——PSA_framework.v
-> 的 `Module ExpSeries`（`exp_mono_le_noclassic` 等）已 Qed，`exp_mono_le` 改走
-> 幂级数路线；审计项从 139 增至 **165**（新增 M4b/T8/FrameCheckInstance/
-> ChampionCertificate/FrameCheck2DNarrow），**全 165 项 `Classical_Prop.classic` = 0**，
-> 仅继承 sig_not_dec + sig_forall_dec + fext。本文档所有"139/135/4 项待清零"
-> 表述均已替换为"165 项全零 classic"。
-> **v4 增量（2026-08-20 会话 15/16）**：**2D-wide 张量积无条件基已交付**——
-> `tensor_product_unconditional_basis_2d_wide`（K0 = Rmax 8C³/2，**免 H_dom**，
-> 覆盖全部 idx1≠idx2 离对角对）+ `M_bound_2d_wide 4 = 768`（数值裁决已 Qed）
-> + 配套审计 5 项零 classic（`ca_2d_wide_audit.v`）——宽轨家族 N=2 成员补齐，
-> 2D/3D/4D 张量积证书族闭合（论文 B §6 的 M_bound 公式 N=2 校验从"数值验证"
-> 升级为"全定理级已证 + 免 H_dom 的独立证明路线"）。
-> 剩余 [待补]：相关工作核查（§9 已具初稿）、dense 补 seed（rope 已补 3-seed，会话 18）。
+# 论文 A 草稿（CPP/ITP 方向）— 2026-08-22 清洗版
+
+> **版本状态（2026-08-22）**：
+> - **认证管线基态**：`frame_check_instance_sound` 主定理 Qed（会话 10+11）、**M1.5 经典清零**
+>   （审计 **165 项 RC=0、零 Admitted、全零经典排中**）、M4b 长度一致性 + T8 复合证书 +
+>   **端到端复合证书 `champion_e5_composite_certificate`（Qed）**、酉不变性机器检查（A2）、
+>   4D 组装（A1）、2D-wide 免 H_dom、FrameCheck2DNarrow（§5.5）、FFI 24/24（详见正文 §5）。
+> - **可证明性边界新定理族（§5.6，2026-08-22）**：P2/P3/N511（`src/ParetoLaw.v`）、
+>   P1/P1′（`src/P1Coherence.v`）、T2a/T2b（`src/ParetoRandom.v`，T2b 2026-08-22 完成）、
+>   CRT/素数链（`src/CRTResolve.v`）、z 区碰撞/分辨率族（**12 探针全 Qed**，含 U5 黄金近碰撞
+>   1/(3d)、ALiBi 无碰撞、Parseval 等式、Dirichlet 界、容错 Gershgorin、一般维张量、τ 三分、核漂移）；
+>   合并版 23/24（31/32 模块）独立编译 EXIT=0 + coqchk 复核通过；**零 Admitted/零自定义公理**。
+> - 措辞与引用：按《交接文档》措辞表清洗；参考文献按《参考文献真实性核查报告》校准。
+> - 版本历史（v4–v9 对齐记录）见文末附录 B。
+
 
 ---
 
@@ -96,6 +68,16 @@ concatenation, or LayerNorm, and the learned Q/K projections are **not** certifi
 commute with the positional rotation (see §1 and §10 "What is not certified").
 Companion paper B provides the empirical
 validation of the same ladder family; this work supplies the formal guarantees.
+Beyond the certification pipeline, we prove a *provability-boundary* theorem family
+(§5.6): dense coverage and μ ≤ 4/5 checker certification are mutually exclusive —
+for the checker's conservative bound, more than 9 phase-complete bands in [3,511]
+must be rejected (`pareto_law_N511`, pigeonhole + geometric-growth argument, c ≈ 1.8501),
+and the randomized version holds with high probability (≥ 96% for 7 bands, birthday-box
+counting). We also formalize the collision-distance framework underlying Paper B's
+τ mechanism: exact collisions occur iff the angle is rational (constructive iff),
+the minimum collision distance equals the denominator, irrational offsets never
+collide, and the linear-bias kernel (ALiBi) is collision-free — a certified mirror
+for the uncertified empirical leader.
 
 ---
 
@@ -565,6 +547,103 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
   `abstract_unconditional_basis` 实例（点态 φ2D(i,j)(k)=γ⁻¹ψ_i(k)ψ_j(k)），与 §5.4 宽轨
   2D-wide 的组装构成**双轨反射化闭环**（宽轨免 H_dom / 窄轨 H_dom 可判定，视应用取用）。
 
+## 5.6 可证明性边界与碰撞刻画（2026-08-22 新定理族）
+
+> 本族回答论文 B 的"性能-可证明性张力"：不是工程未达，而是**定理层面**的边界。
+> 全部模块零 Admitted/零自定义公理；ParetoLaw/P1Coherence/ParetoRandom 仅 Stdlib
+> Reals 自包含；合并版 23/24 独立编译 EXIT=0 + coqchk 复核通过。z 区探针按
+> z/ 独立编译验证（不并入合订版，scope 污染实测，见 §15.3 记录）。
+
+### 5.6.1 帕累托律：稠密覆盖与 μ≤4/5 可判定认证互斥（`src/ParetoLaw.v`）
+
+- **P2（单对触发）** `pair_bound_gt_4_5`：0 < n < n′ 且 d = n′−n < (5/8)√(nn′)
+  ⟹ 保守对界 B(n,n′) = √(nn′)/(2d) > 4/5 ⟹ 行和 > 4/5 ⟹ 检查器拒绝。
+- **P3（增长引理）** `pair_bound_le_4_5_geometric`：不触发 P2（B ≤ 4/5）⟹
+  n′ ≥ c·n，c = ((5+√281)/16)² ≈ 1.8501（二次因式分解 64n′²−153nn′+64n² =
+  64(n′−r_hi·n)(n′−r_lo·n)，`field [sqrt281_sq]` 吸收 (√281)²=281；Rocq 9 引理
+  名变更：`Rle_sqr`→`Rsqr_incr_1`（x≤y 在前）、`pow_succ`→`tech_pow_Rmult`）。
+- **P3（完整主定理）** `pareto_law_main`：m 个相完备带 f 0 < … < f (m−1) ≤ N 且
+  检查器通过 ⟹ **3·c^(m−1) ≤ N**（`geom_growth` 序列归纳 + `incr_ge_first`）。
+- **N=511 推论** `pareto_law_N511`：**N=511 时 m ≥ 10 必被拒绝**（`c9_gt_511`：
+  511 < 3·c^9，经 √281 > 167/10 ⟹ c > (217/160)² ⟹ 数值 `vm_compute; lra`）。
+
+**意义**：②的负结果定理化——"有证书且接近最优"（μ≤4/5 口径）结构性不存在；
+E5''（7 带）在阈值内但实际已失败（累积行和 1.41），C3-trunc（5 带）0.54 通过，
+实测密集 16–32 带全部拒绝，与定理一致（框架文档 §4）。
+
+### 5.6.2 精确窗口相干下界（`src/P1Coherence.v`，与 §5.6.1 保守界分层）
+
+- **P1** `p1_coherence_lower`：1 ≤ n < n′、d = n′−n ≤ n′/2、T ≥ n′ ⟹
+  coh_T(n,n′) ≥ (2/π)·√(n/n′)（Jordan `jordan_sin_ge` 经典 MVT 路线 +
+  `sin_abs_le_x_half`；与 ca_basis_lemmas 的构造性 dyadic 路线并存、不依赖）。
+- **P1′** `p1_prime_coherence_lower`：同前提 ⟹ coh_T ≥ √(n/n′)·(1 − π²d²/(6n′²))
+  （`sin_ge_x_minus_x3_6`：sin_bound 交替级数 n=0）。
+
+**意义**：近邻大带（如 (216,217)）相干 ≈ 0.997——稠密随机阶梯高相干的**解析根源
+成为定理**；精确窗口口径与 P2/P3 保守界口径分层（框架文档 §5）。
+
+### 5.6.3 随机版负定律（`src/ParetoRandom.v`，接 §5.6.1）
+
+- **T2a（同箱触发）** `t2a_same_bin_rejected`：n < n′ < (9/5)·n ⟹ d < (5/8)√(nn′)
+  ⟹ P2 触发（9/5 < c = 1.8501；`ratio_lt_c` 经 √281 > 167/10）。
+- **T2b（生日-箱计数）**：`fall9`（下降阶乘 (9)_m）+ `no_collision m = (9)_m/9^m`
+  定义；**符号化单调性** `no_collision_decreasing`/`no_collision_le`（递推
+  no_collision (S m) ≤ no_collision m，`div_le` 交叉相乘，不依赖具体数值）；
+  数值界 `prob_collision7_ge`（m=7 ⟹ P(同箱对) ≥ 96/100）、`prob_collision8_ge`
+  （m=8 ⟹ ≥ 99/100）、`prob_mono`。合成：同箱对 ⟹ P2 触发（T2a）⟹ 检查器拒绝，
+  故 P(拒绝) ≥ 1 − (9)_m/9^m；m ≥ 10 由鸽笼（= P3）确定性覆盖。
+- **平台限制（实测，如实记录）**：Rocq 9 大 nat 字面量（of_num_uint 抽象）在
+  vm_compute/kernel 转换检查下栈溢出（Stack overflow），(9)_7 = 181440、9^7 =
+  4782969 无法在 nat 层计算连通——数值界以 R 层显式分数表达（数学等价），
+  单调性走符号化递推规避。
+
+**意义**：负定律从"确定性密度上限"（P3）延伸到"随机 log-uniform 阶梯 whp 拒绝"——
+7–8 带区间随机不可证性成为定理（z 区交互文档 §2-T2 承接）。
+
+### 5.6.4 碰撞距离框架与认证外推不变族（z 区探针，独立验证）
+
+- **碰撞刻画（probe_collision.v C1–C5 + probe_tchar.v T1–T4）**：精确碰撞 ⟺ 角度
+  有理（`collides_iff_rational_witness`，全构造性 iff，显式见证）；有理时最小碰撞
+  距离 = 分母（`rational_min_period_coprime`/`offset_min_period_coprime`，既约
+  offset 网格 = q·N）；**纯网格 q=1 距离恰 N**（`grid_first_collision_at_N`——grid
+  崩塌的形式侧）；**无理偏移（黄金比）⟹ 永无精确碰撞**（`irrational_offset_no_collision`）；
+  **线性偏置（ALiBi）无碰撞端点**（`linear_bias_no_collision`——非周期核，碰撞距离
+  = ∞）。
+- **μ=0 能量守恒等式（probe_parseval.v）**：互异网格原子在 a·N 窗口
+  ‖Σc_t·u_t‖²_{aN} = Σ|c_t|²（`parseval_two`，等式而非界——框架界定理的退化端点）。
+- **窗口无关 Dirichlet 部分和界（probe_partial.v）**：j ≢ 0 (mod N) ⟹
+  ‖Σ_{k<W} e^{2πikj/N}‖ ≤ N/(2·min(j mod N, N−j mod N))，窗口 W 无关
+  （`dirichlet_partial_bound`，共轭对称化，含库内首批 Cnorm 三角不等式自证）。
+- **τ 三分（probe_taudicho.v，零公理）**：`tau_inwindow`/`tau_ood`/`tau_split`/
+  `tau_count_link`——碰撞质量 τ 的窗内/OOD/三分刻画（OOD 见证 k := 0 的教训已录）。
+- **U5 黄金近碰撞半径（probe_nearcoll.v，皇冠收官，2026-08-22）**：
+  **∀ d ≥ 1、∀ m ∈ Z：|d·φ_gold − m| ≥ 1/(3d)**（`golden_near_collision_gold`，
+  φ_gold = (√5−1)/2；代数数范数路线：e·(m+d+dφ) = d²−dm−m² + 无穷递降
+  `square5_zero`（x²=5y² ⟹ x=y=0，**零公理**）；主定理脚印 = Dedekind 两件，
+  src 侧编译复核 EXIT=0）——近碰撞不能快于 O(1/d) 聚集。
+
+**意义**：offset-grid 的形式化辩护**三半**均 Qed——T1a 证书保持（差频相消、Parseval
+等式）+ C5 无理偏移零精确碰撞 + **U5 近碰撞半径护城河**（与 C5/T2 合成：黄金偏移的
+碰撞谱被双向挡死）；"偏移分母 q 是把碰撞推出评估视界的零成本旋钮"成为机器检查陈述；
+论文 B 的 τ/碰撞机制获得形式化碰撞结构支撑（"经验律 + 形式化碰撞结构"双层表述）。
+
+### 5.6.5 分级证书与一般维张量（z 区探针）
+
+- **容错 Gershgorin（probe_robust.v）**：`robust_gershgorin`——坏对每行 ≤ δ·n ⟹
+  绝对行和 ≤ INR n·(mu+δ)；**`robust_certificate`：mu+δ ≤ 4/5 ⟹ 行和 ≤ INR n·4/5**
+  ——检查器从二元升为分级证书（干净界不达标但 mu+δ 达标仍可证；激活 ca_decay 的
+  δN² 容错存在性定理）。
+- **一般维张量（probe_tensor.v）**：`tensor_bound_uniform_N`——N 轴张量积行和 ≤
+  **(1+r)^N − 1（∀N 闭式，`tsum_shift`/`rprod_shift` 轴号平移引理）**——论文 B §6
+  跨维推测得证，"Theoretically Composable" 从评注变定理（2D/3D/4D 为 N=2/3/4 特例）。
+- **核漂移（probe_kerneldrift.v）**：`kernel_drift_logit`（KD3）——核逐点漂移 ≤ dc
+  且系数 ℓ1 ≤ dd ⟹ |Σ c_j·(K_ij−K'_ij)| ≤ dc·dd（脚印仅 sig_forall_dec + fext）；
+  组合线接 `SoftmaxStability.softmax_l1_bound_exp` 得 TVD ≤ e^{2·dc·dd}−1（PSA_framework
+  已重建，可封口）；网格族 Δ=0 ⟹ TVD=0（表示级不变性带证书）。
+
+**落点**：本族与 §5.1–5.5 认证链正交，构成"认证（正）— 可证明性边界（负定律）—
+碰撞/分辨率刻画（机制）"三角；论文 B §10.8 的 τ 机制 5 个正向判决与之一致。
+
 ## 6. 提取与可执行检查器
 - PSA_extract.v → psa_guard.ml → ocamlc 字节码 exe → psa_guard_ffi.py；
 - **提取机制（评审 A2 澄清）**：核心判定函数（`check_sparse_growth` / `greedy_*` /
@@ -685,7 +764,7 @@ rope 为 b32 3-seed 均值±std（@4096 = 20.28/29.40/26.22 → 25.30±4.63，�
 - **稀疏注意力无证书方法（对比面）**：top-k 门控、KV 逐出、低秩投影等均无误差证书；
   本开发覆盖的"解析核"层（稀疏/近似注意力）在数学上给出可检查保证，是上述方法的
   形式化对照面。
-[⚠️ 参考文献卷期页码已经 2026-08-21 文献数据库核查校准（见《参考文献真实性核查报告》），英文终版按修正后元数据引用。]
+[⚠️ 参考文献卷期页码已经 2026-08-21 文献数据库核查校准（见《参考文献真实性核查报告》），英文终版按修正后元数据引用。预印本（2026-08-22 发布，Figshare）：论文 A DOI: 10.6084/m9.figshare.33312189；论文 B DOI: 10.6084/m9.figshare.33312336。]
 
 ## 10. Limitations
 - **高维证书的定位**：3D 定理 `tensor_product_unconditional_basis_3d` 是形式化
@@ -749,6 +828,15 @@ M_bound^{(N)} = (C³/2)·((1+4K_C)^N − 1) 的 N=2/3/4 校验全部定理级成
 Practically Non-Tight"**，其价值在架构可组合性与维度推广的定位，而非常数本身；
 1D 证书（μ=4/5）保持紧且不受影响。
 
+**可证明性边界（v9 新增，§5.6）**：在认证管线之上，本开发把论文 B 的
+"性能-可证明性张力"从实证观察升格为定理——**稠密覆盖与 μ≤4/5 可判定认证互斥**
+（`pareto_law_main`/`pareto_law_N511`：N=511 时 m≥10 必拒；P1/P1′ 给出精确窗口口径
+相干下界的解析根源；T2a/T2b 把负定律延伸到随机阶梯 whp 拒绝）。配套的碰撞距离
+框架（碰撞 ⟺ 有理、最小距离 = 分母、无理偏移零碰撞、ALiBi 无碰撞端点、Parseval
+能量守恒、窗口无关 Dirichlet 界、容错 Gershgorin 分级证书、一般维张量闭式）为
+论文 B 的 τ/碰撞机制提供形式化镜像——"认证-可证明性边界-碰撞/分辨率刻画"三角
+被机器检查覆盖，零 Admitted、零自定义公理。
+
 ---
 *配套：论文 B（实证+相位律）、预登记实验设计、定理栈增强路线。*
 
@@ -774,3 +862,74 @@ Practically Non-Tight"**，其价值在架构可组合性与维度推广的定�
 | 4D 张量积 | ca_basis_4d.v（tensor_product_unconditional_basis_4d，M_bound_4d 4 = 19968，coqchk 复验） | ✅ |
 | 2D 窄轨反射化（退化单轴） | FrameCheck2DNarrow.frame_check_2d_narrow_sound（single_band 限 n1=1 或 n2=1） | ✅ |
 | 提取 / FFI 24/24 | PSA_extract.v -> psa_guard.exe（frame CLI 实测：C4/T8 true、E5'' false） | ✅ |
+| P2/P3/N511（帕累托律） | src/ParetoLaw.v（pair_bound_gt_4_5 / pareto_law_main / pareto_law_N511） | ✅（v9） |
+| P1/P1′ 精确相干下界 | src/P1Coherence.v（p1_coherence_lower / p1_prime_coherence_lower，coqchk 复核） | ✅（v9） |
+| T2a/T2b 随机版负定律 | src/ParetoRandom.v（t2a_same_bin_rejected / no_collision_decreasing / prob_collision7_8_ge） | ✅（v9，T2b 2026-08-22） |
+| CRT/素数链 | src/CRTResolve.v（crt_inj_two / prime_ladder_8_pairwise_coprime） | ✅（v9） |
+| 碰撞刻画/ALiBi 无碰撞 | z/probe_collision.v（C1–C5）/ z/probe_tchar.v（T1–T4） | ✅（z 区独立验证） |
+| Parseval 能量守恒 / Dirichlet 界 | z/probe_parseval.v（parseval_two）/ z/probe_partial.v（dirichlet_partial_bound） | ✅（z 区独立验证） |
+| 容错 Gershgorin / 一般维张量 / 核漂移 | z/probe_robust.v / probe_tensor.v / probe_kerneldrift.v | ✅（z 区独立验证） |
+| U5 黄金近碰撞半径（1/(3d)） | z/probe_nearcoll.v（golden_near_collision_gold，square5_zero 零公理） | ✅（z 区独立验证，src 侧复核 EXIT=0） |
+
+---
+
+## 附录 B 版本历史（开发记录，投稿前删除）
+
+> v4–v9 对齐协议全文（2026-08-20 至 2026-08-22 的开发演进记录，保留以供追溯）。
+
+**对齐协议（基态，2026-08-20 会话 17）**：本版对齐至 2026-08-20 会话 17 终态（A2/A1 完成后基态）——
+`frame_check_instance_sound` 主定理已 Qed（会话 10+11 装配），**M1.5 已清零**：审计 **165 项** RC=0、
+零 Admitted、**全部 165 项零经典排中**（`Classical_Prop.classic` 出现 0 次，证据 `audit_run.txt`
+追加段）；M4b 长度一致性 + T8 复合证书 + **端到端复合证书 `champion_e5_composite_certificate`
+（会话 14 Qed）** 已并入；FFI 24/24（refcheck 20 项 + 整数行和验算 4 项）。
+
+**v8 对齐修正（2026-08-20 会话 17 终态）**：① **A2 酉不变性已完成**——v6 的"降级为数学事实
+（未机器检查）"被推翻：探针 `src\_probe_unitary.v` RC=0 后 Module `UnitaryInvariance` 已并入
+`PSA_framework.v` 帧尾（`unitary_invariance_point` 全局保内积版 + 位置索引 psi-rope 版
+`unitary_invariance_psi_rope(_global)`，RoPE 语义、无需正交性即保 l2 范数）；原"每带乘 u_i"
+逐点版本为假命题（交叉项需 u_i=u_j，反例 u0=1,u1=-1,g0=g1=1：|1-1|²=0≠4=|1+1|²），未并入。
+② **A1 4D 组装完成**：`tensor_product_unconditional_basis_4d` 单文件版 `ca_basis_4d.v`
+（122KB/2073 行）Qed，coqchk 复验 RC=0，已并入 27模块 目录（28 个 .v）与合并版 28 分区。
+③ PSA_framework.v 现 **6405 行 / 19 个 Module / 250 Qed**；行号修正：ChampionCertificate Module
+L4582–5150（定理本体 L5075）、FrameCheck2DNarrow L5166–6290；3D 审计 **10 项**（`PSA_3D_audit.v` 实测）。
+
+**v7 对齐修正（2026-08-20 会话 17，代码库基态复核）**：PSA_framework.v 实际 **6284 行 /
+16 个 Module / 242 Qed**（原"4430 行 / 13 模块"过期，已改）；ChampionCertificate 行号改
+L4576–5159（定理本体 L5069）；3D 审计项数 **8→10**（`PSA_3D_audit.v` 实测）；FFI 24/24
+标注统计口径（refcheck 20 项 + 整数行和验算 4 项）；**新增 §5.5**：FrameCheck2DNarrow
+（2D 窄轨反射化）——代码库既有模块的正文补写（`hdom_2d_narrow` / `frame_check_2d_narrow_sound` /
+`tensor_product_unconditional_basis_pointwise`，审计 6 项全零 classic）。
+
+**v6 P0 修正（2026-08-20 专家裁定）**：① `champion_e5_composite_certificate` 由"在制"改为
+"✅ 已完成（会话 14 Qed）"，目标形状据 .v 实际定理改写为对称界 `(S−coh_e5) ≤ ‖F‖²_{255} ≤ (S+coh_e5)`；
+② 酉不变性桥接如实降级为"数学事实（未机器检查）"（unitary 在 .v 零命中），关闭项列为 P1；
+③ `.v` 头注释已同步 v1.0（src\PSA_framework.v）。另增 §5.2b（可判定性溢价独立方法论小节）与
+§9 Related Work 具体先例。
+
+**v5 对齐修正（2026-08-20）**：**M1.5 经典清零已实际完成并入**——PSA_framework.v 的
+`Module ExpSeries`（`exp_mono_le_noclassic` 等）已 Qed，`exp_mono_le` 改走幂级数路线；
+审计项从 139 增至 **165**（新增 M4b/T8/FrameCheckInstance/ChampionCertificate/FrameCheck2DNarrow），
+**全 165 项 `Classical_Prop.classic` = 0**，仅继承 sig_not_dec + sig_forall_dec + fext。
+本文档所有"139/135/4 项待清零"表述均已替换为"165 项全零 classic"。
+
+**v4 增量（2026-08-20 会话 15/16）**：**2D-wide 张量积无条件基已交付**——
+`tensor_product_unconditional_basis_2d_wide`（K0 = Rmax 8C³/2，**免 H_dom**，覆盖全部
+idx1≠idx2 离对角对）+ `M_bound_2d_wide 4 = 768`（数值裁决已 Qed）+ 配套审计 5 项零 classic
+（`ca_2d_wide_audit.v`）——宽轨家族 N=2 成员补齐，2D/3D/4D 张量积证书族闭合（论文 B §6 的
+M_bound 公式 N=2 校验从"数值验证"升级为"全定理级已证 + 免 H_dom 的独立证明路线"）。
+
+**v9 增量（2026-08-22 会话 19+）**：**可证明性边界新定理族**（§5.6）——① 帕累托律
+（`src/ParetoLaw.v`，仅 Stdlib Reals 自包含）：P2 单对触发（`pair_bound_gt_4_5`）、
+P3 增长引理（`pair_bound_le_4_5_geometric`，c≈1.8501）、**P3 完整主定理（`pareto_law_main`：
+m 个相完备带 ⟹ 3·c^(m-1) ≤ N）+ N=511 推论（`pareto_law_N511`：m≥10 @ [3,511] 必拒）**；
+② 精确窗口相干下界（`src/P1Coherence.v`）：P1/P1′（`p1_coherence_lower`/`p1_prime_coherence_lower`，
+Jordan + sin_bound 自证，coqchk 复核通过）；③ 随机版负定律（`src/ParetoRandom.v`）：
+T2a 同箱触发（`t2a_same_bin_rejected`）+ **T2b 生日-箱计数（2026-08-22 完成：`fall9`/`no_collision`
+定义、符号化单调性 `no_collision_decreasing`/`no_collision_le`、数值界 `prob_collision7_ge`
+（m=7 ⟹ ≥96/100）/`prob_collision8_ge`（m=8 ⟹ ≥99/100））**；④ CRT/素数链（`src/CRTResolve.v`，
+mathcomp）；⑤ **z 区碰撞/分辨率族**（12 探针全 Qed，独立验证于 z/）：C1–C5 碰撞刻画
+（含 **ALiBi 无碰撞 `linear_bias_no_collision`**）、T-CHAR 最小周期闭式、Parseval 能量守恒
+等式（μ=0 端点）、窗口无关 Dirichlet 部分和界、容错 Gershgorin 分级证书（mu+δ≤4/5）、
+一般维张量（(1+r)^N−1 ∀N）、τ 三分、核漂移（softmax 组合线待 PSA 重建后封口——
+PSA_framework.vo 已重建，可接）、U5 黄金近碰撞半径（1/(3d)）。合并版 23/24 重新生成
+（31/32 模块），独立编译 EXIT=0 + coqchk 复核通过，零 Admitted/零自定义公理。

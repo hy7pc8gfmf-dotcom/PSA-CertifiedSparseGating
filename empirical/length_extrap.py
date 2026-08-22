@@ -118,14 +118,16 @@ def apply_rope_theta(q, k, T, device, theta):
 def rope_theta(d, device, base=10000.0):
     return base ** (-torch.arange(0, d, 2, dtype=torch.float32, device=device) / d)
 
-def psi_rope_theta(d, device, ladder, grid_N=None):
+def psi_rope_theta(d, device, ladder, grid_N=None, grid_offset=0.0):
     """psi-rope：旋转角 = 2π/n_j（n_j 取截断阶梯频带，循环填充 d/2 维）。
-    grid_N 设置时用网格角 θ = 2π·m/grid_N（m 为互异整数，DFT 精确正交，μ=0 全长度成立）。"""
+    grid_N 设置时用网格角 θ = 2π·m/grid_N（m 为互异整数，DFT 精确正交，μ=0 全长度成立）。
+    grid_offset ≠ 0 时为 offset-grid：θ = 2π·(α + m/grid_N)，α 取黄金比 0.6180339887
+    （无理偏移 ⟹ 每个原子严格非周期，任何 lag 无精确碰撞——C5 已证；证书经 T1d 保持）。"""
     ns = torch.tensor([n for n in ladder], dtype=torch.float32, device=device)
     half = d // 2
     idx = torch.arange(half, device=device) % len(ns)
     if grid_N:
-        return 2.0 * math.pi * ns[idx] / grid_N
+        return 2.0 * math.pi * (grid_offset + ns[idx] / grid_N)
     return 2.0 * math.pi / ns[idx]
 
 def _t5_relative_bucket(rel, num_buckets=32, max_distance=128):
@@ -317,6 +319,11 @@ def main():
                     help="E1 psi-rope-rand：旋转角来自随机全相位阶梯（log-uniform [3,511]）")
     ap.add_argument("--grid", type=int, default=0,
                     help="O1 网格阶梯：θ=2π·m/grid（m 从 [3,255] log-uniform 取互异整数，DFT 精确正交 μ=0）")
+    ap.add_argument("--grid-offset", type=float, default=0.0,
+                    help="offset-grid（Z 提案，2026-08-22 获批）：θ=2π·(α+m/grid)，α=黄金比 0.6180339887"
+                         "（无理偏移消碰撞，证书保持；tag _ogrid；须与 --grid 同用）")
+    ap.add_argument("--rand-max", type=int, default=0,
+                    help="rand-trunc：psi-rope-rand 阶梯截断到 n≤rand-max（0=不截断；τ vs 密度判决实验：τ 预测剪 n>256 改善）")
     ap.add_argument("--modes", type=str, default="dense,psi,psi-trunc,rope,psi-rope")
     ap.add_argument("--eval-only", type=str, default="")      # 只评估已存模型（纯前向），如 "psi-trunc"
     ap.add_argument("--rope-variant", type=str, default="none",
@@ -363,11 +370,13 @@ def main():
         if mode == "psi-rope":
             if args.rope_rand:
                 # rr：旋转角来自随机全相位阶梯（与训练路径逐字对齐）
-                rl = [n for n in log_uniform_ladder(3, 511, 128, args.seed, sort=False) if n <= args.block]
+                rl = [n for n in log_uniform_ladder(3, 511, 128, args.seed, sort=False)
+                      if n <= args.block and (args.rand_max == 0 or n <= args.rand_max)]
                 if args.grid:
-                    # O1 网格阶梯：m_t 取互异整数（DFT 精确正交 μ=0 的前提）
+                    # O1 网格阶梯：m_t 取互异整数（DFT 精确正交 μ=0 的前提）；grid_offset≠0 时 offset-grid
                     rl = sorted(set(n for n in log_uniform_ladder(3, 255, 128, args.seed, sort=False)))
-                    theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl, grid_N=args.grid)
+                    theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl,
+                                           grid_N=args.grid, grid_offset=args.grid_offset)
                 else:
                     theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl)
             else:
@@ -376,7 +385,8 @@ def main():
         # E1 变体 tag：与训练路径同构（_rand / _rr / _s<seed> / _grid）
         tag = (f"_c{args.gen_c}" if args.gen_c != 4 else "") + (f"_s{args.seed}" if args.seed != 1337 else "") \
               + (f"_{args.psi_variant}" if args.psi_variant != "none" else "") \
-              + ("_rr" if args.rope_rand else "") + ("_grid" if args.grid else "")
+              + ("_rr" if args.rope_rand else "") + (("_ogrid" if args.grid_offset else "_grid") if args.grid else "") \
+              + (f"_rt{args.rand_max}" if args.rand_max > 0 else "")
         path = resolve_model(mode, args.block, tag)   # 先 HERE 根，再 测试数据/（归档后兼容）
         if not os.path.exists(path):
             print(f"[eval-only] 模型不存在: {path}", flush=True)
@@ -427,12 +437,16 @@ def main():
         if mode == "psi-rope":
             # 旋转角 = 2π/n_j，n_j 取截断阶梯（训练内见过全相位）——检验"psi 频率做相对旋转"
             if args.rope_rand:
-                rl = [n for n in log_uniform_ladder(3, 511, 128, args.seed, sort=False) if n <= args.block]
+                rl = [n for n in log_uniform_ladder(3, 511, 128, args.seed, sort=False)
+                      if n <= args.block and (args.rand_max == 0 or n <= args.rand_max)]
                 if args.grid:
                     # O1 网格阶梯：m_t 互异整数（[3,255] log-uniform），DFT 精确正交 μ=0
+                    # grid_offset≠0 时为 offset-grid：θ=2π·(α+m/grid)，α 无理消碰撞（C5 已证）
                     rl = sorted(set(n for n in log_uniform_ladder(3, 255, 128, args.seed, sort=False)))
-                    theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl, grid_N=args.grid)
-                    print(f"  psi-rope-grid: θ=2π·m/{args.grid}，m 互异 {len(rl)} 个，首 16: {rl[:16]}", flush=True)
+                    theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl,
+                                           grid_N=args.grid, grid_offset=args.grid_offset)
+                    print(f"  psi-rope-{'ogrid' if args.grid_offset else 'grid'}: "
+                          f"θ=2π·({args.grid_offset}+m)/{args.grid}，m 互异 {len(rl)} 个，首 16: {rl[:16]}", flush=True)
                 else:
                     theta = psi_rope_theta(config["n_embd"] // config["n_head"], DEVICE, rl)
                     print(f"  psi-rope-rand: 旋转角来自随机全相位阶梯（log-uniform [3,511]，未排序）首 16: {[round(math.log(n)/math.log(3),1) for n in rl[:6]]}", flush=True)
@@ -442,7 +456,8 @@ def main():
                 print(f"  psi-rope: 旋转角来自频带 {[n for n in config['psi_indices'] if n <= args.block]}", flush=True)
         tag = (f"_c{args.gen_c}" if args.gen_c != 4 else "") + (f"_s{args.seed}" if args.seed != 1337 else "") \
               + (f"_{args.psi_variant}" if args.psi_variant != "none" else "") \
-              + ("_rr" if args.rope_rand else "") + ("_grid" if args.grid else "")
+              + ("_rr" if args.rope_rand else "") + (("_ogrid" if args.grid_offset else "_grid") if args.grid else "") \
+              + (f"_rt{args.rand_max}" if args.rand_max > 0 else "")
         path = os.path.join(HERE, f"model_{mode}_b{args.block}{tag}.pt")
         model = train_and_save(mode, args.iters, {**config, "psi_indices": idxs},
                                data_train, args.block, DEVICE, path, theta, guard, args.seed)

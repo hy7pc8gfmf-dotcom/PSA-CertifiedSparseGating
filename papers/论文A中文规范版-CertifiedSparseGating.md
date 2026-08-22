@@ -3,7 +3,7 @@
 **Certified Sparse Gating and Attention Approximation: An Executable Coq Development**
 
 > 作者：王宝军、夏挽岚、祖光照、周志农、高雪峰
-> 版本：最终版 v1.0（2026-08-21）｜代码基态：PSA_framework.v（19 模块 / 250 Qed / 165 项审计全零经典排中）｜CI 全绿（GitHub Actions）
+> 版本：最终版 v2.0（2026-08-22）｜代码基态：PSA_framework.v（19 模块 / 250 Qed / 165 项审计全零经典排中）+ 可证明性边界族（ParetoLaw / P1Coherence / ParetoRandom / CRTResolve + z 区 12 探针）｜CI 全绿（GitHub Actions）
 
 ---
 
@@ -14,6 +14,8 @@
 对具体几何阶梯 [3,13,53,213]（C=4），我们证明实例证书 `certified_c4_frame_bounds`：框架界 [1/5, 9/5]（μ=4/5），其中每个常数都是经超越界单侧支配得到的有理数（floor-sqrt、Jordan 不等式、Dirichlet 核）——证书层为可判定有理算术，可直接提取。证实例证书模式由反射检查器 `frame_check_instance` 推广到**任意**阶梯（μ≤4/5 的可判定判定，提取为带原生整数镜像的 OCaml）；其健全性定理 `frame_check_instance_sound` 已证明：检查器通过 ⟹ Gershgorin 框架界，故运行时检查器携带机器检查的健全性保证。
 
 对实证配套（论文 B）的**性能最优的结构化阶梯** [3,7,15,31,63,127,255]（论文 B 的强几何基线），一个表示级复合界（认证核 [3,15,63,255] 的 μ=4/5 + 边带能量预算 + 相干交叉项界）是本开发的展示定理 `champion_e5_composite_certificate`（Qed）：对七带基函数证明 $(S-\mathrm{coh}_{e5}) \le \|F\|^2 \le (S+\mathrm{coh}_{e5})$——**基表示稳定性界**，非注意力分数、学习投影或外推 PPL；通向论文 B 实证 PPL 增益的桥梁是经验观察而非形式化推论，该证书与实证性能最优方案（psi-rope-rand，随机阶梯在证书域之外）**正交**。审计含 165 项 Print Assumptions（RC=0，零 Admitted），**全部 165 项在应用层零 `Classical_Prop.classic`**（exp 单调性走幂级数路线，无中值定理）；唯一公理为 Dedekind 实数基础设施（sig_not_dec、sig_forall_dec、函数外延性）——实数构造固有的非构造性选择类原则，**非本开发应用层引入**。"端到端"主张有明确边界：认证链覆盖门控→框架界→截断能量→softmax 稳定性→注意力近似；不覆盖学习权重的数值稳定性、Q/K/V 投影、多头拼接或 LayerNorm（"verify the analytic kernel, learn the rest"）。
+
+在认证管线之上，本开发进一步刻画**可证明性边界**（§5.6）：对 μ≤4/5 的保守检查器口径，稠密覆盖与可判定认证**互斥**——超过 9 个相位完备带覆盖 [3,511] 的阶梯必然被拒绝（`pareto_law_N511`，几何增长禁止 + 鸽笼组合论证，增长常数 c≈1.8501）；随机版负定律以高概率成立（同箱带对必触发拒绝，7 带 ≥ 96%、8 带 ≥ 99%，生日-箱计数）。我们同时形式化论文 B τ/碰撞机制的碰撞距离框架：精确碰撞当且仅当角度有理（全构造性 iff，最小距离 = 分母闭式）、无理偏移（黄金比）永无精确碰撞且近碰撞被 1/(3d) 半径挡住、线性偏置核（ALiBi）无碰撞端点——"认证—可证明性边界—碰撞/分辨率刻画"三角被机器检查覆盖（§5.6.4，含 U5 黄金近碰撞半径）。
 
 **关键词**：形式化验证；Coq/Rocq；稀疏注意力；框架理论；Gershgorin 界；反射检查器；程序提取；构造性数学
 
@@ -135,6 +137,7 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **端到端复合证书**（ChampionCertificate）：顶层组合定理 `champion_e5_composite_certificate`（Qed，零 classic）——代码实际证明的目标形状（全矩阵相干加权）：`length coeffs = 7 → (S − coh_e5 c) ≤ ‖F‖²_{255} ≤ (S + coh_e5 c)`，其中 coh_e5 为 21 对上三角 δ 表经 `term_bound_upper/lower` 加权得到的对称相干交叉项界。构件链：15 个新 pair 界 → 内积/范数引理 → δ 表（21 对）→ `coh_delta_bound`（42 方向）→ 上下界项 → 主定理。注意：早期草拟的"核带框架 + 边带能量"分段形式是装配前的设计稿，最终实现收敛为单一定理下的对称界。
 - **酉不变性（已机器检查）**：旋转是酉变换，对任意酉算子 U 与系数向量 c，$\|\sum c_i U\psi_i\|^2 = \|\sum c_i \psi_i\|^2$——框架界/衰减界/证书自动覆盖旋转版本（论文 B 的"旋转组"）。Module UnitaryInvariance：`unitary_invariance_point`（U 保内积 ⟹ 范数不变）+ 位置索引 psi-rope 实例 + 显式 RoPE 实例 `unitary_invariance_psi_rope_theta`（`u k := Cexp (0+i·INR k·θ k)`，`Cexp_unit_mod` 证单位模）。实验的 2×2 块旋转矩阵（`apply_rope_theta`）与复数乘法 $e^{i\theta}$ 是同一酉群的同构表示（SO(2)≅U(1)），实/虚部逐行对应已显式机器检查（`rope_matrix_real/imag/eq`，零 classic）。注：原"每带乘 u_i"逐点版本为假命题（交叉项要 $u_i = u_j$；反例 u0=1, u1=−1, g0=g1=1），未并入。范围限定：酉不变性适用于**特征表示的范数层**；不保证学习到的 Q/K 投影下注意力 logits 不变。
 - **相干熵桥接**（PhaseCoherence，`coherence_controls_attention`，Qed，零 classic）：对任意相干核 K（$|K_{ij}| \le \mathrm{coh}$）与系数差 $\ell_1 \le \delta$，logit 扰动 $|z_i - z'_i| \le \mathrm{coh}\cdot\delta$，组合 softmax 稳定性得 $\|\mathrm{softmax}\,z - \mathrm{softmax}\,z'\|_1 \le e^{2\cdot\mathrm{coh}\cdot\delta} - 1$——相干上界 ⟹ softmax 输出 TVD 界的抽象桥梁。当前为已证抽象桥梁 + 未实例化状态；实证支撑（会话 18）：ΔCoh 仅在稀疏几何族内排序（4 点 R²=0.982），13 点扩充后跨族崩溃（max 型 R²=0.101）——相干性定性结论保留、定量预测收缩为族内指标。
+- **核漂移口径（已机器检查，2026-08-22）**：`kernel_drift_controls_attention`（PhaseCoherence，coqchk 独立复核）——核逐点漂移 $|K_{ij}-K'_{ij}| \le \mathrm{dc}$（全 i,j）且系数 $\ell_1 \le \mathrm{dd}$ ⟹ softmax 输出 $\ell_1$ 距离 $\le e^{2\cdot\mathrm{dc}\cdot\mathrm{dd}} - 1$（与上条互补：系数漂移×固定核 vs 固定系数×核漂移，覆盖长度外推/蒸馏/量化场景）；对窗口无关核族（网格/偏移网格在任意 $a\cdot N$ 长度核相同）Δ=0 退化为 TVD 界 0（`kernel_identical_tvd_zero`）。**常数演进线**：4K → 2K（`psi_unconditional_basis_tight`）→ μ=0（网格端点）；`abstract_unconditional_basis` 可用 Riesz 序列稳定性语言重述（张成族系数 $\ell^2$ 范数的 $(1\pm M_{\mathrm{bound}})$ 等价）——文本级重述，不改变机器检查内容。
 
 ### 5.4 维度推广：三维/四维/2D-wide 张量积无条件基
 
@@ -153,6 +156,42 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - 严格增长延拓 `seq_ext`：窗口内取 nth，窗口外按几何闭式延拓——把有限阶梯提升为全索引序列以满足骨架的全局增长前提。
 - 可判定 H_dom `hdom_2d_narrow` + 反射检查器 `frame_check_2d_narrow` 与其健全性 `frame_check_2d_narrow_sound`（Qed）：判定通过 ⟹ 窄轨 2D（K0=C³/4 口径）Gershgorin 框架界。
 - 点态组装 `tensor_product_unconditional_basis_pointwise`（Qed）：与宽轨 2D-wide 构成**双轨反射化闭环**。
+
+## 5.6 可证明性边界与碰撞刻画（2026-08-22 新增定理族）
+
+> 本族回答论文 B 的"性能-可证明性张力"：不是工程未达，而是**定理层面**的边界。全部模块零 Admitted、零自定义公理；ParetoLaw/P1Coherence/ParetoRandom 仅 Stdlib Reals 自包含；z 区探针按独立编译验证（不并入合订版）。
+
+### 5.6.1 帕累托律：稠密覆盖与 μ≤4/5 可判定认证互斥
+
+- **P2（单对触发）** `pair_bound_gt_4_5`（`src/ParetoLaw.v`）：0 < n < n′ 且 d = n′−n < (5/8)√(nn′) ⟹ 保守对界 B(n,n′) = √(nn′)/(2d) > 4/5 ⟹ 行和 > 4/5 ⟹ 检查器拒绝。
+- **P3（增长引理 + 完整主定理）** `pair_bound_le_4_5_geometric` + `pareto_law_main`：不触发 P2 ⟹ n′ ≥ c·n，c = ((5+√281)/16)² ≈ 1.8501；m 个相完备带且检查器通过 ⟹ **3·c^(m−1) ≤ N**（几何增长禁止 + 鸽笼组合论证）。
+- **N=511 推论** `pareto_law_N511`：**N=511 时 m ≥ 10 必被拒绝**——"有证书且接近最优"（μ≤4/5 口径）结构性不存在（②的负结果定理化）。实测密集 16–32 带全部拒绝，与定理一致。
+
+### 5.6.2 精确窗口相干下界（与保守界分层）
+
+- **P1/P1′**（`src/P1Coherence.v`）：1 ≤ n < n′、d ≤ n′/2 ⟹ coh_T ≥ (2/π)·√(n/n′)；精细版 coh_T ≥ √(n/n′)·(1 − π²d²/(6n′²))（Jordan + sin_bound 交替级数，coqchk 复核通过）——近邻大带相干 ≈ 0.997 的解析根源成为定理。
+
+### 5.6.3 随机版负定律
+
+- **T2a** `t2a_same_bin_rejected`（`src/ParetoRandom.v`）：n < n′ < (9/5)·n ⟹ P2 触发 ⟹ 检查器拒绝（9/5 < c）。
+- **T2b（生日-箱计数）**：`fall9`/`no_collision` 定义 + **符号化单调性**（no_collision (S m) ≤ no_collision m，递推证明不依赖具体数值）+ 数值界：m=7 ⟹ P(同箱对) ≥ 96/100、m=8 ⟹ ≥ 99/100——负定律从"确定性密度上限"延伸到"随机阶梯高概率拒绝"（m≥10 由鸽笼确定性覆盖）。
+- 平台注记（如实）：Rocq 9 大 nat 字面量计算栈溢出，数值界以 R 层显式分数表达（数学等价）。
+
+### 5.6.4 碰撞距离框架与认证外推不变族（z 区探针，独立验证）
+
+- **碰撞完备刻画**（probe_collision/probe_tchar）：精确碰撞 ⟺ 角度有理（全构造性 iff）；有理时最小碰撞距离 = 分母（纯网格 q=1 恰为 N；偏移分母 q 把碰撞推至 q·N——"零成本旋钮"）；**无理偏移（黄金比）⟹ 永无精确碰撞**；**线性偏置（ALiBi）无碰撞端点**（非周期核，碰撞距离 = ∞）。
+- **μ=0 能量守恒等式**（probe_parseval）：互异网格原子在 a·N 窗口 ‖Σc_t·u_t‖² = Σ|c_t|²（等式而非界——框架界退化端点）。
+- **窗口无关 Dirichlet 部分和界**（probe_partial）：j ≢ 0 (mod N) ⟹ ‖Σ_{k<W} e^{2πikj/N}‖ ≤ N/(2·min(j mod N, N−j mod N))，窗口无关。
+- **U5 黄金近碰撞半径**（probe_nearcoll，皇冠）：∀ d ≥ 1、∀ m ∈ Z：**|d·φ_gold − m| ≥ 1/(3d)**（代数数范数路线，`square5_zero` 零公理）——近碰撞不能快于 O(1/d) 聚集；与 C5/T2 合成 offset-grid 的完整定量辩护（碰撞谱双向挡死）。
+- **τ 三分**（probe_taudicho，零公理）：碰撞质量 τ 的窗内/OOD/三分刻画。
+
+### 5.6.5 分级证书、一般维张量与核漂移（z 区探针）
+
+- **容错 Gershgorin**（probe_robust）：坏对每行 ≤ δ·n ⟹ 绝对行和 ≤ n·(μ+δ)；**μ+δ ≤ 4/5 ⟹ 通过帕累托阈值**——检查器从二元升为分级证书。
+- **一般维张量**（probe_tensor）：N 轴张量积 off-diag 行和 ≤ **(1+r)^N − 1（∀N 闭式）**——论文 B §6 跨维推测得证（2D/3D/4D 为 N=2/3/4 特例）。
+- **核漂移（T4 完全体，已并入 PSA_framework PhaseCoherence）**：`kernel_drift_controls_attention`——核逐点漂移 ≤ dc、系数 ℓ1 ≤ dd ⟹ **softmax ℓ1 TVD ≤ e^{2·dc·dd} − 1**（`coherence_controls_attention` 的核漂移姊妹定理）；`kernel_identical_tvd_zero`：K=K' ⟹ 界=0——网格族（任意 a·N 窗口核相同）"注意力核表示级不变性"的证书 0 端点。
+
+**意义**：本族与 §5.1–5.5 认证链正交，构成"认证（正）— 可证明性边界（负定律）— 碰撞/分辨率刻画（机制）"三角；offset-grid（无理偏移）的证书保持（T1a/Parseval）、零精确碰撞（C5）与近碰撞护城河（U5）三半均机器检查。
 
 ## 6 提取与可执行检查器
 
@@ -207,7 +246,9 @@ psi-rope 行 3 个种子均值±std、dense 单个种子（b64 s1337）、rope �
 
 生成 → 守卫 → 门控 → 衰减 → 框架 → 截断 → 稳定性 → 注意力近似 → **实例证书（有理、可判定）** → 长度一致性（∀N≥214）→ T8 复合证书 → **反射检查器及其健全性定理（165 项审计，全部零经典排中）**：一条完整的、零 Admitted 的**表示层认证管线**——为解析核保证服务，与论文 B 的实证性能正交。
 
-**可组合的反射化（方法论贡献）**：反射检查器的健全性证明是可组合的——3D 张量核的静态定理与 1D `gershgorin_frame_mu` 共享同一骨架，其反射化是提取链的直和扩展而非基础理论修正。宽轨家族 2D/3D/4D 成员齐备（N 维公式 M_bound^{(N)} = (C³/2)·((1+4K_C)^N − 1) 的 N=2/3/4 校验全部定理级成立）。客观地讲，3D/4D 证书当前是非紧的存在性结果，其价值在架构可组合性与维度推广的定位，而非常数本身；1D 证书（μ=4/5）保持紧且不受影响。
+**可组合的反射化（方法论贡献）**：反射检查器的健全性证明是可组合的——3D 张量核的静态定理与 1D `gershgorin_frame_mu` 共享同一骨架，其反射化是提取链的直和扩展而非基础理论修正。宽轨家族 2D/3D/4D 成员齐备（N 维公式 M_bound^{(N)} = (C³/2)·((1+4K_C)^N − 1) 的 N=2/3/4 校验全部定理级成立，且组合指数增长部分已升为 ∀N 定理，§5.6.5）。客观地讲，3D/4D 证书当前是非紧的存在性结果，其价值在架构可组合性与维度推广的定位，而非常数本身；1D 证书（μ=4/5）保持紧且不受影响。
+
+**可证明性边界（v2.0 新增，§5.6）**：在认证管线之上，本开发把论文 B 的"性能-可证明性张力"从实证观察升格为定理——**稠密覆盖与 μ≤4/5 可判定认证互斥**（`pareto_law_main`/`pareto_law_N511`：N=511 时 m≥10 必拒；P1/P1′ 给出精确窗口口径相干下界的解析根源；T2a/T2b 把负定律延伸到随机阶梯高概率拒绝）。配套的碰撞距离框架（碰撞 ⟺ 有理、最小距离 = 分母、无理偏移零碰撞、ALiBi 无碰撞端点、Parseval 能量守恒、窗口无关 Dirichlet 界、容错 Gershgorin 分级证书、一般维张量闭式、核漂移 softmax TVD 界）为论文 B 的 τ/碰撞机制提供形式化镜像——"认证—可证明性边界—碰撞/分辨率刻画"三角被机器检查覆盖，零 Admitted、零自定义公理。
 
 ## 参考文献
 
@@ -218,6 +259,8 @@ psi-rope 行 3 个种子均值±std、dense 单个种子（b64 s1337）、rope �
 5. Necula, G. Proof-Carrying Code. POPL '97, pp.106-119, 1997.
 6. Barrett, C., Henzinger, T.A., Seshia, S.A. Certificates in AI: Learn but Verify. Communications of the ACM, 69(1):66–75, 2026.
 7. [论文 B 中文规范版]：相位截断频率阶梯：可认证且外推稳健的位置编码（本工作配套，TACL 方向）。
+7a. [论文 A 预印本]：Wang, B., et al. Certified Sparse Gating and Attention Approximation: An Executable Coq Development. Preprint, Figshare, 2026. DOI: 10.6084/m9.figshare.33312189.（2026-08-22 发布）
+7b. [论文 B 预印本]：Wang, B., et al. Phase-Truncated Frequency Ladders: Certified, Extrapolation-Robust Positional Encoding. Preprint, Figshare, 2026. DOI: 10.6084/m9.figshare.33312336.（2026-08-22 发布）
 8. 卷期页码已经 2026-08-21 文献数据库核查校准（核查报告：《参考文献真实性核查报告》）。
 
 ## 附录 复现指引
