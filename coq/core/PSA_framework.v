@@ -19,7 +19,7 @@
        |1-1|²=0≠4=|1+1|²），未并入；带索引 l2 等式需基精确正交（本 psi 族截断窗口
        交叉项非零，由 (1±4/5) 帧界路线覆盖）。
      v1.0（2026-08-20）：头注释同步实际内容——M1.5 已清零（Module ExpSeries，
-       全 165 项审计零 Classical_Prop.classic）；端到端复合证书
+       全 165 项审计零 Classical_Prop.classic）；端到端冠军证书
        champion_e5_composite_certificate 已 Qed（Module ChampionCertificate，
        会话 14）；FrameCheck2DNarrow（会话 15）已并入。
      v0.1（2026-08-18）：初稿（下续为历史修正记录）。
@@ -2764,7 +2764,7 @@ Qed.
 
 End Gershgorin.
 (* ============================================================
-   M4 Tier 1（2026-08-19）：C=4 实例证书（认证对象 = 最优阶梯）
+   M4 Tier 1（2026-08-19）：C=4 实例证书（认证对象 = 冠军对象）
    ------------------------------------------------------------
    核心：psi_inner_cons_bound（窗口无关保守界 |⟨⟩| ≤ 1/(2Δ√(n1n2))，
    有限支撑 ⟹ 对一切 N ≥ n_max 一致有效）→ 六对界 → 行和 ≤ 4/5 →
@@ -3417,7 +3417,7 @@ End M4bLengthConsistency.
 
 (* ============================================================
    M4 T8 复合证书（会话 9 并入，探针 PSA_T8_probe.v 验证 RC=0）
-   核：[3,15,63,255]（E5'' 最优阶梯的隔带子核，packing 最优但整梯不可认证）
+   核：[3,15,63,255]（E5'' 冠军梯的隔带子核，packing 最优但整梯不可认证）
    μ=4/5 实例证书 (1/5)·S ≤ ‖F‖² ≤ (9/5)·S，窗口 255——零 classic
    ============================================================ *)
 Module T8CoreCertificate.
@@ -3538,9 +3538,9 @@ Proof.
       apply Rle_refl.
 Qed.
 
-(* ============ T8 核（隔带子核）阶梯定义 ============ *)
+(* ============ T8 核（隔带子核）梯子定义 ============ *)
 
-(* T8 核阶梯（cons 形式）：[3,15,63,255] *)
+(* T8 核梯子（cons 形式）：[3,15,63,255] *)
 Definition t8l : list nat := (3%nat :: 15%nat :: 63%nat :: 255%nat :: nil).
 
 (* ============ 行和 ≤ 4/5（窗口 255，镜像 c4_row*） ============ *)
@@ -3677,7 +3677,7 @@ End T8CoreCertificate.
 
 (* ============================================================
    M4 收尾②：frame_check_instance 反射式框架检查器（会话 9 并入）
-   任意阶梯 → 布尔判定 μ ≤ 4/5，可提取到 OCaml（__frame__ 命令）。
+   任意梯子 → 布尔判定 μ ≤ 4/5，可提取到 OCaml（__frame__ 命令）。
    floor-sqrt 有理化 + nat 分数行和，全部可判定有理算术（可提取性根源）。
    零 classic。soundness 定理（pair_sound + frame_check_instance_sound）
    在后续并入时 Qed（见探针注释）。
@@ -3712,12 +3712,12 @@ Notation nat_pair := (nat * nat)%type.
 Definition frac_add (a b c d : nat) : nat_pair :=
   ((a * d + c * b)%nat, (b * d)%nat).
 
-(* 把阶梯中第 i 个元素与所有 j ≠ i 的对界累加为分数（i < j 用 pair，i > j 对称同值）
-   ⚠️ 会话 9 续勘误（2026-08-19）：n_i 必须取自原始阶梯 orig 的第 i 个元素，
+(* 把梯子中第 i 个元素与所有 j ≠ i 的对界累加为分数（i < j 用 pair，i > j 对称同值）
+   ⚠️ 会话 9 续勘误（2026-08-19）：n_i 必须取自原始梯子 orig 的第 i 个元素，
    而非当前收缩列表 I——旧定义在递归中让 n_i 漂移到 orig[j+i]，与原生 int
    检查器（psa_guard_main.ml 的 frame_check_instance_int，ni=arr.(i) 固定）不一致，
    导致 Coq 反射层对 [3,13] 误判 false、对 C4 行和退化为 (0,0) 真空通过。
-   本修正使 Coq 定义与原生检查器逐行同构（orig 参数携带原始阶梯）。 *)
+   本修正使 Coq 定义与原生检查器逐行同构（orig 参数携带原始梯子）。 *)
 Fixpoint row_sum_frac_aux (I orig : list nat) (i : nat) (acc : nat_pair) (j : nat) : nat_pair :=
   match I with
   | nil => acc
@@ -3738,7 +3738,7 @@ Definition row_sum_frac (I : list nat) (i : nat) : nat_pair :=
 Definition row_le_4_5 (f : nat_pair) : bool :=
   Nat.leb (5 * fst f)%nat (4 * snd f)%nat.
 
-(* ============ 反射层 3：阶梯结构检查 ============ *)
+(* ============ 反射层 3：梯子结构检查 ============ *)
 
 (* 严格升序（相邻对 a < b）——prev 携带上一元素，结构递归在 list 上 *)
 Fixpoint sorted_aux (prev : nat) (l : list nat) : bool :=
@@ -3768,7 +3768,7 @@ Fixpoint all_pairs_ok (I : list nat) : bool :=
       andb (forallb (fun n => pair_ok h n) tl) (all_pairs_ok tl)
   end.
 
-(* 所有行和 ≤ 4/5（i 为行号；orig 携带原始阶梯——与原生 row_sum_le_4_5 ladder i 一致） *)
+(* 所有行和 ≤ 4/5（i 为行号；orig 携带原始梯子——与原生 row_sum_le_4_5 ladder i 一致） *)
 Fixpoint all_rows_le (I orig : list nat) (i : nat) : bool :=
   match I with
   | nil => true
@@ -3777,20 +3777,20 @@ Fixpoint all_rows_le (I orig : list nat) (i : nat) : bool :=
 
 (* ============ 框架检查器（主入口） ============ *)
 
-(* frame_check_instance I = true ⟹ 阶梯 I（升序、全 ≥2、对界有效、行和 ≤ 4/5）
+(* frame_check_instance I = true ⟹ 梯子 I（升序、全 ≥2、对界有效、行和 ≤ 4/5）
    对任意系数向量，gershgorin μ ≤ 4/5 框架界 [1/5, 9/5] 成立（窗口 = 末元素 n_max） *)
 Definition frame_check_instance (I : list nat) : bool :=
   andb (sorted_strict_aux I)
        (andb (all_ge_2 I)
              (andb (all_pairs_ok I) (all_rows_le I I 0%nat))).
 
-(* ============ 计算验证（仅小阶梯——Coq VM 的 Peano 大数乘法不可扩展） ============ *)
+(* ============ 计算验证（仅小梯子——Coq VM 的 Peano 大数乘法不可扩展） ============ *)
 (* ⚠️ 设计决策（2026-08-19 会话 9）：
    反射检查器的实际验证交由提取后的 OCaml（psa_guard.exe，机器字整数）。
    Coq 的 vm_compute 用 Peano unary nat，frac_add 的大分母乘法（如 b*d 对
    den≈48384 时会展开海量 S）在 ≥[3,53] 级即栈溢出。因此：
-   - 小阶梯（对 ≤[3,13]）：本文件 vm_compute 验证；
-   - 大阶梯（C4/T8/E5''/C2b）：提取后 __frame__ 命令逐阶梯验证（见 psa_guard_main.ml）。 *)
+   - 小梯子（对 ≤[3,13]）：本文件 vm_compute 验证；
+   - 大梯子（C4/T8/E5''/C2b）：提取后 __frame__ 命令逐梯验证（见 psa_guard_main.ml）。 *)
 
 (* 反射单对界验证（小，可计算） *)
 Example pair_ok_3_13 : pair_ok 3 13 = true.
@@ -4576,7 +4576,7 @@ Qed.
 End FrameCheckInstance.
 
 (* ============================================================
-   Module ChampionCertificate（会话 14 E5'' 复合证书）
+   Module ChampionCertificate（会话 14 E5'' 冠军证书）
    七带 [3,7,15,31,63,127,255] 输出平方范数的复合界：
      (S - coh) <= l2_norm_sq F 255 <= (S + coh)
    依赖：T8CoreCertificate 6 个 pair 界 + InstanceCertificate
@@ -4817,7 +4817,7 @@ Proof.
 Qed.
 
 (* ============================================================
-   E5'' 复合证书：顶层定理（全矩阵相干加权版本）
+   E5'' 冠军证书：顶层定理（全矩阵相干加权版本）
    e5_bands = [3,7,15,31,63,127,255]（索引 0..6）
    δ 表 = 21 对上三角相干界（6 核内 T8 + 15 新对，双方向定义）
    ============================================================ *)
@@ -4899,7 +4899,7 @@ Proof.
     lra.
 Qed.
 
-(* E5'' 七带阶梯 *)
+(* E5'' 七带梯子 *)
 Definition e5_bands : list nat := 3%nat :: 7%nat :: 15%nat :: 31%nat :: 63%nat :: 127%nat :: 255%nat :: nil.
 
 (* δ 表（双方向）：对 7 带索引 (i,j)（0..6 → 3,7,15,31,63,127,255） *)
@@ -5076,7 +5076,7 @@ Proof.
   apply sum_f_R0_ext; intros i _. ring.
 Qed.
 
-(* E5'' 端到端复合证书：七带完整输出的平方范数复合界 *)
+(* E5'' 端到端冠军证书：七带完整输出的平方范数复合界 *)
 Theorem champion_e5_composite_certificate (coeffs : list Complex) :
   length coeffs = 7%nat ->
   let c := fun i => nth i coeffs C0 in
@@ -5159,7 +5159,7 @@ End ChampionCertificate.
    ------------------------------------------------------------
    任务：(b) 2D 窄轨反射检查器 —— 把 1D frame_check_instance 反射模式
    推广到 2D 窄轨定理 tensor_product_unconditional_basis_corrected（K0=C³/4）。
-   输入两轴阶梯值列表 vals1/vals2 与生长常数 cC，检查
+   输入两轴梯子值列表 vals1/vals2 与生长常数 cC，检查
      sorted/ge2/增长/单带退化（n1=1 或 n2=1）/单值支配/曼哈顿≤6，
    判定通过 ⟹ 2D 窄轨无条件基界（M_bound = K0·((1+4K_C)²−1)）。
    关键数学（会话 14）：corrected 的 H_dom forall 版本不可实例化
@@ -6470,7 +6470,7 @@ Lemma list_sum_R_ext (f g : nat -> R) (l : list nat) :
 Proof.
   induction l as [| h t IH]; simpl; intro H.
   - reflexivity.
-  - rewrite (H h (or_introl eq_refl)). rewrite (IH (fun i Hi => H i (or_intror Hi))). reflexivity.
+  - rewrite (H h (or_introl (eq_refl h))). rewrite (IH (fun i Hi => H i (or_intror Hi))). reflexivity.
 Qed.
 
 (* ---------- 和的绝对三角不等式 ---------- *)
@@ -6524,7 +6524,7 @@ Qed.
 (* ---------- 步骤 2+3：softmax_l1_bound_exp 组合（主定理） ---------- *)
 
 (* 抽象相干-softmax 桥接引理（abstract lemma，评审 12）：参数化于任意相干核 K，
-   不绑定 ψ 基或学习投影层——实例化到具体阶梯为后续工作。 *)
+   不绑定 ψ 基或学习投影层——实例化到具体梯子为后续工作。 *)
 Theorem coherence_controls_attention (K : nat -> nat -> R) (c c' : nat -> R)
   (n : nat) (coh delta : R) :
   (0 < n)%nat -> (0 <= coh)%R -> (0 <= delta)%R ->
@@ -6561,6 +6561,99 @@ Proof.
            n (coh * delta) Hn).
   - apply Rmult_le_pos; auto.
   - intros k Hk. apply Hz. exact Hk.
+Qed.
+
+
+(* ---------- 核漂移链（T4 完全体；z 区 probe_kerneldrift/probe_softmaxtvd 并入 20260-08-22） ---------- *)
+(* 口径：固定系数 c × 核漂移 K→K'（长度外推/蒸馏/量化场景），
+   与上文 coherence_controls_attention（系数漂移 × 固定核）互补。 *)
+
+Lemma In_seq_lt_coq : forall j n : nat, In j (seq 0%nat n) -> (j < n)%nat.
+Proof.
+  intros j n Hj.
+  destruct (In_nth (seq 0%nat n) j 0%nat Hj) as [k [Hk Hkth]].
+  rewrite length_seq in Hk.
+  assert (Hkseq : (nth k (seq 0%nat n) 0%nat = k)%nat)
+    by (rewrite (@seq_nth n 0%nat k 0%nat Hk); lia).
+  rewrite Hkth in Hkseq. lia.
+Qed.
+
+(* KD2：logit 层——核逐点漂移 ≤ dc 且系数 ℓ1 ≤ dd ⟹ logit 漂移 ≤ dc·dd *)
+Lemma kernel_drift_logit (K K' : nat -> nat -> R) (c : nat -> R)
+      (n i : nat) (dc dd : R) :
+  (i < n)%nat -> (0 <= dc)%R ->
+  (forall i0 j, (i0 < n)%nat -> (j < n)%nat -> (Rabs (K i0 j - K' i0 j) <= dc)%R) ->
+  (list_sum_R (fun j => Rabs (c j)) (seq 0%nat n) <= dd)%R ->
+  (Rabs (list_sum_R (fun j => c j * K i j) (seq 0%nat n)
+          - list_sum_R (fun j => c j * K' i j) (seq 0%nat n)) <= dc * dd)%R.
+Proof.
+  intros Hi Hdc HK Hdd.
+  (* 差 = Σ c_j·(K − K')：三段式组装（Rminus 下藏 Ropp，直接 rewrite 不可见） *)
+  assert (Hdiff : (list_sum_R (fun j => c j * K i j) (seq 0%nat n)
+                   - list_sum_R (fun j => c j * K' i j) (seq 0%nat n)
+                   = list_sum_R (fun j => (c j * K i j + - (c j * K' i j))) (seq 0%nat n))%R).
+  { transitivity (list_sum_R (fun j => (c j * K i j + - (c j * K' i j))) (seq 0%nat n)).
+    - rewrite (list_sum_R_plus (fun j => c j * K i j) (fun j => - (c j * K' i j)) (seq 0%nat n)).
+      rewrite (list_sum_R_neg (fun j => c j * K' i j) (seq 0%nat n)).
+      ring.
+    - apply list_sum_R_ext. intros j Hj. ring. }
+  rewrite Hdiff.
+  apply (Rle_trans _ (list_sum_R (fun j => Rabs (c j * K i j - c j * K' i j)) (seq 0%nat n))).
+  - apply list_sum_R_abs.
+  - apply (Rle_trans _ (list_sum_R (fun j => dc * Rabs (c j)) (seq 0%nat n))).
+    + apply list_sum_R_le_compat. intros j Hj.
+      assert (Hjn : (j < n)%nat) by (apply In_seq_lt_coq; exact Hj).
+      assert (HKj : (Rabs (K i j - K' i j) <= dc)%R) by (apply HK; assumption).
+      replace (c j * K i j - c j * K' i j) with (c j * (K i j - K' i j)) by ring.
+      rewrite Rabs_mult.
+      rewrite (Rmult_comm (Rabs (c j)) (Rabs (K i j - K' i j))).
+      apply Rmult_le_compat_r.
+      * apply Rabs_pos.
+      * exact HKj.
+    + rewrite (list_sum_R_scale_l (fun j => Rabs (c j)) dc (seq 0%nat n)).
+      apply Rmult_le_compat_l; [exact Hdc | exact Hdd].
+Qed.
+
+(* T4 完全体：核漂移 → softmax TVD ≤ e^{2·dc·dd} − 1 *)
+Theorem kernel_drift_controls_attention (K K' : nat -> nat -> R)
+        (c : nat -> R) (n : nat) (dc dd : R) :
+  (0 < n)%nat -> (0 <= dc)%R ->
+  (forall i j, (i < n)%nat -> (j < n)%nat -> (Rabs (K i j - K' i j) <= dc)%R) ->
+  (list_sum_R (fun j => Rabs (c j)) (seq 0%nat n) <= dd)%R ->
+  (list_sum_R (fun i => Rabs
+     (softmax_l (fun i0 => list_sum_R (fun j => c j * K i0 j) (seq 0%nat n)) n i
+      - softmax_l (fun i0 => list_sum_R (fun j => c j * K' i0 j) (seq 0%nat n)) n i))
+     (seq 0%nat n) <= exp (2 * (dc * dd)) - 1)%R.
+Proof.
+  intros Hn Hdc HK Hdd.
+  assert (Hdd0 : (0 <= dd)%R).
+  { apply (Rle_trans _ (list_sum_R (fun j => Rabs (c j)) (seq 0%nat n))).
+    - apply list_sum_R_pos. intros i _. apply Rabs_pos.
+    - exact Hdd. }
+  apply (softmax_l1_bound_exp
+           (fun i0 => list_sum_R (fun j => c j * K i0 j) (seq 0%nat n))
+           (fun i0 => list_sum_R (fun j => c j * K' i0 j) (seq 0%nat n))
+           n (dc * dd) Hn).
+  - apply Rmult_le_pos; auto.
+  - intros k Hk. apply (kernel_drift_logit K K' c n k dc dd); assumption.
+Qed.
+
+(* 退化端点：K = K' ⟹ TVD 界 = 0（网格/偏移网格族长度外推核不变的证书端点） *)
+Corollary kernel_identical_tvd_zero (K : nat -> nat -> R)
+        (c : nat -> R) (n : nat) (dd : R) :
+  (0 < n)%nat ->
+  (list_sum_R (fun j => Rabs (c j)) (seq 0%nat n) <= dd)%R ->
+  (list_sum_R (fun i => Rabs
+     (softmax_l (fun i0 => list_sum_R (fun j => c j * K i0 j) (seq 0%nat n)) n i
+      - softmax_l (fun i0 => list_sum_R (fun j => c j * K i0 j) (seq 0%nat n)) n i))
+     (seq 0%nat n) <= exp (2 * (0 * dd)) - 1)%R.
+Proof.
+  intros Hn Hdd.
+  apply (kernel_drift_controls_attention K K c n 0 dd Hn (Rle_refl 0%R)).
+  - intros i j _ _.
+    replace (K i j - K i j) with 0%R by ring.
+    rewrite Rabs_R0. apply Rle_refl.
+  - exact Hdd.
 Qed.
 
 End PhaseCoherence.

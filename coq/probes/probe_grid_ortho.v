@@ -1,0 +1,257 @@
+(* ============================================================
+   网格阶梯正交探针（z 工作区 / 隔壁智能体同事，E039 隔离纪律）
+   先在此验证，通过后由 src 侧并入（建议 src/GridOrtho.v 或 PSA_framework
+   新 Module；PSA-CertifiedSparseGating 仓库冻结不动）。
+   方向：《z/扩展方向分析-20260821.md》§2 偏移网格阶梯（O1 升级版）。
+
+   G1  grid_pair_ortho：网格原子对窗口 N 精确正交
+       —— prime_character_orthogonality 的直接实例（该证明对任意 p≥2 成立，
+          不用素数性；μ=0 证书的数学内核已在库中）
+   G2  off_grid_ortho：公共偏移 α 在成对内积中精确相消
+       —— 偏移网格同享 μ=0 证书（α 无理 ⟹ 证书保持 + 非周期，见碰撞探针 C5）
+   G3  grid_ortho_mult：窗口 a·N 上正交保持（训练窗 + 全部 2^a 外推长度）
+
+   依赖：ca_char_ortho（Cexp 机器 + prime_character_orthogonality）
+         ca_independence（Csum / Csum_ext / Csum_split_rev）
+   实验对应：length_extrap.py --grid N 的 theta = 2π·m/N；
+             建议新增 --ogrid：theta = 2π·(β + m/N)，β 黄金比。
+   ============================================================ *)
+Require Import Stdlib.Reals.Reals.
+Require Import Stdlib.Arith.Arith.
+Require Import Stdlib.micromega.Lia.
+Require Import Stdlib.micromega.Lra.
+Require Import Stdlib.ZArith.ZArith.
+Require Import ca_base.
+Require Import ca_complex_foundation.
+Require Import ca_independence.
+Require Import ca_fourier.
+Require Import ca_char_ortho.
+Require Import ca_zeta_scaffold.
+Import ComplexNumbers.
+Import FourierAnalysis.
+
+Open Scope R_scope.
+Open Scope complex_scope.
+Open Scope nat_scope.
+
+Module GridOrtho.
+
+(* ---------- 基础：纯虚指数的加法拆分 ---------- *)
+
+Lemma i_split (x y : R) : (0 +i (x + y)) = (0 +i x) +c (0 +i y).
+Proof.
+  unfold Cadd. apply Complex_eq; simpl; ring.
+Qed.
+
+Lemma Cmul_middle_comm (a b c : Complex) : a *c (b *c c) = b *c (a *c c).
+Proof.
+  rewrite <- Cmul_assoc, (Cmul_comm a b), Cmul_assoc. reflexivity.
+Qed.
+
+Lemma Cmul_rearr (X B Y D : Complex) :
+  (X *c B) *c (Y *c D) = (X *c Y) *c (B *c D).
+Proof.
+  rewrite (Cmul_assoc X B (Y *c D)).
+  rewrite (Cmul_middle_comm B Y D).
+  rewrite <- (Cmul_assoc X Y (B *c D)).
+  reflexivity.
+Qed.
+
+(* ---------- 旋转原子与网格原子 ---------- *)
+
+(* rot_atom θ k = e^{i·k·θ}：RoPE 式旋转角 θ 在位置 k 的相位 *)
+Definition rot_atom (theta : R) (k : nat) : Complex :=
+  Cexp (0 +i (INR k * theta)).
+
+(* grid_atom N m k = e^{2πi·m·k/N}：N-网格原子（prime_character_orthogonality 口径） *)
+Definition grid_atom (N m k : nat) : Complex :=
+  Cexp (0 +i (2 * PI * INR (m * k) / INR N)).
+
+Definition grid_pair (N m u k : nat) : Complex :=
+  grid_atom N m k *c Cconj (grid_atom N u k).
+
+(* 角度归一：INR k · (2π·m/N) = 2π·(m·k)/N *)
+Lemma angle_norm (k m N : nat) :
+  (2 <= N)%nat ->
+  (INR k * (2 * PI * INR m / INR N))%R = (2 * PI * INR (m * k) / INR N)%R.
+Proof.
+  intros HN.
+  assert (Hp : (0 < INR N)%R) by (apply lt_0_INR; lia).
+  rewrite mult_INR.
+  field.
+  apply Rgt_not_eq. exact Hp.
+Qed.
+
+Lemma rot_atom_add (theta phi : R) (k : nat) :
+  rot_atom (theta + phi) k = rot_atom theta k *c rot_atom phi k.
+Proof.
+  unfold rot_atom.
+  rewrite <- Cexp_add.
+  replace ((INR k * (theta + phi))%R) with (INR k * theta + INR k * phi)%R by ring.
+  rewrite i_split.
+  reflexivity.
+Qed.
+
+Lemma rot_atom_lag_add (theta : R) (a b : nat) :
+  rot_atom theta (a + b) = rot_atom theta a *c rot_atom theta b.
+Proof.
+  unfold rot_atom.
+  rewrite plus_INR.
+  replace ((INR a + INR b) * theta)%R with ((INR a * theta + INR b * theta)%R) by ring.
+  rewrite <- Cexp_add.
+  rewrite <- i_split.
+  reflexivity.
+Qed.
+
+Lemma rot_conj_eq_1 (theta : R) (k : nat) :
+  rot_atom theta k *c Cconj (rot_atom theta k) = C1.
+Proof.
+  unfold rot_atom. rewrite Cconj_Cexp.
+  rewrite <- Cexp_add, <- i_split.
+  replace ((INR k * theta + - (INR k * theta))%R) with 0%R by ring.
+  replace (0 +i 0) with C0 by reflexivity.
+  rewrite Cexp_0. reflexivity.
+Qed.
+
+(* rot 形式与 p.c.o. 口径的网格原子一致 *)
+Lemma rot_grid (N m k : nat) :
+  (2 <= N)%nat ->
+  rot_atom (2 * PI * INR m / INR N) k = grid_atom N m k.
+Proof.
+  intros HN. unfold rot_atom, grid_atom.
+  rewrite angle_norm by exact HN.
+  reflexivity.
+Qed.
+
+(* ---------- G1：网格原子对窗口 N 精确正交 ----------
+   口径：PrimeEmbedding.Csum（p.c.o. 原方言）。注意 ca_independence 的
+   Csum_ext(:263) 亦陈述于 PE.Csum（早于其内部 Csum(:1109) 定义）。 *)
+Theorem grid_pair_ortho (N m u : nat) :
+  (2 <= N)%nat -> m mod N <> u mod N ->
+  PrimeEmbedding.Csum (grid_pair N m u) N = C0.
+Proof.
+  intros HN Hneq.
+  unfold grid_pair, grid_atom.
+  apply (prime_character_orthogonality N m u); [lia | exact Hneq].
+Qed.
+
+(* ---------- 偏移相消 ---------- *)
+
+(* 步骤 1：公共偏移 α 在成对内积中精确消失（N 无关！） *)
+Lemma offset_cancel (alpha theta1 theta2 : R) (k : nat) :
+  rot_atom (alpha + theta1) k *c Cconj (rot_atom (alpha + theta2) k)
+  = rot_atom theta1 k *c Cconj (rot_atom theta2 k).
+Proof.
+  rewrite (rot_atom_add alpha theta1 k), (rot_atom_add alpha theta2 k).
+  rewrite Cconj_mul, Cmul_rearr.
+  rewrite (rot_conj_eq_1 alpha k), Cmul_1_l.
+  reflexivity.
+Qed.
+
+(* 步骤 2：网格角度的 rot 形式 = p.c.o. 口径网格原子 *)
+Lemma rot_pair_grid (N m u k : nat) :
+  (2 <= N)%nat ->
+  rot_atom (2 * PI * INR m / INR N) k *c Cconj (rot_atom (2 * PI * INR u / INR N) k)
+  = grid_pair N m u k.
+Proof.
+  intros HN. unfold grid_pair.
+  rewrite (rot_grid N m k HN), (rot_grid N u k HN).
+  reflexivity.
+Qed.
+
+(* ---------- G2：偏移网格正交（α 精确相消 ⟹ μ=0 证书保持） ---------- *)
+
+Theorem off_grid_ortho (alpha : R) (N m u : nat) :
+  (2 <= N)%nat -> m mod N <> u mod N ->
+  PrimeEmbedding.Csum (fun k => rot_atom (alpha + 2 * PI * INR m / INR N) k *c
+                 Cconj (rot_atom (alpha + 2 * PI * INR u / INR N) k)) N = C0.
+Proof.
+  intros HN Hneq.
+  rewrite (Csum_ext _ (fun k => grid_pair N m u k) N).
+  - apply grid_pair_ortho; [exact HN | exact Hneq].
+  - intros k Hk.
+    rewrite (offset_cancel alpha (2 * PI * INR m / INR N)
+                             (2 * PI * INR u / INR N) k).
+    apply rot_pair_grid. exact HN.
+Qed.
+
+(* ---------- G3：多窗口正交保持 ---------- *)
+
+(* 满周期旋转 = 1 *)
+Lemma rot_full_turn (N m : nat) :
+  (2 <= N)%nat ->
+  rot_atom (2 * PI * INR m / INR N) N = C1.
+Proof.
+  intros HN.
+  assert (Hp : (0 < INR N)%R) by (apply lt_0_INR; lia).
+  unfold rot_atom.
+  replace ((INR N * (2 * PI * INR m / INR N))%R) with ((2 * PI * INR m)%R)
+    by (field; apply Rgt_not_eq; exact Hp).
+  rewrite (INR_IZR_INZ m).
+  apply Cexp_2PI_int.
+Qed.
+
+(* 相对核周期性：网格对的 lag-N 平移不变 *)
+Lemma grid_pair_periodic (N m u k : nat) :
+  (2 <= N)%nat ->
+  grid_pair N m u (N + k) = grid_pair N m u k.
+Proof.
+  intros HN.
+  rewrite <- (rot_pair_grid N m u (N + k) HN).
+  rewrite <- (rot_pair_grid N m u k HN).
+  rewrite (rot_atom_lag_add (2 * PI * INR m / INR N) N k).
+  rewrite (rot_atom_lag_add (2 * PI * INR u / INR N) N k).
+  rewrite Cconj_mul, Cmul_rearr.
+  rewrite (rot_full_turn N m HN), (rot_full_turn N u HN).
+  replace (Cconj C1) with C1
+    by (unfold C1, Cconj; simpl; apply Complex_eq; simpl; ring).
+  rewrite !Cmul_1_l.
+  reflexivity.
+Qed.
+
+(* 任意整块平移 *)
+Lemma grid_pair_shift_mul (N m u c i : nat) :
+  (2 <= N)%nat ->
+  grid_pair N m u (c * N + i) = grid_pair N m u i.
+Proof.
+  intros HN. induction c as [|c IH].
+  - replace (0 * N + i) with i by lia. reflexivity.
+  - replace (S c * N + i) with (N + (c * N + i))
+      by (rewrite Nat.mul_succ_l; lia).
+    rewrite (grid_pair_periodic N m u (c * N + i) HN).
+    exact IH.
+Qed.
+
+(* PE.Csum 的分块拆分（头部优先递归：尾块在前） *)
+Lemma PE_Csum_split (f : nat -> Complex) (n m : nat) :
+  PrimeEmbedding.Csum f (n + m)
+  = PrimeEmbedding.Csum (fun i => f (n + i)) m +c PrimeEmbedding.Csum f n.
+Proof.
+  induction m as [|m IH].
+  - replace (n + 0) with n by lia.
+    simpl.
+    symmetry. apply Cadd_0_l.
+  - replace (n + S m) with (S (n + m)) by lia.
+    simpl.
+    rewrite IH.
+    symmetry. apply Cadd_assoc.
+Qed.
+
+(* G3 主定理：窗口 a·N 上正交保持（a=1 训练窗；a=2,4,8 外推长度） *)
+Theorem grid_ortho_mult (N a m u : nat) :
+  (2 <= N)%nat -> m mod N <> u mod N ->
+  PrimeEmbedding.Csum (grid_pair N m u) (a * N) = C0.
+Proof.
+  intros HN Hneq. induction a as [|a IH].
+  - simpl. reflexivity.
+  - rewrite Nat.mul_succ_l.
+    rewrite PE_Csum_split.
+    rewrite IH.
+    rewrite Cadd_0_r.
+    rewrite (Csum_ext (fun i => grid_pair N m u (a * N + i))
+                      (grid_pair N m u) N).
+    + apply grid_pair_ortho; [exact HN | exact Hneq].
+    + intros i Hi. apply grid_pair_shift_mul. exact HN.
+Qed.
+
+End GridOrtho.

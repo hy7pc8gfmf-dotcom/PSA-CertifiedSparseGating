@@ -443,7 +443,7 @@ Qed.
 (* ============================================================================
    实例数值紧度（会话 13 追加）：M_bound 的 N=4 数值裁决
    ----------------------------------------------------------------------------
-   四轴阶梯实例（C=4 阶梯的 4 带前缀 → 4⁴ = 256 个基函数）：
+   四轴梯子实例（C=4 梯子的 4 带前缀 → 4⁴ = 256 个基函数）：
    M_bound_4d(C) = K0'·((1 + 4·K(INR C))⁴ − 1)，K0' = Rmax 8 C³ / 2，
    K(x) = 1/(√x − 1)（ca_basis_lemmas.v UnconditionalBasisLemmas.K）。
    数值（C=4）：K(4) = 1 ⟹ 4K = 4 ⟹ (1+4)⁴ − 1 = 624；K0' = 64/2 = 32
@@ -683,8 +683,16 @@ Proof.
       repeat split; apply Rgt_not_eq;
         repeat apply Rmult_lt_0_compat; apply lt_0_INR; lia. }
     assert (HNm : INR N0 * INR N0 <= INR m1 * INR m2).
-    { assert (HN0m1 : (N0 <= m1)%nat) by (unfold N0, m1; lia).
-      assert (HN0m2 : (N0 <= m2)%nat) by (unfold N0, m2; lia).
+    { assert (HN0m1 : (N0 <= m1)%nat).
+      { unfold m1.
+        apply Nat.min_glb; [ | exact HNd1].
+        apply Nat.min_glb; [ | exact HNc1].
+        apply Nat.min_glb; [exact HNa1 | exact HNb1]. }
+      assert (HN0m2 : (N0 <= m2)%nat).
+      { unfold m2.
+        apply Nat.min_glb; [ | exact HNd2].
+        apply Nat.min_glb; [ | exact HNc2].
+        apply Nat.min_glb; [exact HNa2 | exact HNb2]. }
       apply Rmult_le_compat; [apply pos_INR | apply pos_INR
                              | apply le_INR; exact HN0m1 | apply le_INR; exact HN0m2]. }
     assert (Hdiv : INR N0 * INR N0 / P <= INR m1 * INR m2 / P).
@@ -896,7 +904,17 @@ Proof.
     Csum (fun k => phi4D_norm a1 b1 c1 d1v k *c Cconj (phi4D_norm a2 b2 c2 d2v k)) (Nat.pred (S Mfull))
     = Csum (fun k => phi4D_norm a1 b1 c1 d1v k *c Cconj (phi4D_norm a2 b2 c2 d2v k)) N0).
   { apply (Csum_trunc_tail _ N0 (Nat.pred (S Mfull))).
-    - simpl; lia.
+    - change (N0 <= Mfull)%nat.
+      unfold N0.
+      apply (Nat.le_trans _ (Nat.min (Nat.min (Nat.min a1 a2) (Nat.min b1 b2)) (Nat.min c1 c2)) _).
+      + apply Nat.le_min_l.
+      + apply (Nat.le_trans _ (Nat.min (Nat.min a1 a2) (Nat.min b1 b2)) _).
+        * apply Nat.le_min_l.
+        * apply (Nat.le_trans _ (Nat.min a1 a2) _).
+          - apply Nat.le_min_l.
+          - apply (Nat.le_trans _ a1 _).
+            + apply Nat.le_min_l.
+            + exact Ha1_le.
     - intros k Hk. destruct Hk as [Hk1' Hk2'].
       assert (HN0_is : N0 = a1 \/ N0 = a2 \/ N0 = b1 \/ N0 = b2 \/ N0 = c1 \/ N0 = c2 \/ N0 = d1v \/ N0 = d2v)
         by (unfold N0; apply min8_is_one).

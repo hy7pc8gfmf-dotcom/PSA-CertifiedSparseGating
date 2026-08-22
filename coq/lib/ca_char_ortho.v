@@ -246,8 +246,9 @@ Proof.
   unfold C1; reflexivity.
 Qed.
 
-(* 素数特征正交性 *)
-Theorem prime_character_orthogonality (p a b : nat) :
+(* 模 N 特征正交性（去素化 2026-08-22：语句与证明均无素性假设，对任意 N≥2 成立；
+   历史名 prime_character_orthogonality 保留为下方兼容别名——此前同事已将其用于复合 N=512 网格） *)
+Theorem character_orthogonality_mod_N (p a b : nat) :
   (p >= 2)%nat ->
   a mod p <> b mod p ->
   Csum (fun x => Cexp (0 +i (2 * PI * INR (a * x) / INR p)) *c
@@ -438,7 +439,16 @@ Proof.
       reflexivity.
   }
   exact Hz_sum.
+
 Qed.
+
+(* 兼容别名（历史名转发，防下游断链） *)
+Lemma prime_character_orthogonality (p a b : nat) :
+  (p >= 2)%nat ->
+  a mod p <> b mod p ->
+  Csum (fun x => Cexp (0 +i (2 * PI * INR (a * x) / INR p)) *c
+                 Cconj (Cexp (0 +i (2 * PI * INR (b * x) / INR p)))) p = C0.
+Proof. exact (character_orthogonality_mod_N p a b). Qed.
 
 (* 素数特征正交性推论：求和范数为零 *)
 Corollary prime_character_bound_zero (p a b : nat) :
