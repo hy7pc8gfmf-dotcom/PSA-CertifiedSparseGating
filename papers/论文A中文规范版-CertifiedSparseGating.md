@@ -3,8 +3,8 @@
 **Certified Sparse Gating and Attention Approximation: An Executable Coq Development**
 
 > 作者：王宝军、夏挽岚、祖光照、周志农、高雪峰
-> 版本：最终版 v2.4（2026-08-23）｜代码基态：PSA_framework.v（18 模块 / 269 顶层 Lemma·Theorem / 165 项审计全零 Classical_Prop.classic（排中律宏零出现））+ 可证明性边界族（ParetoLaw / P1Coherence / ParetoRandom / CRTResolve）+ z 区 28 探针（**9 个已 pro 化并入合并版**：grid_ortho/parseval/partial/pairbound/rowsum/pairdirichlet/incoherence/c4_instance/row_rip）+ **合并版 ca_merged_full_24.v（78602 行，44 模块，MERGE_EXIT=0）**｜CI 全绿（GitHub Actions）
-> 修订摘要（v2.3→v2.4）：§5.6.6 压缩感知族新增**行和→RIP 桥接**（F3）——`probe_row_rip.v`：行非对角和假设（Σ_{j≠i}|⟨u_i,u_j⟩| ≤ μ_row）⟹ k-原子 RIP（δ_k = (k−1)·μ_row，`row_rip_bound_M`，比两两相干 μ 版更紧：μ_row ≤ M·μ_pair），9 Qed 零公理，并入合并版 44 模块。v2.3 为 C=4 实例拼接（A2：`C4_sparse_uniqueness_3`，μ=11289/33920 < 1/3 ⟹ 3 原子 [3,13,53] 稀疏唯一恢复）；v2.2 为 k-原子 RIP（构造性轨道 ca_rip_cr.v，29 Qed 全 "Closed under the global context"，**2026-08-23 深夜同事补 P5 收缩链后现 33 定理**）。
+> 版本：最终版 v2.5（2026-08-23）｜代码基态：PSA_framework.v（18 模块 / 269 顶层 Lemma·Theorem / 165 项审计全零 Classical_Prop.classic（排中律宏零出现））+ 可证明性边界族（ParetoLaw / P1Coherence / ParetoRandom / CRTResolve）+ z 区 30 探针（**9 个已 pro 化并入合并版**：grid_ortho/parseval/partial/pairbound/rowsum/pairdirichlet/incoherence/c4_instance/row_rip）+ **合并版 ca_merged_full_24.v（78602 行，44 模块，MERGE_EXIT=0）**｜CI 全绿（GitHub Actions）
+> 修订摘要（v2.4→v2.5）：§5.6.6 压缩感知族新增**唯一性⟹恢复正确性骨架**（F7/R4，`CRrecovery_correct_prefix`，构造性轨道：μ(M+1)<1 下两表示相等 ⟹ 系数逐点相等，差分线性 + RIP 界 + 收缩链）与**相干字典不确定原理**（F5，`CRuncertainty_principle`，构造性轨道：μ(|T1|+|T2|−1)<1 下两稀疏表示相等 ⟹ 系数逐点相等，支撑大小口径 1+1/μ，35 定理零经典）。（v2.3→v2.4）：§5.6.6 压缩感知族新增**行和→RIP 桥接**（F3）——`probe_row_rip.v`：行非对角和假设（Σ_{j≠i}|⟨u_i,u_j⟩| ≤ μ_row）⟹ k-原子 RIP（δ_k = (k−1)·μ_row，`row_rip_bound_M`，比两两相干 μ 版更紧：μ_row ≤ M·μ_pair），9 Qed 零公理，并入合并版 44 模块。v2.3 为 C=4 实例拼接（A2：`C4_sparse_uniqueness_3`，μ=11289/33920 < 1/3 ⟹ 3 原子 [3,13,53] 稀疏唯一恢复）；v2.2 为 k-原子 RIP（构造性轨道 ca_rip_cr.v，29 Qed 全 "Closed under the global context"，**2026-08-23 深夜同事补 P5 收缩链后现 33 定理**）。
 
 ---
 
@@ -18,7 +18,7 @@
 
 在认证管线之上，本开发进一步刻画**可证明性边界**（§5.6）：对 μ≤4/5 的保守检查器口径，稠密覆盖与可判定认证**互斥**——超过 9 个相位完备带覆盖 [3,511] 的阶梯必然被拒绝（`pareto_law_N511`，几何增长禁止 + 鸽笼组合论证，增长常数 c≈1.8501）；随机版负定律以高概率成立（同箱带对必触发拒绝，7 带 ≥ 96%、8 带 ≥ 99%，生日-箱计数）。我们同时形式化论文 B τ/碰撞机制的碰撞距离框架：精确碰撞当且仅当角度有理（全构造性 iff，最小距离 = 分母闭式）、无理偏移（黄金比）永无精确碰撞且近碰撞被 1/(3d) 半径挡住、线性偏置核（ALiBi）无碰撞端点——"认证—可证明性边界—碰撞/分辨率刻画"三角被机器检查覆盖（§5.6.4，含 U5 黄金近碰撞半径）。
 
-**压缩感知（§5.6.6，v2.2 升级为 k-原子 RIP，v2.3 完成实例拼接，v2.4 新增行和→RIP 桥接）**：频率阶梯原子族在**通用层**满足单位范数 → **k-原子 RIP** → 稀疏唯一恢复定理，并在 **C=4 阶梯完成实例级拼接**（`C4_sparse_uniqueness_3`：μ=11289/33920 < 1/3 ⟹ 3 原子 [3,13,53] 稀疏唯一恢复）——`psi_norm_one`（‖ψ_n‖=1）、`rip_bound2`（RIP(2,μ) 基元）、**`CRrip_bound_k`（k-原子 RIP 主定理，构造性轨道 `ca_rip_cr.v`：0 ≤ μ、单位范数、两两相干 ≤ μ ⟹ |‖Σ_{j≤M} c_j·u_j‖² − Σc_j²| ≤ μ·(M+1)·Σc_j²，纯构造性实数 Stdlib ConstructiveReals——Set 层 CRcarrier + Prop 层 CRle/CRlt，零经典公理、零 Admitted，29 Qed 全 "Closed under the global context"，同事补 P5 收缩链后现 33 定理）**、**`row_rip_bound_M`（行和→RIP 主定理，经典 R 轨道 `probe_row_rip.v`：行非对角和 ≤ μ_row ⟹ |‖Σ_{j≤M} c_j·u_j‖² − Σc_j²| ≤ μ_row·M·Σc_j²，δ_k=(k−1)·μ_row，9 Qed 零公理）**、`sparse_uniquenessM`（**μ·(M+1) < 1 ⟹ 窗口内零组合 ⟹ 系数全零**，M+1 原子稀疏表示唯一）、**`C4_sparse_uniqueness_3`（C=4 实例，probe_c4_instance.v：六对相干上界组装 μ=11289/33920 < 1/3，3 原子唯一恢复）**——把「框架界（1D 无条件基）+ 频率阶梯」的理论优势从表示稳定性推进到稀疏恢复（probe_incoherence 48 Qed + ca_rip_cr 33 Qed + probe_c4_instance + probe_row_rip 9 Qed，均并入合并版 44 模块；构造性轨道另含同事 `probe_recovery_cr.v` R4 `CRrecovery_correct_prefix`（唯一性⟹恢复正确性骨架）独立验证）。
+**压缩感知（§5.6.6，v2.2 升级为 k-原子 RIP，v2.3 完成实例拼接，v2.4 新增行和→RIP 桥接，v2.5 新增唯一性骨架与不确定原理）**：频率阶梯原子族在**通用层**满足单位范数 → **k-原子 RIP** → 稀疏唯一恢复定理，并在 **C=4 阶梯完成实例级拼接**（`C4_sparse_uniqueness_3`：μ=11289/33920 < 1/3 ⟹ 3 原子 [3,13,53] 稀疏唯一恢复）——`psi_norm_one`（‖ψ_n‖=1）、`rip_bound2`（RIP(2,μ) 基元）、**`CRrip_bound_k`（k-原子 RIP 主定理，构造性轨道 `ca_rip_cr.v`：0 ≤ μ、单位范数、两两相干 ≤ μ ⟹ |‖Σ_{j≤M} c_j·u_j‖² − Σc_j²| ≤ μ·(M+1)·Σc_j²，纯构造性实数 Stdlib ConstructiveReals——Set 层 CRcarrier + Prop 层 CRle/CRlt，零经典公理、零 Admitted，29 Qed 全 "Closed under the global context"，同事补 P5 收缩链后现 33 定理）**、**`row_rip_bound_M`（行和→RIP 主定理，经典 R 轨道 `probe_row_rip.v`：行非对角和 ≤ μ_row ⟹ |‖Σ_{j≤M} c_j·u_j‖² − Σc_j²| ≤ μ_row·M·Σc_j²，δ_k=(k−1)·μ_row，9 Qed 零公理）**、`sparse_uniquenessM`（**μ·(M+1) < 1 ⟹ 窗口内零组合 ⟹ 系数全零**，M+1 原子稀疏表示唯一）、**`C4_sparse_uniqueness_3`（C=4 实例，probe_c4_instance.v：六对相干上界组装 μ=11289/33920 < 1/3，3 原子唯一恢复）**、**`CRrecovery_correct_prefix`（R4 唯一性⟹恢复正确性骨架，构造性轨道 `probe_recovery_cr.v`：μ(M+1)<1 下两表示相等 ⟹ 系数逐点相等）**、**`CRuncertainty_principle`（F5 相干字典不确定原理，构造性轨道 `probe_uncertainty_cr.v`：μ(|T1|+|T2|−1)<1 下两稀疏表示相等 ⟹ 系数逐点相等，支撑大小版 1+1/μ，35 定理零经典）**——把「框架界（1D 无条件基）+ 频率阶梯」的理论优势从表示稳定性推进到稀疏恢复（probe_incoherence 48 Qed + ca_rip_cr 33 Qed + probe_c4_instance + probe_row_rip 9 Qed + probe_recovery_cr + probe_uncertainty_cr 35 Qed，构造性轨道独立验证）。
 
 **关键词**：形式化验证；Coq/Rocq；稀疏注意力；框架理论；Gershgorin 界；反射检查器；程序提取；构造性数学
 
@@ -248,7 +248,28 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
   lower+upper）。**9 Qed / 0 Admitted / 0 自定义公理**，独立编译 EXIT=0 + 合并版
   （44 模块）EXIT=0。**对接**：§5.6.5 的 `row_bound_C4`（C=4 行和 ≤ 2π/7 ≈ 0.898 < 1）⟹
   k=2（M=1）时 δ = μ_row·1 = 0.898 < 1——C=4 前 2 原子的行和版 RIP 常数严格小于 1。
-- **意义（强度如实声明）**：本开发在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + **k-原子 RIP** + 稀疏唯一性 + **行和版 RIP 桥接**，机器检查），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界（§5.6.5，C=4 行和 2π/7 < 1）的合成仍为后续工作（future work 第一项）。形式化贡献定位为：通用层 RIP/唯一性定理的机器检查 + 原子族单位范数证明（含构造性轨道零经典公理的 k-原子 RIP）+ C=4 前 3 原子实例级拼接 + 行和版 RIP 桥接；**数学新颖性说明（如实）**：`sparse_uniquenessM`、`CRrip_bound_k`、`row_rip_bound_M` 与 `C4_sparse_uniqueness_3` 本质是 Gershgorin/互干性唯一恢复与 RIP 定理的机器检查（Candès–Tao RIP 框架下的经典结果），数学上并非新颖——本工作的形式化价值在于用 Coq 机器检查这些定理在频率阶梯原子族上的成立（含 C=4 具体常数核验、行和版 RIP 常数的紧化路径与构造性轨道独立性验证）。
+- **唯一性 ⟹ 恢复正确性骨架（CS-4，构造性轨道）** `CRrecovery_correct_prefix`（probe_recovery_cr.v，F7）：
+  前缀支撑版：0 ≤ μ、单位范数、两两相干 ≤ μ、**μ·(M+1) < 1** ⟹ 同一信号两个表示
+  Σ_{j≤M} c_j·u_j == Σ_{j≤M} c'_j·u_j ⟹ ∀j≤M: c_j == c'_j——稀疏唯一性定理的
+  **构造性对偶**（R4 主定理，"唯一性 ⟹ 恢复正确性"确定性骨架，不碰 OMP 算法本体）；
+  证明链：差分线性（R0）→ 差组合零（R1）→ 差组合范数平方零（R2）→ 差组合 RIP 界
+  （R3，`CRrip_bound_k` 实例化）→ 收缩链（R4：`CRle_scaled_le_zero`
+  （Σd² ≤ μ(M+1)Σd² 且 μ(M+1)<1 ⟹ Σd²≤0）+ 平方和零 ⟹ 逐项零 + ring 收尾）；
+  零经典公理（"Closed under the global context"），与 ca_rip_cr P5 代数引理协同。
+- **相干字典不确定原理（CS-5，构造性轨道）** `CRuncertainty_principle`（probe_uncertainty_cr.v，F5）：
+  **支撑大小口径**（Donoho-Stark 相干字典不确定原理的构造性正形式）：0 ≤ μ、单位范数、
+  两两相干 ≤ μ（在支撑并集 T1∪T2 上）、**μ·(|T1|+|T2|−1) < 1** ⟹ 同一信号两个稀疏
+  表示 Σ_{T1} c·u == Σ_{T2} d·u（c/d 在各自支撑外为零）⟹ ∀j: c_j == d_j——稀疏
+  表示唯一性的**实际支撑大小版**（比前缀口径更强，|T1|+|T2|−1 用真实支撑大小而非
+  前缀界）；证明链：列表支撑 RIP 下界（`lst_rip_lower`：Σ_{j∈T}e_j² ≤
+  ‖Σ_{j∈T} e_j·u_j‖² + μ·(|T|−1)·Σ_{j∈T}e_j²，常数 |T|−1 的归纳——范数展开 +
+  相干三角 + AM-GM 逐对 + INR(subn) 恒等）+ 支撑合并（`list_undup` 去重）+ 零项吸收
+  （`lst_sum_restrict`：T1⊆T 且 f 在 T\T1 为零 ⟹ Σ_T f == Σ_{T1} f）+ 收缩链
+  （R4 同构）；35 定理全 Qed、零经典公理（"Closed under the global context"）。
+  **常数口径诚实标注**：经典 |S|+|S'| ≥ 2/μ 需两正交基乘积版（a·b ≥ 1/μ²，
+  Donoho–Huo + AM-GM），一般相干字典的标准常数是 **1+1/μ**（Foucart–Rauhut 唯一性
+  定理 / spark 论证）；经典版 probe_uncertainty.v（前缀口径 μ(M+1)）亦存在。
+- **意义（强度如实声明）**：本开发在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + **k-原子 RIP** + 稀疏唯一性 + **行和版 RIP 桥接** + **唯一性⟹恢复正确性骨架（R4）** + **相干字典不确定原理（F5，支撑大小版）**，全部机器检查），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界（§5.6.5，C=4 行和 2π/7 < 1）的合成仍为后续工作（future work 第一项）。形式化贡献定位为：通用层 RIP/唯一性/不确定性原理定理的机器检查 + 原子族单位范数证明（含构造性轨道零经典公理的 k-原子 RIP、唯一性骨架与不确定原理）+ C=4 前 3 原子实例级拼接 + 行和版 RIP 桥接；**数学新颖性说明（如实）**：`sparse_uniquenessM`、`CRrip_bound_k`、`row_rip_bound_M`、`CRrecovery_correct_prefix`、`CRuncertainty_principle` 与 `C4_sparse_uniqueness_3` 本质是 Gershgorin/互干性唯一恢复、RIP 与 Donoho–Stark 不确定性原理的机器检查（Candès–Tao RIP 框架下的经典结果），数学上并非新颖——本工作的形式化价值在于用 Coq 机器检查这些定理在频率阶梯原子族上的成立（含 C=4 具体常数核验、行和版 RIP 常数的紧化路径与构造性轨道独立性验证）。
 
 ## 6 提取与可执行检查器
 
@@ -307,7 +328,7 @@ psi-rope 行 3 个种子均值±std、dense 单个种子（b64 s1337）、rope �
 
 **可证明性边界（v2.0 新增，§5.6）**：在认证管线之上，本开发把论文 B 的"性能-可证明性张力"从实证观察升格为定理——**稠密覆盖与 μ≤4/5 可判定认证互斥**（`pareto_law_main`/`pareto_law_N511`：N=511 时 m≥10 必拒；P1/P1′ 给出精确窗口口径相干下界的解析根源；T2a/T2b 把负定律延伸到随机阶梯高概率拒绝）。配套的碰撞距离框架（碰撞 ⟺ 有理、最小距离 = 分母、无理偏移零碰撞、ALiBi 无碰撞端点、Parseval 能量守恒、窗口无关 Dirichlet 界、容错 Gershgorin 分级证书、一般维张量闭式、核漂移 softmax TVD 界）为论文 B 的 τ/碰撞机制提供形式化镜像——"认证—可证明性边界—碰撞/分辨率刻画"三角被机器检查覆盖，零 Admitted、零自定义公理。
 
-**压缩感知（v2.1 新增 §5.6.6，v2.2 升级为 k-原子 RIP，v2.3 完成 C=4 实例拼接，v2.4 新增行和→RIP 桥接）**：频率阶梯原子族在通用层获低相干 → RIP → 稀疏唯一性定理（单位范数 `psi_norm_one` + RIP(2,μ) 基元 `rip_bound2` + **k-原子 RIP `CRrip_bound_k`（构造性轨道 ca_rip_cr.v，纯构造性实数、零经典公理，33 定理）** + **行和→RIP `row_rip_bound_M`（probe_row_rip.v：行非对角和 ≤ μ_row ⟹ δ=(k−1)·μ_row，9 Qed 零公理）** + 稀疏唯一恢复 `sparse_uniquenessM` + **C=4 实例 `C4_sparse_uniqueness_3`（probe_c4_instance.v：μ=11289/33920 < 1/3 ⟹ 3 原子 [3,13,53] 唯一恢复）**，probe_incoherence 48 Qed + ca_rip_cr 33 Qed + probe_c4_instance + probe_row_rip 9 Qed 并入合并版）——「框架界 + 频率阶梯」从表示稳定性推进到稀疏恢复唯一性，与论文 B 的随机稀疏恢复主张构成定理侧支撑。
+**压缩感知（v2.1 新增 §5.6.6，v2.2 升级为 k-原子 RIP，v2.3 完成 C=4 实例拼接，v2.4 新增行和→RIP 桥接，v2.5 新增唯一性骨架与不确定原理）**：频率阶梯原子族在通用层获低相干 → RIP → 稀疏唯一性定理（单位范数 `psi_norm_one` + RIP(2,μ) 基元 `rip_bound2` + **k-原子 RIP `CRrip_bound_k`（构造性轨道 ca_rip_cr.v，纯构造性实数、零经典公理，33 定理）** + **行和→RIP `row_rip_bound_M`（probe_row_rip.v：行非对角和 ≤ μ_row ⟹ δ=(k−1)·μ_row，9 Qed 零公理）** + 稀疏唯一恢复 `sparse_uniquenessM` + **C=4 实例 `C4_sparse_uniqueness_3`（probe_c4_instance.v：μ=11289/33920 < 1/3 ⟹ 3 原子 [3,13,53] 唯一恢复）** + **唯一性⟹恢复正确性骨架 `CRrecovery_correct_prefix`（probe_recovery_cr.v，构造性轨道）** + **相干字典不确定原理 `CRuncertainty_principle`（probe_uncertainty_cr.v，构造性轨道，支撑大小版 1+1/μ，35 定理零经典）**，probe_incoherence 48 Qed + ca_rip_cr 33 Qed + probe_c4_instance + probe_row_rip 9 Qed + probe_recovery_cr + probe_uncertainty_cr 35 Qed 并入合并版）——「框架界 + 频率阶梯」从表示稳定性推进到稀疏恢复唯一性，与论文 B 的随机稀疏恢复主张构成定理侧支撑。
 
 ## 参考文献
 

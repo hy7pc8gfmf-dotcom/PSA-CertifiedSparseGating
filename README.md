@@ -34,7 +34,7 @@ PSA-CertifiedSparseGating/
 │   ├── 论文B正式版-PhaseCompleteLadders-TACL-20260823.md
 │   ├── 论文A中文规范版-CertifiedSparseGating.md/.docx       # 中文规范版 v2.1（含 Word）
 │   ├── 论文B中文规范版-PhaseCompleteLadders.md/.docx
-│   ├── 论文评审.txt                                        # （已按作者决定置空）
+│   ├── 论文评审.txt                                        # 
 │   └── 预登记实验设计-20260819.md                       # 预登记假说 + 执行结果
 ├── coq/                      # Coq 形式化（Rocq 9.0.1）
 │   ├── PSA_framework.v       # 主框架（PhaseCoherence 含 T4 核漂移链 kernel_drift_controls_attention；165 项审计全零 classic 基线）
@@ -146,6 +146,6 @@ RTX 3070 训练治理：80°C 触发 / 70°C 恢复 / 0.5s 轮询 / 60s 冷却�
 
 ## Commit 签名（GPG Verified）
 
-本仓库提交由 GPG 签名（ed25519，指纹  DC2B48D36C1E359659D90BEAE7C975FAE0BCD97，uid Live <168888@live.cn>）。
+本仓库提交由 GPG 签名（ed25519，指纹  DC2B48D36C1E359659D90BEAE7C975FAE0BCD97，uid Live <168888@live.cn>）。
 GitHub 上提交显示绿色 **✓Verified** 即签名有效。配置（本机全局）：
 git config --global user.signingkey AE7C975FAE0BCD97 + commit.gpgsign true。

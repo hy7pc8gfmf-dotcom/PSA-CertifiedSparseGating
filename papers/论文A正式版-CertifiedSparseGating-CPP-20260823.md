@@ -32,8 +32,9 @@ Beyond certification, we prove a **provability-boundary** theorem family (dense 
 [3,511] must be rejected), a **collision-distance** framework for the τ mechanism (exact
 collisions occur iff the angle is rational; irrational offsets never collide), and — new in
 this version — a **compressed-sensing** family: the phase-truncated ladder atoms have unit
-norm, satisfy an RIP(2,μ) bound, and admit sparse-recovery uniqueness (μ·(M+1) < 1 ⟹ zero
-combination ⟹ all coefficients zero), all machine-checked. The audit comprises 165 Print
+norm, satisfy an RIP(2,μ) bound, admit sparse-recovery uniqueness (μ·(M+1) < 1 ⟹ zero
+combination ⟹ all coefficients zero), and satisfy an incoherent-dictionary uncertainty
+principle (μ·(|T1|+|T2|−1) < 1 ⟹ uniqueness on actual support sizes), all machine-checked. The audit comprises 165 Print
 Assumptions entries (PSA_audit.v) with zero `Classical_Prop.classic` at the application
 layer; the only axioms are the standard Dedekind-real infrastructure (sig_not_dec,
 sig_forall_dec, functional extensionality) — non-constructive choice-like principles
@@ -159,7 +160,7 @@ pareto_law_N511 : 检查器通过 ∧ m 条相完备带 [3,511] → 3·c^(m−1)
 
 golden_near_collision_gold : ∀ d ≥ 1, ∀ m ∈ Z: |d·φ_gold − m| ≥ 1/(3d)
 
-(* ── 压缩感知族（probe_incoherence.v 51 Qed + ca_rip_cr.v 29 Qed + probe_c4_instance.v 14 Qed，已并入合并版）── *)
+(* ── 压缩感知族（probe_incoherence.v 51 Qed + ca_rip_cr.v 33 Qed + probe_c4_instance.v 14 Qed + probe_row_rip.v 9 Qed + probe_recovery_cr.v + probe_uncertainty_cr.v 35 Qed）── *)
 psi_norm_one (n) : 1 ≤ n → l2_norm_sq (psi n) (pred n) = 1
 
 rip_bound2 (u1 u2) (W) (c1 c2 mu) : ‖u1‖²_W = 1 → ‖u2‖²_W = 1 → |⟨u1,u2⟩_W| ≤ mu →
@@ -167,7 +168,7 @@ rip_bound2 (u1 u2) (W) (c1 c2 mu) : ‖u1‖²_W = 1 → ‖u2‖²_W = 1 → |�
 
 CRrip_bound_k (M) (c) (u) (mu) : 0 ≤ mu → ∀j≤M: ‖u_j‖² = 1 → ∀i≠j≤M: |⟨u_i,u_j⟩| ≤ mu →
   |‖Σ_{j≤M} c_j·u_j‖² − Σ_{j≤M} c_j²| ≤ mu·(M+1)·Σ_{j≤M} c_j²
-  （构造性轨道 ca_rip_cr.v：纯构造性实数，零经典公理、零 Admitted）
+  （构造性轨道 ca_rip_cr.v：纯构造性实数，零经典公理、零 Admitted，33 定理）
 
 sparse_uniquenessM (M) (c) (u) (W) (mu) : 0 ≤ mu → ∀j≤M: ‖u_j‖²_W = 1 →
   ∀i≠j≤M: |⟨u_i,u_j⟩_W| ≤ mu → mu·(M+1) < 1 → ∀k≤W: Σ_{j≤M} c_j·u_j(k) = 0 →
@@ -176,6 +177,18 @@ sparse_uniquenessM (M) (c) (u) (W) (mu) : 0 ≤ mu → ∀j≤M: ‖u_j‖²_W =
 C4_sparse_uniqueness_3 (c) (W) : 53 ≤ W → ∀k≤W: Σ_{j≤2} c_j·ψ_{[3;13;53] j}(k) = 0 →
   ∀j≤2: c_j = 0
   （C=4 实例 probe_c4_instance.v：六对相干上界 μ=11289/33920 < 1/3 ⟹ sparse_uniquenessM M=2 实例）
+
+row_rip_bound_M (M) (c) (u) (W) (mu_row) : 行非对角和 ≤ mu_row →
+  |‖Σ_{j≤M} c_j·u_j‖² − Σ_{j≤M} c_j²| ≤ mu_row·M·Σ_{j≤M} c_j²
+  （行和→RIP 桥接 probe_row_rip.v：δ_k = (k−1)·mu_row，9 Qed）
+
+CRrecovery_correct_prefix (M) (c c') (u) (mu) : 0 ≤ mu → 单位范数 → 相干 ≤ mu →
+  mu·(M+1) < 1 → Σ_{j≤M} c_j·u_j == Σ_{j≤M} c'_j·u_j → ∀j≤M: c_j == c'_j
+  （唯一性⟹恢复正确性骨架，构造性轨道 probe_recovery_cr.v，零经典公理）
+
+CRuncertainty_principle (T1 T2) (c d) (u) (mu) : 0 ≤ mu → 单位范数（T1∪T2）→ 相干 ≤ mu（T1∪T2）→
+  mu·(|T1|+|T2|−1) < 1 → Σ_{T1} c·u == Σ_{T2} d·u（支撑外零）→ ∀j: c_j == d_j
+  （相干字典不确定原理，构造性轨道 probe_uncertainty_cr.v：支撑大小版 1+1/μ，35 定理零经典）
 ```
 
 ## 4. Instance Certificates（C=4 / T8 / 七带复合）
@@ -279,7 +292,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 - **U5 黄金近碰撞半径**：∀ d ≥ 1、∀ m ∈ Z：|d·φ_gold − m| ≥ 1/(3d)
   （`golden_near_collision_gold`，代数数范数路线，零公理）。
 
-## 9. 压缩感知：RIP 与稀疏唯一性（probe_incoherence.v 51 Qed + ca_rip_cr.v 33 Qed + probe_c4_instance.v 14 Qed + probe_row_rip.v 9 Qed）
+## 9. 压缩感知：RIP 与稀疏唯一性（probe_incoherence.v 51 Qed + ca_rip_cr.v 33 Qed + probe_c4_instance.v 14 Qed + probe_row_rip.v 9 Qed + probe_recovery_cr.v + probe_uncertainty_cr.v 35 Qed）
 
 频率阶梯原子族不仅构成稳定框架，还满足**低相干 → RIP → 稀疏唯一恢复**的完整链条：
 
@@ -310,8 +323,24 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   `row_rip_upper_M`（上下界归纳，IH 行和前提前缀单调截取）→ `row_rip_bound_M`
   （`Rabs_le` 组合）。9 Qed / 0 Admitted / 0 自定义公理。对接 `row_bound_C4`（C=4 行和
   ≤ 2π/7 ≈ 0.898 < 1，§5.6.5）⟹ k=2 时 δ = 0.898 < 1。
+- **唯一性 ⟹ 恢复正确性骨架** `CRrecovery_correct_prefix`（probe_recovery_cr.v，构造性轨道）：
+  0 ≤ μ、单位范数、两两相干 ≤ μ、**μ·(M+1) < 1** ⟹ 同一信号两个表示 Σ_{j≤M} c_j·u_j ==
+  Σ_{j≤M} c'_j·u_j ⟹ ∀j≤M: c_j == c'_j——稀疏唯一性定理的构造性对偶（"唯一性 ⟹ 恢复
+  正确性"确定性骨架，不碰 OMP 算法本体）；证明链：差分线性 → 差组合零 → 差组合范数平方零
+  → 差组合 RIP 界（`CRrip_bound_k` 实例化）→ 收缩链（`CRle_scaled_le_zero` + 平方和零 ⟹
+  逐项零 + ring 收尾）；零经典公理（"Closed under the global context"），与 ca_rip_cr P5
+  代数引理协同。
+- **相干字典不确定原理** `CRuncertainty_principle`（probe_uncertainty_cr.v，构造性轨道）：
+  **支撑大小口径**（Donoho-Stark 相干字典不确定原理的构造性正形式）：0 ≤ μ、单位范数、
+  两两相干 ≤ μ（支撑并集 T1∪T2 上）、**μ·(|T1|+|T2|−1) < 1** ⟹ 同一信号两个稀疏表示
+  Σ_{T1} c·u == Σ_{T2} d·u（c/d 在各自支撑外为零）⟹ ∀j: c_j == d_j——稀疏表示唯一性的
+  **实际支撑大小版**（比前缀口径更强）；证明链：列表支撑 RIP 下界（`lst_rip_lower`：
+  Σe² ≤ ‖Σ_{j∈T} e_j·u_j‖² + μ(|T|−1)Σe²）+ 支撑合并（`list_undup`）+ 零项吸收
+  （`lst_sum_restrict`）+ 收缩链（R4 同构）；35 定理全 Qed、零经典公理。**常数口径诚实
+  标注**：经典 |S|+|S'| ≥ 2/μ 需两正交基乘积版（a·b ≥ 1/μ²，Donoho–Huo），一般相干
+  字典的标准常数是 **1+1/μ**（Foucart–Rauhut）。
 
-**意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性，机器检查，其中 k-原子 RIP 走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；更大阶实例（4 原子、C=9/16 等）及与 ρ^{−3/2} 行和紧界的合成为后续工作（future work 第一项）。**数学新颖性（如实）**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复与 RIP 定理的机器检查，数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径与构造性轨道独立性验证）。本族已并入合并版（44 模块），
+**意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版），机器检查，其中 k-原子 RIP、唯一性骨架与不确定原理走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；更大阶实例（4 原子、C=9/16 等）及与 ρ^{−3/2} 行和紧界的合成为后续工作（future work 第一项）。**数学新颖性（如实）**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复、RIP 与 Donoho–Stark 不确定性原理的机器检查，数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径与构造性轨道独立性验证）。本族已并入合并版（44 模块），
 独立 + 合并双通过。
 
 ## 10. 部署级证书族（KV 逐出 / 量化 / 多头）
