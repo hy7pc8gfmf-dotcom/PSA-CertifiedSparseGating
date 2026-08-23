@@ -3,7 +3,8 @@
 **Certified Sparse Gating and Attention Approximation: An Executable Coq Development**
 
 > 作者：王宝军、夏挽岚、祖光照、周志农、高雪峰
-> 版本：最终版 v2.1（2026-08-23）｜代码基态：PSA_framework.v（18 模块 / 265 Qed / 165 项审计全零经典排中）+ 可证明性边界族（ParetoLaw / P1Coherence / ParetoRandom / CRTResolve）+ z 区 24 探针（**7 个已 pro 化并入合并版**：grid_ortho/parseval/partial/pairbound/rowsum/pairdirichlet/incoherence）+ **合并版 ca_merged_full_24.v（75702 行，40 模块，MERGE_EXIT=0）**｜CI 全绿（GitHub Actions）
+> 版本：最终版 v2.2（2026-08-23）｜代码基态：PSA_framework.v（18 模块 / 265 Qed / 165 项审计全零经典排中）+ 可证明性边界族（ParetoLaw / P1Coherence / ParetoRandom / CRTResolve）+ z 区 24 探针（**7 个已 pro 化并入合并版**：grid_ortho/parseval/partial/pairbound/rowsum/pairdirichlet/incoherence）+ **合并版 ca_merged_full_24.v（77804 行，42 模块，MERGE_EXIT=0）**｜CI 全绿（GitHub Actions）
+> 修订摘要（v2.2）：§5.6.6 压缩感知族从 RIP(2,μ) 基元升级为 **k-原子 RIP 主定理**——新增构造性轨道 `ca_rip_cr.v`（A1：`CRrip_bound_k`，17 Qed 全 "Closed under the global context"，纯构造性实数 Stdlib ConstructiveReals，零经典公理、零 Admitted；独立 + 合并版 42 模块 + 30模块 SHA-256 三处一致）。
 
 ---
 
@@ -17,7 +18,7 @@
 
 在认证管线之上，本开发进一步刻画**可证明性边界**（§5.6）：对 μ≤4/5 的保守检查器口径，稠密覆盖与可判定认证**互斥**——超过 9 个相位完备带覆盖 [3,511] 的阶梯必然被拒绝（`pareto_law_N511`，几何增长禁止 + 鸽笼组合论证，增长常数 c≈1.8501）；随机版负定律以高概率成立（同箱带对必触发拒绝，7 带 ≥ 96%、8 带 ≥ 99%，生日-箱计数）。我们同时形式化论文 B τ/碰撞机制的碰撞距离框架：精确碰撞当且仅当角度有理（全构造性 iff，最小距离 = 分母闭式）、无理偏移（黄金比）永无精确碰撞且近碰撞被 1/(3d) 半径挡住、线性偏置核（ALiBi）无碰撞端点——"认证—可证明性边界—碰撞/分辨率刻画"三角被机器检查覆盖（§5.6.4，含 U5 黄金近碰撞半径）。
 
-**压缩感知通用层形式化（v2.1 新增，§5.6.6；实例拼接未完成）**：频率阶梯原子族在**通用层**满足单位范数 → RIP(2,μ) → 稀疏唯一恢复定理（具体阶梯的 μ·(M+1)<1 实例化为后续工作）——`psi_norm_one`（‖ψ_n‖=1）、`rip_bound2`（μ-不相干单位原子 ⟹ 能量偏差 ≤ μ·Σc²）、`sparse_uniquenessM`（**μ·(M+1) < 1 ⟹ 窗口内零组合 ⟹ 系数全零**，M+1 原子稀疏表示唯一）——把「框架界（1D 无条件基）+ 频率阶梯」的理论优势从表示稳定性推进到稀疏恢复（48 Qed，已并入合并版）。
+**压缩感知（§5.6.6，v2.2 升级为 k-原子 RIP）**：频率阶梯原子族在**通用层**满足单位范数 → **k-原子 RIP** → 稀疏唯一恢复定理（具体阶梯的 μ·(M+1)<1 实例化为后续工作）——`psi_norm_one`（‖ψ_n‖=1）、`rip_bound2`（RIP(2,μ) 基元）、**`CRrip_bound_k`（k-原子 RIP 主定理，构造性轨道 `ca_rip_cr.v`：0 ≤ μ、单位范数、两两相干 ≤ μ ⟹ |‖Σ_{j≤M} c_j·u_j‖² − Σc_j²| ≤ μ·(M+1)·Σc_j²，纯构造性实数 Stdlib ConstructiveReals——Set 层 CRcarrier + Prop 层 CRle/CRlt，零经典公理、零 Admitted，17 Qed 全 "Closed under the global context"）**、`sparse_uniquenessM`（**μ·(M+1) < 1 ⟹ 窗口内零组合 ⟹ 系数全零**，M+1 原子稀疏表示唯一）——把「框架界（1D 无条件基）+ 频率阶梯」的理论优势从表示稳定性推进到稀疏恢复（probe_incoherence 48 Qed + ca_rip_cr 17 Qed，均并入合并版 42 模块）。
 
 **关键词**：形式化验证；Coq/Rocq；稀疏注意力；框架理论；Gershgorin 界；反射检查器；程序提取；构造性数学
 
@@ -211,12 +212,22 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **RIP 基元（CS-2）** `rip_bound2`：μ-不相干单位原子（|⟨u1,u2⟩_W| ≤ μ）⟹
   |‖c1u1+c2u2‖²_W − (c1²+c2²)| ≤ μ·(c1²+c2²)——Gershgorin 型 RIP(2,μ) 界；支撑链
   `norm_sq_combo2`（2 原子范数平方显式展开：Σc² + 2c1c2⟨⟩）。
+- **k-原子 RIP（CS-2′，构造性轨道，v2.2 新增）** `CRrip_bound_k`（ca_rip_cr.v，A1）：
+  0 ≤ μ、单位范数（∀j≤M：‖u_j‖² = 1）、两两相干 ≤ μ（∀i≠j≤M：|⟨u_i,u_j⟩| ≤ μ）⟹
+  |‖Σ_{j≤M} c_j·u_j‖² − Σ_{j≤M} c_j²| ≤ μ·(M+1)·Σ_{j≤M} c_j²——RIP(2,μ) 的 **k-原子
+  泛化**（k = M+1，RIP 常数 δ_k = μ·(M+1)，AM-GM 聚合路径的保守界）；证明链：
+  `CRrip_lower_M`（RIP 下界归纳）与 `CRrip_upper_M`（上界）经 `CRabs_def` 组合为
+  绝对值界（组装引理 `CRrip_final_cr` / `CRrip_upper_final_cr` 全手动 CR 链，无 nra）。
+  **纯构造性实数轨道**：Stdlib ConstructiveReals 抽象接口（Set 层 CRcarrier +
+  Prop 层 CRle/CRlt），零经典公理（无 sig_not_dec/sig_forall_dec/fext）、零 Admitted，
+  17 引理全 "Closed under the global context"；独立编译 EXIT=0 + 合并版（42 模块）
+  EXIT=0 + 30模块 SHA-256 一致。
 - **稀疏唯一性（CS-3）** `sparse_uniquenessM`（主定理）：0 ≤ μ、单位范数、两两相干 ≤ μ、
   **μ·(M+1) < 1** ⟹ 窗口内零组合 Σ_{j≤M} c_j·u_j ≡ 0 ⟹ 系数全零——M+1 个原子的**稀疏表示
   唯一恢复**；证明链：`rip_lower_M`（RIP 下界归纳，Σc_j² ≤ l2 + μ(M+1)Σc_j²）→ l2=0
   （零组合）→ (1−μ(M+1))Σc_j² ≤ 0 → Σc_j² = 0 → `sum_sq_zero` 逐项归零；基元
   `sparse_uniqueness2`（M=1 最小实例）。
-- **意义（强度如实声明）**：本开发在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) + 稀疏唯一性三定理，机器检查）；**具体实例拼接（如 C=4 阶梯 [3,13,53,213] 的 μ·(M+1)<1 实例化，需精确 μ 值的 Coq 证明）尚未完成，为后续工作**——故不宣称"实例级稀疏唯一恢复"已证；与 ρ^{−3/2} 行和紧界（§5.6.5，C=4 行和 2π/7 < 1）的合成同为文本叙述而非形式化定理（框架界 + 低相干的组合实例拼接同为未来工作）。形式化贡献定位为：通用层 RIP/唯一性定理的机器检查 + 原子族单位范数证明；实例层拼接是明确的后续步骤。**数学新颖性说明（如实）**：`sparse_uniquenessM` 本质是 Gershgorin/互干性唯一恢复定理（Candès–Tao RIP 框架下的经典结果），数学上并非新颖——本工作的形式化价值在于用 Coq 机器检查该定理在频率阶梯原子族上的成立，而非提出新数学定理。
+- **意义（强度如实声明）**：本开发在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + **k-原子 RIP** + 稀疏唯一性，机器检查）；**具体实例拼接（如 C=4 阶梯 [3,13,53,213] 的 μ·(M+1)<1 实例化，需精确 μ 值的 Coq 证明）尚未完成，为后续工作**——故不宣称"实例级稀疏唯一恢复"已证；与 ρ^{−3/2} 行和紧界（§5.6.5，C=4 行和 2π/7 < 1）的合成同为文本叙述而非形式化定理（框架界 + 低相干的组合实例拼接同为未来工作）。形式化贡献定位为：通用层 RIP/唯一性定理的机器检查 + 原子族单位范数证明（含构造性轨道零经典公理的 k-原子 RIP）；实例层拼接是明确的后续步骤。**数学新颖性说明（如实）**：`sparse_uniquenessM` 与 `CRrip_bound_k` 本质是 Gershgorin/互干性唯一恢复与 RIP 定理（Candès–Tao RIP 框架下的经典结果），数学上并非新颖——本工作的形式化价值在于用 Coq 机器检查这些定理在频率阶梯原子族上的成立，其中构造性轨道（零经典公理）是对经典形式化的独立性验证。
 
 ## 6 提取与可执行检查器
 
@@ -275,7 +286,7 @@ psi-rope 行 3 个种子均值±std、dense 单个种子（b64 s1337）、rope �
 
 **可证明性边界（v2.0 新增，§5.6）**：在认证管线之上，本开发把论文 B 的"性能-可证明性张力"从实证观察升格为定理——**稠密覆盖与 μ≤4/5 可判定认证互斥**（`pareto_law_main`/`pareto_law_N511`：N=511 时 m≥10 必拒；P1/P1′ 给出精确窗口口径相干下界的解析根源；T2a/T2b 把负定律延伸到随机阶梯高概率拒绝）。配套的碰撞距离框架（碰撞 ⟺ 有理、最小距离 = 分母、无理偏移零碰撞、ALiBi 无碰撞端点、Parseval 能量守恒、窗口无关 Dirichlet 界、容错 Gershgorin 分级证书、一般维张量闭式、核漂移 softmax TVD 界）为论文 B 的 τ/碰撞机制提供形式化镜像——"认证—可证明性边界—碰撞/分辨率刻画"三角被机器检查覆盖，零 Admitted、零自定义公理。
 
-**压缩感知通用层形式化（v2.1 新增，§5.6.6；实例拼接未完成）**：频率阶梯原子族在通用层获低相干 → RIP(2,μ) → 稀疏唯一性定理（单位范数 `psi_norm_one` + RIP(2,μ) `rip_bound2` + 稀疏唯一恢复 `sparse_uniquenessM`，48 Qed 并入合并版）——「框架界 + 频率阶梯」从表示稳定性推进到稀疏恢复唯一性，与论文 B 的随机稀疏恢复主张构成定理侧支撑。
+**压缩感知（v2.1 新增 §5.6.6，v2.2 升级为 k-原子 RIP；实例拼接未完成）**：频率阶梯原子族在通用层获低相干 → RIP → 稀疏唯一性定理（单位范数 `psi_norm_one` + RIP(2,μ) 基元 `rip_bound2` + **k-原子 RIP `CRrip_bound_k`（构造性轨道 ca_rip_cr.v，纯构造性实数、零经典公理）** + 稀疏唯一恢复 `sparse_uniquenessM`，probe_incoherence 48 Qed + ca_rip_cr 17 Qed 并入合并版）——「框架界 + 频率阶梯」从表示稳定性推进到稀疏恢复唯一性，与论文 B 的随机稀疏恢复主张构成定理侧支撑。
 
 ## 参考文献
 
@@ -296,7 +307,7 @@ psi-rope 行 3 个种子均值±std、dense 单个种子（b64 s1337）、rope �
 > **代码仓库（Artifact）**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating —— 含全部 Coq 形式化（coq/lib + coq/core + coq/probes）、两篇论文（草稿/正式版/中文规范版）、实证脚本与数据（mpirical/、data/）、CI 流水线（GitHub Actions：Rocq 9.0 编译 + 165 项审计 + coqchk 内核复验，徽章见仓库 README）。预印本 DOI：10.6084/m9.figshare.33312189。
 
 
-- **代码分布**：形式化代码 `src/`（`_CoqProject` 声明 load path；各模块独立编译命令见经验卡 E067/E077）；探针 `z/`；**合并版 `src/ca_merged_full_24.v`（75702 行，40 模块含 7 个 z 区探针，`_merge_ca.py` 重新生成，合并编译 MERGE_EXIT=0）**；归档基态 `30模块/`（ca_* + 7 探针 pro 版 + ca_zeta_euler + 合并版，SHA-256 与 src/z 一致）。
+- **代码分布**：形式化代码 `src/`（`_CoqProject` 声明 load path；各模块独立编译命令见经验卡 E067/E077）；探针 `z/`；**合并版 `src/ca_merged_full_24.v`（77804 行，42 模块含 7 个 z 区探针 + ca_zeta_euler / ca_rip_cr 构造性轨道，`_merge_ca.py` 重新生成，合并编译 MERGE_EXIT=0）**；归档基态 `30模块/`（ca_* + 7 探针 pro 版 + ca_zeta_euler + ca_rip_cr + 合并版，SHA-256 与 src/z 一致）。
 - **依赖版本**：Rocq/Coq 9.0.1；mathcomp（本地 vendored）；Coquelicot；Windows 10+ / PowerShell 7。
 - **构建命令**：各模块独立编译 `coqc -Q <src> "" -Q <z> "" -Q <mathcomp> mathcomp -Q <Coquelicot> Coquelicot <file>.v`；合并版重新生成 `python src/_merge_ca.py` 后合并编译。
 - 提取链：`PSA_extract.v` → `psa_guard.ml` → `psa_guard.exe`（DkMLNative ocamlc 字节码 + camlrun）；FFI 自测 `python psa_guard_ffi.py`（24/24）。

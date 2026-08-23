@@ -97,9 +97,10 @@ same ladder family; this work supplies the formal guarantees.
   Gershgorin → InstanceCertificate → M4bLengthConsistency → T8CoreCertificate →
   FrameCheckInstance → ChampionCertificate → FrameCheck2DNarrow → UnitaryInvariance →
   PhaseCoherence。
-- **合并版** `src/ca_merged_full_24.v`：**75702 行 / 40 模块**（30 个 ca_* + PSA_framework +
+- **合并版** `src/ca_merged_full_24.v`：**77804 行 / 42 模块**（30 个 ca_* + PSA_framework +
   独立模块 + **7 个 z 区探针**：probe_grid_ortho/parseval/partial/pairbound/rowsum/
-  pairdirichlet/incoherence），`_merge_ca.py` 重新生成，**全量合并编译 MERGE_EXIT=0**。
+  pairdirichlet/incoherence + **构造性轨道 ca_zeta_euler / ca_rip_cr**），`_merge_ca.py`
+  重新生成，**全量合并编译 MERGE_EXIT=0**。
 - **z 区探针（并入合并版 7 个）**：grid_ortho 18 Qed / parseval 17 / partial 15 /
   pairbound 5 / rowsum 21 / pairdirichlet 4 / incoherence 48——各独立编译 EXIT=0 +
   合并编译双通过。
@@ -144,11 +145,15 @@ pareto_law_N511 : 检查器通过 ∧ m 条相完备带 [3,511] → 3·c^(m−1)
 
 golden_near_collision_gold : ∀ d ≥ 1, ∀ m ∈ Z: |d·φ_gold − m| ≥ 1/(3d)
 
-(* ── 压缩感知族（probe_incoherence.v，48 Qed，已并入合并版）── *)
+(* ── 压缩感知族（probe_incoherence.v 48 Qed + ca_rip_cr.v 17 Qed，已并入合并版）── *)
 psi_norm_one (n) : 1 ≤ n → l2_norm_sq (psi n) (pred n) = 1
 
 rip_bound2 (u1 u2) (W) (c1 c2 mu) : ‖u1‖²_W = 1 → ‖u2‖²_W = 1 → |⟨u1,u2⟩_W| ≤ mu →
   |‖c1·u1 + c2·u2‖²_W − (c1² + c2²)| ≤ mu·(c1² + c2²)
+
+CRrip_bound_k (M) (c) (u) (mu) : 0 ≤ mu → ∀j≤M: ‖u_j‖² = 1 → ∀i≠j≤M: |⟨u_i,u_j⟩| ≤ mu →
+  |‖Σ_{j≤M} c_j·u_j‖² − Σ_{j≤M} c_j²| ≤ mu·(M+1)·Σ_{j≤M} c_j²
+  （构造性轨道 ca_rip_cr.v：纯构造性实数，零经典公理、零 Admitted）
 
 sparse_uniquenessM (M) (c) (u) (W) (mu) : 0 ≤ mu → ∀j≤M: ‖u_j‖²_W = 1 →
   ∀i≠j≤M: |⟨u_i,u_j⟩_W| ≤ mu → mu·(M+1) < 1 → ∀k≤W: Σ_{j≤M} c_j·u_j(k) = 0 →
@@ -246,19 +251,25 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 - **U5 黄金近碰撞半径**：∀ d ≥ 1、∀ m ∈ Z：|d·φ_gold − m| ≥ 1/(3d)
   （`golden_near_collision_gold`，代数数范数路线，零公理）。
 
-## 9. 压缩感知：RIP 与稀疏唯一性（probe_incoherence.v，48 Qed）
+## 9. 压缩感知：RIP 与稀疏唯一性（probe_incoherence.v 48 Qed + ca_rip_cr.v 17 Qed）
 
 频率阶梯原子族不仅构成稳定框架，还满足**低相干 → RIP → 稀疏唯一恢复**的完整链条：
 
 - **原子规范** `psi_norm_one`：1 ≤ n ⟹ ‖ψ_n‖²_{pred n} = 1——频率阶梯原子族单位范数。
 - **RIP 基元** `rip_bound2`：μ-不相干单位原子 ⟹ |‖c1u1+c2u2‖²_W − (c1²+c2²)| ≤ μ·(c1²+c2²)
   ——Gershgorin 型 RIP(2,μ) 界；支撑链 `norm_sq_combo2`（2 原子范数平方显式展开）。
+- **k-原子 RIP** `CRrip_bound_k`（ca_rip_cr.v）：0 ≤ μ、单位范数、两两相干 ≤ μ ⟹
+  |‖Σ_{j≤M} c_j·u_j‖² − Σ_{j≤M} c_j²| ≤ μ·(M+1)·Σ_{j≤M} c_j²——RIP(2,μ) 的 k-原子
+  泛化（k = M+1，δ_k = μ(M+1)），证明链 `CRrip_lower_M` + `CRrip_upper_M` 经 `CRabs_def`
+  组合；**纯构造性实数轨道**（Stdlib ConstructiveReals 抽象接口，Set 层 CRcarrier +
+  Prop 层 CRle/CRlt），零经典公理、零 Admitted，17 引理全 "Closed under the global
+  context"——对经典形式化的独立性验证。
 - **稀疏唯一性** `sparse_uniquenessM`（主定理）：0 ≤ μ、单位范数、两两相干 ≤ μ、
   **μ·(M+1) < 1** ⟹ 窗口内零组合 Σ_{j≤M} c_j·u_j ≡ 0 ⟹ 系数全零——M+1 个原子的稀疏表示
   唯一恢复。证明链：`rip_lower_M`（RIP 下界归纳）→ l2=0（零组合）→ (1−μ(M+1))Σc_j² ≤ 0
   → Σc_j² = 0 → `sum_sq_zero` 逐项归零。
 
-**意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) + 稀疏唯一性，机器检查）；**具体实例拼接（如 C=4 的 μ·(M+1)<1 实例化，需精确 μ 值的 Coq 证明）尚未完成，为后续工作**；与 ρ^{−3/2} 行和紧界的合成为文本叙述而非形式化定理。**数学新颖性（如实）**：sparse_uniquenessM 是 Gershgorin/互干性唯一恢复定理的机器检查，数学上非新，形式化价值在 Coq 验证。本族（连同 parseval/partial/pairbound/rowsum/pairdirichlet）已并入合并版，
+**意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏唯一性，机器检查，其中 k-原子 RIP 走纯构造性实数轨道、零经典公理）；**具体实例拼接（如 C=4 的 μ·(M+1)<1 实例化，需精确 μ 值的 Coq 证明）尚未完成，为后续工作**；与 ρ^{−3/2} 行和紧界的合成为文本叙述而非形式化定理。**数学新颖性（如实）**：sparse_uniquenessM 与 CRrip_bound_k 是 Gershgorin/互干性唯一恢复与 RIP 定理的机器检查，数学上非新，形式化价值在 Coq 验证（含构造性轨道对经典结果的独立性验证）。本族（连同 parseval/partial/pairbound/rowsum/pairdirichlet）已并入合并版（42 模块），
 独立 + 合并双通过。
 
 ## 10. 部署级证书族（KV 逐出 / 量化 / 多头）
@@ -294,8 +305,9 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 > **代码仓库**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 + 论文 + 实证 + CI，Apache-2.0；CI 徽章见 README）。预印本 DOI：10.6084/m9.figshare.33312189。
 
 - **代码分布**：`src/`（正式模块，含 `_CoqProject`）；`z/`（探针）；合并版
-  `src/ca_merged_full_24.v`；归档基态 `D:\ComplexAnalysis\30模块\`（ca_* + 7 探针 pro 版 +
-  ca_zeta_euler + 合并版，SHA-256 与 src/z 一致，旧版备份 `.sync-backup-20260823/`）。
+  `src/ca_merged_full_24.v`（42 模块，含 ca_zeta_euler / ca_rip_cr 构造性轨道）；归档基态
+  `D:\ComplexAnalysis\30模块\`（ca_* + 7 探针 pro 版 + ca_zeta_euler + ca_rip_cr + 合并版，
+  SHA-256 与 src/z 一致，旧版备份 `.sync-backup-20260823/`）。
 - **依赖版本**：Rocq/Coq 9.0.1（`C:\Rocq-Platform~9.0~2025.08\bin\coqc.exe`）；mathcomp
   （本地 vendored `lib\mathcomp`）；Coquelicot（`lib\Coquelicot`）；Windows 10+ / PowerShell 7。
 - **构建命令**：各模块独立编译 `coqc -Q <src> "" -Q <z> "" -Q <mathcomp> mathcomp
@@ -347,11 +359,12 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 本工作给出了「稀疏门控 + 频率阶梯基」完整解析核的 Coq 形式化：从确定性门控、框架界、
 截断能量、softmax 稳定性到注意力近似，全部常数落在可判定的有理层；反射检查器自带健全性
 证明，实例证书推广为通用运行时判定；可证明性边界（稠密与 μ≤4/5 互斥）、碰撞距离框架与
-部署级证书族构成三角支撑；**压缩感知族（单位范数 + RIP + 稀疏唯一性）把「无条件基 + 频率
-阶梯」的理论优势推进到稀疏恢复**。全部开发零 Admitted、零自定义公理，165 项审计
-`Classical_Prop.classic` 零出现；合并版（75702 行，40 模块含 7 个 z 区探针）全量合并编译
-通过。与配套论文 B 的实证共同构成「可证性（稀疏）— 外推性（稠密）」双轨的机器检查 + 实证
-记录。
+部署级证书族构成三角支撑；**压缩感知族（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏
+唯一性）把「无条件基 + 频率阶梯」的理论优势推进到稀疏恢复**（k-原子 RIP 走纯构造性实数
+轨道、零经典公理）。全部开发零 Admitted、零自定义公理，165 项审计
+`Classical_Prop.classic` 零出现；合并版（77804 行，42 模块含 7 个 z 区探针 + 构造性轨道
+ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实证共同构成「可证性（稀疏）—
+外推性（稠密）」双轨的机器检查 + 实证记录。
 
 ---
 
@@ -371,14 +384,14 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 | P1/P1′ 精确相干下界 | src/P1Coherence.v | ✅ |
 | T2a/T2b 随机版负定律 | src/ParetoRandom.v | ✅ |
 | CRT/素数链 | src/CRTResolve.v（prime_ladder_8 / crt_inj） | ✅ |
-| **压缩感知族（CS-1/2/3）** | **z/probe_incoherence.v（psi_norm_one / rip_bound2 / sparse_uniquenessM，48 Qed）** | ✅ **已并入合并版** |
+| **压缩感知族（CS-1/2/2′/3）** | **z/probe_incoherence.v（psi_norm_one / rip_bound2 / sparse_uniquenessM，48 Qed）+ src/ca_rip_cr.v（CRrip_bound_k，k-原子 RIP 构造性轨道，17 Qed）** | ✅ **已并入合并版** |
 | ρ^{−3/2} 行和紧界 | z/probe_rowsum.v（row_sum_3halfs / row_bound_C4，21 Qed） | ✅ **已并入合并版** |
 | 任意角度 Dirichlet / 混合网格相干 | z/probe_pairdirichlet.v（pair_dirichlet / mixed_grid_coherence，4 Qed） | ✅ **已并入合并版** |
 | Parseval / Dirichlet 界 | z/probe_parseval.v / probe_partial.v（17+15 Qed） | ✅ **已并入合并版** |
 | ρ^{−3/2} 逐对紧界 | z/probe_pairbound.v（5 Qed） | ✅ **已并入合并版** |
 | 碰撞刻画 / τ 机制 | z/probe_collision.v / probe_tchar.v / probe_taudicho.v | ✅（z 区独立验证） |
 | 部署级证书族 | z/probe_kvevict.v / probe_quant.v / probe_multihead.v / probe_exprat.v | ✅（z 区独立验证） |
-| 合并版 | src/ca_merged_full_24.v（75702 行，40 模块，7 探针并入） | ✅ **MERGE_EXIT=0** |
+| 合并版 | src/ca_merged_full_24.v（77804 行，42 模块，7 探针 + ca_zeta_euler / ca_rip_cr 并入） | ✅ **MERGE_EXIT=0** |
 | 归档基态 | D:\ComplexAnalysis\30模块\（SHA-256 与 src/z 一致） | ✅ |
 
 ---

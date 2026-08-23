@@ -12,7 +12,8 @@
 >   素数阶梯极限、鸽笼确定性版、ρ^{−3/2} 逐对与行和紧界，另含 incoherence/t1b 新探针）；
 >   **7 探针（grid_ortho + parseval/partial/pairbound/rowsum/pairdirichlet/incoherence）已按
 >   E091 模式 pro 化并入合并版**（mathcomp Require + lia 改 mathcomp 引理，独立 + 合并双通过，
->   2026-08-23）；合并版 `ca_merged_full_24.v`（75702 行，7 探针并入）**全量合并编译 MERGE_EXIT=0**；
+>   2026-08-23）；合并版 `ca_merged_full_24.v`（77804 行，42 模块，含 ca_zeta_euler /
+>   ca_rip_cr 构造性轨道）**全量合并编译 MERGE_EXIT=0**；
 >   **零 Admitted/零自定义公理**。
 > - 措辞与引用：按《交接文档》措辞表清洗；参考文献按《参考文献真实性核查报告》校准。
 > - 版本历史（v4–v9 对齐记录）见文末附录 B。
@@ -574,7 +575,8 @@ sparse_uniquenessM (M) (c) (u) (W) (mu) : 0 ≤ mu → ∀j≤M: ‖u_j‖²_W =
 > pairdirichlet/incoherence）已按 E091 模式 pro 化并入合并版**（mathcomp Require +
 > lia 改 mathcomp 引理，2026-08-23），独立 + 合并双通过；其余 z 区探针（§5.6.4-5.7
 > 碰撞/τ/部署级族）按 z/ 独立编译验证（并入工作按 E093 创建期规则推进）。
-> 合并版 `ca_merged_full_24.v`（75702 行，7 探针并入）**全量合并编译 MERGE_EXIT=0**。
+> 合并版 `ca_merged_full_24.v`（77804 行，42 模块，含 ca_zeta_euler / ca_rip_cr
+> 构造性轨道）**全量合并编译 MERGE_EXIT=0**。
 
 ### 5.6.1 帕累托律：稠密覆盖与 μ≤4/5 可判定认证互斥（`src/ParetoLaw.v`）
 
@@ -712,24 +714,31 @@ rand 2.4×）——与 P3 定理互证：**可证性（稀疏）与外推性（�
 **落点**：本族与 §5.1–5.5 认证链正交，构成"认证（正）— 可证明性边界（负定律）—
 碰撞/分辨率刻画（机制）"三角；论文 B §10.8 的 τ 机制 5 个正向判决与之一致。
 
-### 5.6.6 压缩感知：RIP 与稀疏唯一性（probe_incoherence.v，CS-1/2/3，2026-08-23）
+### 5.6.6 压缩感知：RIP 与稀疏唯一性（probe_incoherence.v CS-1/2/3 + ca_rip_cr.v，2026-08-23）
 
 > 本小节把 §5.1-5.5 的「框架界/表示稳定性」推进到**压缩感知级**：频率阶梯原子族不仅
 > 构成稳定框架，还满足**低相干 → RIP → 稀疏唯一恢复**的完整链条（对应《psi-rope-rand
 > 恶化》任务书的 CS-1/2/3 缺口——此前"无条件基 + 频率阶梯"的理论优势一条定理未导出）。
-> 48 Qed / 5 主定理 / 0 Admitted / 0 Axiom，已并入合并版（全量合并编译通过）。
+> probe_incoherence 48 Qed / 5 主定理 / 0 Admitted / 0 Axiom；v2.2 升级为 **k-原子 RIP**
+> （构造性轨道 ca_rip_cr.v，17 Qed 全 "Closed under the global context"），均已并入
+> 合并版（42 模块，全量合并编译通过）。
 
 - **原子规范（IC1）** `psi_norm_one`：1 ≤ n ⟹ ‖ψ_n‖²_{pred n} = 1——频率阶梯原子族
   单位范数（phi=rot 桥 + 零前缀 Csum 消除 + `phi_l2_norm` 闭式）。
 - **RIP 基元（CS-2）** `rip_bound2`：μ-不相干单位原子（|⟨u1,u2⟩_W| ≤ μ）⟹
   |‖c1u1+c2u2‖²_W − (c1²+c2²)| ≤ μ·(c1²+c2²)——Gershgorin 型 RIP(2,μ) 界；
   支撑链 `norm_sq_combo2`（2 原子范数平方显式展开：Σc² + 2c1c2⟨⟩）。
+- **k-原子 RIP（CS-2′，v2.2 新增，构造性轨道）** `CRrip_bound_k`（ca_rip_cr.v）：
+  0 ≤ μ、单位范数、两两相干 ≤ μ ⟹ |‖Σ_{j≤M} c_j·u_j‖² − Σ_{j≤M} c_j²| ≤ μ·(M+1)·Σ_{j≤M} c_j²
+  ——RIP(2,μ) 的 k-原子泛化（k = M+1）；证明链 `CRrip_lower_M` + `CRrip_upper_M` 经
+  `CRabs_def` 组合；**纯构造性实数轨道**（Stdlib ConstructiveReals 抽象接口，Set 层
+  CRcarrier + Prop 层 CRle/CRlt），零经典公理、零 Admitted。
 - **稀疏唯一性（CS-3）** `sparse_uniquenessM`（主定理）：0 ≤ μ、单位范数、
   两两相干 ≤ μ、**μ·(M+1) < 1** ⟹ 窗口内零组合 Σ_{j≤M} c_j·u_j ≡ 0 ⟹ 系数全零——
   M+1 个原子的**稀疏表示唯一恢复**；证明链：`rip_lower_M`（RIP 下界归纳，
   Σc_j² ≤ l2 + μ(M+1)Σc_j²）→ l2=0（零组合）→ (1−μ(M+1))Σc_j² ≤ 0 → Σc_j² = 0 →
   `sum_sq_zero` 逐项归零；基元 `sparse_uniqueness2`（M=1 最小实例）。
-- **意义**：论文 A 在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) + 稀疏唯一性，机器检查）；**具体实例拼接（如 C=4 的 μ·(M+1)<1 实例化，需精确 μ 值的 Coq 证明）尚未完成，为后续工作**；与 ρ^{−3/2} 行和紧界的合成为文本叙述而非形式化定理。**数学新颖性（如实）**：sparse_uniquenessM 是 Gershgorin/互干性唯一恢复定理的机器检查，数学上非新，形式化价值在 Coq 验证。
+- **意义**：论文 A 在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏唯一性，机器检查）；**具体实例拼接（如 C=4 的 μ·(M+1)<1 实例化，需精确 μ 值的 Coq 证明）尚未完成，为后续工作**；与 ρ^{−3/2} 行和紧界的合成为文本叙述而非形式化定理。**数学新颖性（如实）**：sparse_uniquenessM 与 CRrip_bound_k 是 Gershgorin/互干性唯一恢复与 RIP 定理的机器检查，数学上非新，形式化价值在 Coq 验证（构造性轨道为独立性验证）。
 
 ### 5.7 部署级证书族（Certified Deployment Robustness，2026-08-22 新增，z 区探针）
 
@@ -989,10 +998,11 @@ Practically Non-Tight"**，其价值在架构可组合性与维度推广的定�
 > **代码仓库（Artifact）**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 coq/lib+coq/core+coq/probes + 论文 + 实证 + CI，Apache-2.0）。预印本 DOI：10.6084/m9.figshare.33312189。
 - **复现指引（评审 总体-2，v10 补全）**：形式化代码 `src/`（`_CoqProject` 声明 load path；
   各模块独立编译命令见 E067/E077 经验卡）；**合并版 `src/ca_merged_full_24.v`
-  （75702 行，40 模块含 7 个 z 区探针，`_merge_ca.py` 重新生成，合并编译
+  （77804 行，42 模块含 7 个 z 区探针 + ca_zeta_euler / ca_rip_cr 构造性轨道，
+  `_merge_ca.py` 重新生成，合并编译
   `coqc -Q <mathcomp> mathcomp -Q <Coquelicot> Coquelicot ca_merged_full_24.v`，
   MERGE_EXIT=0）**；**归档基态 `D:\ComplexAnalysis\30模块\`**（ca_* + 7 探针 pro 版 +
-  ca_zeta_euler + 合并版，SHA-256 与 src/z 一致，旧版备份 `.sync-backup-20260823/`）；
+  ca_zeta_euler + ca_rip_cr + 合并版，SHA-256 与 src/z 一致，旧版备份 `.sync-backup-20260823/`）；
   提取链 `PSA_extract.v` → `psa_guard.ml` → `psa_guard.exe`（DkMLNative `ocamlc` 字节码 +
   camlrun）；FFI 自测 `python psa_guard_ffi.py`（24/24）；审计证据
   `AI注意力算法\审计证据\audit_run.txt` 等；实验代码与数据
@@ -1094,3 +1104,8 @@ PSA_framework.vo 已重建，可接）、U5 黄金近碰撞半径（1/(3d)）。
 > （75702 行，40 模块含 7 探针）**全量合并编译 MERGE_EXIT=0**；新增 §5.6.6 压缩感知族
 > （psi_norm_one / rip_bound2 / sparse_uniquenessM，48 Qed）；欧拉线 149 Qed；30模块 归档
 > 同步 9 文件（合并版 + 7 探针 pro 版 + ca_zeta_euler），旧版备份 .sync-backup-20260823/。
+> **v2.2（2026-08-23）**：§5.6.6 升级为 **k-原子 RIP**——新增构造性轨道 `ca_rip_cr.v`
+> （`CRrip_bound_k`，17 Qed 全 "Closed under the global context"，纯构造性实数
+> Stdlib ConstructiveReals，零经典公理、零 Admitted）；合并版 `ca_merged_full_24.v`
+> （77804 行，42 模块含 ca_zeta_euler / ca_rip_cr 构造性轨道）**全量合并编译
+> MERGE_EXIT=0**；30模块 同步 ca_rip_cr（SHA-256 一致）。
