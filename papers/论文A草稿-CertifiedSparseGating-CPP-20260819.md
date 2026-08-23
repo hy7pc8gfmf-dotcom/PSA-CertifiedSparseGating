@@ -3,7 +3,7 @@
 > **版本状态（2026-08-22）**：
 > - **认证管线基态**：`frame_check_instance_sound` 主定理 Qed（会话 10+11）、**M1.5 经典清零**
 >   （审计 **165 项 RC=0、零 Admitted、全零经典排中**）、M4b 长度一致性 + T8 复合证书 +
->   **端到端复合证书 `champion_e5_composite_certificate`（Qed）**、酉不变性机器检查（A2）、
+>   **复合表示稳定性界 `champion_e5_composite_certificate`（Qed）**、酉不变性机器检查（A2）、
 >   4D 组装（A1）、2D-wide 免 H_dom、FrameCheck2DNarrow（§5.5）、FFI 24/24（详见正文 §5）。
 > - **可证明性边界新定理族（§5.6，2026-08-22）**：P2/P3/N511（`src/ParetoLaw.v`）、
 >   P1/P1′（`src/P1Coherence.v`）、T2a/T2b（`src/ParetoRandom.v`，T2b 2026-08-22 完成）、
@@ -167,7 +167,7 @@ RuntimeGuards → SeqProps → PSA_Pipeline → GreedyGate → RowTruncation →
 PipelineEndToEnd → **ExpSeries（M1.5 级数重写，§7）** → SoftmaxStability →
 CertifiedAttention → Gershgorin → InstanceCertificate（M4）→
 **M4bLengthConsistency（长度一致性，∀N≥214）→ T8CoreCertificate（T8 复合证书核）→
-FrameCheckInstance（反射检查器 + soundness）→ ChampionCertificate（端到端复合证书，§5.3）
+FrameCheckInstance（反射检查器 + soundness）→ ChampionCertificate（复合表示稳定性界，§5.3）
 → FrameCheck2DNarrow（2D 窄轨反射化，§5.5）→ UnitaryInvariance（A2 酉不变性，§5.3）
 → PhaseCoherence（相干熵桥接，§5.6）**。
 统计：**165 项** Print Assumptions 审计（PSA_audit.v，RC=0，证据 `audit_run.txt`）；
@@ -282,7 +282,7 @@ sparse_uniquenessM (M) (c) (u) (W) (mu) : 0 ≤ mu → ∀j≤M: ‖u_j‖²_W =
   论文 B 的七带基线阶梯 E5'' [3,7,15,31,63,127,255] 被检查器判 false，**不代表它不满足框架条件**，仅代表
   有理松弛不足以证明它。正是这一不完备性使**复合证书成为必要**（而非补丁式
   workaround）：检查器拒绝整体 ⟹ 核-边缘分解 ⟹ 认证核 + 能量预算
-  （§5.3 端到端复合证书，✅ 已完成）。宁可误拒、绝不放行的保守取向是可判定性的
+  （§5.3 复合表示稳定性界，✅ 已完成）。宁可误拒、绝不放行的保守取向是可判定性的
   设计选择，须与"部分证书"机制配套使用。
   **评审 10 定位修正（2.4）**：系统扫描（114 阶梯×5 族，`frame_check_scan.py`，
   会话 18）实测假阴性 **56/114（49.1%，占拒绝 70.9%）**，且**集中于"有用"阶梯**
@@ -327,7 +327,7 @@ sparse_uniquenessM (M) (c) (u) (W) (mu) : 0 ≤ mu → ∀j≤M: ‖u_j‖²_W =
 - **T8 复合证书**（E5'' 胜，**已并入，会话 9**）：其隔带子核 [3,15,63,255]
   T8CoreCertificate 模块 11 Qed 零 classic，μ=4/5 覆盖最优阶梯的认证核。
 两种排位论文均有主定理覆盖。
-- **端到端复合证书（✅ 已完成，会话 14 Qed）**：顶层组合定理
+- **复合表示稳定性界（✅ 已完成，会话 14 Qed）**：顶层组合定理
   `champion_e5_composite_certificate`（`PSA_framework.v` `Module ChampionCertificate`，
   L4582–5150，定理本体 L5075）已 Qed 零 classic。**代码实际证明的目标形状**（全矩阵相干加权）：
   ```
@@ -342,7 +342,7 @@ sparse_uniquenessM (M) (c) (u) (W) (mu) : 0 ≤ mu → ∀j≤M: ‖u_j‖²_W =
   `delta_e5`（21 对上三角 δ 表）/`coh_e5` → `band_ge2`/`band_le256`/
   `coh_delta_bound`（42 方向）→ `term_bound_upper`/`term_bound_lower` →
   **`champion_e5_composite_certificate`**（`(S−coh) ≤ l2_norm_sq F 255 ≤ (S+coh)`）。
-  实施文档：`E5''端到端复合证书-缺口分析与实施文档-20260820.md`。
+  实施文档：`E5''复合表示稳定性界-缺口分析与实施文档-20260820.md`。
 - **反射检查器不完备性：影响与缓解（评审 A3，会话 18 系统扫描补强）**：`frame_check_instance` 是**充分非
   必要**——实际可认证阶梯被判 false（假阴性）。**系统扫描统计（114 阶梯 × 5 族：
   C-sparse C∈{2..8}×m∈{2..14}、几何奇带、C=2 全相位、E1 随机 log-uniform 去重；
@@ -988,6 +988,8 @@ Practically Non-Tight"**，其价值在架构可组合性与维度推广的定�
 ---
 
 ## 附录 A 代码-论文声明交叉索引表（评审 6 建议）
+
+> **代码仓库（Artifact）**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 coq/lib+coq/core+coq/probes + 论文 + 实证 + CI，Apache-2.0）。预印本 DOI：10.6084/m9.figshare.33312189。
 - **复现指引（评审 总体-2，v10 补全）**：形式化代码 `src/`（`_CoqProject` 声明 load path；
   各模块独立编译命令见 E067/E077 经验卡）；**合并版 `src/ca_merged_full_24.v`
   （75702 行，40 模块含 7 个 z 区探针，`_merge_ca.py` 重新生成，合并编译
@@ -1004,7 +1006,7 @@ Practically Non-Tight"**，其价值在架构可组合性与维度推广的定�
 | 论文声明 | 代码位置 | 状态 |
 |---------|---------|------|
 | 165 项全零 Classical_Prop.classic | PSA_audit.v（165 项 Print Assumptions） | ✅ |
-| 端到端复合证书 Qed | PSA_framework.v L5075（Module ChampionCertificate L4582-5150） | ✅ |
+| 复合表示稳定性界 Qed | PSA_framework.v L5075（Module ChampionCertificate L4582-5150） | ✅ |
 | 反射检查器健全性 Qed | FrameCheckInstance.frame_check_instance_sound | ✅ |
 | M1.5 经典清零 | Module ExpSeries（exp_mono_le_noclassic，exp_mono_le 走级数路线） | ✅ |
 | 酉不变性机器检查（RoPE 显式实例） | Module UnitaryInvariance（unitary_invariance_psi_rope_theta / Cexp_unit_mod） | ✅ |
@@ -1037,7 +1039,7 @@ Practically Non-Tight"**，其价值在架构可组合性与维度推广的定�
 **对齐协议（基态，2026-08-20 会话 17）**：本版对齐至 2026-08-20 会话 17 终态（A2/A1 完成后基态）——
 `frame_check_instance_sound` 主定理已 Qed（会话 10+11 装配），**M1.5 已清零**：审计 **165 项** RC=0、
 零 Admitted、**全部 165 项零经典排中**（`Classical_Prop.classic` 出现 0 次，证据 `audit_run.txt`
-追加段）；M4b 长度一致性 + T8 复合证书 + **端到端复合证书 `champion_e5_composite_certificate`
+追加段）；M4b 长度一致性 + T8 复合证书 + **复合表示稳定性界 `champion_e5_composite_certificate`
 （会话 14 Qed）** 已并入；FFI 24/24（refcheck 20 项 + 整数行和验算 4 项）。
 
 **v8 对齐修正（2026-08-20 会话 17 终态）**：① **A2 酉不变性已完成**——v6 的"降级为数学事实
