@@ -2,6 +2,14 @@
 
 **Certified Sparse Gating and Attention Approximation: An Executable Coq Development**
 
+[![Coq CI](https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating/actions/workflows/coq.yml/badge.svg)](https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating/actions/workflows/coq.yml)
+
+> **审稿人权威验证入口**：上方徽章指向 GitHub Actions 的 **Coq CI 运行记录**（每次 push 自动执行：
+> Rocq 9.0 编译 lib 依赖链 30 模块 + PSA 核心 + 165 项 Print Assumptions 审计 + 零 Admitted 检查 +
+> coqchk 内核独立复验 RC=0）。徽章绿色 = 当前 main 全量构建与审计通过；点击徽章可查看每一步的
+> 原始日志（编译命令、审计输出、内核复验结果），即"权威认证的代码库运行"。本地一键构建入口见
+> `_CoqProject` + `Makefile`（`make`）与下文复现指引。
+
 一个"算法—形式化—实证"三位一体的研究仓库：面向几何结构化频率基（psi 基 / 频率阶梯）的**可审计稀疏门控注意力**，配套两篇论文、一套 Coq/Rocq 9.0 形式化开发（165 项审计全零经典排中）、以及可执行的 OCaml/Python 反射检查器与实证脚本。
 
 ---
