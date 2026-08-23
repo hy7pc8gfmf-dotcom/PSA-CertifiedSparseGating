@@ -3,8 +3,8 @@
 **Certified Sparse Gating and Attention Approximation: An Executable Coq Development**
 
 > 作者：王宝军、夏挽岚、祖光照、周志农、高雪峰
-> 版本：最终版 v2.2（2026-08-23）｜代码基态：PSA_framework.v（18 模块 / 265 Qed / 165 项审计全零经典排中）+ 可证明性边界族（ParetoLaw / P1Coherence / ParetoRandom / CRTResolve）+ z 区 24 探针（**7 个已 pro 化并入合并版**：grid_ortho/parseval/partial/pairbound/rowsum/pairdirichlet/incoherence）+ **合并版 ca_merged_full_24.v（77804 行，42 模块，MERGE_EXIT=0）**｜CI 全绿（GitHub Actions）
-> 修订摘要（v2.2）：§5.6.6 压缩感知族从 RIP(2,μ) 基元升级为 **k-原子 RIP 主定理**——新增构造性轨道 `ca_rip_cr.v`（A1：`CRrip_bound_k`，17 Qed 全 "Closed under the global context"，纯构造性实数 Stdlib ConstructiveReals，零经典公理、零 Admitted；独立 + 合并版 42 模块 + 30模块 SHA-256 三处一致）。
+> 版本：最终版 v2.3（2026-08-23）｜代码基态：PSA_framework.v（18 模块 / 265 Qed / 165 项审计全零经典排中）+ 可证明性边界族（ParetoLaw / P1Coherence / ParetoRandom / CRTResolve）+ z 区 25 探针（**8 个已 pro 化并入合并版**：grid_ortho/parseval/partial/pairbound/rowsum/pairdirichlet/incoherence/c4_instance）+ **合并版 ca_merged_full_24.v（78051 行，43 模块，MERGE_EXIT=0）**｜CI 全绿（GitHub Actions）
+> 修订摘要（v2.2→v2.3）：§5.6.6 压缩感知族完成**实例级拼接**——新增 `probe_c4_instance.v`（A2）：C=4 阶梯 [3,13,53,213] 六对相干上界组装为 `C4_sparse_uniqueness_3`（μ=11289/33920 < 1/3 ⟹ μ·3<1 ⟹ 3 原子 [3,13,53] 稀疏唯一恢复，sparse_uniquenessM 实例）。v2.2 为 k-原子 RIP（构造性轨道 ca_rip_cr.v，17 Qed 全 "Closed under the global context"）。
 
 ---
 
@@ -18,7 +18,7 @@
 
 在认证管线之上，本开发进一步刻画**可证明性边界**（§5.6）：对 μ≤4/5 的保守检查器口径，稠密覆盖与可判定认证**互斥**——超过 9 个相位完备带覆盖 [3,511] 的阶梯必然被拒绝（`pareto_law_N511`，几何增长禁止 + 鸽笼组合论证，增长常数 c≈1.8501）；随机版负定律以高概率成立（同箱带对必触发拒绝，7 带 ≥ 96%、8 带 ≥ 99%，生日-箱计数）。我们同时形式化论文 B τ/碰撞机制的碰撞距离框架：精确碰撞当且仅当角度有理（全构造性 iff，最小距离 = 分母闭式）、无理偏移（黄金比）永无精确碰撞且近碰撞被 1/(3d) 半径挡住、线性偏置核（ALiBi）无碰撞端点——"认证—可证明性边界—碰撞/分辨率刻画"三角被机器检查覆盖（§5.6.4，含 U5 黄金近碰撞半径）。
 
-**压缩感知（§5.6.6，v2.2 升级为 k-原子 RIP）**：频率阶梯原子族在**通用层**满足单位范数 → **k-原子 RIP** → 稀疏唯一恢复定理（具体阶梯的 μ·(M+1)<1 实例化为后续工作）——`psi_norm_one`（‖ψ_n‖=1）、`rip_bound2`（RIP(2,μ) 基元）、**`CRrip_bound_k`（k-原子 RIP 主定理，构造性轨道 `ca_rip_cr.v`：0 ≤ μ、单位范数、两两相干 ≤ μ ⟹ |‖Σ_{j≤M} c_j·u_j‖² − Σc_j²| ≤ μ·(M+1)·Σc_j²，纯构造性实数 Stdlib ConstructiveReals——Set 层 CRcarrier + Prop 层 CRle/CRlt，零经典公理、零 Admitted，17 Qed 全 "Closed under the global context"）**、`sparse_uniquenessM`（**μ·(M+1) < 1 ⟹ 窗口内零组合 ⟹ 系数全零**，M+1 原子稀疏表示唯一）——把「框架界（1D 无条件基）+ 频率阶梯」的理论优势从表示稳定性推进到稀疏恢复（probe_incoherence 48 Qed + ca_rip_cr 17 Qed，均并入合并版 42 模块）。
+**压缩感知（§5.6.6，v2.2 升级为 k-原子 RIP，v2.3 完成实例拼接）**：频率阶梯原子族在**通用层**满足单位范数 → **k-原子 RIP** → 稀疏唯一恢复定理，并在 **C=4 阶梯完成实例级拼接**（`C4_sparse_uniqueness_3`：μ=11289/33920 < 1/3 ⟹ 3 原子 [3,13,53] 稀疏唯一恢复）——`psi_norm_one`（‖ψ_n‖=1）、`rip_bound2`（RIP(2,μ) 基元）、**`CRrip_bound_k`（k-原子 RIP 主定理，构造性轨道 `ca_rip_cr.v`：0 ≤ μ、单位范数、两两相干 ≤ μ ⟹ |‖Σ_{j≤M} c_j·u_j‖² − Σc_j²| ≤ μ·(M+1)·Σc_j²，纯构造性实数 Stdlib ConstructiveReals——Set 层 CRcarrier + Prop 层 CRle/CRlt，零经典公理、零 Admitted，17 Qed 全 "Closed under the global context"）**、`sparse_uniquenessM`（**μ·(M+1) < 1 ⟹ 窗口内零组合 ⟹ 系数全零**，M+1 原子稀疏表示唯一）、**`C4_sparse_uniqueness_3`（C=4 实例，probe_c4_instance.v：六对相干上界组装 μ=11289/33920 < 1/3，3 原子唯一恢复）**——把「框架界（1D 无条件基）+ 频率阶梯」的理论优势从表示稳定性推进到稀疏恢复（probe_incoherence 48 Qed + ca_rip_cr 17 Qed + probe_c4_instance，均并入合并版 43 模块）。
 
 **关键词**：形式化验证；Coq/Rocq；稀疏注意力；框架理论；Gershgorin 界；反射检查器；程序提取；构造性数学
 
@@ -227,7 +227,15 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
   唯一恢复**；证明链：`rip_lower_M`（RIP 下界归纳，Σc_j² ≤ l2 + μ(M+1)Σc_j²）→ l2=0
   （零组合）→ (1−μ(M+1))Σc_j² ≤ 0 → Σc_j² = 0 → `sum_sq_zero` 逐项归零；基元
   `sparse_uniqueness2`（M=1 最小实例）。
-- **意义（强度如实声明）**：本开发在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + **k-原子 RIP** + 稀疏唯一性，机器检查）；**具体实例拼接（如 C=4 阶梯 [3,13,53,213] 的 μ·(M+1)<1 实例化，需精确 μ 值的 Coq 证明）尚未完成，为后续工作**——故不宣称"实例级稀疏唯一恢复"已证；与 ρ^{−3/2} 行和紧界（§5.6.5，C=4 行和 2π/7 < 1）的合成同为文本叙述而非形式化定理（框架界 + 低相干的组合实例拼接同为未来工作）。形式化贡献定位为：通用层 RIP/唯一性定理的机器检查 + 原子族单位范数证明（含构造性轨道零经典公理的 k-原子 RIP）；实例层拼接是明确的后续步骤。**数学新颖性说明（如实）**：`sparse_uniquenessM` 与 `CRrip_bound_k` 本质是 Gershgorin/互干性唯一恢复与 RIP 定理（Candès–Tao RIP 框架下的经典结果），数学上并非新颖——本工作的形式化价值在于用 Coq 机器检查这些定理在频率阶梯原子族上的成立，其中构造性轨道（零经典公理）是对经典形式化的独立性验证。
+- **C=4 实例拼接（CS-3′，v2.3 新增）** `C4_sparse_uniqueness_3`（probe_c4_instance.v，A2）：
+  C=4 阶梯 [3,13,53,213] 的**六对相干上界**（pair_3_13 ≤ 13/40、pair_3_53 ≤ 53/400、
+  pair_3_213 ≤ 213/3500、pair_13_53 ≤ 689/2080、pair_13_213 ≤ 2769/20800、
+  pair_53_213 ≤ 11289/33920，均已在 PSA_framework）经 ipW 对接组装为
+  **μ := 11289/33920 < 1/3**（33867 < 33920）⟹ 前 3 原子 [3,13,53] 的两两相干 ≤ μ 且
+  **μ·3 < 1** ⟹ `sparse_uniquenessM` 实例化（M=2）：窗口内零组合 Σ_{j≤2} c_j·ψ_{v_j} ≡ 0
+  ⟹ c₀=c₁=c₂=0——**3 原子稀疏唯一恢复实例**。审计：仅 Dedekind 实数基础设施
+  （sig_not_dec/sig_forall_dec），零自定义公理、零 Admitted。
+- **意义（强度如实声明）**：本开发在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + **k-原子 RIP** + 稀疏唯一性，机器检查），并在 **C=4 阶梯完成实例级拼接**（`C4_sparse_uniqueness_3`，3 原子唯一恢复）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界（§5.6.5，C=4 行和 2π/7 < 1）的合成仍为后续工作。形式化贡献定位为：通用层 RIP/唯一性定理的机器检查 + 原子族单位范数证明（含构造性轨道零经典公理的 k-原子 RIP）+ C=4 实例级拼接；**数学新颖性说明（如实）**：`sparse_uniquenessM`、`CRrip_bound_k` 与 `C4_sparse_uniqueness_3` 本质是 Gershgorin/互干性唯一恢复与 RIP 定理的机器检查（Candès–Tao RIP 框架下的经典结果），数学上并非新颖——本工作的形式化价值在于用 Coq 机器检查这些定理在频率阶梯原子族上的成立（含 C=4 具体常数核验与构造性轨道独立性验证）。
 
 ## 6 提取与可执行检查器
 
@@ -286,7 +294,7 @@ psi-rope 行 3 个种子均值±std、dense 单个种子（b64 s1337）、rope �
 
 **可证明性边界（v2.0 新增，§5.6）**：在认证管线之上，本开发把论文 B 的"性能-可证明性张力"从实证观察升格为定理——**稠密覆盖与 μ≤4/5 可判定认证互斥**（`pareto_law_main`/`pareto_law_N511`：N=511 时 m≥10 必拒；P1/P1′ 给出精确窗口口径相干下界的解析根源；T2a/T2b 把负定律延伸到随机阶梯高概率拒绝）。配套的碰撞距离框架（碰撞 ⟺ 有理、最小距离 = 分母、无理偏移零碰撞、ALiBi 无碰撞端点、Parseval 能量守恒、窗口无关 Dirichlet 界、容错 Gershgorin 分级证书、一般维张量闭式、核漂移 softmax TVD 界）为论文 B 的 τ/碰撞机制提供形式化镜像——"认证—可证明性边界—碰撞/分辨率刻画"三角被机器检查覆盖，零 Admitted、零自定义公理。
 
-**压缩感知（v2.1 新增 §5.6.6，v2.2 升级为 k-原子 RIP；实例拼接未完成）**：频率阶梯原子族在通用层获低相干 → RIP → 稀疏唯一性定理（单位范数 `psi_norm_one` + RIP(2,μ) 基元 `rip_bound2` + **k-原子 RIP `CRrip_bound_k`（构造性轨道 ca_rip_cr.v，纯构造性实数、零经典公理）** + 稀疏唯一恢复 `sparse_uniquenessM`，probe_incoherence 48 Qed + ca_rip_cr 17 Qed 并入合并版）——「框架界 + 频率阶梯」从表示稳定性推进到稀疏恢复唯一性，与论文 B 的随机稀疏恢复主张构成定理侧支撑。
+**压缩感知（v2.1 新增 §5.6.6，v2.2 升级为 k-原子 RIP，v2.3 完成 C=4 实例拼接）**：频率阶梯原子族在通用层获低相干 → RIP → 稀疏唯一性定理（单位范数 `psi_norm_one` + RIP(2,μ) 基元 `rip_bound2` + **k-原子 RIP `CRrip_bound_k`（构造性轨道 ca_rip_cr.v，纯构造性实数、零经典公理）** + 稀疏唯一恢复 `sparse_uniquenessM` + **C=4 实例 `C4_sparse_uniqueness_3`（probe_c4_instance.v：μ=11289/33920 < 1/3 ⟹ 3 原子 [3,13,53] 唯一恢复）**，probe_incoherence 48 Qed + ca_rip_cr 17 Qed + probe_c4_instance 并入合并版）——「框架界 + 频率阶梯」从表示稳定性推进到稀疏恢复唯一性，与论文 B 的随机稀疏恢复主张构成定理侧支撑。
 
 ## 参考文献
 

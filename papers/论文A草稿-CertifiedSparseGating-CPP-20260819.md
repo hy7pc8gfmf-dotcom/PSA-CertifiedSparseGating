@@ -12,7 +12,7 @@
 >   素数阶梯极限、鸽笼确定性版、ρ^{−3/2} 逐对与行和紧界，另含 incoherence/t1b 新探针）；
 >   **7 探针（grid_ortho + parseval/partial/pairbound/rowsum/pairdirichlet/incoherence）已按
 >   E091 模式 pro 化并入合并版**（mathcomp Require + lia 改 mathcomp 引理，独立 + 合并双通过，
->   2026-08-23）；合并版 `ca_merged_full_24.v`（77804 行，42 模块，含 ca_zeta_euler /
+>   2026-08-23）；合并版 `ca_merged_full_24.v`（78051 行，43 模块，含 ca_zeta_euler /
 >   ca_rip_cr 构造性轨道）**全量合并编译 MERGE_EXIT=0**；
 >   **零 Admitted/零自定义公理**。
 > - 措辞与引用：按《交接文档》措辞表清洗；参考文献按《参考文献真实性核查报告》校准。
@@ -575,7 +575,7 @@ sparse_uniquenessM (M) (c) (u) (W) (mu) : 0 ≤ mu → ∀j≤M: ‖u_j‖²_W =
 > pairdirichlet/incoherence）已按 E091 模式 pro 化并入合并版**（mathcomp Require +
 > lia 改 mathcomp 引理，2026-08-23），独立 + 合并双通过；其余 z 区探针（§5.6.4-5.7
 > 碰撞/τ/部署级族）按 z/ 独立编译验证（并入工作按 E093 创建期规则推进）。
-> 合并版 `ca_merged_full_24.v`（77804 行，42 模块，含 ca_zeta_euler / ca_rip_cr
+> 合并版 `ca_merged_full_24.v`（78051 行，43 模块，含 ca_zeta_euler / ca_rip_cr
 > 构造性轨道）**全量合并编译 MERGE_EXIT=0**。
 
 ### 5.6.1 帕累托律：稠密覆盖与 μ≤4/5 可判定认证互斥（`src/ParetoLaw.v`）
@@ -720,8 +720,9 @@ rand 2.4×）——与 P3 定理互证：**可证性（稀疏）与外推性（�
 > 构成稳定框架，还满足**低相干 → RIP → 稀疏唯一恢复**的完整链条（对应《psi-rope-rand
 > 恶化》任务书的 CS-1/2/3 缺口——此前"无条件基 + 频率阶梯"的理论优势一条定理未导出）。
 > probe_incoherence 48 Qed / 5 主定理 / 0 Admitted / 0 Axiom；v2.2 升级为 **k-原子 RIP**
-> （构造性轨道 ca_rip_cr.v，17 Qed 全 "Closed under the global context"），均已并入
-> 合并版（42 模块，全量合并编译通过）。
+> （构造性轨道 ca_rip_cr.v，17 Qed 全 "Closed under the global context"）；v2.3 完成
+> **C=4 实例拼接**（probe_c4_instance.v，C4_sparse_uniqueness_3），均已并入
+> 合并版（43 模块，全量合并编译通过）。
 
 - **原子规范（IC1）** `psi_norm_one`：1 ≤ n ⟹ ‖ψ_n‖²_{pred n} = 1——频率阶梯原子族
   单位范数（phi=rot 桥 + 零前缀 Csum 消除 + `phi_l2_norm` 闭式）。
@@ -738,7 +739,12 @@ rand 2.4×）——与 P3 定理互证：**可证性（稀疏）与外推性（�
   M+1 个原子的**稀疏表示唯一恢复**；证明链：`rip_lower_M`（RIP 下界归纳，
   Σc_j² ≤ l2 + μ(M+1)Σc_j²）→ l2=0（零组合）→ (1−μ(M+1))Σc_j² ≤ 0 → Σc_j² = 0 →
   `sum_sq_zero` 逐项归零；基元 `sparse_uniqueness2`（M=1 最小实例）。
-- **意义**：论文 A 在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏唯一性，机器检查）；**具体实例拼接（如 C=4 的 μ·(M+1)<1 实例化，需精确 μ 值的 Coq 证明）尚未完成，为后续工作**；与 ρ^{−3/2} 行和紧界的合成为文本叙述而非形式化定理。**数学新颖性（如实）**：sparse_uniquenessM 与 CRrip_bound_k 是 Gershgorin/互干性唯一恢复与 RIP 定理的机器检查，数学上非新，形式化价值在 Coq 验证（构造性轨道为独立性验证）。
+- **C=4 实例拼接（CS-3′，v2.3 新增）** `C4_sparse_uniqueness_3`（probe_c4_instance.v，
+  A2）：C=4 阶梯 [3,13,53,213] 六对相干上界（pair_*，PSA_framework）经 ipW 对接组装为
+  μ := 11289/33920 < 1/3 ⟹ 前 3 原子 [3,13,53] 两两相干 ≤ μ 且 μ·3 < 1 ⟹
+  sparse_uniquenessM 实例化（M=2）：窗口内零组合 ⟹ 系数全零——**3 原子稀疏唯一恢复实例**
+  （审计仅 Dedekind 基础设施，零自定义公理）。
+- **意义**：论文 A 在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏唯一性，机器检查），并在 **C=4 阶梯完成实例级拼接**（C4_sparse_uniqueness_3，3 原子唯一恢复）；更大阶实例及与 ρ^{−3/2} 行和紧界的合成为后续工作。**数学新颖性（如实）**：sparse_uniquenessM、CRrip_bound_k 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复与 RIP 定理的机器检查，数学上非新，形式化价值在 Coq 验证（构造性轨道为独立性验证，C=4 为具体常数核验）。
 
 ### 5.7 部署级证书族（Certified Deployment Robustness，2026-08-22 新增，z 区探针）
 
@@ -998,7 +1004,7 @@ Practically Non-Tight"**，其价值在架构可组合性与维度推广的定�
 > **代码仓库（Artifact）**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 coq/lib+coq/core+coq/probes + 论文 + 实证 + CI，Apache-2.0）。预印本 DOI：10.6084/m9.figshare.33312189。
 - **复现指引（评审 总体-2，v10 补全）**：形式化代码 `src/`（`_CoqProject` 声明 load path；
   各模块独立编译命令见 E067/E077 经验卡）；**合并版 `src/ca_merged_full_24.v`
-  （77804 行，42 模块含 7 个 z 区探针 + ca_zeta_euler / ca_rip_cr 构造性轨道，
+  （78051 行，43 模块含 8 个 z 区探针 + ca_zeta_euler / ca_rip_cr 构造性轨道，
   `_merge_ca.py` 重新生成，合并编译
   `coqc -Q <mathcomp> mathcomp -Q <Coquelicot> Coquelicot ca_merged_full_24.v`，
   MERGE_EXIT=0）**；**归档基态 `D:\ComplexAnalysis\30模块\`**（ca_* + 7 探针 pro 版 +
@@ -1109,3 +1115,8 @@ PSA_framework.vo 已重建，可接）、U5 黄金近碰撞半径（1/(3d)）。
 > Stdlib ConstructiveReals，零经典公理、零 Admitted）；合并版 `ca_merged_full_24.v`
 > （77804 行，42 模块含 ca_zeta_euler / ca_rip_cr 构造性轨道）**全量合并编译
 > MERGE_EXIT=0**；30模块 同步 ca_rip_cr（SHA-256 一致）。
+> **v2.3（2026-08-23）**：§5.6.6 完成 **C=4 实例拼接**——新增 `probe_c4_instance.v`
+> （A2：`C4_sparse_uniqueness_3`，六对相干上界组装 μ=11289/33920 < 1/3 ⟹ 3 原子
+> [3,13,53] 稀疏唯一恢复，sparse_uniquenessM 实例）；合并版 `ca_merged_full_24.v`
+> （78051 行，43 模块含 probe_c4_instance）**全量合并编译 MERGE_EXIT=0**；30模块
+> 同步 probe_c4_instance（SHA-256 一致）。
