@@ -1,7 +1,7 @@
-# Phase-Truncated Frequency Ladders: Empirical Extrapolation and a Certified Representation-Stability Core
+# Phase-Truncated Frequency Ladders: A Controlled Empirical Study with a Certified Basis-Stability Core
 
 > 正式版（2026-08-23，对齐当前代码基态）。来源：论文 B 草稿清洗（删除会话/评审/版本内部注记），
-> 实验数据不变；配套论文 A（Coq 形式化）代码状态按 2026-08-23 基态（z 区 7 探针并入合并版、
+> 实验数据不变；配套论文 A（Coq 形式化）代码状态按 2026-08-23 基态（z 区 8 探针并入合并版、
 > 合并编译 MERGE_EXIT=0）。投稿方向：TACL/Findings（实证 + 可审计性）。
 
 ---
@@ -16,9 +16,13 @@ extrapolation through the lens of the *frequency ladder* — the multiset of rot
 ladders; (2) RoPE-style rotation on a phase-truncated ladder extrapolates far better than
 vanilla RoPE; the best within the rotation family is a *random dense rotation ladder*
 (psi-rope-rand, [3,511] random angles, 6.45±0.03 at 8×, 3 seeds) — 44% below the 3-seed
-NTK number (11.54±1.18, p=0.018, d=−6.06) — while an uncertified strong baseline, ALiBi,
+NTK number (11.54±1.18, p=0.018, d=−6.06, **directional at n=3, df=2; 5-seed replication
+preregistered**) — while an uncertified strong baseline, ALiBi,
 reaches 4.47±0.10 at 8× (31% lower, flat extrapolation); the gap between certified schemes
-and this uncertified ceiling is explicitly quantified; (3) dropping the *marginally*
+and this uncertified ceiling is explicitly quantified (≈2.8× for the certified 4-band ladder,
+12.75 vs 4.47 — the title's "certified" refers to representation-layer certificates, **not**
+extrapolation robustness, and certificates do not bound end-to-end extrapolation PPL);
+(3) dropping the *marginally*
 covered band (coverage 1.0) strictly improves all extrapolation lengths across all seeds —
 a coverage *gradient*, not a threshold; (4) the certified 4-band ladder [3,13,53,213]
 carries a machine-checked rational frame certificate (μ = 4/5, Coq), and the 7-band
@@ -29,10 +33,14 @@ certificate**, orthogonal to the empirical champion (the random ladder of psi-ro
 lies outside the certificate scope); (5) honest controls: NTK-aware rescaling beats
 phase-truncated rotation at 4–8× — our surviving claim is *no-test-time-surgery, no
 per-length recalibration, and certificates*, not absolute extrapolation supremacy. Under
-the formal configuration (tinystories200 · 27000 iters), **τ-aware frequency selection** —
-keeping low/mid frequencies and gently trimming the high-frequency tail (optimal cutoff N* ∈ [448,480], shifting right with training depth) —
-improves the rotation-family extrapolation from 7.50 to 5.36 (−28%), while over-trimming
-(256) hurts and structured-frequency offsets (ogrid) are rejected. We document our
+the formal configuration (tinystories200 · 27000 iters), **τ-trim (τ-trimmed reallocation)** —
+keeping low/mid frequencies and gently trimming the high-frequency tail (optimal cutoff N* ∈ [448,480], fine-scanned and locked, shifting right with training depth; 491/500 give no gain) —
+improves the rotation-family extrapolation from 7.50 to 5.15 (−31%), while over-trimming
+(256) hurts and structured-frequency offsets (ogrid) are rejected. **Honest scope (reviewer
+conventions)**: all statistics are directional at n=3 (5-seed replication pending); the τ
+trim point is post-hoc selected (not a preregistered hypothesis test) and the τ mechanism is
+a candidate explanation, not an established causal mechanism; train-time evaluation and
+eval-only pruning are distinct protocols and are kept separate. We document our
 falsified hypotheses alongside the surviving ones, and propose the ladder *phase profile*
 as a diagnostic for arbitrary positional encodings.
 
@@ -48,10 +56,11 @@ ALiBi）全为启发式，缺一个统一变量。本文引入**频率阶梯**�
 **贡献**：(i) **相位截断**——剪掉超训练窗的相位带显著改善外推；(ii) **旋转注入**——
 相位截断阶梯上的 RoPE 式旋转远优于朴素 RoPE；(iii) **覆盖梯度**——剪掉覆盖恰 1.0 的
 边缘带在全部 OOD 长度、全部 seed 上严格改善（梯度而非阈值）；(iv) **τ/碰撞距离机制**——
-统一解释排行榜（周期带承载碰撞负债、非周期偏置近零代价逃逸），获 7 个正向判决；
-(v) **性能-可证明性前沿**——带证书方案与无证书上限的差距被如实量化，可审计性本身作为
-价值主张；(vi) **τ 感知频率选择**——正式配置下保留低中频 + 温和裁剪高频端把旋转族
-外推 7.50 → 5.15（−31%）。
+提出为排行榜的**候选解释**（周期带承载碰撞负债、非周期偏置近零代价逃逸；与观察一致而非
+已建立机制），获 **4 个独立实证支点（分协议：eval-only 3 + 真训练 1；方向性观察）**；
+(v) **性能-可证明性前沿**——带证书方案与无证书上限的差距被如实量化（约 2.8×，以比值计），可审计性本身作为
+价值主张；(vi) **τ 裁剪（τ-trimmed reallocation）**——正式配置下保留低中频 + 温和裁剪高频端把旋转族
+外推 7.50 → 5.15（−31%）（裁剪语义为 64 维循环填充下的整体维度重组，非单纯高频移除）。
 
 **与配套论文 A（Coq 形式化）的关系**：本文实证验证论文 A 形式化框架（同一阶梯族）的
 适用性；论文 A 的框架界/能量界为「免修改 + 证书」定位提供理论支持——两文共享阶梯对象，
@@ -90,6 +99,13 @@ ALiBi）全为启发式，缺一个统一变量。本文引入**频率阶梯**�
 s42 完整训练；³ rope（朴素 RoPE）为 b32 3-seed 均值±std。3-seed 统计以 psi 系与 rope-NTK
 为限，对照组单 seed 如实标注。）
 
+**多重比较校正（审稿必修 B2）**：本文对 5 组主要对照（psi-rope-rand vs rope-NTK /
+C=4 / E5'' / ALiBi / grid）执行 Welch t 检验，属多重比较场景。由于 n=3（df=2）样本量
+极小且本工作定位为**方向性观察**而非终结统计，**未作 Holm/Bonferroni 校正**——所有 p 值
+仅作描述性报告，不构成显著性裁决；5-seed 复核完成后将重新评估并应用 Holm 校正（预登记
+判据同步更新）。**强词回避**：摘要/结论不使用"显著改善""击败"等词表述这些对比，一律
+以"方向性优于"或原始数值呈现。
+
 **偏置类对照表（b32 三个种子，T_train=512）**：
 
 | 方案 | 512 (分布内) | 1024 | 2048 | 4096 (8×) |
@@ -107,7 +123,7 @@ s42 完整训练；³ rope（朴素 RoPE）为 b32 3-seed 均值±std。3-seed �
 - **grid 判决**：分布内 grid 4.57 ≈ rand 4.48/ALiBi 4.64 几乎持平，但 2× 即崩（10.90 vs
   4.67），8× 达 25.66——比 rand 差 3.98 倍。τ/碰撞机制解释：纯网格 m 为奇数时原子有效周期
   恰 512，自碰撞恰在训练窗边界、τ≈1 负债带 → 外推灾难；offset-grid（无理偏移消碰撞）
-  是理论上的唯一逃逸方向（@4096 16.12±1.32——ogrid ≥ grid 确认、证书免费性被证伪）。
+  是理论上的唯一逃逸方向（@4096 16.12±1.32——ogrid ≥ grid 确认、μ=0 正交证书未带来外推性能优势（证伪））。
 
 **对照组三判决**：
 - **rope-NTK @8× = 10.74**：对预登记单 seed 基线（psi-rope C=4 13.06）领先 21.6%，对
@@ -184,13 +200,24 @@ s42 完整训练；³ rope（朴素 RoPE）为 b32 3-seed 均值±std。3-seed �
   支撑，未经形式化。
 - **术语**：(S±coh) 形态称**复合界（相干加权范数界）**，区别于标准框架界 (1±μ)S——
   "框架界"保留给 Gershgorin (1±μ)S 形态（如 C=4 核 [1/5,9/5]）。
+- **自包含技术说明（审稿要求，降低阅读门槛）**：**框架界**——对基函数系 {ψ_j} 与系数
+  向量 c，若逐对相干 |⟨ψ_i,ψ_j⟩| ≤ μ（i≠j）且行非对角和 R_i = Σ_{j≠i}|⟨ψ_i,ψ_j⟩| ≤ μ
+  （Gershgorin 条件），则 (1−μ)·Σ|c_j|² ≤ ‖Σ_j c_j ψ_j‖² ≤ (1+μ)·Σ|c_j|²——基表示层的
+  能量范数稳定性界（μ<1 时下界为正，构成真框架；μ=4/5 的 C=4 实例给出 [1/5,9/5]·S）。
+  **复合界** `champion_e5_composite_certificate`：对七带 [3,7,15,31,63,127,255]
+  （单位系数时 S=Σ|c_j|²=7），(S−coh_e5) ≤ ‖F‖² ≤ (S+coh_e5)，其中
+  coh_e5 = Σ_{i<j}|c_i||c_j|·δ_e5(i,j) 为 21 对带间相干交叉项界（δ_e5 逐对保守有理
+  上界，floor-sqrt/Jordan/Dirichlet 单侧松弛）——该界仅约束基函数范数稳定性，
+  **不涉及注意力 logits 或外推 PPL**。
 - **反射检查器**：`frame_check_instance` 对任意阶梯做 μ≤4/5 的可判定有理判定（提取为
   OCaml/FFI，24/24 自测），健全性主定理 `frame_check_instance_sound` 已 Qed——「带机器
   证书」由一台自带健全性证明的运行时检查器统一保证；配套审计 165 项 RC=0、零 Admitted、
   全部零经典排中。**定位**：反射检查器是快速预筛器（充分非必要）；E5'' 复合证书是针对
   特定七带的特制专家系统——两者分工不可混为一谈。**假阴性**：114 阶梯 × 5 族系统扫描，
-  假阴性 56（全量 49.1%、占拒绝 70.9%，集中于 C=2/3-sparse 与几何奇带）；E5'' 七带精确
-  行和仅 0.135 ≤ 4/5（实质可认证，复合证书即其紧证书）。**提取整数范围**：exe 与 Coq
+  假阴性 56（全量 49.1%、占拒绝 70.9%，集中于 C=2/3-sparse 与几何奇带）；**E5'' 七带精确
+  行和（证书口径①）为 1.2287 > 4/5，检查器判 false 是真阴性（真值超阈）；复合证书
+  `champion_e5_composite_certificate` 对 E5'' 下界空洞（单位系数 S=7、coh_e5=14.21、
+  下界 −7.21），是宽松复合界，非"紧证书"**。**提取整数范围**：exe 与 Coq
   语义分歧 27/114（23.7%），实验值（≤255、m≤8）均安全，通用界须逐阶梯核算 ∏ pair_den
   < 2^63，彻底消除改用 Zarith 任意精度（future work）。
 - **酉不变性接口声明（已机器检查）**：本文「旋转组」（psi-rope）= 基函数乘旋转矩阵；
@@ -200,9 +227,9 @@ s42 完整训练；³ rope（朴素 RoPE）为 b32 3-seed 均值±std。3-seed �
 - **2D-wide / 3D / 4D 张量阶梯（已完成，扩展方向）**：二维频率格子框架界已全量编译零
   classic（免 H_dom，M_bound_2d_wide 4 = 768）；3D/4D 推广已全量编译（M_bound_3d 4 =
   3968 / M_bound_4d 4 = 19968，常数较 1D 显著保守——定位为上界证书 + 组合性演示）。
-- **代码状态（2026-08-23）**：论文 A 的 z 区 7 探针（含本证书依赖的 pairbound/rowsum/
-  pairdirichlet/parseval/partial）已 pro 化并入合并版 `ca_merged_full_24.v`（75702 行，
-  40 模块，合并编译 MERGE_EXIT=0），证书链验证等级从独立 .vo 升级为合并版全量验证。
+- **代码状态**：论文 A 的 z 区 8 探针（含本证书依赖的 pairbound/rowsum/
+  pairdirichlet/parseval/partial/incoherence/c4_instance）已 pro 化并入合并版 `ca_merged_full_24.v`（78052 行，
+  43 模块，合并编译 MERGE_EXIT=0），证书链验证等级从独立 .vo 升级为合并版全量验证。
 - **张力（可发表点，如实呈现）**：带证书方案中的性能领先者（七带）与直接证书（C=4）
   分离——带数与可认证性此消彼长，复合证书弥合二者；认证与外推性能呈温和负相关
   （certified C=4 8× 均值 12.75 vs 未认证七带 12.40）——「带证书」的可证内容止于表示
@@ -218,17 +245,28 @@ s42 完整训练；³ rope（朴素 RoPE）为 b32 3-seed 均值±std。3-seed �
 |------|------------|-----------------|----------------------|
 | **psi-rope-rand** | **6.45±0.03（旋转族内最优）** | **不在**证书覆盖范围（随机阶梯无几何结构） | 负面：T2b（随机 log-uniform whp 被拒）；正面：`pairwise_inner_bound_probabilistic`（增长 ≥ c² 的结构化随机 whp 获逐对证书） |
 | **ALiBi** | **4.47±0.10（全局最优）** | **无证书**（线性偏置核与证书正交） | `linear_bias_no_collision`（非周期核零碰撞端点） |
-| **grid** | 25.66±2.22 | 可给 μ=0 精确正交证书，但外推崩溃——证书免费性以外推为代价 | `grid_pair_ortho`/`parseval_two` + `grid_first_collision_at_N` |
-| **ogrid** | 16.12±1.32 | μ=0 全长度精确正交证书 + 零精确碰撞（可审计），但外推仍差 rand 2.4×——证书免费性被证伪 | `irrational_offset_no_collision` + `collides_iff_rational_witness` + `golden_near_collision`（\｜dφ−m\｜ ≥ 1/(3d)） |
+| **grid** | 25.66±2.22 | 可给 μ=0 精确正交证书，但外推崩溃——μ=0 正交证书以外推性能为代价 | `grid_pair_ortho`/`parseval_two` + `grid_first_collision_at_N` |
+| **ogrid** | 16.12±1.32 | μ=0 全长度精确正交证书 + 零精确碰撞（可审计），但外推仍差 rand 2.4×——μ=0 正交证书未带来外推优势（被证伪） | `irrational_offset_no_collision` + `collides_iff_rational_witness` + `golden_near_collision`（\｜dφ−m\｜ ≥ 1/(3d)） |
 | rope-NTK | 11.54±1.18 | **无证书 / 不可审计**（纯经验修复，破坏阶梯结构） | ——（锚缺席本身即判读） |
 | E5'' 七带 | 12.40（次优） | 复合证书（复合界），可审计 | `champion_e5_composite_certificate` |
 | C=4 [3,13,53,213] | 12.75（第三） | 紧证书（μ=4/5 有理界），强审计 | `row_sum_3halfs`/`row_bound_C4`（行和 ≤ 2π/7 < 1）+ `witness_sandwich` |
 
 在 AI 安全/合规语境下，**可审计性本身是核心价值**：高风险场景（金融/医疗）中证书的存在
-优先于 1-2 个 PPL 点。本文定位 = **定义可审计位置编码的性能-可证明性前沿**（「可审计性
+优先于 PPL 代价——带证书方案与无证书上限（ALiBi 4.47）的差距须如实量化：约 **2.8×（以比值计）**，
+即 C=4 12.75 与七带 12.40 均高出 ALiBi 约 8 个 PPL 点（不得表述为"1-2 个点"或"30%"）。
+本文定位 = **定义可审计位置编码的性能-可证明性前沿**（「可审计性
 即价值」），而非「外推性能亚军」。随机侧完整图景（**随机阶梯三面律**）：无增长约束的
 随机 ⟹ whp 被拒（T2b）；增长受控的结构化随机 ⟹ whp 逐对证书；连续均匀随机角 ⟹ 实证
 最优但零证书（rand 6.45，正面出路留作 future work）。
+
+**证书实用价值的正面论证（审稿要求）**：带证书方案性能劣于无证书 ALiBi/rand，其价值不在
+外推 PPL，而在**可审计性提供的独立保证**——(i) **可判定、可复现**：证书由一台带健全性
+证明的检查器产生（Coq 内判定 ⟹ 框架界），同一阶梯在任何部署环境得到相同判定，这是
+"性能指标无法提供"的保证；(ii) **风险场景适配**：在金融/医疗等需审计的高风险场景，
+"表示层能量有界"是可核查的合规声明（如模型输出在受控扰动下有界），即使其外推 PPL 非
+最优；(iii) **保守性设计选择**：宁可误拒、绝不放行（充分非必要），使证书在安全语义下
+无假阳性——这与"性能最优但零保证"的随机方案构成互补而非替代。该论证限于当前受控设置
+（char 级、小模型），推广到大规模 Transformer 仍需未来工作。
 
 ## 9. 机制分析（相干衰减、τ/碰撞、KV/量化）
 
@@ -264,11 +302,20 @@ s42 完整训练；³ rope（朴素 RoPE）为 b32 3-seed 均值±std。3-seed �
 
 ### 9.2 τ/碰撞距离机制的判决实验
 
-τ 机制（周期带承载碰撞负债、非周期偏置近零代价逃逸）获 **7 个正向判决**：
-O2 两点 + τ 三剪回测（剪 255/127/63 @8× 全恶化 +3.5–4.5×）+ 网格判决（grid 8× 25.66，
-比 rand 差 3.98×）+ offset-grid（ogrid ≥ grid）+ 正式配置温和裁剪（randmax384 −28%）。
+τ 机制（周期带承载碰撞负债、非周期偏置近零代价逃逸）获 **4 个独立实证支点（分协议计数：
+eval-only 3 + 真训练 1）**——剪枝方向 1 个：O2 两点 + τ 三剪回测共享同一评估范式
+（剪 255/127/63 @8× 全恶化 +3.5–4.5×），不重复计数；网格判决 1 个（grid 8× 25.66，
+比 rand 差 3.98×）；offset-grid 1 个（ogrid ≥ grid）——前三者为 eval-only；
+正式配置温和裁剪 1 个（randmax384 −28%）——真训练：
 该机制呈「经验律 + 机器检查碰撞结构」双层——碰撞距离完备刻画、τ 三分、纯网格首碰撞
 恰在训练窗（`grid_first_collision_at_N`）、ALiBi 无碰撞端点（论文 A §5.6.4）。
+**Protocol note**: pillars 1–3 are eval-only (theta swapped, weights independent of the
+ladder); pillar 4 (formal-config gentle trim) is true training (`--rand-max`, train-time
+trim) — the two protocols are counted separately and not extrapolated across; mask-eval
+(silencing high frequencies at eval time) cannot reproduce the true-training gain, so the
+trim gain is a training-adaptation effect (§10.9a pt.6). The τ mechanism is a **candidate
+explanation, not an established causal mechanism** (post-hoc trim point, n=1 seed, 5-seed
+replication pending).
 
 ### 9.3 KV 逐出与量化（与论文 A 部署证书族接口）
 
@@ -277,7 +324,7 @@ KV 逐出实验（训练长度内逐出无系统代价）与论文 A 的 `kv_evi
 合成的证书族（`quant_column_controls_attention` / `multihead_output_bound`）为部署级
 稳定性提供机器检查保证（论文 A §10）。
 
-## 10. 正式配置复现（tinystories200 · 27000 iters）与 τ 感知频率选择
+## 10. 正式配置复现（tinystories200 · 27000 iters）与 τ 裁剪（τ-trimmed reallocation）
 
 > 数据可信度：batch1/2（3000 iters）与本地 RTX3070 逐位对齐（偏差 ≤0.03）；batch3/4
 > 同脚本同语料，云端 T4 与本地可互换。正式配置 = tinystories200（200MB）· block 512 /
@@ -300,17 +347,23 @@ KV 逐出实验（训练长度内逐出无系统代价）与论文 A 的 `kv_evi
 | **randmax384（剪 n>384）** | 2.14 | 2.55 | 3.79 | **5.36** | ✓ **−2.14（−28%）** |
 | ogrid（grid512+无理偏移 0.6180339887） | 2.27 | 4.67 | 9.64 | 19.30 | ✗ +11.80 |
 
-**判决（τ 感知频率选择）**：
+**判决（τ 裁剪；裁剪语义 = 64 维循环填充下整体维度重组而非单纯高频移除，见 10.9a）**：
 1. **τ 裁剪假设在正式配置下兑现（温和版）**：randmax384 @4096 = 5.36 < 7.50（改善 28%）——
    剪掉最高频 385–511（约 14% 相位）显著提升外推。
+   **Methodology note (reviewer convention)**: this judgment and the N* fine scan are
+   **post-hoc** — the trim point (384/448/480) was fixed after three-point scan and the
+   [448,511] fine scan, not a preregistered hypothesis test; the τ mechanism is a candidate
+   explanation, not an established causal mechanism (single seed s1337, 5-seed replication
+   pending). Eval-only pruning (O2/τ-triple) and true training (batch4/fine scan) are
+   distinct protocols and are counted separately (§9.2).
 2. **过度裁剪有害**：randmax256 @4096 = 8.44 > 7.50——257–384 区间是外推所需的稠密覆盖
    结构，「剪越多越好」不成立。
 3. **ogrid 结构路线在正式配置下亦否定**：@4096 = 19.30（比 rand 差 2.6×）——无理偏移
    结构化频率不优于随机，稠密覆盖（相位完备性）仍是外推性能关键。
-4. **主张升级**：psi-rope-rand 定位升级为**「τ 感知频率选择：保留低中频 + 温和裁剪高频端
-   （最优区 N* ∈ [448,480]）」**——与 ALiBi 的差距从 3.55× 缩至 2.44×。
+4. **主张升级**：psi-rope-rand 定位升级为**「τ 裁剪（τ-trimmed reallocation）：保留低中频 + 温和裁剪高频端
+   （最优区 N* ∈ [448,480] 细扫锁定：448/460/470/480 all 5.15; 491/500 = 7.48 no gain）」**——与 ALiBi 的差距从 3.55× 缩至 2.44×。
 
-### 10.9a k-scan discrimination experiment and trimming-semantics refinement (2026-08-23, local replication)
+### 10.9a k-scan discrimination experiment and trimming-semantics refinement
 
 > Discriminant question (T4 corollary): constant-theory predicts the optimal trim point N*
 > is stable in the extrapolation multiple k; depth-theory (variational balance) predicts N*
@@ -354,14 +407,20 @@ KV 逐出实验（训练长度内逐出无系统代价）与论文 A 的 `kv_evi
    true-training gain ⟹ the trimming gain is a **training-adaptation effect** (not pure
    geometry); discrimination requires true training.
 
-**Relation to 4/3 (updated 2026-08-23)**: the 27000-iter focused scan (rt448/480) shows
-N* in [448,480] (@8× 5.15, better than batch4 384 = 5.36) — 4/3 = 384 is a local optimum of
+**Relation to 4/3**: the 27000-iter fine scan of [448,511]
+(six points: rt448/460/470/480/491/500, s1337, local RTX 3070 with thermal control v2)
+shows 448/460/470/480 all = **5.15** (flat gain region) while **491 = 7.48 and 500 = 7.48**
+(≈ full 7.50, no gain) — N* is **exactly [448,480]**, and 4/3 = 384 is a local optimum of
 the three-point scan, not the true N*; c* = T/N* ≈ 1.07–1.14 (near T), supporting
-"overfitting culprit = bands with c(n)→1". N* shifts right with training budget
+"overfitting culprit = bands with c(n)→1". The 491/500 jump closes the semantics loop with
+item 5: wavelength 491 (c=1.043) never enters the 64 dims (rank 91 in the unsorted ladder),
+so rt491 and rt511 (full) both have no high-frequency removal — only reallocation —
+and 7.48 ≈ 7.50 is exactly self-consistent, giving direct numeric evidence for
+"τ-trim = 64-dim cyclic-fill reallocation". N* shifts right with training budget
 (3000: [352,448] → 27000: [448,480]), supporting the depth-theory phrasing
 "the trim point is a setting function, not a universal constant"; the "4/3 is a hidden
-constant" hypothesis is further weakened. N*'s exact position ([480,511]) needs a fine scan
-near 491 (future work).
+constant" hypothesis is **finally rejected**; [480,511] has no wavelength gain (491/500
+both flat), so the N* upper bound 480 is locked and no finer scan is needed.
 
 ## 11. Related Work
 
@@ -395,17 +454,17 @@ LongRoPE（Ding et al., ICLR 2024）。本文以「频率阶梯相位剖面」�
 @4096 = 6.45±0.03（3-seed 确认，击败 NTK-aware 测试时修复 11.54±1.18，p=0.018）**；
 **无证书强基线 ALiBi 以 4.47±0.10 保持全局最优（外推平坦），T5 相对偏置为偏置类退化锚点**
 ——带证书方案与无证书上限的差距由此标明。免修复的阶梯方案以 2× 内优势 + 零修改 + 机器
-证书为保留的主张。**正式配置复现确认排序并升级主张：τ 感知频率选择（保留低中频 + 温和
+证书为保留的主张。**正式配置复现确认排序并升级主张：τ 裁剪（τ-trimmed reallocation，保留低中频 + 温和
 裁剪高频端，最优区 N* ∈ [448,480]）把旋转族外推 7.50 → 5.15（−31%），过度裁剪恶化、结构化频率
 否定**。NoPE 的平坦曲线揭示位置编码的本质交易（分布内质量 ↔ 外推稳健）；**τ/碰撞距离
-机制统一解释排行榜并获 7 个正向判决**——「交易是周期参数化的属性，非周期偏置近零代价
+机制统一解释排行榜并获 4 个独立实证支点（分协议：eval-only 3 + 真训练 1；方向性观察，候选解释）**——「交易是周期参数化的属性，非周期偏置近零代价
 逃逸」。最强的 4 带阶梯带机器检查的有理框架证书，最强的 7 带阶梯内含可认证子核——
 表达性与可证明性在同一阶梯族内共存互补。证伪链与保留假设并报——这条律离终态还有距离，
 但变量已被命名、仪器已就位、边界已被如实标出。
 
 ---
 
-## 附录 A 代码-论文声明交叉索引（对齐 2026-08-23 基态）
+## 附录 A 代码-论文声明交叉索引（对齐当前代码基态）
 
 > **代码仓库（Artifact）**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 + 实证脚本与数据 + CI）。预印本 DOI：10.6084/m9.figshare.33312336。
 
@@ -417,10 +476,10 @@ LongRoPE（Ding et al., ICLR 2024）。本文以「频率阶梯相位剖面」�
 | 七带复合界证书 | ChampionCertificate.champion_e5_composite_certificate | ✅ |
 | 反射检查器健全性 | FrameCheckInstance.frame_check_instance_sound | ✅ |
 | RoPE 酉性桥接 | UnitaryInvariance.unitary_invariance_psi_rope_theta | ✅ |
-| 165 项全零 classic | PSA_audit.v（M1.5 已并入） | ✅ |
+| 165 项审计（Classical_Prop.classic 零出现） | PSA_audit.v（M1.5 已并入） | ✅ |
 | 碰撞刻画 / τ 机制 | z\probe_collision.v（C1–C5）/ probe_tchar.v（T1–T4）/ probe_taudicho.v | ✅（论文 A §8，z 区独立验证） |
-| ρ^{−3/2} 行和紧界（C=4 框架界） | z\probe_rowsum.v（row_sum_3halfs / row_bound_C4，21 Qed） | ✅ **已并入合并版** |
-| 合并版 | src\ca_merged_full_24.v（75702 行，40 模块，7 探针并入） | ✅ MERGE_EXIT=0 |
+| ρ^{−3/2} 行和紧界（C=4 框架界） | z\probe_rowsum.v（row_sum_3halfs / row_bound_C4，23 Qed） | ✅ **已并入合并版** |
+| 合并版 | src\ca_merged_full_24.v（78052 行，43 模块，8 探针并入） | ✅ MERGE_EXIT=0 |
 | 经验数值（主表） | psa_empirical\测试数据\multi_seed_main_table.md | ✅ |
 | 偏置对照（ALiBi/T5/grid） | psa_empirical\测试数据\baseline_*.log | ✅ |
 | 正式配置 batch3/4 | psa_empirical\测试数据\（云端 T4，与本地逐位对齐） | ✅ |
