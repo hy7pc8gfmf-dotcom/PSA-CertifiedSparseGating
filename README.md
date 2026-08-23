@@ -143,3 +143,9 @@ RTX 3070 训练治理：80°C 触发 / 70°C 恢复 / 0.5s 轮询 / 60s 冷却�
 - **第三方依赖**：`coq/deps/mathcomp/`（CeCILL-C，vendored，见其 README）；Coquelicot（LGPL 2.1+，CI 经 opam 安装）。各自许可独立适用。合并版（`ca_merged_full_23/24.v`）自包含但**不入仓库**，仅存于归档 `30模块` 与本地工作区，同样受 Apache-2.0 公开条款覆盖。
 
 
+
+## Commit 签名（GPG Verified）
+
+本仓库提交由 GPG 签名（ed25519，指纹  DC2B48D36C1E359659D90BEAE7C975FAE0BCD97，uid Live <168888@live.cn>）。
+GitHub 上提交显示绿色 **✓Verified** 即签名有效。配置（本机全局）：
+git config --global user.signingkey AE7C975FAE0BCD97 + commit.gpgsign true。
