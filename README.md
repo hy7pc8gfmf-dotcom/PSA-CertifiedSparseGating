@@ -68,6 +68,14 @@ PSA-CertifiedSparseGating/
 
 ### Coq 形式化（Rocq 9.0.1）
 
+标准构建入口（`_CoqProject` + `Makefile`；CI 由 `.github/workflows/coq.yml` 经 `scripts/ci_build.sh` 驱动，两者互补）：
+
+```bash
+make            # lib 链 + 独立模块 + core + 审计 + 零 Admitted + coqchk 复验
+make lib core probes audit check
+# Windows 本地（无 make 时用 PowerShell 直接调 coqc，见下）
+```
+
 ```powershell
 # coqc 路径含 ~，cwd 必须是 bin 目录
 Push-Location "C:\Rocq-Platform~9.0~2025.08\bin"

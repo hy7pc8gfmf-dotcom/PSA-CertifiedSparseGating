@@ -1,0 +1,11 @@
+# PSA-CertifiedSparseGating — CoqProject（Rocq 9.0）
+# 仓库内 load path 映射（外部依赖 mathcomp/Coquelicot 由 Makefile/CI 提供）
+-Q coq/lib ""
+-Q coq/core PSA
+-Q coq/probes ""
+
+# 核心构建目标（lib 依赖链按 scripts/order.txt，由 Makefile 驱动）
+coq/core/PSA_framework.v
+coq/core/PSA_audit.v
+coq/core/PSA_refcheck.v
+coq/core/PSA_extract.v
