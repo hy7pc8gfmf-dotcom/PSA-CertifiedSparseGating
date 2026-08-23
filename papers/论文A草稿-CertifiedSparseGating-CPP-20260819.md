@@ -721,8 +721,9 @@ rand 2.4×）——与 P3 定理互证：**可证性（稀疏）与外推性（�
 > 恶化》任务书的 CS-1/2/3 缺口——此前"无条件基 + 频率阶梯"的理论优势一条定理未导出）。
 > probe_incoherence 48 Qed / 5 主定理 / 0 Admitted / 0 Axiom；v2.2 升级为 **k-原子 RIP**
 > （构造性轨道 ca_rip_cr.v，17 Qed 全 "Closed under the global context"）；v2.3 完成
-> **C=4 实例拼接**（probe_c4_instance.v，C4_sparse_uniqueness_3），均已并入
-> 合并版（43 模块，全量合并编译通过）。
+> **C=4 实例拼接**（probe_c4_instance.v，C4_sparse_uniqueness_3）；v2.4 新增
+> **行和→RIP 桥接**（probe_row_rip.v，row_rip_bound_M，δ=(k−1)·μ_row），均已并入
+> 合并版（44 模块，全量合并编译通过）。
 
 - **原子规范（IC1）** `psi_norm_one`：1 ≤ n ⟹ ‖ψ_n‖²_{pred n} = 1——频率阶梯原子族
   单位范数（phi=rot 桥 + 零前缀 Csum 消除 + `phi_l2_norm` 闭式）。
@@ -744,7 +745,12 @@ rand 2.4×）——与 P3 定理互证：**可证性（稀疏）与外推性（�
   μ := 11289/33920 < 1/3 ⟹ 前 3 原子 [3,13,53] 两两相干 ≤ μ 且 μ·3 < 1 ⟹
   sparse_uniquenessM 实例化（M=2）：窗口内零组合 ⟹ 系数全零——**3 原子稀疏唯一恢复实例**
   （审计仅 Dedekind 基础设施，零自定义公理）。
-- **意义**：论文 A 在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏唯一性，机器检查），并在 **C=4 阶梯完成实例级拼接**（C4_sparse_uniqueness_3，3 原子唯一恢复）；更大阶实例及与 ρ^{−3/2} 行和紧界的合成为后续工作。**数学新颖性（如实）**：sparse_uniquenessM、CRrip_bound_k 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复与 RIP 定理的机器检查，数学上非新，形式化价值在 Coq 验证（构造性轨道为独立性验证，C=4 为具体常数核验）。
+- **行和 → RIP 桥接（v2.4 新增，经典 R 轨道）** `row_rip_bound_M`（probe_row_rip.v）：
+  行非对角和 ≤ μ_row（∀i：Σ_{j≠i}|⟨u_i,u_j⟩| ≤ μ_row）⟹ |‖Σ_{j≤M} c_j·u_j‖² − Σc_j²|
+  ≤ μ_row·M·Σc_j²（δ_k = (k−1)·μ_row，比两两相干 μ 版更紧）；证明链 `row_cross_bound`
+  → `row_rip_lower_M`/`row_rip_upper_M` → `row_rip_bound_M`（Rabs_le 组合）。9 Qed /
+  0 Admitted / 0 自定义公理。
+- **意义**：论文 A 在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性，机器检查），并在 **C=4 阶梯完成实例级拼接**（C4_sparse_uniqueness_3，3 原子唯一恢复）；更大阶实例及与 ρ^{−3/2} 行和紧界的合成为后续工作。**数学新颖性（如实）**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复与 RIP 定理的机器检查，数学上非新，形式化价值在 Coq 验证（构造性轨道为独立性验证，C=4 为具体常数核验）。
 
 ### 5.7 部署级证书族（Certified Deployment Robustness，2026-08-22 新增，z 区探针）
 
@@ -1120,3 +1126,9 @@ PSA_framework.vo 已重建，可接）、U5 黄金近碰撞半径（1/(3d)）。
 > [3,13,53] 稀疏唯一恢复，sparse_uniquenessM 实例）；合并版 `ca_merged_full_24.v`
 > （78051 行，43 模块含 probe_c4_instance）**全量合并编译 MERGE_EXIT=0**；30模块
 > 同步 probe_c4_instance（SHA-256 一致）。
+> **v2.4（2026-08-23）**：§5.6.6 新增 **行和→RIP 桥接**——`probe_row_rip.v`（F3：
+> `row_rip_bound_M`，行非对角和 ≤ μ_row ⟹ |‖Σc_ju_j‖²−Σc_j²| ≤ μ_row·M·Σc_j²，
+> δ_k=(k−1)·μ_row，9 Qed 零公理）；合并版 `ca_merged_full_24.v`（78499 行，44 模块
+> 含 probe_row_rip）与 `ca_merged_full_23.v`（71591 行，42 模块，无 PSA/c4_instance）
+> **全量合并编译 MERGE_EXIT=0**（probe_c4_instance 依赖 PSA_framework 仅入 24.v）；
+> 30模块 同步 probe_row_rip + 双合并版（SHA-256 一致）。
