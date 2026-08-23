@@ -19,10 +19,12 @@ PSA-CertifiedSparseGating/
 │   ├── RLA.md                # 运行时许可协议（特定公司授权）
 │   ├── commercial_license_template.md  # 商业许可模板
 │   └── README.md             # 签署流程说明
-├── papers/                   # 两篇论文（草稿 + 中文规范版 md/docx）+ 评审 + 实验设计
+├── papers/                   # 两篇论文（草稿 + 正式版 + 中文规范版 md/docx）+ 评审 + 实验设计
 │   ├── 论文A草稿-CertifiedSparseGating-CPP-20260819.md      # 形式化论文（CPP/ITP 方向）
 │   ├── 论文B草稿-PhaseCompleteLadders-TACL-20260819.md      # 实证论文（TACL 方向）
-│   ├── 论文A中文规范版-CertifiedSparseGating.md/.docx       # 中文规范版（含 Word）
+│   ├── 论文A正式版-CertifiedSparseGating-CPP-20260823.md    # 正式版（清洗内部注记、对齐代码基态）
+│   ├── 论文B正式版-PhaseCompleteLadders-TACL-20260823.md
+│   ├── 论文A中文规范版-CertifiedSparseGating.md/.docx       # 中文规范版 v2.1（含 Word）
 │   ├── 论文B中文规范版-PhaseCompleteLadders.md/.docx
 │   ├── 论文评审.txt                                        # （已按作者决定置空）
 │   └── 预登记实验设计-20260819.md                       # 预登记假说 + 执行结果
@@ -32,8 +34,8 @@ PSA-CertifiedSparseGating/
 │   ├── PSA_extract.v         # 提取链（→ OCaml psa_guard.exe）
 │   ├── PSA_refcheck.v        # 参考值检查（FFI 24/24 的一部分）
 │   ├── psa_guard.ml / psa_guard_main.ml / psa_guard_ffi.py  # OCaml 检查器 + Python FFI
-│   ├── lib/                  # 34 个 .v：27 ca_* 库（含 3D/4D/2D-wide 独立证书模块）+ 4 独立定理模块（ParetoLaw 帕累托律 P2/P3/N511 / P1Coherence / ParetoRandom T2a/T2b / CRTResolve；全部独立编译 + coqchk 复核）
-│   ├── probes/               # z 区 22 探针（碰撞刻画 C1–C5 / Parseval 等式 / 窗口无关 Dirichlet 界 / τ 三分 / 容错 Gershgorin / 一般维张量 / U5 黄金近碰撞 / ρ^{−3/2} 紧界三件套；部署鲁棒性族四件——T-KV 逐出证书 / T-QUANT 量化+决策稳定性 drift_top1_stable / T-MH 多头可组合 multihead_output_bound / T-EXP TVD 有理化 2d+(2d)²/2+(2d)³/2；独立编译验证，不并入合订版）
+│   ├── lib/                  # 35 个 .v：28 ca_* 库（含 3D/4D/2D-wide 独立证书模块 + 构造性欧拉主线 ca_zeta_euler 149 Qed）+ 4 独立定理模块（ParetoLaw 帕累托律 P2/P3/N511 / P1Coherence / ParetoRandom T2a/T2b / CRTResolve；全部独立编译 + coqchk 复核）
+│   ├── probes/               # z 区 24 探针（碰撞刻画 C1–C5 / Parseval 等式 / 窗口无关 Dirichlet 界 / τ 三分 / 容错 Gershgorin / 一般维张量 / U5 黄金近碰撞 / ρ^{−3/2} 紧界三件套 / 压缩感知族 / 部署鲁棒性族四件——T-KV 逐出证书 / T-QUANT 量化+决策稳定性 drift_top1_stable / T-MH 多头可组合 multihead_output_bound / T-EXP TVD 有理化 2d+(2d)²/2+(2d)³/2）；**7 个已 pro 化并入合并版**（grid_ortho + parseval/partial/pairbound/rowsum/pairdirichlet/incoherence，独立 + 合并双通过），其余独立编译验证；合并版（`ca_merged_full_24.v`，75702 行，40 模块）自包含但**不入仓库**（仅存归档 `30模块`）
 │   └── deps/mathcomp/        # vendored mathcomp 源码（CeCILL-C，217 .v，审计/离线参考）
 ├── scripts/
 │   ├── ci_build.sh           # CI 构建脚本（lib 链 + PSA 核心 + 零 Admitted 检查）

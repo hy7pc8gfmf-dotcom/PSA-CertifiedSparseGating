@@ -18,6 +18,7 @@
        ——纯 R 层除法。
    审计：Print Assumptions 尾部。
    ============================================================ *)
+From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Arith.Arith.
 Require Import Stdlib.micromega.Lia.
@@ -53,7 +54,7 @@ Proof.
   exfalso.
   assert (Hs : (sqrt x * sqrt x = x)%R) by (apply sqrt_sqrt; apply Rlt_le; exact Hx).
   assert (Hz : (sqrt x = 0)%R) by lra.
-  rewrite Hz, Rmult_0_l in Hs. lra.
+  rewrite Hz Rmult_0_l in Hs. lra.
 Qed.
 
 Lemma Cnorm_ge0 (z : Complex) : (0 <= Cnorm z)%R.
@@ -75,7 +76,7 @@ Qed.
 Lemma sin_PI_minus' (x : R) : (sin (PI - x))%R = sin x.
 Proof.
   replace (PI - x)%R with (PI + (-x))%R by ring.
-  rewrite sin_plus, sin_PI, cos_PI, sin_neg. ring.
+  rewrite sin_plus sin_PI cos_PI sin_neg. ring.
 Qed.
 
 (* ---------- PB3：引擎主定理 ---------- *)
@@ -87,13 +88,16 @@ Theorem pair_S_bound (a b : nat) :
    <= sin (PI * INR a / INR b) * (INR a * INR b) / (2 * (INR b - INR a)))%R.
 Proof.
   intros Ha Hab.
-  assert (HA : (0 < INR a)%R) by (apply lt_0_INR; lia).
-  assert (HB : (0 < INR b)%R) by (apply lt_0_INR; lia).
-  assert (HAB : (INR a < INR b)%R) by (apply lt_INR; lia).
+  assert (HA : (0 < INR a)%R).
+  { apply lt_0_INR. move: Ha => /leP Hap. lia. }
+  assert (HB : (0 < INR b)%R).
+  { apply lt_0_INR. move: Ha => /leP Hap. move: Hab => /ltP Habp. lia. }
+  assert (HAB : (INR a < INR b)%R).
+  { apply lt_INR. move: Ha => /leP Hap. move: Hab => /ltP Habp. lia. }
   assert (HBinv : (0 < / INR b)%R) by (apply Rinv_0_lt_compat; exact HB).
   assert (HIsub : (INR (b - a) = INR b - INR a)%R).
   { assert (Hs : (INR (b - a) + INR a = INR b)%R).
-    { rewrite <- plus_INR. f_equal. lia. }
+    { rewrite <- plus_INR. f_equal. exact (subnK (ltnW Hab)). }
     lra. }
   set (theta := (2 * PI * (INR b - INR a) / (INR a * INR b))%R) in *.
   pose proof (geom_sum_norm_prod theta a) as P.
@@ -103,11 +107,11 @@ Proof.
   { rewrite <- (Cnorm_one_minus_exp_i_theta_eq (INR a * theta)). reflexivity. }
   assert (Hcalc : (INR a * theta / 2 = PI - PI * INR a / INR b)%R).
   { unfold theta. field; lra. }
-  rewrite Hcalc, sin_PI_minus' in Naraw.
+  rewrite Hcalc sin_PI_minus' in Naraw.
   assert (Hsinpos : (0 <= sin (PI * INR a / INR b))%R).
   { apply sin_ge_0.
     - unfold Rdiv. apply Rmult_le_pos.
-      + apply Rmult_le_pos; [apply Rlt_le; apply PI_RGT_0 | apply Rlt_le; exact HA].
+      + apply Rmult_le_pos; [apply Rlt_le; apply PI_RGT_0 | exact (Rlt_le 0 (INR a) HA)].
       + apply Rlt_le; exact HBinv.
     - apply (Rmult_le_reg_r (INR b) (PI * INR a / INR b) PI HB).
       replace (PI * INR a / INR b * INR b)%R with (PI * INR a)%R by (field; lra).
@@ -123,21 +127,34 @@ Proof.
   assert (Hthalf : (theta / 2 = PI * INR (b - a) / INR (a * b))%R).
   { unfold theta. rewrite <- HIsub. rewrite mult_INR. field; lra. }
   assert (Hjor : ((2 * INR (b - a)) / INR (a * b) <= sin (theta / 2))%R).
-  { rewrite Hthalf. apply sin_lower; [ lia | nia ]. }
-  assert (HabInv : (0 < / INR (a * b))%R)
-    by (apply Rinv_0_lt_compat; apply lt_0_INR; nia).
-  assert (Hab2 : (0 < INR (a * b))%R) by (apply lt_0_INR; nia).
+  { rewrite Hthalf. apply sin_lower.
+    - rewrite subn_gt0. exact Hab.
+    - have H1 : (2 * (b - a) <= 2 * b)%nat
+        by rewrite (@leq_pmul2l 2 (b - a) b (ltn0Sn 1)); exact (leq_subr a b).
+      have H2 : (2 * b <= a * b)%nat.
+      { rewrite (@leq_pmul2r b 2 a (ltnW (ltn_trans Ha Hab))). exact Ha. }
+      exact (leq_trans H1 H2). }
+  assert (HabInv : (0 < / INR (a * b))%R).
+  { apply Rinv_0_lt_compat. apply lt_0_INR.
+    apply Nat.mul_pos_pos.
+    - apply/ltP. exact (ltnW Ha).
+    - apply/ltP. exact (ltnW (ltn_trans Ha Hab)). }
+  assert (Hab2 : (0 < INR (a * b))%R).
+  { apply lt_0_INR. apply Nat.mul_pos_pos.
+    - apply/ltP. exact (ltnW Ha).
+    - apply/ltP. exact (ltnW (ltn_trans Ha Hab)). }
   assert (Hsinpos2 : (0 <= sin (theta / 2))%R).
   { rewrite Hthalf. apply sin_ge_0.
     - unfold Rdiv. apply Rmult_le_pos.
-      + apply Rmult_le_pos; [apply Rlt_le; apply PI_RGT_0 | apply Rlt_le; apply lt_0_INR; lia].
+      + apply Rmult_le_pos; [apply Rlt_le; apply PI_RGT_0 | apply (Rlt_le 0 (INR (b - a))); apply lt_0_INR; apply/ltP; rewrite subn_gt0; exact Hab].
       + apply Rlt_le; exact HabInv.
     - apply (Rmult_le_reg_r (INR (a * b)) (PI * INR (b - a) / INR (a * b)) PI Hab2).
       replace (PI * INR (b - a) / INR (a * b) * INR (a * b))%R
         with (PI * INR (b - a))%R by (field; lra).
       assert (HP : (0 < PI)%R) by apply PI_RGT_0.
       assert (Hkey : (INR (b - a) <= INR (a * b))%R).
-      { apply le_INR. assert (H1 : (b - a < a * b)%nat) by nia. lia. }
+      { apply le_INR. apply/leP. apply (leq_trans (leq_subr a b)).
+        rewrite -[b in b <= _]mul1n. rewrite (@leq_pmul2r b 1 a (ltnW (ltn_trans Ha Hab))). exact (ltnW Ha). }
       nra. }
   rewrite (Rabs_right _ (Rle_ge _ _ Hsinpos2)) in Nbraw.
   rewrite Naraw in P. rewrite Nbraw in P.
@@ -145,7 +162,7 @@ Proof.
   assert (Hd0 : (0 < d0)%R).
   { unfold d0, Rdiv.
     apply Rmult_lt_0_compat; [ lra | ].
-    apply Rmult_lt_0_compat; [ apply (Rmult_lt_0_compat 2 (INR (b - a))); [ lra | apply lt_0_INR; lia ] | apply Rinv_0_lt_compat; apply lt_0_INR; nia ]. }
+    apply Rmult_lt_0_compat; [ apply (Rmult_lt_0_compat 2 (INR (b - a))); [ lra | apply lt_0_INR; apply/ltP; rewrite subn_gt0; exact Hab ] | apply Rinv_0_lt_compat; apply lt_0_INR; apply/ltP; rewrite muln_gt0; apply/andP; split; [exact (ltnW Ha) | exact (ltnW (ltn_trans Ha Hab))] ]. }
   assert (Hd0le : (d0 <= 2 * sin (theta / 2))%R)
     by (unfold d0; apply Rmult_le_compat_l; [ lra | exact Hjor ]).
   assert (Hstep : (Cnorm (PrimeEmbedding.Csum (fun k => rot_atom theta k) a) * d0
@@ -161,7 +178,7 @@ Proof.
   apply (Rmult_le_reg_r d0 _ _ Hd0).
   replace (sin (PI * INR a / INR b) * (INR a * INR b) / (2 * (INR b - INR a)) * d0)%R
     with (2 * sin (PI * INR a / INR b))%R
-    by (unfold d0, Rdiv; rewrite HIsub, mult_INR; field; lra).
+    by (unfold d0, Rdiv; rewrite HIsub mult_INR; field; lra).
   exact Hstep.
 Qed.
 
@@ -178,12 +195,14 @@ Proof.
   assert (H := pair_S_bound a b Ha Hab).
   assert (HIs : (INR (b - a) = INR b - INR a)%R).
   { assert (Hs : (INR (b - a) + INR a = INR b)%R)
-      by (rewrite <- plus_INR; f_equal; lia).
+      by (rewrite <- plus_INR; f_equal; exact (subnK (ltnW Hab))).
     lra. }
   assert (HBA : (0 < INR b - INR a)%R)
-    by (rewrite <- HIs; apply lt_0_INR; lia).
-  assert (Hab1 : (0 < INR a)%R) by (apply lt_0_INR; lia).
-  assert (Hbb1 : (0 < INR b)%R) by (apply lt_0_INR; lia).
+    by (rewrite <- HIs; apply lt_0_INR; apply/ltP; rewrite subn_gt0; exact Hab).
+  assert (Hab1 : (0 < INR a)%R)
+    by (apply lt_0_INR; move: Ha => /leP Hap; lia).
+  assert (Hbb1 : (0 < INR b)%R)
+    by (apply lt_0_INR; move: Ha => /leP Hap; move: Hab => /ltP Habp; lia).
   assert (Hsq : (0 < sqrt (INR a * INR b))%R).
   { apply sqrt_pos_strict. nra. }
   assert (Hss : (sqrt (INR a * INR b) * sqrt (INR a * INR b) = INR a * INR b)%R)

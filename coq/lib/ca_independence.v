@@ -1,4 +1,4 @@
-(* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
+﻿(* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_independence  原文行区间: 23435-25246  机械拆分，未改动内容 *)
 
 Require Import Stdlib.Reals.Reals.          (* 实数公理系统及全套定理 *)
@@ -933,8 +933,8 @@ Proof.
     apply reduced_system_equation_middle with (i0 := i0); auto.
 Qed.
 
-From mathcomp Require Import ssreflect boot.ssrbool boot.ssrnat boot.eqtype boot.seq boot.prime.
-From mathcomp Require Import ssreflect boot.ssrbool boot.ssrnat boot.eqtype boot.seq boot.prime boot.div.
+From mathcomp Require Import ssreflect ssreflect.ssrbool ssreflect.ssrnat ssreflect.eqtype ssreflect.seq ssreflect.prime.
+From mathcomp Require Import ssreflect ssreflect.ssrbool ssreflect.ssrnat ssreflect.eqtype ssreflect.seq ssreflect.prime ssreflect.div.
 
 (* 素数整除相等 *)
 Lemma prime_div_prime_eq : forall (p q : Prime),

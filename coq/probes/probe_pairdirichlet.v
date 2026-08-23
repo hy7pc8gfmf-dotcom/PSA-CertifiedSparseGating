@@ -14,6 +14,7 @@
    跨网格相干 ≤ INR (a·N) / (2·INR s)。grid 崩塌后"多尺度网格
    设计空间"的核心定量工具。
    ============================================================ *)
+From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Arith.Arith.
 Require Import Stdlib.micromega.Lia.
@@ -60,7 +61,7 @@ Qed.
 (* 乘积对 = 差频原子（核心步） *)
 Lemma pair_eq_rotdiff (t1 t2 : R) (k : nat) :
   rot_atom t1 k *c Cconj (rot_atom t2 k) = rot_atom (t1 - t2) k.
-Proof. rewrite rot_conj_rot, rot_mul_rot. reflexivity. Qed.
+Proof. rewrite rot_conj_rot rot_mul_rot. reflexivity. Qed.
 
 (* ---------- 主定理 ---------- *)
 
@@ -76,7 +77,7 @@ Proof.
              (fun k => rot_atom t1 k *c Cconj (rot_atom t2 k)) W
              = PrimeEmbedding.Csum (fun k => grid_atom N j k) W).
   { apply Csum_ext. intros k Hk.
-    rewrite pair_eq_rotdiff, Hdiff.
+    rewrite pair_eq_rotdiff Hdiff.
     rewrite (rot_grid N j k HN). reflexivity. }
   rewrite Hconv.
   apply dirichlet_partial_bound; [exact HN | exact Hneq].
@@ -100,10 +101,13 @@ Proof.
                            *c Cconj (rot_atom (2 * PI * INR m2 / INR (a * N)) k)) W).
   { apply Csum_ext. intros k Hk.
     rewrite (rot_grid N m1 k HN).
-    rewrite (rot_grid (a * N) m2 k); [reflexivity | lia]. }
+    rewrite (rot_grid (a * N) m2 k); [reflexivity | exact (leq_mul Ha HN)]. }
   rewrite Hconv.
-  assert (HNz : (0 < INR N)%R) by (apply lt_0_INR; lia).
-  assert (HANz : (0 < INR (a * N))%R) by (apply lt_0_INR; lia).
+  assert (HNz : (0 < INR N)%R) by (apply lt_0_INR; move: HN => /ltP HNp; lia).
+  assert (HANz : (0 < INR (a * N))%R)
+    by (apply lt_0_INR; apply/ltP;
+        apply (leq_trans (n := 2));
+        [ exact (ltnW (ltnSn 1)) | exact (leq_mul Ha HN) ]).
   assert (Heq : ((2 * PI * INR m1 / INR N - 2 * PI * INR m2 / INR (a * N))
                  = (2 * PI * INR j / INR (a * N)))%R).
   { replace ((2 * PI * INR j / INR (a * N)))%R
@@ -115,7 +119,7 @@ Proof.
     rewrite <- Hdiff. ring. }
   apply (pair_dirichlet (a * N) j W
            (2 * PI * INR m1 / INR N) (2 * PI * INR m2 / INR (a * N)));
-    [lia | exact Hneq | exact Heq].
+    [ exact (leq_mul Ha HN) | exact Hneq | exact Heq ].
 Qed.
 
 End PairDirichlet.

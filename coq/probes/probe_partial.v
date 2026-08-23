@@ -9,6 +9,7 @@
    引擎：Cnorm_one_minus_exp_i_theta_eq（ca_basis_lemmas:1089）+
         jordan_standard（:1783）。
    ============================================================ *)
+From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Arith.Arith.
 Require Import Stdlib.micromega.Lia.
@@ -51,7 +52,7 @@ Lemma Cexp_2pi_shift (x : R) (n : Z) :
 Proof.
   replace (0 +i (x + 2 * PI * IZR n)) with ((0 +i x) +c (0 +i (2 * PI * IZR n)))
     by (rewrite <- i_split; reflexivity).
-  rewrite Cexp_add, Cexp_2PI_int.
+  rewrite Cexp_add Cexp_2PI_int.
   rewrite Cmul_1_r. reflexivity.
 Qed.
 
@@ -66,14 +67,14 @@ Lemma Cnorm_one' : (Cnorm C1)%R = 1%R.
 Proof. unfold Cnorm. rewrite Cnorm_sq_one. rewrite sqrt_1. reflexivity. Qed.
 
 Lemma rot_atom_one (theta : R) : rot_atom theta 1 = Cexp (0 +i theta).
-Proof. unfold rot_atom. rewrite INR_1, Rmult_1_l. reflexivity. Qed.
+Proof. unfold rot_atom. rewrite INR_1 Rmult_1_l. reflexivity. Qed.
 
 Lemma rot_atom_zero (theta : R) : rot_atom theta 0 = C1.
-Proof. unfold rot_atom. rewrite INR_0, Rmult_0_l. apply Cexp_0. Qed.
+Proof. unfold rot_atom. rewrite INR_0 Rmult_0_l. apply Cexp_0. Qed.
 
 Lemma rot_step (theta : R) (W : nat) :
   rot_atom theta (S W) = rot_atom theta W *c rot_atom theta 1.
-Proof. replace (S W) with (W + 1) by lia. apply rot_atom_lag_add. Qed.
+Proof. rewrite -addn1. apply rot_atom_lag_add. Qed.
 
 (* ---------- Csum 共轭与 Cnorm 共轭 ---------- *)
 
@@ -90,7 +91,7 @@ Proof.
       by reflexivity.
     assert (Hc2 : PrimeEmbedding.Csum f (S n)
                   = Cadd (f n) (PrimeEmbedding.Csum f n)) by reflexivity.
-    rewrite Hc, IH, Hc2.
+    rewrite Hc IH Hc2.
     unfold Cadd, Cconj. apply Complex_eq; simpl; ring.
 Qed.
 
@@ -154,7 +155,7 @@ Proof.
   assert (Hs2 : ((Cnorm z2) * (Cnorm z2))%R = (Cnorm_sq z2)%R)
     by (unfold Cnorm; apply sqrt_sq; apply Cnorm_sq_ge_0).
   assert (Hkey : ((((Cnorm z1) * (Cnorm z2)) * ((Cnorm z1) * (Cnorm z2))) = ((Cnorm_sq z1) * (Cnorm_sq z2)))%R)
-    by (rewrite <- Hs1, <- Hs2; ring).
+    by (rewrite <- Hs1; rewrite <- Hs2; ring).
   assert (Hcs : (((re z1) * (re z2) + (im z1) * (im z2)) * ((re z1) * (re z2) + (im z1) * (im z2))
              <= (Cnorm_sq z1) * (Cnorm_sq z2))%R)
     by (apply cs2).
@@ -202,7 +203,7 @@ Proof.
     rewrite Hadd.
     replace (((Cnorm z1) + (Cnorm z2)) * ((Cnorm z1) + (Cnorm z2)))%R
       with (((Cnorm_sq z1) + (Cnorm_sq z2) + 2 * ((Cnorm z1) * (Cnorm z2))))%R
-      by (rewrite <- Hs1, <- Hs2; ring).
+      by (rewrite <- Hs1; rewrite <- Hs2; ring).
     nra.
 Qed.
 
@@ -235,7 +236,7 @@ Proof.
     rewrite Hsub.
     replace (((Cnorm z1) + (Cnorm z2)) * ((Cnorm z1) + (Cnorm z2)))%R
       with (((Cnorm_sq z1) + (Cnorm_sq z2) + 2 * ((Cnorm z1) * (Cnorm z2))))%R
-      by (rewrite <- Hs1, <- Hs2; ring).
+      by (rewrite <- Hs1; rewrite <- Hs2; ring).
     nra.
 Qed.
 
@@ -246,12 +247,12 @@ Theorem geom_sum_identity (theta : R) (W : nat) :
   = (C1 -c rot_atom theta 1) *c PrimeEmbedding.Csum (fun k => rot_atom theta k) W.
 Proof.
   induction W as [| W IH].
-  - simpl. rewrite rot_atom_zero, Csub_diag, Cmul_0_r. reflexivity.
+  - simpl. rewrite rot_atom_zero Csub_diag Cmul_0_r. reflexivity.
   - assert (Hc : PrimeEmbedding.Csum (fun k => rot_atom theta k) (S W)
                  = Cadd (rot_atom theta W) (PrimeEmbedding.Csum (fun k => rot_atom theta k) W))
       by reflexivity.
-    rewrite Hc, Cmul_add_distr_l, <- IH.
-    rewrite Csub_distr, (rot_step theta W).
+    rewrite Hc. rewrite Cmul_add_distr_l. rewrite <- IH.
+    rewrite Csub_distr (rot_step theta W).
     unfold Cadd, Csub. apply Complex_eq; simpl; ring.
 Qed.
 
@@ -265,16 +266,24 @@ Lemma sin_lower (N r : nat) :
   ((2 * INR r / INR N <= sin (PI * INR r / INR N))%R).
 Proof.
   intros Hr H2r.
-  assert (HNz : (0 < INR N)%R) by (apply lt_0_INR; lia).
+  assert (HNz : (0 < INR N)%R).
+  { apply lt_0_INR.
+    move: H2r => /leP H2rle.
+    (* H2rle : ((2 * r)%coq_nat <= N)%coq_nat；由 Hr 得 0 < (2*r)%coq_nat *)
+    apply (Nat.lt_le_trans 0 (2 * r)%coq_nat N).
+    - (* 0 < (2 * r)%coq_nat：stdlib 记法，lia 可处理 *)
+      move: Hr => /leP Hrle.
+      lia.
+    - exact H2rle. }
   assert (HPI : (0 < PI)%R) by apply PI_RGT_0.
   assert (Hx1 : (0 < PI * INR r / INR N)%R).
   { unfold Rdiv. apply Rmult_lt_0_compat.
-    - apply Rmult_lt_0_compat; [exact HPI | apply lt_0_INR; lia].
+    - apply Rmult_lt_0_compat; [exact HPI | apply lt_0_INR; move: Hr => /leP Hrle; lia].
     - apply Rinv_0_lt_compat. exact HNz. }
-  assert (HIN : (INR (2 * r) <= INR N)%R) by (apply (le_INR (2 * r) N); lia).
+  assert (HIN : (INR (2 * r) <= INR N)%R) by (apply (le_INR (2 * r) N); move: H2r => /leP H2rle; lia).
   assert (Hx2 : (PI * INR r / INR N <= PI / 2)%R).
   { assert (HIN' : ((2 * INR r) <= INR N)%R)
-      by (rewrite <- INR_two, <- (mult_INR 2 r); apply (le_INR (2 * r) N); lia).
+      by (rewrite <- INR_two; rewrite <- (mult_INR 2 r); apply (le_INR (2 * r) N); move: H2r => /leP H2rle; lia).
     apply (Rmult_le_reg_r (INR N) (PI * INR r / INR N) (PI / 2) HNz).
     replace ((PI * INR r / INR N) * INR N)%R with (PI * INR r)%R by (field; lra).
     replace ((PI / 2) * INR N)%R with ((PI * INR N) / 2)%R by (field; lra).
@@ -295,15 +304,16 @@ Lemma grid_mod_reduce (N j k : nat) :
   (grid_atom N j k = grid_atom N (j mod N)%nat k).
 Proof.
   intros HN.
-  assert (HNz : (0 < INR N)%R) by (apply lt_0_INR; lia).
+  assert (HNz : (0 < INR N)%R).
+  { apply lt_0_INR. move: HN => /leP HNle. lia. }
   assert (Hdj : (j = N * (j / N) + j mod N)%nat) by (apply Nat.div_mod_eq).
   assert (Hjk : (j * k = ((j / N) * k) * N + (j mod N) * k)%nat)
-    by (rewrite Hdj at 1; ring).
+    by (rewrite {1}Hdj; rewrite mulnDl; rewrite -mulnA; rewrite mulnC; reflexivity).
   unfold grid_atom.
   assert (Hval : (2 * PI * INR (j * k) / INR N)%R
     = ((2 * PI * INR ((j mod N) * k) / INR N)
        + 2 * PI * IZR (Z.of_nat ((j / N) * k)))%R).
-  { rewrite <- (INR_IZR_INZ ((j / N) * k)), Hjk, plus_INR, !mult_INR.
+  { rewrite <- (INR_IZR_INZ ((j / N) * k)). rewrite Hjk. rewrite plus_INR. rewrite !mult_INR.
     field. apply Rgt_not_eq. exact HNz. }
   rewrite Hval. apply Cexp_2pi_shift.
 Qed.
@@ -315,15 +325,19 @@ Lemma grid_conj (N r k : nat) :
   (grid_atom N (N - r) k = Cconj (grid_atom N r k)).
 Proof.
   intros HN Hr HrN.
-  assert (HNz : (0 < INR N)%R) by (apply lt_0_INR; lia).
-  assert (Hsub : ((N - r) * k = N * k - r * k)%nat) by nia.
+  assert (HNz : (0 < INR N)%R).
+  { apply lt_0_INR. move: HN => /leP HNle. lia. }
+  assert (Hsub : ((N - r) * k = N * k - r * k)%nat) by (rewrite mulnBl; reflexivity).
   unfold grid_atom.
   rewrite Hsub.
   assert (Hval : (2 * PI * INR (N * k - r * k) / INR N)%R
     = ((-(2 * PI * INR (r * k) / INR N)) + 2 * PI * IZR (Z.of_nat k))%R).
-  { rewrite <- (INR_IZR_INZ k), minus_INR, !mult_INR.
-    field. apply Rgt_not_eq; exact HNz. nia. }
-  rewrite Hval, (Cconj_Cexp (2 * PI * INR (r * k) / INR N)).
+  { rewrite <- (INR_IZR_INZ k). rewrite minus_INR. rewrite !mult_INR.
+    field. apply Rgt_not_eq; exact HNz.
+    (* minus_INR 前提：r*k <= N*k（r < N ⟹ r <= N ⟹ 乘 k 保序） *)
+    move: HrN => /ltP HrNp.
+    apply Nat.mul_le_mono_r. lia. }
+  rewrite Hval (Cconj_Cexp (2 * PI * INR (r * k) / INR N)).
   apply Cexp_2pi_shift.
 Qed.
 
@@ -334,8 +348,10 @@ Theorem partial_bound_half (N r W : nat) :
   ((Cnorm (PrimeEmbedding.Csum (fun k => grid_atom N r k) W) <= INR N / (2 * INR r))%R).
 Proof.
   intros HN Hr H2r.
-  assert (HNz : (0 < INR N)%R) by (apply lt_0_INR; lia).
-  assert (Hrz : (0 < INR r)%R) by (apply lt_0_INR; lia).
+  assert (HNz : (0 < INR N)%R).
+  { apply lt_0_INR. move: HN => /leP HNle. lia. }
+  assert (Hrz : (0 < INR r)%R).
+  { apply lt_0_INR. move: Hr => /leP Hrle. lia. }
   assert (Hconv : PrimeEmbedding.Csum (fun k => grid_atom N r k) W
                   = PrimeEmbedding.Csum (fun k => rot_atom (2 * PI * INR r / INR N) k) W).
   { apply Csum_ext. intros k Hk. symmetry. apply rot_grid. exact HN. }
@@ -345,13 +361,13 @@ Proof.
   assert (Hnorm : (Cnorm (C1 -c rot_atom theta W))%R
                   = ((Cnorm (C1 -c rot_atom theta 1))
                      * (Cnorm (PrimeEmbedding.Csum (fun k => rot_atom theta k) W)))%R).
-  { rewrite Hid at 1. rewrite Cnorm_mult'. reflexivity. }
+  { rewrite {1}Hid. rewrite Cnorm_mult'. reflexivity. }
   assert (Hub : (Cnorm (C1 -c rot_atom theta W) <= 2)%R).
   { apply (Rle_trans _ ((Cnorm C1) + (Cnorm (rot_atom theta W)))%R).
     - apply Cnorm_sub_le.
-    - rewrite Cnorm_one', (rot_Cnorm theta W). lra. }
+    - rewrite Cnorm_one' (rot_Cnorm theta W). lra. }
   assert (Hlb : ((4 * INR r / INR N <= Cnorm (C1 -c rot_atom theta 1))%R)).
-  { rewrite rot_atom_one, (Cnorm_one_minus_exp_i_theta_eq theta).
+  { rewrite rot_atom_one (Cnorm_one_minus_exp_i_theta_eq theta).
     assert (Hhalf : ((theta / 2))%R = ((PI * INR r / INR N))%R)
       by (unfold theta; field; lra).
     rewrite Hhalf.
@@ -394,21 +410,32 @@ Qed.
 Theorem dirichlet_partial_bound (N j W : nat) :
   (2 <= N)%nat -> (j mod N <> 0)%nat ->
   ((Cnorm (PrimeEmbedding.Csum (fun k => grid_atom N j k) W)
-    <= INR N / (2 * INR (Nat.min (j mod N) (N - j mod N))))%R).
+    <= INR N / (2 * INR (Nat.min (j mod N) ((N - j mod N)%coq_nat))))%R).
 Proof.
   intros HN Hneq.
   assert (Hr0 : (0 < j mod N)%nat).
-  { destruct (j mod N) as [| r']; [exfalso; apply Hneq; reflexivity | lia]. }
-  assert (HrN : (j mod N < N)%nat)
-    by (apply Nat.mod_upper_bound; lia).
+  { destruct (j mod N) as [| r']; [exfalso; apply Hneq; reflexivity | exact (ltn0Sn r')]. }
+  assert (HrN : (j mod N < N)%nat).
+  { apply/ltP. apply Nat.mod_upper_bound. move: HN => /leP HNle. lia. }
   assert (Hconv : PrimeEmbedding.Csum (fun k => grid_atom N j k) W
                   = PrimeEmbedding.Csum (fun k => grid_atom N (j mod N) k) W).
   { apply Csum_ext. intros k Hk. apply grid_mod_reduce. exact HN. }
   rewrite Hconv.
-  destruct (Nat.le_ge_cases (j mod N) (N - j mod N)) as [Hle | Hge].
-  - replace (Nat.min (j mod N) (N - j mod N))%nat with (j mod N) by lia.
-    apply partial_bound_half; [exact HN | exact Hr0 | lia].
-  - replace (Nat.min (j mod N) (N - j mod N))%nat with (N - j mod N) by lia.
+  (* 目标含 Nat.min（stdlib），Hle/Hgt 由 leqP 给 bool——用 leP 反映 *)
+  case: (leqP (j mod N) (N - j mod N)) => [Hle | Hgt].
+  - have HleP : ((j mod N) <= (N - j mod N))%coq_nat.
+    { apply/leP. exact Hle. }
+    rewrite (Nat.min_l _ _ HleP).
+    have Hle2 : (2 * (j mod N) <= N)%nat.
+    { rewrite mul2n.
+      have Hle3 : (j mod N) + (j mod N) <= (j mod N) + (N - j mod N)
+        by rewrite (addnC (j mod N) (N - j mod N)); exact (leq_add Hle (leqnn (j mod N))).
+      have Hsub : (j mod N) <= N by exact (leq_trans Hle (leq_subr (j mod N) N)).
+      rewrite (subnKC Hsub) in Hle3. rewrite addnn in Hle3. exact Hle3. }
+    apply partial_bound_half; [exact HN | exact Hr0 | exact Hle2].
+  - have HgeP : ((N - j mod N) <= (j mod N))%coq_nat.
+    { apply/leP. exact (ltnW Hgt). }
+    rewrite (Nat.min_r _ _ HgeP).
     assert (Hcs : (Cnorm (PrimeEmbedding.Csum (fun k => grid_atom N (j mod N) k) W))%R
                   = (Cnorm (PrimeEmbedding.Csum (fun k => grid_atom N (N - j mod N) k) W))%R).
     { rewrite <- (Cnorm_conj (PrimeEmbedding.Csum (fun k => grid_atom N (j mod N) k) W)).
@@ -417,7 +444,12 @@ Proof.
       apply Csum_ext. intros k Hk. symmetry.
       apply grid_conj; [exact HN | exact Hr0 | exact HrN]. }
     rewrite Hcs.
-    apply partial_bound_half; [exact HN | lia | lia].
+    have Hd2 : (2 * (N - j mod N) <= N)%nat.
+    { rewrite mul2n.
+      have Hn : (N - j mod N) + (N - j mod N) <= (j mod N) + (N - j mod N)
+        by exact (leq_add (ltnW Hgt) (leqnn (N - j mod N))).
+      rewrite (subnKC (m := j mod N) (n := N) (ltnW HrN)) in Hn. rewrite addnn in Hn. exact Hn. }
+    apply partial_bound_half; [exact HN | rewrite subn_gt0; exact HrN | exact Hd2].
 Qed.
 
 End TPartial.

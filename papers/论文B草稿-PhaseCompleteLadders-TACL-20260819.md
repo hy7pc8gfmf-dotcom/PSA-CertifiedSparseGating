@@ -42,10 +42,12 @@ improves all extrapolation lengths across all seeds — a coverage *gradient*, n
 threshold; (4) the certified 4-band ladder [3,13,53,213] carries a machine-checked
 rational frame certificate (μ = 4/5, Coq), and the 7-band geometric ladder contains a
 certifiable sub-core — a composite certificate (frame core + energy-budget margin)
-we formalize (with the end-to-end composite-certificate composition **Qed**, session 14:
-`champion_e5_composite_certificate` proves (S − coh_e5) ≤ ‖F‖² ≤ (S + coh_e5) —
+we formalize (with the orthogonal certified-track composite-certificate composition **Qed**,
+session 14: `champion_e5_composite_certificate` proves (S − coh_e5) ≤ ‖F‖² ≤ (S + coh_e5) —
 a basis-representation stability certificate, orthogonal to the empirical champion,
-see §7); certification extends to arbitrary ladders through a reflective checker
+see §7; [2026-08-23 代码状态]：论文 A 的 z 区 7 探针（含本证书依赖的 pairbound/rowsum/
+pairdirichlet/parseval/partial）已 pro 化并入合并版 `ca_merged_full_24.v`（75702 行，
+合并编译 MERGE_EXIT=0），证书链验证等级从独立 .vo 升级为合并版全量验证； certification extends to arbitrary ladders through a reflective checker
 with a machine-checked soundness theorem (165-entry Print Assumptions audit — all
 with **zero `Classical_Prop.classic`**, zero Admitted; the only axioms are the
 standard Dedekind-real infrastructure sig_not_dec / sig_forall_dec / fext);
@@ -637,6 +639,46 @@ ogrid 持 μ=0 全长度精确正交证书 + 零精确碰撞，仍比 rand（6.4
 纯网格距恰 N、无理偏移零碰撞）+ **ALiBi 无碰撞**（`linear_bias_no_collision`，碰撞
 距离 = ∞）为其"无证书强基线"定位提供形式化镜像（τ 语义：ALiBi 恒等核、无负债带）。
 
+## 10.9 正式配置复现（tinystories200 · 27000 iters）与 τ 感知频率选择（2026-08-23）
+
+> 数据可信度：batch1/2（3000 iters）与本地 RTX3070 逐位对齐（偏差 ≤0.03）；batch3/4
+> 同脚本同语料，云端 T4 与本地可互换。正式配置 = tinystories200（200MB）· block 512 /
+> batch 32 / 27000 iters ≈ 9.5 epoch，与 gutenberg 快速配置的 epoch 平价对齐。
+
+**batch3：四模式正式对照（s1337，27000 iters，T_train=512）**
+
+| 方案 | @512 | @1024 | @2048 | @4096 (8×) |
+|------|------|-------|-------|------------|
+| ALiBi | 2.11 | 2.13 | 2.19 | **2.11** |
+| t5rel | 2.11 | 2.15 | 2.31 | **2.75** |
+| psi-rope-rand（τ 全保留） | 2.16 | 2.65 | 4.70 | **7.50** |
+| e5pp | 2.22 | 2.38 | 6.34 | **14.21** |
+
+**batch4：τ 裁剪验证（s1337，27000 iters，对照 rand 7.50）**
+
+| 方案 | @512 | @1024 | @2048 | @4096 | vs rand |
+|------|------|-------|-------|-------|---------|
+| randmax256（剪 n>256） | 2.17 | 2.70 | 4.80 | 8.44 | ✗ +0.94 |
+| **randmax384（剪 n>384）** | 2.14 | 2.55 | 3.79 | **5.36** | ✓ **−2.14（−28%）** |
+| ogrid（grid512+无理偏移 0.6180339887） | 2.27 | 4.67 | 9.64 | 19.30 | ✗ +11.80 |
+
+**判决（τ 感知频率选择）**：
+
+1. **τ 裁剪假设在正式配置下兑现（温和版）**：randmax384 @4096 = **5.36** < 7.50，
+   改善 **28%**（0.71×）——剪掉最高频 385–511（约 14% 相位）显著提升外推，
+   高频随机相位在深训练（9.5 epoch）下确过拟合训练窗相位结构。
+2. **过度裁剪有害**：randmax256 @4096 = 8.44 > 7.50——257–384 区间是外推所需的
+   稠密覆盖结构（τ 负债带之外），"剪越多越好"不成立，裁剪点须温和。
+3. **ogrid 结构路线在正式配置下亦否定**：@4096 = 19.30（比 rand 差 2.6×），与 gutenberg
+   快速配置（16.12 vs rand 6.45，差 2.5×）方向一致——无理偏移结构化频率不优于随机，
+   稠密覆盖（相位完备性）仍是外推性能关键。
+4. **主张升级**：psi-rope-rand 定位从"随机稠密旋转（全相位保留）"升级为
+   **"τ 感知频率选择：保留低中频 + 温和裁剪高频端（截断点 ~384）"**——正式配置下
+   旋转族外推 7.50 → 5.36，与 ALiBi（2.11）的差距从 3.55× 缩至 2.54×。
+5. **τ 机制累计判决 → 7 个正向判决**：batch4 的 randmax384 改善（第 7 个）+
+   randmax256 恶化（裁剪点敏感性的双侧证据，τ 机制预测"温和裁剪最优而非激进全剪"）——
+   τ 机制从"剪掉 τ≈1 负债带"深化为"**τ 感知的渐变裁剪**"；ALiBi 无碰撞端点不变。
+
 ## 11. Conclusion
 把位置编码的外推行为还原为**频率阶梯的相位剖面**：截断部分相位带 + 旋转注入 +
 覆盖梯度构成当前最优经验规律；对照组划定其边界——**旋转族内最优是随机稠密旋转角
@@ -645,11 +687,15 @@ psi-rope-rand @4096 = 6.45±0.03（3-seed 确认，会话 18），击败 NTK-awa
 保持全局最优（外推平坦，退化比 0.96<1），T5 相对偏置（8.48±0.60）为偏置类退化
 锚点**——带证书方案与无证书上限的差距由此标明；psi-rope-rand 的随机阶梯**不在**
 配套形式化的证书覆盖范围（与证书正交——实证最优与可证明最优是两条平行轨道）；
-免修复的阶梯方案以 2× 内优势 + 零修改 + 机器证书为保留的主张；NoPE 的平坦曲线
+免修复的阶梯方案以 2× 内优势 + 零修改 + 机器证书为保留的主张；**正式配置复现
+（tinystories200 · 27000 iters，§10.9）确认排序并升级主张：τ 感知频率选择——保留
+低中频 + 温和裁剪高频端（截断点 ~384）把旋转族外推 7.50 → 5.36（−28%），过度裁剪
+（256）恶化、结构化频率（ogrid）否定**；NoPE 的平坦曲线
 揭示位置编码的本质交易（分布内质量 ↔ 外推稳健）；**τ/碰撞距离机制统一解释排行榜
-（周期带承载碰撞负债、ALiBi 非周期无碰撞），并获 5 个正向判决：O2 两点 + τ 三剪
+（周期带承载碰撞负债、ALiBi 非周期无碰撞），并获 7 个正向判决：O2 两点 + τ 三剪
 回测（剪 255/127/63 @8× 全恶化 +3.5–4.5×）+ 网格判决（grid 8× 25.66，比 rand 差
-3.98×）——"交易是周期参数化的属性，非周期偏置近零代价逃逸"**；该机制呈
+3.98×）+ offset-grid（ogrid ≥ grid）+ 正式配置温和裁剪（randmax384 −28%）——
+"交易是周期参数化的属性，非周期偏置近零代价逃逸"**；该机制呈
 **"经验律 + 机器检查碰撞结构"双层**（碰撞距离完备刻画、τ 三分、纯网格首碰撞恰在
 训练窗、ALiBi 无碰撞端点，论文 A §5.6.4）——网格判决的"τ≈1 负债带"解释是
 `grid_first_collision_at_N` 定理的实例而非纯经验猜测。
@@ -685,6 +731,12 @@ psi-rope-rand @4096 = 6.45±0.03（3-seed 确认，会话 18），击败 NTK-awa
 ## 附录 B 版本历史（开发记录，投稿前删除）
 
 > v4–v8 对齐协议全文（2026-08-20 至 2026-08-22 的开发演进记录，保留以供追溯）。
+
+**v9 正式配置复现（2026-08-23）**：新增 §10.9——tinystories200 · 27000 iters（≈9.5 epoch）
+正式配置四模式对照（ALiBi 2.11 / t5rel 2.75 / rand 7.50 / e5pp 14.21 @8×）与 **τ 感知频率选择**
+（randmax384 = 5.36，−28%；randmax256 = 8.44 恶化；ogrid = 19.30 否定）；主张升级为
+"保留低中频 + 温和裁剪高频端（截断点 ~384）"；τ 机制判决 6 → 7 个正向判决。数据源：
+云端 T4（batch3/4，与本地逐位对齐），补丁见 `论文B更新补丁-batch34-τ感知频率选择-20260823.md`。
 
 **对齐协议（基态，2026-08-20 会话 17）**：本版对齐至 2026-08-20 会话 17 终态（A2/A1 完成后基态）——
 multi-seed 裁决（E5'' 七带均值最优 12.40±0.74@8×，覆盖梯度 3-seed 确认）+ T8 复合证书 +

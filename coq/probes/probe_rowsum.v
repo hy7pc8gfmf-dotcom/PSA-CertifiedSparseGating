@@ -16,6 +16,7 @@
    RS5 row_sum_3halfs（主定理）：两侧 ⟹ ≤ 2πq/(1−q)。
    审计：Print Assumptions 尾部。
    ============================================================ *)
+From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Arith.Arith.
 Require Import Stdlib.micromega.Lia.
@@ -56,7 +57,7 @@ Lemma lsum_le (f g : nat -> R) (m : nat) :
 Proof.
   intros H. induction m as [| m IH]; simpl.
   - apply Rle_refl.
-  - apply Rplus_le_compat; [apply IH; intros k Hk; apply H; lia | apply H; lia].
+  - apply Rplus_le_compat; [apply IH; intros k Hk; apply H; exact (ltn_trans Hk (ltnSn m)) | apply H; exact (ltnSn m)].
 Qed.
 
 Lemma pow_S (x : R) (n : nat) : (x ^ (S n))%R = (x * x ^ n)%R.
@@ -146,27 +147,36 @@ Lemma pair_le_crude (a b : nat) :
   (Fpair a b <= PI * (INR a * sqrt (INR a)) / (INR b * sqrt (INR b)))%R.
 Proof.
   intros Ha Hb.
-  assert (Hab : (a < b)%nat) by lia.
+  assert (Hab : (a < b)%nat).
+  { apply/ltP. apply (Nat.lt_le_trans _ (2 * a) _).
+    - apply/ltP. rewrite -[a in a < _]mul1n. rewrite (@ltn_pmul2r a 1 2 (ltnW Ha)). exact (ltn0Sn 1).
+    - apply/leP. exact Hb. }
   pose proof (pair_inner_norm a b Ha Hab) as H.
-  assert (HA : (0 < INR a)%R) by (apply lt_0_INR; lia).
-  assert (HB : (0 < INR b)%R) by (apply lt_0_INR; lia).
+  assert (HA : (0 < INR a)%R).
+  { apply lt_0_INR. case: (@ltP 0 a) => [Hp | Hn].
+    - exact Hp.
+    - exfalso. apply Hn. move: (ltnW Ha) => /ltP. exact. }
+  assert (HB : (0 < INR b)%R).
+  { apply lt_0_INR. case: (@ltP 0 b) => [Hp | Hn].
+    - exact Hp.
+    - exfalso. apply Hn. move: (ltnW (ltn_trans Ha Hab)) => /ltP. exact. }
   assert (HIs : (INR (b - a) = INR b - INR a)%R).
   { assert (Hs : (INR (b - a) + INR a = INR b)%R)
-      by (rewrite <- plus_INR; f_equal; lia).
+      by (rewrite <- plus_INR; f_equal; exact (subnK (ltnW Hab))).
     lra. }
-  assert (Hba : (0 < INR (b - a))%R) by (apply lt_0_INR; lia).
+  assert (Hba : (0 < INR (b - a))%R) by (apply lt_0_INR; apply/ltP; rewrite subn_gt0; exact Hab).
   assert (Hsin : (sin (PI * INR a / INR b) <= PI * INR a / INR b)%R).
   { apply sin_le_x. split.
     - unfold Rdiv. apply Rmult_le_pos.
-      + apply Rmult_le_pos; [apply Rlt_le; apply PI_RGT_0 | apply Rlt_le; apply lt_0_INR; lia].
-      + apply Rlt_le; apply Rinv_0_lt_compat; apply lt_0_INR; lia.
+      + apply Rmult_le_pos; [apply Rlt_le; apply PI_RGT_0 | apply Rlt_le; exact HA].
+      + apply Rlt_le; apply Rinv_0_lt_compat; exact HB.
     - replace (PI * INR a / INR b)%R with (PI * (INR a / INR b))%R by (field; lra).
       apply Rmult_le_compat_l; [apply Rlt_le; apply PI_RGT_0 | ].
       apply (Rle_trans _ (1 / 2)); [ | lra ].
       apply (Rmult_le_reg_r (2 * INR b)); [ nra | ].
       replace (INR a / INR b * (2 * INR b))%R with (2 * INR a)%R by (field; lra).
       replace ((2 * INR a))%R with (INR (2 * a))%R by (rewrite mult_INR; simpl; ring).
-      apply (Rle_trans _ (INR b)); [apply le_INR; lia | ].
+      apply (Rle_trans _ (INR b)); [apply le_INR; apply/leP; exact Hb | ].
       replace ((1 / 2 * (2 * INR b)))%R with (INR b)%R by (field; lra).
       apply Rle_refl. }
   unfold Fpair.
@@ -187,7 +197,7 @@ Proof.
           apply Rmult_lt_0_compat; [ lra | exact Hba ].
         - apply (Rmult_le_compat_r (sqrt (INR a * INR b))).
           + apply sqrt_pos'.
-            apply Rmult_le_pos; [ apply Rlt_le; apply lt_0_INR; lia | apply Rlt_le; apply lt_0_INR; lia ].
+            apply Rmult_le_pos; [ apply Rlt_le; exact HA | apply Rlt_le; exact HB ].
           + exact Hsin. }
       lra.
   - apply (Rle_trans _ ((PI * INR a / INR b) * sqrt (INR a * INR b) / (INR b))).
@@ -196,9 +206,9 @@ Proof.
         - unfold Rdiv. apply Rmult_le_pos.
           + apply Rmult_le_pos.
             * apply Rlt_le; apply PI_RGT_0.
-            * apply Rlt_le; apply lt_0_INR; lia.
-          + apply Rlt_le; apply Rinv_0_lt_compat; apply lt_0_INR; lia.
-        - apply sqrt_pos'. apply Rmult_le_pos; [ apply Rlt_le; apply lt_0_INR; lia | apply Rlt_le; apply lt_0_INR; lia ]. }
+            * apply Rlt_le; exact HA.
+          + apply Rlt_le; apply Rinv_0_lt_compat; exact HB.
+        - apply sqrt_pos'. apply Rmult_le_pos; [ apply Rlt_le; exact HA | apply Rlt_le; exact HB ]. }
       apply (Rmult_le_reg_r ((2 * (INR b - INR a)) * INR b)).
       * rewrite <- HIs. nra.
       * replace ((PI * INR a / INR b * sqrt (INR a * INR b) / (2 * (INR b - INR a)))
@@ -210,17 +220,20 @@ Proof.
           with ((PI * INR a / INR b * sqrt (INR a * INR b)) * (2 * (INR b - INR a)))%R
           by (field; nra).
         assert (H2D : (INR b <= 2 * INR (b - a))%R).
-        { replace ((2 * INR (b - a)))%R with (INR (2 * (b - a)))%R
-            by (rewrite mult_INR; reflexivity).
-          apply le_INR. lia. }
+        { assert (HbR : (2 * INR a <= INR b)%R).
+          { replace (2 * INR a)%R with (INR (2 * a))%R by (rewrite mult_INR; reflexivity).
+            apply le_INR. case: (@leP (2 * a) b) => [Hbp | Hnot].
+            - exact Hbp.
+            - exfalso. apply Hnot. apply/leP. exact Hb. }
+          rewrite HIs. nra. }
         apply Rmult_le_compat_l; [ exact HAge | rewrite <- HIs; exact H2D ].
-    + rewrite (sqrt_mult (INR a) (INR b)) by (apply Rlt_le; apply lt_0_INR; lia).
+    + rewrite (sqrt_mult (INR a) (INR b) (Rlt_le _ _ HA) (Rlt_le _ _ HB)).
       assert (Hsa : (sqrt (INR a) * sqrt (INR a) = INR a)%R)
-        by (apply sqrt_sqrt; apply Rlt_le; apply lt_0_INR; lia).
+        by (apply sqrt_sqrt; apply Rlt_le; exact HA).
       assert (Hsb : (sqrt (INR b) * sqrt (INR b) = INR b)%R)
-        by (apply sqrt_sqrt; apply Rlt_le; apply lt_0_INR; lia).
+        by (apply sqrt_sqrt; apply Rlt_le; exact HB).
       assert (Hpb : (0 < sqrt (INR b))%R).
-        { apply sqrt_pos_strict. apply lt_0_INR. lia. }
+        { apply sqrt_pos_strict. exact HB. }
       apply Req_le.
       apply (Rmult_eq_reg_r (INR b * INR b * sqrt (INR b))).
       * unfold Rdiv in *.
@@ -254,16 +267,15 @@ Lemma chain_pow (C : nat) (v : nat -> nat) (i k : nat) :
   (v i * C ^ k <= v (i + k))%nat.
 Proof.
   intros Hchain. induction k as [| k IH].
-  - rewrite Nat.pow_0_r, Nat.mul_1_r. rewrite Nat.add_0_r. apply Nat.le_refl.
+  - rewrite Nat.pow_0_r muln1 addn0. apply leqnn.
   - rewrite Nat.pow_succ_r.
     assert (Hs : (v (i + k) * C <= v (S (i + k)))%nat) by apply Hchain.
-    replace (i + S k)%nat with (S (i + k))%nat by lia.
-    replace (v i * C * C ^ k)%nat with (v i * (C * C ^ k))%nat by ring.
-    replace ((v i * (C * C ^ k)))%nat with (((v i * C ^ k) * C))%nat by ring.
-    apply (Nat.le_trans _ (v (i + k) * C)%nat).
-    + apply (Nat.mul_le_mono_r (v i * C ^ k) (v (i + k)) C). exact IH.
+    rewrite addnS.
+    rewrite mulnCA mulnC.
+    apply (leq_trans (n := v (i + k) * C)).
+    + apply (leq_mul (n1 := v (i + k)) (n2 := C)). exact IH. by apply leqnn.
     + exact Hs.
-    + lia.
+    + by apply Nat.le_0_l.
 Qed.
 
 Lemma v_incr (C : nat) (v : nat -> nat) :
@@ -273,14 +285,24 @@ Proof.
   intros HC Hchain j j' Hjj'.
   assert (Hmono : forall m, (v m * C <= v (S m))%nat) by exact Hchain.
   induction j' as [| j' IH].
-  - replace j with j by reflexivity. assert (j = 0)%nat by lia. subst j.
-    apply Nat.le_refl.
+  - move: Hjj' => /leP Hj. assert (j = 0)%nat by lia. subst j.
+    by apply leqnn.
   - destruct (Nat.eq_dec j (S j')) as [E | E].
-    + rewrite E. apply Nat.le_refl.
-    + assert (H1 : (v j <= v j')%nat) by (apply IH; lia).
+    + rewrite E. by apply leqnn.
+    + assert (H1 : (v j <= v j')%nat)
+        by (apply IH; apply/leP; move: Hjj' => /leP Hj; lia).
       assert (H2 : (v j' * C <= v (S j'))%nat) by apply Hchain.
-      assert (H3 : (v j' * 2 <= v j' * C)%nat) by nia.
-      nia.
+      assert (H3 : (v j' * 2 <= v j' * C)%nat)
+        by (apply (leq_mul (leqnn (v j')) HC)).
+      apply (leq_trans (n := v j')).
+      * exact H1.
+      * apply (leq_trans (n := v j' * 2)).
+        - apply (leq_trans (n := v j' * 1)).
+          + rewrite muln1. by apply leqnn.
+          + apply (leq_mul (leqnn (v j')) (ltnW (ltnSn 1))).
+        - apply (leq_trans (n := v j' * C)).
+          + exact H3.
+          + exact H2.
 Qed.
 
 (* ---------- RS4：几何衰减 ---------- *)
@@ -289,22 +311,24 @@ Definition qval (C : nat) : R :=
   (/ sqrt (INR C)) * (/ sqrt (INR C)) * (/ sqrt (INR C)).
 
 Lemma sqrt_posnat (n : nat) : (1 <= n)%nat -> (0 < sqrt (INR n))%R.
-Proof. intros Hn. apply sqrt_pos_strict. apply lt_0_INR. lia. Qed.
+Proof. intros Hn. apply sqrt_pos_strict. apply lt_0_INR. move: Hn => /leP Hn. lia. Qed.
 
 Lemma pow_ge1 (C : nat) : (1 <= C)%nat -> forall m, (1 <= C ^ m)%nat.
 Proof.
   intros H m. induction m as [| m IH]; simpl.
-  - lia.
-  - nia.
+  - by apply leqnn.
+  - apply (leq_trans (n := C)).
+    + exact H.
+    + rewrite -[C in C <= _]muln1. apply (leq_mul (leqnn C) IH).
 Qed.
 
 Lemma q_eq (C : nat) : (2 <= C)%nat ->
   (qval C * (INR C * sqrt (INR C)) = 1)%R.
 Proof.
   intros HC.
-  assert (Hsp : (0 < sqrt (INR C))%R) by (apply sqrt_posnat; lia).
+  assert (Hsp : (0 < sqrt (INR C))%R) by (move: HC => /leP HCp; apply sqrt_posnat; apply/leP; lia).
   assert (Hss : (sqrt (INR C) * sqrt (INR C) = INR C)%R)
-    by (apply sqrt_sqrt; apply Rlt_le; apply lt_0_INR; lia).
+    by (apply sqrt_sqrt; apply Rlt_le; move: HC => /leP HCp; apply lt_0_INR; lia).
   assert (Hne : (sqrt (INR C) <> 0)%R) by lra.
   unfold qval.
   replace (INR C * sqrt (INR C))%R
@@ -319,18 +343,18 @@ Lemma q_pow (C : nat) : (2 <= C)%nat -> forall k : nat,
 Proof.
   intros HC. induction k as [| k IH].
   - assert (Hq1 : (qval C ^ 1 = qval C)%R) by (simpl; ring).
-    rewrite Hq1, Nat.pow_1_r. exact (q_eq C HC).
-  - assert (HC1 : (1 <= C)%nat) by lia.
+    rewrite Hq1 Nat.pow_1_r. exact (q_eq C HC).
+  - assert (HC1 : (1 <= C)%nat) by exact (ltnW HC).
     pose proof (pow_ge1 C HC1 (S k)) as Hpp.
-    rewrite pow_S, Nat.pow_succ_r.
+    rewrite pow_S Nat.pow_succ_r.
     rewrite (mult_INR C (C ^ (S k))).
-    rewrite (sqrt_mult (INR C) (INR (C ^ (S k))))
-      by (repeat split; left; apply lt_0_INR; lia).
+    rewrite (sqrt_mult (INR C) (INR (C ^ (S k)))
+              (pos_INR C) (pos_INR (C ^ (S k)))).
     rewrite <- (q_eq C HC).
     transitivity ((qval C ^ (S k) * (INR (C ^ (S k)) * sqrt (INR (C ^ (S k)))))
                   * (qval C * (INR C * sqrt (INR C))))%R.
     + ring.
-    + rewrite IH, (q_eq C HC). ring.
+    + rewrite IH (q_eq C HC). ring.
     + lia.
 Qed.
 
@@ -339,9 +363,11 @@ Lemma q_inv (C : nat) : (2 <= C)%nat -> forall k : nat,
 Proof.
   intros HC k.
   pose proof (q_pow C HC k) as HQ.
-  assert (H1 : (1 <= C ^ (S k))%nat) by (apply pow_ge1; lia).
-  assert (H2 : (0 < INR (C ^ (S k)))%R) by (apply lt_0_INR; lia).
-  assert (H3 : (0 < sqrt (INR (C ^ (S k))))%R) by (apply sqrt_posnat; lia).
+  assert (H1 : (1 <= C ^ (S k))%nat) by (apply pow_ge1; exact (ltnW HC)).
+  assert (H2 : (0 < INR (C ^ (S k)))%R)
+    by (apply lt_0_INR; move: H1 => /ltP H1p; exact H1p).
+  assert (H3 : (0 < sqrt (INR (C ^ (S k))))%R)
+    by (apply sqrt_posnat; apply pow_ge1; exact (ltnW HC)).
   apply (Rmult_eq_reg_r (INR (C ^ (S k)) * sqrt (INR (C ^ (S k))))).
   - rewrite HQ.
     replace ((/ (INR (C ^ (S k)) * sqrt (INR (C ^ (S k))))
@@ -358,13 +384,13 @@ Proof.
   intros HC. split.
   - unfold qval.
     assert (Hi : (0 < / sqrt (INR C))%R)
-      by (apply Rinv_0_lt_compat; apply sqrt_posnat; lia).
+      by (apply Rinv_0_lt_compat; apply sqrt_posnat; exact (ltnW HC)).
     apply (Rmult_lt_0_compat (/ sqrt (INR C) * / sqrt (INR C)) (/ sqrt (INR C)));
       [ | exact Hi ].
     apply (Rmult_lt_0_compat (/ sqrt (INR C)) (/ sqrt (INR C))); exact Hi.
   - assert (H1p : (qval C ^ 1 = qval C)%R) by (simpl; ring).
-    rewrite <- H1p, (q_inv C HC 0%nat), Nat.pow_1_r.
-    assert (Hsp : (0 < sqrt (INR C))%R) by (apply sqrt_posnat; lia).
+    rewrite <- H1p. rewrite (q_inv C HC 0%nat) Nat.pow_1_r.
+    assert (Hsp : (0 < sqrt (INR C))%R) by (apply sqrt_posnat; exact (ltnW HC)).
     assert (Hs : (1 <= sqrt (INR C))%R).
     { destruct (Rlt_or_le (sqrt (INR C)) 1) as [Hlt | Hle]; [ | exact Hle ].
       exfalso.
@@ -372,14 +398,15 @@ Proof.
         by (apply Rmult_lt_compat_l; lra).
       rewrite Rmult_1_r in Hsq.
       assert (Hss : (sqrt (INR C) * sqrt (INR C) = INR C)%R)
-        by (apply sqrt_sqrt; apply Rlt_le; apply lt_0_INR; lia).
+        by (apply sqrt_sqrt; apply Rlt_le; apply lt_0_INR; move: HC => /leP HCp; lia).
       rewrite Hss in Hsq.
+      move: HC => /leP HCp.
       assert (H2 : (INR 1 <= INR C)%R) by (apply le_INR; lia).
       simpl in H2. lra. }
-    assert (Ha : (INR 2 <= INR C)%R) by (apply le_INR; lia).
+    assert (Ha : (INR 2 <= INR C)%R) by (apply le_INR; move: HC => /leP HCp; lia).
     assert (H4 : (INR 2 * 1 <= INR C * sqrt (INR C))%R)
       by (apply Rmult_le_compat;
-          [ apply Rlt_le, lt_0_INR; lia | lra | exact Ha | lra ]).
+          [ apply Rlt_le, lt_0_INR; move: HC => /leP HCp; lia | lra | exact Ha | lra ]).
     rewrite Rmult_1_r in H4.
     simpl in H4.
     assert (HX : (1 < INR C * sqrt (INR C))%R) by lra.
@@ -400,21 +427,40 @@ Proof.
   intros HC Hvi Hchain.
   assert (Hab2 : (2 * v i <= v ((i + S k)%nat))%nat).
   { assert (H1 : (v i * C <= v (S i))%nat) by apply Hchain.
-    assert (H2 : (v i * 2 <= v i * C)%nat) by nia.
+    assert (H2 : (v i * 2 <= v i * C)%nat)
+      by (apply (leq_mul (leqnn (v i)) HC)).
     assert (H3 : (v (S i) <= v ((i + S k)%nat))%nat)
-      by (apply (v_incr C v HC Hchain); lia).
-    nia. }
+      by (apply (v_incr C v HC Hchain); rewrite addnS; rewrite ltnS; apply leq_addr).
+    apply (leq_trans (n := v i * C)).
+    - rewrite mulnC. exact H2.
+    - apply (leq_trans (n := v (S i))).
+      + exact H1.
+      + exact H3. }
   apply (Rle_trans _
            (PI * (INR (v i) * sqrt (INR (v i)))
               / (INR (v ((i + S k)%nat)) * sqrt (INR (v ((i + S k)%nat)))))).
-  - apply pair_le_crude; lia.
-  - assert (Hpp : (1 <= C ^ (S k))%nat) by (apply pow_ge1; lia).
-    assert (HIC : (0 < INR (C ^ (S k)))%R) by (apply lt_0_INR; lia).
-    assert (HISC : (0 < sqrt (INR (C ^ (S k))))%R) by (apply sqrt_posnat; lia).
-    assert (Hia : (0 < INR (v i))%R) by (apply lt_0_INR; lia).
-    assert (Hib : (0 < INR (v ((i + S k)%nat)))%R) by (apply lt_0_INR; lia).
-    assert (Hsa : (0 < sqrt (INR (v i)))%R) by (apply sqrt_posnat; lia).
-    assert (Hsb : (0 < sqrt (INR (v ((i + S k)%nat))))%R) by (apply sqrt_posnat; lia).
+  - apply pair_le_crude; [ exact Hvi | exact Hab2 ].
+  - assert (Hpp : (1 <= C ^ (S k))%nat) by (apply pow_ge1; exact (ltnW HC)).
+    assert (HIC : (0 < INR (C ^ (S k)))%R)
+      by (apply lt_0_INR; move: Hpp => /ltP Hppp; exact Hppp).
+    assert (HISC : (0 < sqrt (INR (C ^ (S k))))%R) by (apply sqrt_posnat; exact Hpp).
+    assert (Hia : (0 < INR (v i))%R)
+      by (apply lt_0_INR; move: Hvi => /ltP Hvp; lia).
+    assert (Hib : (0 < INR (v ((i + S k)%nat)))%R).
+    { apply (Rlt_le_trans _ (INR (v i)) _); [ exact Hia | ].
+      apply le_INR. apply/leP.
+      apply (v_incr C v HC Hchain). rewrite addnS.
+      apply (leq_trans (n := i + k)).
+      - apply leq_addr.
+      - by apply leqnSn. }
+    assert (Hsa : (0 < sqrt (INR (v i)))%R) by (apply sqrt_posnat; exact (ltnW Hvi)).
+    assert (Hsb : (0 < sqrt (INR (v ((i + S k)%nat))))%R).
+    { apply sqrt_posnat.
+      apply (leq_trans (n := 2 * v i)).
+      - apply (leq_trans (n := 2)).
+        + exact (ltnW (ltnSn 1)).
+        + exact (leq_mul (leqnn 2) (ltnW Hvi)).
+      - exact Hab2. }
     rewrite (q_inv C HC k).
     unfold Rdiv.
     replace ((PI * (INR (v i) * sqrt (INR (v i))))
@@ -437,17 +483,17 @@ Proof.
         replace (1 * (INR (v ((i + S k)%nat)) * sqrt (INR (v ((i + S k)%nat)))))%R
           with (INR (v ((i + S k)%nat)) * sqrt (INR (v ((i + S k)%nat))))%R by ring.
         assert (HIN : (INR (v i) * INR (C ^ (S k)) <= INR (v ((i + S k)%nat)))%R).
-        { rewrite <- (mult_INR (v i) (C ^ (S k))). apply le_INR.
+        { rewrite <- (mult_INR (v i) (C ^ (S k))). apply le_INR. apply/leP.
           apply chain_pow. exact Hchain. }
         assert (HP0 : (0 <= INR (v i) * INR (C ^ (S k)))%R)
-          by (apply Rmult_le_pos; [ apply Rlt_le, lt_0_INR; lia | apply Rlt_le, lt_0_INR; lia ]).
-        assert (HQ0 : (0 <= INR (v ((i + S k)%nat)))%R) by (apply Rlt_le, lt_0_INR; lia).
+          by (apply Rmult_le_pos; apply pos_INR).
+        assert (HQ0 : (0 <= INR (v ((i + S k)%nat)))%R) by apply pos_INR.
         assert (Hsq : (sqrt (INR (v i) * INR (C ^ (S k))) <= sqrt (INR (v ((i + S k)%nat))))%R)
           by (apply sqrt_le_1; [ exact HP0 | exact HQ0 | exact HIN ]).
         replace ((INR (v i) * sqrt (INR (v i))) * (INR (C ^ (S k)) * sqrt (INR (C ^ (S k)))))%R
           with ((INR (v i) * INR (C ^ (S k))) * sqrt (INR (v i) * INR (C ^ (S k))))%R
-          by (rewrite (sqrt_mult (INR (v i)) (INR (C ^ (S k))))
-                by (apply Rlt_le, lt_0_INR; lia); ring).
+          by (rewrite (sqrt_mult (INR (v i)) (INR (C ^ (S k)))
+                        (pos_INR (v i)) (pos_INR (C ^ (S k)))); ring).
         assert (HPg : (0 < INR (v i) * INR (C ^ (S k)))%R)
           by (apply Rmult_lt_0_compat; [ exact Hia | exact HIC ]).
         apply (Rle_trans _ (INR (v ((i + S k)%nat)) * sqrt (INR (v i) * INR (C ^ (S k))))).
@@ -510,7 +556,9 @@ Proof.
     + apply oneside; assumption.
     + apply (Rle_trans _ (lsum (fun d => (PI * qval C ^ (S d))%R) m)).
       * apply lsum_le. intros d Hd.
-        assert (Heq : (((i - S d)%nat + S d)%nat = i)%nat) by lia.
+        assert (Hsd : (S d <= i)%nat) by exact (leq_trans Hd Hmi).
+        assert (Heq : (((i - S d)%nat + S d)%nat = i)%nat)
+          by (rewrite (subnK Hsd); reflexivity).
         pose proof (pair_decay C v ((i - S d)%nat) d HC (Hv2 _) Hchain) as HP.
         rewrite Heq in HP. exact HP.
       * apply geo_scaled. exact HC.
@@ -522,13 +570,13 @@ Qed.
 Lemma sqrt_INR_4 : (sqrt (INR 4) = 2)%R.
 Proof.
   assert (H4 : (INR 4 = 4)%R) by (simpl; ring).
-  assert (Hsp : (0 < sqrt (INR 4))%R) by (apply sqrt_posnat; lia).
+  assert (Hsp : (0 < sqrt (INR 4))%R) by (apply sqrt_posnat; by []).
   assert (Hss : (sqrt (INR 4) * sqrt (INR 4) = INR 4)%R)
     by (rewrite H4; apply sqrt_sqrt; lra).
   assert (E : ((sqrt (INR 4) - 2) * (sqrt (INR 4) + 2) = 0)%R).
   { replace ((sqrt (INR 4) - 2) * (sqrt (INR 4) + 2))%R
       with (sqrt (INR 4) * sqrt (INR 4) - 2 * 2)%R by ring.
-    rewrite Hss, H4. ring. }
+    rewrite Hss H4. ring. }
   destruct (Rmult_integral _ _ E) as [E1 | E2].
   - lra.
   - exfalso. lra.
@@ -536,10 +584,10 @@ Qed.
 
 Lemma qval4_eq : (qval 4 = 1 / 8)%R.
 Proof.
-  assert (HC4 : (2 <= 4)%nat) by lia.
+  assert (HC4 : (2 <= 4)%nat) by by [].
   assert (H := q_eq 4 HC4).
   assert (H4 : (INR 4 = 4)%R) by (simpl; ring).
-  rewrite sqrt_INR_4, H4 in H.
+  rewrite sqrt_INR_4 H4 in H.
   replace (4 * 2)%R with 8%R in H by ring.
   apply (Rmult_eq_reg_r 8); (rewrite H; field; lra) || lra.
 Qed.

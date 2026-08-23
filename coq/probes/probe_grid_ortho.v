@@ -15,7 +15,13 @@
          ca_independence（Csum / Csum_ext / Csum_split_rev）
    实验对应：length_extrap.py --grid N 的 theta = 2π·m/N；
              建议新增 --ogrid：theta = 2π·(β + m/N)，β 黄金比。
-   ============================================================ *)
+   ============================================================
+   合并友好化 PRO 版（2026-08-23，E088/E089/E090 出路①隔离验证）：
+   在同事原文件基础上：显式 Require mathcomp 统一独立/合并两环境记法；
+   scope 顺序改为 R 后开（E063 系统性解法，防 mathcomp nat_scope 劫持 R 表达式）；
+   原 lia 全部改为 mathcomp 引理/reflect 反映（leP/ltP/mul0n/add0n/addn0/addnS/mulSn/addnA）。
+   验证通过后按原名字替换同事原文件（z-cs 协调）。 *)
+From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Arith.Arith.
 Require Import Stdlib.micromega.Lia.
@@ -32,9 +38,25 @@ Import FourierAnalysis.
 
 Open Scope R_scope.
 Open Scope complex_scope.
-Open Scope nat_scope.
+Open Scope nat_scope.   (* nat 后开：mathcomp 记法优先，裸 nat 算术（0*N+i 等）不被 R 劫持；
+                            R 表达式全部显式 %R 标注（见下） *)
 
 Module GridOrtho.
+
+(* 合并友好：本地 Csum_ext 别名（E065 全局命名空间冲突防御）——
+   ca_independence 的 Csum_ext（f g n）与 ca_basis_lemmas 的 Csum_ext（n f g）
+   签名参数序不同，合并版内联后后者遮蔽前者（后定义者胜），探针独立编译（.vo
+   模块边界）解析前者 → 两环境不一致。本模块内定义本地版（直接归纳，不依赖
+   外部 Csum_ext 名字），两环境均解析到此处。 *)
+Lemma Csum_ext : forall (f g : nat -> Complex) (n : nat),
+  (forall i, (i < n)%nat -> f i = g i) -> PrimeEmbedding.Csum f n = PrimeEmbedding.Csum g n.
+Proof.
+  induction n as [|n IH]; intros H.
+  - reflexivity.
+  - simpl. rewrite IH.
+    + f_equal. apply H. exact (ltnSn n).
+    + intros i Hi. apply H. exact (ltn_trans Hi (ltnSn n)).
+Qed.
 
 (* ---------- 基础：纯虚指数的加法拆分 ---------- *)
 
@@ -45,7 +67,7 @@ Qed.
 
 Lemma Cmul_middle_comm (a b c : Complex) : a *c (b *c c) = b *c (a *c c).
 Proof.
-  rewrite <- Cmul_assoc, (Cmul_comm a b), Cmul_assoc. reflexivity.
+  rewrite <- Cmul_assoc. rewrite (Cmul_comm a b). rewrite Cmul_assoc. reflexivity.
 Qed.
 
 Lemma Cmul_rearr (X B Y D : Complex) :
@@ -61,11 +83,11 @@ Qed.
 
 (* rot_atom θ k = e^{i·k·θ}：RoPE 式旋转角 θ 在位置 k 的相位 *)
 Definition rot_atom (theta : R) (k : nat) : Complex :=
-  Cexp (0 +i (INR k * theta)).
+  Cexp (0 +i (INR k * theta)%R).
 
 (* grid_atom N m k = e^{2πi·m·k/N}：N-网格原子（prime_character_orthogonality 口径） *)
 Definition grid_atom (N m k : nat) : Complex :=
-  Cexp (0 +i (2 * PI * INR (m * k) / INR N)).
+  Cexp (0 +i (2 * PI * INR (m * k) / INR N)%R).
 
 Definition grid_pair (N m u k : nat) : Complex :=
   grid_atom N m k *c Cconj (grid_atom N u k).
@@ -76,14 +98,17 @@ Lemma angle_norm (k m N : nat) :
   (INR k * (2 * PI * INR m / INR N))%R = (2 * PI * INR (m * k) / INR N)%R.
 Proof.
   intros HN.
-  assert (Hp : (0 < INR N)%R) by (apply lt_0_INR; lia).
+  assert (Hp : (0 < INR N)%R).
+  { apply lt_0_INR.
+    move: (ltnW HN) => /ltP HN0.
+    exact HN0. }
   rewrite mult_INR.
   field.
   apply Rgt_not_eq. exact Hp.
 Qed.
 
 Lemma rot_atom_add (theta phi : R) (k : nat) :
-  rot_atom (theta + phi) k = rot_atom theta k *c rot_atom phi k.
+  rot_atom ((theta + phi)%R) k = rot_atom theta k *c rot_atom phi k.
 Proof.
   unfold rot_atom.
   rewrite <- Cexp_add.
@@ -107,7 +132,7 @@ Lemma rot_conj_eq_1 (theta : R) (k : nat) :
   rot_atom theta k *c Cconj (rot_atom theta k) = C1.
 Proof.
   unfold rot_atom. rewrite Cconj_Cexp.
-  rewrite <- Cexp_add, <- i_split.
+  rewrite <- Cexp_add. rewrite <- i_split.
   replace ((INR k * theta + - (INR k * theta))%R) with 0%R by ring.
   replace (0 +i 0) with C0 by reflexivity.
   rewrite Cexp_0. reflexivity.
@@ -116,10 +141,10 @@ Qed.
 (* rot 形式与 p.c.o. 口径的网格原子一致 *)
 Lemma rot_grid (N m k : nat) :
   (2 <= N)%nat ->
-  rot_atom (2 * PI * INR m / INR N) k = grid_atom N m k.
+  rot_atom (2 * PI * INR m / INR N)%R k = grid_atom N m k.
 Proof.
   intros HN. unfold rot_atom, grid_atom.
-  rewrite angle_norm by exact HN.
+  rewrite (angle_norm k m N HN).
   reflexivity.
 Qed.
 
@@ -132,30 +157,31 @@ Theorem grid_pair_ortho (N m u : nat) :
 Proof.
   intros HN Hneq.
   unfold grid_pair, grid_atom.
-  apply (prime_character_orthogonality N m u); [lia | exact Hneq].
+  move: HN => /leP HNle.
+  apply (prime_character_orthogonality N m u); [exact HNle | exact Hneq].
 Qed.
 
 (* ---------- 偏移相消 ---------- *)
 
 (* 步骤 1：公共偏移 α 在成对内积中精确消失（N 无关！） *)
 Lemma offset_cancel (alpha theta1 theta2 : R) (k : nat) :
-  rot_atom (alpha + theta1) k *c Cconj (rot_atom (alpha + theta2) k)
+  rot_atom ((alpha + theta1)%R) k *c Cconj (rot_atom ((alpha + theta2)%R) k)
   = rot_atom theta1 k *c Cconj (rot_atom theta2 k).
 Proof.
-  rewrite (rot_atom_add alpha theta1 k), (rot_atom_add alpha theta2 k).
-  rewrite Cconj_mul, Cmul_rearr.
-  rewrite (rot_conj_eq_1 alpha k), Cmul_1_l.
+  rewrite (rot_atom_add alpha theta1 k) (rot_atom_add alpha theta2 k).
+  rewrite Cconj_mul Cmul_rearr.
+  rewrite (rot_conj_eq_1 alpha k) Cmul_1_l.
   reflexivity.
 Qed.
 
 (* 步骤 2：网格角度的 rot 形式 = p.c.o. 口径网格原子 *)
 Lemma rot_pair_grid (N m u k : nat) :
   (2 <= N)%nat ->
-  rot_atom (2 * PI * INR m / INR N) k *c Cconj (rot_atom (2 * PI * INR u / INR N) k)
+  rot_atom (2 * PI * INR m / INR N)%R k *c Cconj (rot_atom (2 * PI * INR u / INR N)%R k)
   = grid_pair N m u k.
 Proof.
   intros HN. unfold grid_pair.
-  rewrite (rot_grid N m k HN), (rot_grid N u k HN).
+  rewrite (rot_grid N m k HN) (rot_grid N u k HN).
   reflexivity.
 Qed.
 
@@ -163,15 +189,15 @@ Qed.
 
 Theorem off_grid_ortho (alpha : R) (N m u : nat) :
   (2 <= N)%nat -> m mod N <> u mod N ->
-  PrimeEmbedding.Csum (fun k => rot_atom (alpha + 2 * PI * INR m / INR N) k *c
-                 Cconj (rot_atom (alpha + 2 * PI * INR u / INR N) k)) N = C0.
+  PrimeEmbedding.Csum (fun k => rot_atom (alpha + 2 * PI * INR m / INR N)%R k *c
+                 Cconj (rot_atom (alpha + 2 * PI * INR u / INR N)%R k)) N = C0.
 Proof.
   intros HN Hneq.
   rewrite (Csum_ext _ (fun k => grid_pair N m u k) N).
   - apply grid_pair_ortho; [exact HN | exact Hneq].
   - intros k Hk.
-    rewrite (offset_cancel alpha (2 * PI * INR m / INR N)
-                             (2 * PI * INR u / INR N) k).
+    rewrite (offset_cancel alpha (2 * PI * INR m / INR N)%R
+                             (2 * PI * INR u / INR N)%R k).
     apply rot_pair_grid. exact HN.
 Qed.
 
@@ -180,10 +206,13 @@ Qed.
 (* 满周期旋转 = 1 *)
 Lemma rot_full_turn (N m : nat) :
   (2 <= N)%nat ->
-  rot_atom (2 * PI * INR m / INR N) N = C1.
+  rot_atom (2 * PI * INR m / INR N)%R N = C1.
 Proof.
   intros HN.
-  assert (Hp : (0 < INR N)%R) by (apply lt_0_INR; lia).
+  assert (Hp : (0 < INR N)%R).
+  { apply lt_0_INR.
+    move: (ltnW HN) => /ltP HN0.
+    exact HN0. }
   unfold rot_atom.
   replace ((INR N * (2 * PI * INR m / INR N))%R) with ((2 * PI * INR m)%R)
     by (field; apply Rgt_not_eq; exact Hp).
@@ -199,10 +228,10 @@ Proof.
   intros HN.
   rewrite <- (rot_pair_grid N m u (N + k) HN).
   rewrite <- (rot_pair_grid N m u k HN).
-  rewrite (rot_atom_lag_add (2 * PI * INR m / INR N) N k).
-  rewrite (rot_atom_lag_add (2 * PI * INR u / INR N) N k).
-  rewrite Cconj_mul, Cmul_rearr.
-  rewrite (rot_full_turn N m HN), (rot_full_turn N u HN).
+  rewrite (rot_atom_lag_add (2 * PI * INR m / INR N)%R N k).
+  rewrite (rot_atom_lag_add (2 * PI * INR u / INR N)%R N k).
+  rewrite Cconj_mul Cmul_rearr.
+  rewrite (rot_full_turn N m HN) (rot_full_turn N u HN).
   replace (Cconj C1) with C1
     by (unfold C1, Cconj; simpl; apply Complex_eq; simpl; ring).
   rewrite !Cmul_1_l.
@@ -215,9 +244,9 @@ Lemma grid_pair_shift_mul (N m u c i : nat) :
   grid_pair N m u (c * N + i) = grid_pair N m u i.
 Proof.
   intros HN. induction c as [|c IH].
-  - replace (0 * N + i) with i by lia. reflexivity.
+  - replace (0 * N + i) with i by (rewrite mul0n add0n; reflexivity). reflexivity.
   - replace (S c * N + i) with (N + (c * N + i))
-      by (rewrite Nat.mul_succ_l; lia).
+      by (rewrite mulSn addnA; reflexivity).
     rewrite (grid_pair_periodic N m u (c * N + i) HN).
     exact IH.
 Qed.
@@ -228,10 +257,10 @@ Lemma PE_Csum_split (f : nat -> Complex) (n m : nat) :
   = PrimeEmbedding.Csum (fun i => f (n + i)) m +c PrimeEmbedding.Csum f n.
 Proof.
   induction m as [|m IH].
-  - replace (n + 0) with n by lia.
+  - replace (n + 0) with n by (rewrite addn0; reflexivity).
     simpl.
     symmetry. apply Cadd_0_l.
-  - replace (n + S m) with (S (n + m)) by lia.
+  - replace (n + S m) with (S (n + m)) by (rewrite addnS; reflexivity).
     simpl.
     rewrite IH.
     symmetry. apply Cadd_assoc.
@@ -244,14 +273,16 @@ Theorem grid_ortho_mult (N a m u : nat) :
 Proof.
   intros HN Hneq. induction a as [|a IH].
   - simpl. reflexivity.
-  - rewrite Nat.mul_succ_l.
+  - rewrite mulSn.
     rewrite PE_Csum_split.
-    rewrite IH.
-    rewrite Cadd_0_r.
-    rewrite (Csum_ext (fun i => grid_pair N m u (a * N + i))
-                      (grid_pair N m u) N).
-    + apply grid_pair_ortho; [exact HN | exact Hneq].
-    + intros i Hi. apply grid_pair_shift_mul. exact HN.
+    (* 目标: Csum (fun i => f (N+i)) (a*N) +c Csum f N = C0
+       先 Csum_ext 换函数：∀i<a*N, f(N+i)=f i（grid_pair_periodic） *)
+    rewrite (Csum_ext (fun i => grid_pair N m u (N + i))
+                      (grid_pair N m u) (a * N)).
+    + rewrite IH.                  (* Csum f (a*N) → C0 *)
+      rewrite Cadd_0_l.            (* 0 +c Csum f N = Csum f N *)
+      apply grid_pair_ortho; [exact HN | exact Hneq].
+    + intros i Hi. apply grid_pair_periodic. exact HN.
 Qed.
 
 End GridOrtho.

@@ -11,6 +11,7 @@
    实例 parseval_two（网格）：窗口 a·N（含全部 2^a 外推长度）。
    —— 等式而非界：框架界定理的退化端点 = Parseval 恒等式。
    ============================================================ *)
+From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Arith.Arith.
 Require Import Stdlib.micromega.Lia.
@@ -41,7 +42,7 @@ Lemma sum_f_R0_ext (f g : nat -> R) (n : nat) :
 Proof.
   intros H. induction n as [| n IH]; simpl.
   - apply H.
-  - rewrite H, IH. reflexivity.
+  - rewrite H IH. reflexivity.
 Qed.
 
 Lemma sum_f_R0_plus (f g : nat -> R) (n : nat) :
@@ -66,7 +67,7 @@ Proof.
   - assert (Hl : (sum_f_R0 (fun _ => 1) (S n))%R
                  = ((sum_f_R0 (fun _ => 1) n) + 1)%R) by reflexivity.
     assert (Hr : (INR (S (S n)))%R = ((INR (S n)) + 1)%R) by reflexivity.
-    rewrite Hl, Hr, IH. ring.
+    rewrite Hl Hr IH. ring.
 Qed.
 
 (* ---------- B1：re-桥（PE.Csum (S n)（k∈[0,n]）↔ sum_f_R0 n） ---------- *)
@@ -81,12 +82,12 @@ Proof.
   - assert (Hc0 : PrimeEmbedding.Csum f 1 = Cadd (f 0) C0) by reflexivity.
     assert (Hr0 : (sum_f_R0 (fun k => re (f k)) 0%nat)%R = (re (f 0%nat))%R) by reflexivity.
     assert (H0 : (re C0)%R = 0%R) by reflexivity.
-    rewrite Hc0, re_add, Hr0, H0. ring.
+    rewrite Hc0 re_add Hr0 H0. ring.
   - assert (Hc : PrimeEmbedding.Csum f (S (S n))
                  = Cadd (f (S n)) (PrimeEmbedding.Csum f (S n))) by reflexivity.
     assert (Hs : (sum_f_R0 (fun k => re (f k)) (S n))%R
                  = ((sum_f_R0 (fun k => re (f k)) n) + (re (f (S n))))%R) by reflexivity.
-    rewrite Hc, re_add, IH, Hs. ring.
+    rewrite Hc re_add IH Hs. ring.
 Qed.
 
 (* ---------- Csum 纯量齐次（PE 版） ---------- *)
@@ -96,7 +97,7 @@ Lemma Csum_scal (cc : Complex) (f : nat -> Complex) (n : nat) :
 Proof.
   induction n as [| n IH]; simpl.
   - rewrite Cmul_0_r. reflexivity.
-  - rewrite Cmul_add_distr_l, IH. reflexivity.
+  - rewrite Cmul_add_distr_l IH. reflexivity.
 Qed.
 
 (* ---------- A1：原子范数 ---------- *)
@@ -122,7 +123,7 @@ Qed.
 
 Lemma rot_Cnorm (theta : R) (k : nat) : (Cnorm (rot_atom theta k))%R = 1%R.
 Proof.
-  unfold Cnorm. rewrite rot_norm_sq, sqrt_1. reflexivity.
+  unfold Cnorm. rewrite rot_norm_sq sqrt_1. reflexivity.
 Qed.
 
 Lemma grid_norm_sq (N m k : nat) : (2 <= N)%nat -> (Cnorm_sq (grid_atom N m k))%R = 1%R.
@@ -136,7 +137,9 @@ Lemma unit_energy (u : nat -> Complex) (W : nat) :
   (forall k, (Cnorm_sq (u k))%R = 1%R) -> (l2_norm_sq u W)%R = (INR (S W))%R.
 Proof.
   intros H. unfold l2_norm_sq.
-  rewrite (sum_f_R0_ext _ (fun _ => (1)%R) W) by (intro k; apply H).
+  assert (Hext : (sum_f_R0 (fun k => Cnorm_sq (u k)) W)%R = (sum_f_R0 (fun _ => (1)%R) W)%R).
+  { apply sum_f_R0_ext. intro k. apply H. }
+  rewrite Hext.
   apply sum_f_R0_const.
 Qed.
 
@@ -146,7 +149,7 @@ Lemma l2_norm_sq_scale (cc : Complex) (u : nat -> Complex) (W : nat) :
 Proof.
   unfold l2_norm_sq. induction W as [| W IH]; simpl.
   - rewrite Cnorm_sq_mult. reflexivity.
-  - rewrite IH, Cnorm_sq_mult. ring.
+  - rewrite IH Cnorm_sq_mult. ring.
 Qed.
 
 (* ---------- A4：Cnorm_sq 加法展开 ---------- *)
@@ -177,11 +180,12 @@ Proof.
   assert (Hpt : forall k, (Cnorm_sq (F k +c cc *c u k))%R
     = ((Cnorm_sq (F k)) + ((Cnorm_sq (cc *c u k))
         + (2 * re (F k *c Cconj (cc *c u k))))%R)%R).
-  { intro k. rewrite Cnorm_sq_add, re_mul_conj. ring. }
-  rewrite (sum_f_R0_ext (fun k => Cnorm_sq (F k +c cc *c u k))
-                 (fun k => ((Cnorm_sq (F k) + (Cnorm_sq (cc *c u k)
-                   + 2 * re (F k *c Cconj (cc *c u k)))))%R) W)
-    by (intro k; apply Hpt).
+  { intro k. rewrite Cnorm_sq_add re_mul_conj. ring. }
+  assert (Hext2 : sum_f_R0 (fun k => Cnorm_sq (F k +c cc *c u k)) W
+                 = sum_f_R0 (fun k => ((Cnorm_sq (F k) + (Cnorm_sq (cc *c u k)
+                   + 2 * re (F k *c Cconj (cc *c u k)))))%R) W).
+  { apply sum_f_R0_ext. intro k. apply Hpt. }
+  rewrite Hext2.
   rewrite (sum_f_R0_plus (fun k => (Cnorm_sq (F k))%R)
                  (fun k => ((Cnorm_sq (cc *c u k) + 2 * re (F k *c Cconj (cc *c u k))))%R) W).
   rewrite (sum_f_R0_plus (fun k => (Cnorm_sq (cc *c u k))%R)
@@ -193,11 +197,13 @@ Proof.
   rewrite Hscale.
   assert (Hcross : (sum_f_R0 (fun k => 2 * re (F k *c Cconj (cc *c u k))) W)%R
                    = 0%R).
-  { rewrite (sum_f_R0_ext _ (fun k => ((2 * re (Cconj cc *c (F k *c Cconj (u k)))))%R) W)
-      by (intro k; rewrite Cconj_mul; f_equal; f_equal; apply Cmul_middle_comm).
+  { assert (Hx : (sum_f_R0 (fun k => 2 * re (F k *c Cconj (cc *c u k))) W)%R
+              = sum_f_R0 (fun k => ((2 * re (Cconj cc *c (F k *c Cconj (u k)))))%R) W).
+    { apply sum_f_R0_ext. intro k. rewrite Cconj_mul. f_equal. f_equal. apply Cmul_middle_comm. }
+    rewrite Hx.
     rewrite (sum_f_R0_scal (2)%R (fun k => re (Cconj cc *c (F k *c Cconj (u k)))) W).
     rewrite <- (re_Csum_S (fun k => Cconj cc *c (F k *c Cconj (u k))) W).
-    rewrite Csum_scal, Horth, Cmul_0_r.
+    rewrite Csum_scal Horth Cmul_0_r.
     simpl. ring. }
   rewrite Hcross. ring.
 Qed.
@@ -213,12 +219,12 @@ Theorem parseval_pair (n : nat) (u1 u2 : nat -> Complex) (c1 c2 : Complex) :
   = ((Cnorm_sq c1 + Cnorm_sq c2) * INR n)%R.
 Proof.
   intros Hn Hu1 Hu2 Horth.
-  destruct n as [| W]; [lia | ].
+  destruct n as [| W]; [by rewrite ltn0 in Hn | ].
   change (Nat.pred (S W)) with W.
   (* W = pred n；正交假设在 S W = n 窗口 *)
   assert (HForth : PrimeEmbedding.Csum (fun k => (c1 *c u1 k) *c Cconj (u2 k)) (S W) = C0).
   { rewrite (Csum_ext _ (fun k => c1 *c (u1 k *c Cconj (u2 k))) (S W)).
-    - rewrite Csum_scal, Horth, Cmul_0_r. reflexivity.
+    - rewrite Csum_scal Horth Cmul_0_r. reflexivity.
     - intros k Hk. apply Cmul_assoc. }
   rewrite (l2_pythagoras (fun k => c1 *c u1 k) u2 c2 W Hu2 HForth).
   rewrite (l2_norm_sq_scale c1 u1 W).
@@ -235,8 +241,9 @@ Theorem parseval_two (N a m1 m2 : nat) (c1 c2 : Complex) :
 Proof.
   intros HN Ha Hneq.
   apply (parseval_pair (a * N) (grid_atom N m1) (grid_atom N m2) c1 c2);
-    [lia | intro k; apply grid_norm_sq; exact HN
-          | intro k; apply grid_norm_sq; exact HN | ].
+    [rewrite muln_gt0; apply/andP; split; [exact Ha | exact (ltnW HN)]
+    | intro k; apply grid_norm_sq; exact HN
+    | intro k; apply grid_norm_sq; exact HN | ].
   rewrite (Csum_ext _ (grid_pair N m1 m2) (a * N)).
   - apply grid_ortho_mult; [exact HN | exact Hneq].
   - intros k Hk. unfold grid_pair. reflexivity.
