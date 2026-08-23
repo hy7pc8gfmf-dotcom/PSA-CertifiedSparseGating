@@ -171,7 +171,7 @@ FrameCheckInstance（反射检查器 + soundness）→ ChampionCertificate（复
 → FrameCheck2DNarrow（2D 窄轨反射化，§5.5）→ UnitaryInvariance（A2 酉不变性，§5.3）
 → PhaseCoherence（相干熵桥接，§5.6）**。
 统计：**165 项** Print Assumptions 审计（PSA_audit.v，RC=0，证据 `audit_run.txt`）；
-**全部 165 项零经典排中**（`Classical_Prop.classic` 出现 0 次——M1.5 已清零，
+**全部 165 项未直接使用 `Classical_Prop.classic`（排中律宏零出现；公理脚印含 sig_not_dec/sig_forall_dec/fext——非构造性选择类公理）**（`Classical_Prop.classic` 出现 0 次——M1.5 已清零，
 exp 幂级数路线已并入，见 §7）；**零 Admitted**（剥注释后 grep 命中 0）；零自定义公理；
 外部依赖仅 mathcomp + Coquelicot；Rocq 9.0.1。
 
@@ -214,13 +214,13 @@ tensor_product_unconditional_basis_3d (C) (seq1 seq2 seq3) : C > 2 → 三轴稀
   NoDup/Sorted I1 I2 I3 → length coeffs_flat = n1·n2·n3 → 域条件 H_dom →
   混合进制距离 ≤6 →
   (1 − M_bound)·S ≤ ‖F_3D‖² ≤ (1 + M_bound)·S
-  (* 三维张量积无条件基（ca_basis_3d.v，已编译零 classic）：φ3D(a,b,c)(k)=γ⁻¹ψ_aψ_bψ_c，
+  (* 三维张量积范数上界（组合性演示）（ca_basis_3d.v，已编译零 classic）：φ3D(a,b,c)(k)=γ⁻¹ψ_aψ_bψ_c，
      M_bound = K0′·((1+4K_C)³−1)，K0′=Rmax 8C³/2，见 §5.4 *)
 
 tensor_product_unconditional_basis_2d_wide (C) (seq1 seq2) : C > 2 → 双轴稀疏增长 →
   NoDup/Sorted I1 I2 → length coeffs_flat = n1·n2 → 混合进制距离 ≤6 → 无 H_dom →
   (1 − M_bound)·S ≤ ‖F_2D‖² ≤ (1 + M_bound)·S
-  (* 二维张量积无条件基宽轨版（ca_2d_wide_asm.v，会话 15 交付，零 classic）：
+  (* 二维张量积范数上界（组合性演示）宽轨版（ca_2d_wide_asm.v，会话 15 交付，零 classic）：
      φ2D(i,j)(k)=γ⁻¹ψ_iψ_k·ψ_jψ_k，K0 = Rmax 8C³/2，M_bound = K0·((1+4K_C)²−1)；
      与 3D 共用 K0=C³/2 但**免 H_dom**——2D 的 idx1≠idx2 ⟹ i1≠i2 ∨ j1≠j2
      （div/mod 解码唯一性），无需跨轴支配条件，`one_le_half_K0_2dprod` 四分支覆盖；
@@ -229,7 +229,7 @@ tensor_product_unconditional_basis_2d_wide (C) (seq1 seq2) : C > 2 → 双轴稀
 tensor_product_unconditional_basis_4d (C) (seq1..seq4) : C > 2 → 四轴稀疏增长 →
   NoDup/Sorted I1..I4 → length coeffs_flat = n1·n2·n3·n4 → 域条件 H_dom → 混合进制距离 ≤6 →
   (1 − M_bound)·S ≤ ‖F_4D‖² ≤ (1 + M_bound)·S
-  (* 四维张量积无条件基（ca_basis_4d.v 单文件版，会话 17 交付 + coqchk 复验，零 classic）：
+  (* 四维张量积范数上界（组合性演示）（ca_basis_4d.v 单文件版，会话 17 交付 + coqchk 复验，零 classic）：
      K0 = Rmax 8C³/2，M_bound = K0·((1+4K_C)⁴−1)，数值 `M_bound_4d 4 = 19968` 已 Qed，见 §5.4 *)
 
 unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
@@ -443,7 +443,7 @@ sparse_uniquenessM (M) (c) (u) (W) (mu) : 0 ≤ mu → ∀j≤M: ‖u_j‖²_W =
   **温和负相关**——表达性与可证明性此消彼长，复合证书覆盖性能最优方案的可证骨架
   而非其外推增益（见论文 B §7）。
 
-### 5.4 维度推广：三维张量积无条件基（已编译，零 classic）
+### 5.4 维度推广：三维张量积范数上界（组合性演示）（已编译，零 classic）
 - **定位声明（评审对齐）**：3D/4D 张量积证书的价值在于**组合性演示**——同一
   `abstract_unconditional_basis` 骨架可被逐轴实例化到任意维。其常数的非紧性
   与未提取状态是两条**独立限制**——前者是数学事实（如实报告 M_bound 巨大），
@@ -861,7 +861,7 @@ rand 2.4×）——与 P3 定理互证：**可证性（稀疏）与外推性（�
   **战略意义**：整个 CertifiedAttention 模块（注意力近似主定理）为纯构造性——
   论文 A 是**首个完全构造性的深度学习注意力形式化验证**（不依赖实数完备性的
   排中律），Abstract 已标注 "all 165 classical-free / zero classical axioms"；
-- 依赖库（ca_* 六库）全审计为 P4 长期项，如实声明。
+- 依赖库（ca_* 六库）全审计为 P4 长期项。**外部依赖（mathcomp、Coquelicot）未纳入 165 项审计**——"零 `Classical_Prop.classic`"仅限应用层，不推广到整个开发依赖，如实声明。
 
 ## 8. 实证预览（一段 + 一表，3-seed 均值±std；dense 单 seed（b64 s1337），rope 已补 3-seed）
 char 级 0.5M 参数、T_train=512、seeds {1337,42,7}、确定性协议（rope 跨协议逐位复现）：
@@ -1035,7 +1035,7 @@ Practically Non-Tight"**，其价值在架构可组合性与维度推广的定�
 
 **对齐协议（基态，2026-08-20 会话 17）**：本版对齐至 2026-08-20 会话 17 终态（A2/A1 完成后基态）——
 `frame_check_instance_sound` 主定理已 Qed（会话 10+11 装配），**M1.5 已清零**：审计 **165 项** RC=0、
-零 Admitted、**全部 165 项零经典排中**（`Classical_Prop.classic` 出现 0 次，证据 `audit_run.txt`
+零 Admitted、**全部 165 项未直接使用 `Classical_Prop.classic`（排中律宏零出现；公理脚印含 sig_not_dec/sig_forall_dec/fext——非构造性选择类公理）**（`Classical_Prop.classic` 出现 0 次，证据 `audit_run.txt`
 追加段）；M4b 长度一致性 + T8 复合证书 + **复合表示稳定性界 `champion_e5_composite_certificate`
 （会话 14 Qed）** 已并入；FFI 24/24（refcheck 20 项 + 整数行和验算 4 项）。
 
@@ -1068,7 +1068,7 @@ L4576–5159（定理本体 L5069）；3D 审计项数 **8→10**（`PSA_3D_audi
 **全 165 项 `Classical_Prop.classic` = 0**，仅继承 sig_not_dec + sig_forall_dec + fext。
 本文档所有"139/135/4 项待清零"表述均已替换为"165 项全零 classic"。
 
-**v4 增量（2026-08-20 会话 15/16）**：**2D-wide 张量积无条件基已交付**——
+**v4 增量（2026-08-20 会话 15/16）**：**2D-wide 张量积范数上界（组合性演示）已交付**——
 `tensor_product_unconditional_basis_2d_wide`（K0 = Rmax 8C³/2，**免 H_dom**，覆盖全部
 idx1≠idx2 离对角对）+ `M_bound_2d_wide 4 = 768`（数值裁决已 Qed）+ 配套审计 5 项零 classic
 （`ca_2d_wide_audit.v`）——宽轨家族 N=2 成员补齐，2D/3D/4D 张量积证书族闭合（论文 B §6 的

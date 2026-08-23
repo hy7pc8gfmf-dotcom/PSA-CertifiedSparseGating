@@ -17,7 +17,7 @@
 
 在认证管线之上，本开发进一步刻画**可证明性边界**（§5.6）：对 μ≤4/5 的保守检查器口径，稠密覆盖与可判定认证**互斥**——超过 9 个相位完备带覆盖 [3,511] 的阶梯必然被拒绝（`pareto_law_N511`，几何增长禁止 + 鸽笼组合论证，增长常数 c≈1.8501）；随机版负定律以高概率成立（同箱带对必触发拒绝，7 带 ≥ 96%、8 带 ≥ 99%，生日-箱计数）。我们同时形式化论文 B τ/碰撞机制的碰撞距离框架：精确碰撞当且仅当角度有理（全构造性 iff，最小距离 = 分母闭式）、无理偏移（黄金比）永无精确碰撞且近碰撞被 1/(3d) 半径挡住、线性偏置核（ALiBi）无碰撞端点——"认证—可证明性边界—碰撞/分辨率刻画"三角被机器检查覆盖（§5.6.4，含 U5 黄金近碰撞半径）。
 
-**压缩感知级理论保证（v2.1 新增，§5.6.6）**：频率阶梯原子族满足**单位范数 → RIP(2,μ) → 稀疏唯一恢复**的完整链条——`psi_norm_one`（‖ψ_n‖=1）、`rip_bound2`（μ-不相干单位原子 ⟹ 能量偏差 ≤ μ·Σc²）、`sparse_uniquenessM`（**μ·(M+1) < 1 ⟹ 窗口内零组合 ⟹ 系数全零**，M+1 原子稀疏表示唯一）——把「无条件基 + 频率阶梯」的理论优势从框架界推进到稀疏恢复（48 Qed，已并入合并版）。
+**压缩感知通用层形式化（v2.1 新增，§5.6.6；实例拼接未完成）**：频率阶梯原子族在**通用层**满足单位范数 → RIP(2,μ) → 稀疏唯一恢复定理（具体阶梯的 μ·(M+1)<1 实例化为后续工作）——`psi_norm_one`（‖ψ_n‖=1）、`rip_bound2`（μ-不相干单位原子 ⟹ 能量偏差 ≤ μ·Σc²）、`sparse_uniquenessM`（**μ·(M+1) < 1 ⟹ 窗口内零组合 ⟹ 系数全零**，M+1 原子稀疏表示唯一）——把「框架界（1D 无条件基）+ 频率阶梯」的理论优势从表示稳定性推进到稀疏恢复（48 Qed，已并入合并版）。
 
 **关键词**：形式化验证；Coq/Rocq；稀疏注意力；框架理论；Gershgorin 界；反射检查器；程序提取；构造性数学
 
@@ -59,7 +59,7 @@ FrameCheckInstance（反射检查器 + soundness）→ ChampionCertificate（复
 FrameCheck2DNarrow（2D 窄轨反射化，§5.5）→ UnitaryInvariance（A2 酉不变性，§5.3）
 ```
 
-统计：**165 项** Print Assumptions 审计（PSA_audit.v，RC=0）；**全部 165 项零经典排中**（`Classical_Prop.classic` 出现 0 次——M1.5 已清零，exp 幂级数路线并入）；**零 Admitted**（剥注释后 grep 命中 0）；零自定义公理；外部依赖仅 mathcomp + Coquelicot；Rocq 9.0.1。
+统计：**165 项** Print Assumptions 审计（PSA_audit.v，RC=0）；**全部 165 项未直接使用 `Classical_Prop.classic`**（排中律宏零出现；公理脚印含 sig_not_dec/sig_forall_dec/fext——非构造性选择类公理，非"零经典"） 出现 0 次——M1.5 已清零，exp 幂级数路线并入）；**零 Admitted**（剥注释后 grep 命中 0）；零自定义公理；外部依赖仅 mathcomp + Coquelicot；Rocq 9.0.1。
 
 ## 4 核心定理
 
@@ -141,7 +141,7 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **相干熵桥接**（PhaseCoherence，`coherence_controls_attention`，Qed，零 classic）：对任意相干核 K（$|K_{ij}| \le \mathrm{coh}$）与系数差 $\ell_1 \le \delta$，logit 扰动 $|z_i - z'_i| \le \mathrm{coh}\cdot\delta$，组合 softmax 稳定性得 $\|\mathrm{softmax}\,z - \mathrm{softmax}\,z'\|_1 \le e^{2\cdot\mathrm{coh}\cdot\delta} - 1$——相干上界 ⟹ softmax 输出 TVD 界的抽象桥梁。当前为已证抽象桥梁 + 未实例化状态；实证支撑：ΔCoh 仅在稀疏几何族内排序（4 点 R²=0.982），13 点扩充后跨族崩溃（max 型 R²=0.101）——相干性定性结论保留、定量预测收缩为族内指标。
 - **核漂移口径（已机器检查，2026-08-22）**：`kernel_drift_controls_attention`（PhaseCoherence，coqchk 独立复核）——核逐点漂移 $|K_{ij}-K'_{ij}| \le \mathrm{dc}$（全 i,j）且系数 $\ell_1 \le \mathrm{dd}$ ⟹ softmax 输出 $\ell_1$ 距离 $\le e^{2\cdot\mathrm{dc}\cdot\mathrm{dd}} - 1$（与上条互补：系数漂移×固定核 vs 固定系数×核漂移，覆盖长度外推/蒸馏/量化场景）；对窗口无关核族（网格/偏移网格在任意 $a\cdot N$ 长度核相同）Δ=0 退化为 TVD 界 0（`kernel_identical_tvd_zero`）。**常数演进线**：4K → 2K（`psi_unconditional_basis_tight`）→ μ=0（网格端点）；`abstract_unconditional_basis` 可用 Riesz 序列稳定性语言重述（张成族系数 $\ell^2$ 范数的 $(1\pm M_{\mathrm{bound}})$ 等价）——文本级重述，不改变机器检查内容。
 
-### 5.4 维度推广：三维/四维/2D-wide 张量积无条件基
+### 5.4 维度推广：三维/四维/2D-wide 张量积范数上界（组合性演示；下界平凡，非框架下界）
 
 价值在于**组合性演示**：同一 `abstract_unconditional_basis` 骨架逐轴实例化到任意维。常数非紧性与未提取状态是两条独立限制，共同构成"存在性结果"而非"实用工具"的定位。
 
@@ -235,7 +235,7 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **公理脚印（全部 165 项仅此）**：ClassicalDedekindReals.sig_not_dec / sig_forall_dec + functional_extensionality_dep（标准库反射层基础设施）；**`Classical_Prop.classic` 出现 0 次**。
 - **如实说明**：sig_not_dec / sig_forall_dec / fext 是非构造性选择类原则（Dedekind 实数构造自身携带，非应用层引入）；"classical-free"精确指 `Classical_Prop.classic`（排中律宏）零出现，而非"无任何经典原则"。提取计算性：上述公理仅在证明层（Prop）使用，不参与提取的计算内容（Set/Type 层无 sig_not_dec 调用）。
 - **M1.5 经典清零（已完成）**：此前仅剩的 4 项（softmax 系列 + certified_attention_approx）经 exp 单调性继承经典排中。现 Module ExpSeries 已 Qed（`exp_mono_le_noclassic` 等，Stdlib exp 即幂级数定义），exp_mono_le 改走幂级数路线——语句不变、下游零改动。**意义**：整个 CertifiedAttention 模块（注意力近似主定理）为纯构造性——据我们所知，这是第一个不依赖实数完备性排中律的深度学习注意力形式化验证。
-- 依赖库（ca_* 六库）全审计为 P4 长期项。
+- 依赖库（ca_* 六库）全审计为 P4 长期项。**外部依赖（mathcomp、Coquelicot）未纳入 165 项审计**——"零 `Classical_Prop.classic`"结论仅限本开发应用层，不推广到整个开发依赖（Coquelicot 基于实数库，可能含经典公理，如实声明）。
 
 ## 8 实证预览
 
@@ -264,7 +264,7 @@ psi-rope 行 3 个种子均值±std、dense 单个种子（b64 s1337）、rope �
 - **What is not certified**：本框架不证明——(a) 学习投影下的注意力 logits/softmax 有界（仅能量界 ⟹ 输出扰动界）；(b) 学习 Q/K 投影与位置旋转对易（酉不变性仅覆盖基函数层）；(c) 多头拼接、残差连接、LayerNorm/激活的数值稳定性；(d) 训练后权重的任何保证（证书对任意系数 c 成立，与训练无关）；(e) 外推 PPL 与框架界之间的语义联系（经验桥梁，未形式化）。
 - 证书为框架/能量级保证，不直接给出端到端 ppl 界（跨层合成为未来工作）。
 - 审计 165 项全零 classic；公理脚印仅 sig_not_dec + sig_forall_dec + fext。
-- 实证规模 toy 级、种子有限（dense/rope 已补；NoPE 单个种子）。
+- 实证规模 toy 级、种子有限（dense/rope 已补；NoPE 单个种子）。**对论文 B 的依赖（如实）**：本文多处引用论文 B 的实证结论（七带基线、psi-rope-rand 等）作为动机与对照——论文 B 为独立投稿的预印本，其实验结论未经本审稿流程评审；本文的形式化贡献（框架界/衰减界/证书）不依赖论文 B 的实证有效性，两者正交。
 - **形式化的适用域以结构存在为前提**：对无位置结构的编码（NoPE 类）本框架无任何可证陈述。论文 B 实证给出定量交易曲线：有结构端以分布内 ppl ~2× 劣化（4.46 vs 9.06）为代价承受 OOD 相位混淆风险；形式化锁定的正是交易中有结构的一端。
 
 ## 11 结论
@@ -275,7 +275,7 @@ psi-rope 行 3 个种子均值±std、dense 单个种子（b64 s1337）、rope �
 
 **可证明性边界（v2.0 新增，§5.6）**：在认证管线之上，本开发把论文 B 的"性能-可证明性张力"从实证观察升格为定理——**稠密覆盖与 μ≤4/5 可判定认证互斥**（`pareto_law_main`/`pareto_law_N511`：N=511 时 m≥10 必拒；P1/P1′ 给出精确窗口口径相干下界的解析根源；T2a/T2b 把负定律延伸到随机阶梯高概率拒绝）。配套的碰撞距离框架（碰撞 ⟺ 有理、最小距离 = 分母、无理偏移零碰撞、ALiBi 无碰撞端点、Parseval 能量守恒、窗口无关 Dirichlet 界、容错 Gershgorin 分级证书、一般维张量闭式、核漂移 softmax TVD 界）为论文 B 的 τ/碰撞机制提供形式化镜像——"认证—可证明性边界—碰撞/分辨率刻画"三角被机器检查覆盖，零 Admitted、零自定义公理。
 
-**压缩感知（v2.1 新增，§5.6.6）**：频率阶梯原子族获压缩感知级理论保证（单位范数 `psi_norm_one` + RIP(2,μ) `rip_bound2` + 稀疏唯一恢复 `sparse_uniquenessM`，48 Qed 并入合并版）——「无条件基 + 频率阶梯」从表示稳定性推进到稀疏恢复唯一性，与论文 B 的随机稀疏恢复主张构成定理侧支撑。
+**压缩感知通用层形式化（v2.1 新增，§5.6.6；实例拼接未完成）**：频率阶梯原子族在通用层获低相干 → RIP(2,μ) → 稀疏唯一性定理（单位范数 `psi_norm_one` + RIP(2,μ) `rip_bound2` + 稀疏唯一恢复 `sparse_uniquenessM`，48 Qed 并入合并版）——「框架界 + 频率阶梯」从表示稳定性推进到稀疏恢复唯一性，与论文 B 的随机稀疏恢复主张构成定理侧支撑。
 
 ## 参考文献
 
