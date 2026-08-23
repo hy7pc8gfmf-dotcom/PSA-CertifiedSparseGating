@@ -181,7 +181,7 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **T2b（生日-箱计数）**：`fall9`/`no_collision` 定义 + **符号化单调性**（no_collision (S m) ≤ no_collision m，递推证明不依赖具体数值）+ 数值界：m=7 ⟹ P(同箱对) ≥ 96/100、m=8 ⟹ ≥ 99/100——负定律从"确定性密度上限"延伸到"随机阶梯高概率拒绝"（m≥10 由鸽笼确定性覆盖）。
 - 平台注记（如实）：Rocq 9 大 nat 字面量计算栈溢出，数值界以 R 层显式分数表达（数学等价）。
 
-### 5.6.4 碰撞距离框架与认证外推不变族（z 区探针；parseval/partial/pairdirichlet/pairbound/rowsum 已并入合并版，v2.1）
+### 5.6.4 碰撞距离框架与认证外推不变族（z 区探针；grid_ortho + parseval/partial/pairdirichlet/pairbound/rowsum/incoherence 共 7 个已并入合并版，v2.1）
 
 - **碰撞完备刻画**（probe_collision/probe_tchar）：精确碰撞 ⟺ 角度有理（全构造性 iff）；有理时最小碰撞距离 = 分母（纯网格 q=1 恰为 N；偏移分母 q 把碰撞推至 q·N——"零成本旋钮"）；**无理偏移（黄金比）⟹ 永无精确碰撞**；**线性偏置（ALiBi）无碰撞端点**（非周期核，碰撞距离 = ∞）。
 - **μ=0 能量守恒等式**（probe_parseval）：互异网格原子在 a·N 窗口 ‖Σc_t·u_t‖² = Σ|c_t|²（等式而非界——框架界退化端点）。

@@ -30,7 +30,7 @@ lies outside the certificate scope); (5) honest controls: NTK-aware rescaling be
 phase-truncated rotation at 4–8× — our surviving claim is *no-test-time-surgery, no
 per-length recalibration, and certificates*, not absolute extrapolation supremacy. Under
 the formal configuration (tinystories200 · 27000 iters), **τ-aware frequency selection** —
-keeping low/mid frequencies and gently trimming the high-frequency tail (cutoff ~384) —
+keeping low/mid frequencies and gently trimming the high-frequency tail (optimal cutoff N* ∈ [448,480], shifting right with training depth) —
 improves the rotation-family extrapolation from 7.50 to 5.36 (−28%), while over-trimming
 (256) hurts and structured-frequency offsets (ogrid) are rejected. We document our
 falsified hypotheses alongside the surviving ones, and propose the ladder *phase profile*
@@ -51,7 +51,7 @@ ALiBi）全为启发式，缺一个统一变量。本文引入**频率阶梯**�
 统一解释排行榜（周期带承载碰撞负债、非周期偏置近零代价逃逸），获 7 个正向判决；
 (v) **性能-可证明性前沿**——带证书方案与无证书上限的差距被如实量化，可审计性本身作为
 价值主张；(vi) **τ 感知频率选择**——正式配置下保留低中频 + 温和裁剪高频端把旋转族
-外推 7.50 → 5.36（−28%）。
+外推 7.50 → 5.15（−31%）。
 
 **与配套论文 A（Coq 形式化）的关系**：本文实证验证论文 A 形式化框架（同一阶梯族）的
 适用性；论文 A 的框架界/能量界为「免修改 + 证书」定位提供理论支持——两文共享阶梯对象，
@@ -308,7 +308,60 @@ KV 逐出实验（训练长度内逐出无系统代价）与论文 A 的 `kv_evi
 3. **ogrid 结构路线在正式配置下亦否定**：@4096 = 19.30（比 rand 差 2.6×）——无理偏移
    结构化频率不优于随机，稠密覆盖（相位完备性）仍是外推性能关键。
 4. **主张升级**：psi-rope-rand 定位升级为**「τ 感知频率选择：保留低中频 + 温和裁剪高频端
-   （截断点 ~384）」**——与 ALiBi 的差距从 3.55× 缩至 2.54×。
+   （最优区 N* ∈ [448,480]）」**——与 ALiBi 的差距从 3.55× 缩至 2.44×。
+
+### 10.9a k-scan discrimination experiment and trimming-semantics refinement (2026-08-23, local replication)
+
+> Discriminant question (T4 corollary): constant-theory predicts the optimal trim point N*
+> is stable in the extrapolation multiple k; depth-theory (variational balance) predicts N*
+> moves with k. True training (`--rand-max N`, trim at train time) × 7 trim points ×
+> k ∈ {1,2,4,8}, tinystories / block 512 / batch 32 / **3000 iters** / seed 1337
+> (local RTX 3070).
+
+**Results** (ppl, CI95 in brackets):
+
+| N \ T | 512 (k=1) | 1024 (k=2) | 2048 (k=4) | 4096 (k=8) |
+|---|---|---|---|---|
+| 256 | 2.68 | 2.89 | 3.08 | 3.83 [3.77,3.89] |
+| 320 | 2.68 | 2.89 | 3.08 | 3.83 [3.77,3.89] |
+| 352–448 | 2.68 | **2.86** | **3.04** | **3.80 [3.79,3.81]** |
+| 511 (full) | 2.68 | 2.90 | 3.38 | 4.44 [4.43,4.45] |
+
+**Verdicts (k-scan)**:
+
+1. **τ-trim improvement independently replicated**: full (no trim) @8× = 4.44 is
+   significantly worse than trimmed (3.80; CIs disjoint, Δ17%) — consistent with the
+   formal config (27000 iters: 7.50 vs 5.36) across devices and training budgets.
+2. **N* stable in k (weak constant-theory supported)**: the optimal trim region [352,448]
+   is stable for all k ≥ 2 (no effect at k=1) — the trim point is set by structure, not by
+   the extrapolation multiple; depth-theory (N* moves with k) not supported.
+3. **Trim gain grows monotonically with k**: @2× Δ0.04 → @4× Δ0.34 → @8× Δ0.64
+   (a T4-corollary prediction).
+4. **Trim sensitivity grows with training budget**: over-trim at 256 is insignificant at
+   3000 iters (3.83 vs 3.80; CIs overlap) but significant at 27000 iters (8.44 vs 5.36,
+   batch4) — overfitting deepens with training, trimming releases more; the 256 effect
+   should be stated as a function of training budget, not absolute.
+5. **★ Trimming-semantics refinement (64-dim cyclic-fill reallocation)**: `psi_rope_theta`
+   fills 64 dims cyclically (idx = arange(64) % len(ns)) — trimming changes the wavelength
+   list length ⟹ the **whole 64-dim allocation is re-arranged**, not simply "high-frequency
+   dims removed"; wavelength 491 (c=1.043) never enters the 64 dims (rank 91 in the
+   unsorted ladder), so full vs rt448 differ by reallocation plus one unused wavelength.
+   This fine structure does **not** change the empirical trimming conclusion, but "trim =
+   cut high-frequency bands" is a coarse narrative; theory must fix the trimming semantics.
+6. **Methodology (mask-eval negative result)**: loading the full-frequency model and
+   zeroing high-frequency rotations at eval time (keeping dimension assignment) is
+   full-retain-optimal at every k (@8× 4.36 vs silenced 6.94) — it cannot reproduce the
+   true-training gain ⟹ the trimming gain is a **training-adaptation effect** (not pure
+   geometry); discrimination requires true training.
+
+**Relation to 4/3 (updated 2026-08-23)**: the 27000-iter focused scan (rt448/480) shows
+N* in [448,480] (@8× 5.15, better than batch4 384 = 5.36) — 4/3 = 384 is a local optimum of
+the three-point scan, not the true N*; c* = T/N* ≈ 1.07–1.14 (near T), supporting
+"overfitting culprit = bands with c(n)→1". N* shifts right with training budget
+(3000: [352,448] → 27000: [448,480]), supporting the depth-theory phrasing
+"the trim point is a setting function, not a universal constant"; the "4/3 is a hidden
+constant" hypothesis is further weakened. N*'s exact position ([480,511]) needs a fine scan
+near 491 (future work).
 
 ## 11. Related Work
 
@@ -343,7 +396,7 @@ LongRoPE（Ding et al., ICLR 2024）。本文以「频率阶梯相位剖面」�
 **无证书强基线 ALiBi 以 4.47±0.10 保持全局最优（外推平坦），T5 相对偏置为偏置类退化锚点**
 ——带证书方案与无证书上限的差距由此标明。免修复的阶梯方案以 2× 内优势 + 零修改 + 机器
 证书为保留的主张。**正式配置复现确认排序并升级主张：τ 感知频率选择（保留低中频 + 温和
-裁剪高频端，截断点 ~384）把旋转族外推 7.50 → 5.36（−28%），过度裁剪恶化、结构化频率
+裁剪高频端，最优区 N* ∈ [448,480]）把旋转族外推 7.50 → 5.15（−31%），过度裁剪恶化、结构化频率
 否定**。NoPE 的平坦曲线揭示位置编码的本质交易（分布内质量 ↔ 外推稳健）；**τ/碰撞距离
 机制统一解释排行榜并获 7 个正向判决**——「交易是周期参数化的属性，非周期偏置近零代价
 逃逸」。最强的 4 带阶梯带机器检查的有理框架证书，最强的 7 带阶梯内含可认证子核——
