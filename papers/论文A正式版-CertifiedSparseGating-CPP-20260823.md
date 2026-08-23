@@ -279,7 +279,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 - **U5 黄金近碰撞半径**：∀ d ≥ 1、∀ m ∈ Z：|d·φ_gold − m| ≥ 1/(3d)
   （`golden_near_collision_gold`，代数数范数路线，零公理）。
 
-## 9. 压缩感知：RIP 与稀疏唯一性（probe_incoherence.v 51 Qed + ca_rip_cr.v 29 Qed + probe_c4_instance.v 14 Qed + probe_row_rip.v 9 Qed）
+## 9. 压缩感知：RIP 与稀疏唯一性（probe_incoherence.v 51 Qed + ca_rip_cr.v 33 Qed + probe_c4_instance.v 14 Qed + probe_row_rip.v 9 Qed）
 
 频率阶梯原子族不仅构成稳定框架，还满足**低相干 → RIP → 稀疏唯一恢复**的完整链条：
 

@@ -1132,3 +1132,11 @@ PSA_framework.vo 已重建，可接）、U5 黄金近碰撞半径（1/(3d)）。
 > 含 probe_row_rip）与 `ca_merged_full_23.v`（71591 行，42 模块，无 PSA/c4_instance）
 > **全量合并编译 MERGE_EXIT=0**（probe_c4_instance 依赖 PSA_framework 仅入 24.v）；
 > 30模块 同步 probe_row_rip + 双合并版（SHA-256 一致）。
+> **v2.4b（2026-08-23 深夜）**：`ca_rip_cr.v` 同事补 P5 收缩链 4 引理（CRle_scaled_le_zero /
+> CRsqr_eq_zero / CRsum_sq_zero_terms 等，现 33 定理，全 "Closed under the global
+> context"）；构造性轨道新探针 `probe_recovery_cr.v`（R4 `CRrecovery_correct_prefix`：
+> 唯一性⟹恢复正确性骨架，R0–R4 全 Qed，独立验证）；合并版 24.v = 44 模块 / 78602 行
+> 重新生成，双版 MERGE_EXIT=0；30模块 同步 ca_rip_cr + 合并版（SHA-256 一致）。
+> **F5 不确定性原理**：经典版探针已撤（与构造性轨道重复）；构造性 CR 版
+> `probe_uncertainty_cr.v`（Donoho–Stark 唯一性正形式，|T1|+|T2| ≥ 1/μ+1 口径）由同事
+> 实现中（未 Qed，不入论文）。

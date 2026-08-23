@@ -1188,4 +1188,107 @@ Proof.
     unfold X, Sv, t in Hlower. exact Hlower.
 Qed.
 
+(* ============================================================
+   P5. 唯一性收尾代数（F7 恢复正确性 R4 主定理的地基：
+       Σd² ≤ μ(M+1)·Σd² 且 μ(M+1) < 1 ⟹ Σd² == 0 ⟹ 逐项零）
+   ============================================================ *)
+
+(* 收缩引理：t ≤ k·t 且 k < 1 ⟹ t ≤ 0（构造性反证：
+   若 0 < t，则 0 < t 且 k < 1 ⟹ k·t < 1·t == t（CRmult_lt_compat_r + 1·t==t），
+   与 t ≤ k·t（即 ¬(k·t < t)）矛盾。无 t ≥ 0 前提。 *)
+Lemma CRle_scaled_le_zero (t k : CRcarrier R) :
+  CRle R t (k * t) ->
+  CRlt R k (CR_of_Q R (Qmake 1 1)) ->
+  CRle R t (CR_of_Q R (Qmake 0 1)).
+Proof.
+  intros Htk Hk1.
+  unfold CRle. intro H0t.
+  apply Htk.
+  assert (Hkt : CRlt R (k * t) (CR_of_Q R (Qmake 1 1) * t)).
+  { apply (CRmult_lt_compat_r (R:=R) t k (CR_of_Q R (Qmake 1 1)) H0t Hk1). }
+  rewrite (CRmult_1_l (R:=R) t) in Hkt.
+  exact Hkt.
+Qed.
+
+(* 平方为零 ⟹ 元为零（构造性反证：
+   0 ≤ x 的反证：x < 0 ⟹ 0 < −x ⟹ 0 < (−x)² == x²（CRopp_mult_distr_*），
+   矛盾 x² ≤ 0；x ≤ 0 的反证：0 < x ⟹ 0 < x²（CRmult_lt_0_compat），矛盾。 *)
+Lemma CRsqr_eq_zero (x : CRcarrier R) :
+  CReq R (CRmult R x x) (CR_of_Q R (Qmake 0 1)) ->
+  CReq R x (CR_of_Q R (Qmake 0 1)).
+Proof.
+  intros Hsq.
+  assert (Hsq_le0 : CRle R (CRmult R x x) (CR_of_Q R (Qmake 0 1))).
+  { exact (proj2 Hsq). }
+  split; unfold CRle; intro.
+  - assert (Hnx : CRlt R (CR_of_Q R (Qmake 0 1)) (CRopp R x)).
+    { apply (CRplus_lt_reg_r (R:=R) x).
+      rewrite CRplus_0_l. rewrite CRplus_opp_l. exact H. }
+    assert (Hnxsq : CRlt R (CR_of_Q R (Qmake 0 1))
+                     (CRmult R (CRopp R x) (CRopp R x))).
+    { apply (CRmult_lt_0_compat R (CRopp R x) (CRopp R x) Hnx Hnx). }
+    apply Hsq_le0.
+    rewrite <- (CRopp_mult_distr_r (R:=R) (CRopp R x) x) in Hnxsq.
+    rewrite (CRopp_mult_distr_l (R:=R) (CRopp R x) x) in Hnxsq.
+    rewrite (CRopp_involutive (R:=R) x) in Hnxsq.
+    exact Hnxsq.
+  - apply Hsq_le0.
+    apply (CRmult_lt_0_compat R x x H H).
+Qed.
+
+(* 辅助：非负逐项 ⟹ 任一项 ≤ 和（j ≤ M ⟹ f j ≤ Σ_{k≤M} f k，归纳：
+   尾项情形 0 ≤ Σ_{k≤M-1} f k ⟹ f_M ≤ Σ_{k≤M-1} f k + f_M；
+   前段情形 IH + Rplus_le_pos（0 ≤ f_M）。 *)
+Lemma CRsum_nonneg_term_le (M : nat) (f : nat -> CRcarrier R) :
+  (forall k, CRle R (CR_of_Q R (Qmake 0 1)) (f k)) ->
+  forall j, le j M -> CRle R (f j) (CRsum f M).
+Proof.
+  intros Hnonneg.
+  induction M as [| M IH].
+  - intros j Hj.
+    assert (Hj0 : j = 0%nat) by lia.
+    subst j.
+    apply CRle_refl.
+  - intros j Hj.
+    assert (Hj2 : j = S M \/ le j M) by lia.
+    destruct Hj2 as [HjS | Hjle].
+    + subst j.
+      change (CRsum f (S M)) with (CRsum f M + f (S M)).
+      apply (CRle_trans (R:=R) (f (S M)) (f (S M) + CRsum f M)
+             (CRsum f M + f (S M))).
+      * apply (Rplus_le_pos (R:=R) (f (S M)) (CRsum f M)).
+        exact (cond_pos_sum f M Hnonneg).
+      * assert (Hc : CReq R (f (S M) + CRsum f M) (CRsum f M + f (S M))).
+        { ring. }
+        exact (proj2 Hc).
+    + change (CRsum f (S M)) with (CRsum f M + f (S M)).
+      apply (CRle_trans (R:=R) (f j) (CRsum f M) (CRsum f M + f (S M))).
+      * exact (IH j Hjle).
+      * apply (Rplus_le_pos (R:=R) (CRsum f M) (f (S M))).
+        exact (Hnonneg (S M)).
+Qed.
+
+(* 平方和为零 ⟹ 逐项为零（零和非负项：
+   每项 c_j² ≤ Σc² == 0（CRsum_nonneg_term_le + CRle_trans），且 0 ≤ c_j²
+   （CRsqr_nonneg）⟹ c_j² == 0 ⟹ c_j == 0（CRsqr_eq_zero）。 *)
+Lemma CRsum_sq_zero_terms (M : nat) (c : nat -> CRcarrier R)
+  (Hsq : CReq R (CRsum (fun j => c j * c j) M) (CR_of_Q R (Qmake 0 1))) :
+  forall j, le j M -> CReq R (c j) (CR_of_Q R (Qmake 0 1)).
+Proof.
+  intros j Hj.
+  assert (Hsum_le0 : CRle R (CRsum (fun j => c j * c j) M) (CR_of_Q R (Qmake 0 1))).
+  { exact (proj2 Hsq). }
+  assert (Hj_le : CRle R (c j * c j) (CRsum (fun j => c j * c j) M)).
+  { apply (CRsum_nonneg_term_le M (fun k => c k * c k)).
+    - intro k. exact (CRsqr_nonneg (c k)).
+    - exact Hj. }
+  assert (Hj_le0 : CRle R (c j * c j) (CR_of_Q R (Qmake 0 1))).
+  { apply (CRle_trans (R:=R) (c j * c j)
+           (CRsum (fun j => c j * c j) M) (CR_of_Q R (Qmake 0 1))).
+    - exact Hj_le.
+    - exact Hsum_le0. }
+  apply (CRsqr_eq_zero (c j)).
+  split; [exact (CRsqr_nonneg (c j)) | exact Hj_le0].
+Qed.
+
 End CRSqr.
