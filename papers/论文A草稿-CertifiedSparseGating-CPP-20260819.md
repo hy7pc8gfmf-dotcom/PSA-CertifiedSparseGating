@@ -27,7 +27,7 @@
 王宝军、夏挽岚、祖光照、周志农、高雪峰（单位与通讯邮箱待补）
 
 ## Abstract (EN)
-We present a Coq formalization of a complete pipeline for certifiably-gated sparse attention
+We present a Coq formalization of certifiably-gated sparse attention
 over a geometrically-structured frequency basis. Our development proves, in two orthogonal
 certified tracks — representation stability ((i)–(iii)) and attention perturbation ((iv)–(v)),
 with no single dependency chain joining them:
@@ -729,10 +729,7 @@ rand 2.4×）——与 P3 定理互证：**可证性（稀疏）与外推性（�
   M+1 个原子的**稀疏表示唯一恢复**；证明链：`rip_lower_M`（RIP 下界归纳，
   Σc_j² ≤ l2 + μ(M+1)Σc_j²）→ l2=0（零组合）→ (1−μ(M+1))Σc_j² ≤ 0 → Σc_j² = 0 →
   `sum_sq_zero` 逐项归零；基元 `sparse_uniqueness2`（M=1 最小实例）。
-- **意义**：论文 A 首次获得**可认证稀疏恢复**的理论保证——与 §5.1-5.5 框架界正交
-  （框架界 = 表示存在且稳定；RIP/唯一性 = 稀疏表示唯一可恢复）；若与 ρ^{−3/2} 行和紧界
-  （§5.6.4，C=4 行和 2π/7 < 1）合成，频率阶梯在 C=4 即同时满足框架界与低相干前提，
-  是「稀疏 + 稳定」双证书的机器检查基础。
+- **意义**：论文 A 在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) + 稀疏唯一性，机器检查）；**具体实例拼接（如 C=4 的 μ·(M+1)<1 实例化，需精确 μ 值的 Coq 证明）尚未完成，为后续工作**；与 ρ^{−3/2} 行和紧界的合成为文本叙述而非形式化定理。**数学新颖性（如实）**：sparse_uniquenessM 是 Gershgorin/互干性唯一恢复定理的机器检查，数学上非新，形式化价值在 Coq 验证。
 
 ### 5.7 部署级证书族（Certified Deployment Robustness，2026-08-22 新增，z 区探针）
 
@@ -795,7 +792,7 @@ rand 2.4×）——与 P3 定理互证：**可证性（稀疏）与外推性（�
   字长（OCaml int，63-bit）**的阶梯成立；实验中阶梯值 ≤255 安全，对极大输入
   （≥10⁶ 级）`sparse` 等走 Peano 提取的子命令仍会栈溢出（已实测）——故运行时
   健全性保证的量化范围是**小整数阶梯**，并非 ∀ 阶梯；彻底消除可改用 `Z`
-  （任意精度）提取到 `Zarith`（future work）。
+  （任意精度）提取到 `Zarith`（future work）。**安全域谓词（评审建议，future work）**：当前"安全区"确认为实验性（扫描核算），未被形式化——未来工作在 Coq 中证明可验证的安全域谓词（输入在该谓词范围内 ⟹ OCaml int 镜像与 Coq 语义一致），或完成 Zarith 任意精度提取。
   **定量安全阈值（会话 18 扫描修正，原"n_max<2^20、m<100 无溢出"不成立）**：
   行和判定按 `num,den := num·pd + pn·den, den·pd` 连乘累加，**累积分母 ≈ ∏ pair_den**
   （指数增长），与单个 pair_den 上界无关。系统扫描（114 阶梯，`frame_check_scan.py`）

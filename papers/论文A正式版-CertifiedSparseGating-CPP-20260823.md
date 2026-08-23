@@ -9,7 +9,7 @@
 
 ## Abstract (EN)
 
-We present a Coq formalization of a complete pipeline for certifiably-gated sparse attention
+We present a Coq formalization of certifiably-gated sparse attention
 over a geometrically-structured frequency basis. Our development proves, in two orthogonal
 certified tracks — representation stability and attention perturbation — with no single
 dependency chain joining them: (i) a deterministic greedy gate extracting subsets passing a
@@ -210,7 +210,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   系统扫描实测末带 < 2^20 的阶梯中仍有 14/89（15.7%）exe 与 Coq 语义分歧（如 C=6-sparse
   累积分母达 10^26 ≫ 2^63）。实验实际使用（带值 ≤255、m ≤ 8）全部落在 63-bit 安全区。
   **因此**：运行时检查器**不自动携带** Coq soundness——它只在有限整数范围内、且与 Coq
-  语义一致时接近。彻底消除：Zarith（任意精度）提取（future work）。
+  语义一致时接近。彻底消除：Zarith（任意精度）提取（future work）。**安全域谓词（评审建议，future work）**：当前"安全区"确认为实验性（扫描核算），未被形式化——未来工作在 Coq 中证明可验证的安全域谓词（输入在该谓词范围内 ⟹ OCaml int 镜像与 Coq 语义一致），或完成 Zarith 任意精度提取。
 - **逐行同构原则**（方法论）：提取代码应尽可能镜像 Coq Fixpoint 的结构（而非依赖高阶重写
   得到的"语义等价"的另一份代码）——本开发在 FFI 回归（24/24）中持续检查，并据此发现并
   修复了反射层 `row_sum_frac_aux` 的真 bug（收缩列表重算 nth 致 Coq 与原生不一致）。
@@ -258,10 +258,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   唯一恢复。证明链：`rip_lower_M`（RIP 下界归纳）→ l2=0（零组合）→ (1−μ(M+1))Σc_j² ≤ 0
   → Σc_j² = 0 → `sum_sq_zero` 逐项归零。
 
-**意义**：本工作首次获得**可认证稀疏恢复**的理论保证——与框架界正交（框架界 = 表示存在且
-稳定；RIP/唯一性 = 稀疏表示唯一可恢复）。与 ρ^{−3/2} 行和紧界（C=4 行和 2π/7 < 1，
-§8 配套探针族）合成时，频率阶梯在 C=4 同时满足框架界与低相干前提，是「稀疏 + 稳定」双证书
-的机器检查基础。本族（连同 parseval/partial/pairbound/rowsum/pairdirichlet）已并入合并版，
+**意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) + 稀疏唯一性，机器检查）；**具体实例拼接（如 C=4 的 μ·(M+1)<1 实例化，需精确 μ 值的 Coq 证明）尚未完成，为后续工作**；与 ρ^{−3/2} 行和紧界的合成为文本叙述而非形式化定理。**数学新颖性（如实）**：sparse_uniquenessM 是 Gershgorin/互干性唯一恢复定理的机器检查，数学上非新，形式化价值在 Coq 验证。本族（连同 parseval/partial/pairbound/rowsum/pairdirichlet）已并入合并版，
 独立 + 合并双通过。
 
 ## 10. 部署级证书族（KV 逐出 / 量化 / 多头）
