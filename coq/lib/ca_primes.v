@@ -1,4 +1,4 @@
-﻿(* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
+(* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_primes  原文行区间: 477-572  机械拆分，未改动内容 *)
 
 Require Import Stdlib.Reals.Reals.          (* 实数公理系统及全套定理 *)
@@ -60,21 +60,21 @@ Require Import Stdlib.Reals.Ranalysis.     (* 实分析汇总模块（包含 Ran
 Require Import Stdlib.Reals.Ranalysis3.    (* 高级导数定理（链式法则、反函数定理等）*)
 Require Import Stdlib.Reals.Rpower.        (* 实数幂函数 Rpower 及其性质 *)
   
-From mathcomp Require Import ssreflect ssreflect.ssrbool ssreflect.ssrnat ssreflect.eqtype ssreflect.seq ssreflect.prime.  (* SSReflect 核心语言、布尔反射、自然数、可判等类型、序列、素数理论 *)
-From mathcomp Require Import ssreflect.ssrnat.  (* 自然数理论（重载）*)
-From mathcomp Require Import ssreflect.prime.  (* 素数理论（mathcomp≥2.6 位于 boot/；旧版 ssreflect/prime 由 CI -Q boot 双映射兼容）*)
-From mathcomp Require Import ssreflect ssreflect.ssrbool ssreflect.ssrnat ssreflect.eqtype ssreflect.seq ssreflect.prime ssreflect.div.  (* SSReflect 完整基础库（含整除理论）*)
-From mathcomp Require Import ssreflect.div.  (* 整除性理论 *)
-From mathcomp Require Import ssreflect.prime.  (* 素数理论 *)
+From mathcomp Require Import ssreflect boot.ssrbool boot.ssrnat boot.eqtype boot.seq boot.prime.  (* SSReflect 核心语言、布尔反射、自然数、可判等类型、序列、素数理论 *)
+From mathcomp Require Import boot.ssrnat.  (* 自然数理论（重载）*)
+From mathcomp Require Import boot.prime.  (* 素数理论（mathcomp≥2.6 位于 boot/；旧版 ssreflect/prime 由 CI -Q boot 双映射兼容）*)
+From mathcomp Require Import ssreflect boot.ssrbool boot.ssrnat boot.eqtype boot.seq boot.prime boot.div.  (* SSReflect 完整基础库（含整除理论）*)
+From mathcomp Require Import boot.div.  (* 整除性理论 *)
+From mathcomp Require Import boot.prime.  (* 素数理论 *)
 Import prime.                                                       (* 导入素数命名空间 *)
-Require Import mathcomp.ssreflect.ssrnat.                                (* 自然数理论（mathcomp≥2.6 重构后 boot 路径）*)
+Require Import mathcomp.boot.ssrnat.                                (* 自然数理论（mathcomp≥2.6 重构后 boot 路径）*)
 Require Import Stdlib.Strings.String.                                  (* 字符串类型及基本操作 *)
 Import ComplexNumbers.
 Open Scope string_scope.
 Local Open Scope nat_scope.
 
 (* 1. 导入 MathComp 核心数论库 —— 提供经过验证的质数定义和算法 *)
-From mathcomp Require Import ssreflect ssreflect.ssrbool ssreflect.ssrnat ssreflect.eqtype ssreflect.seq ssreflect.prime ssreflect.div.
+From mathcomp Require Import ssreflect boot.ssrbool boot.ssrnat boot.eqtype boot.seq boot.prime boot.div.
 
 (* 质数判定函数 *)
 Definition prime := prime.
