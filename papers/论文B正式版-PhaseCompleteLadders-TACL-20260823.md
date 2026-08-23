@@ -407,6 +407,8 @@ LongRoPE（Ding et al., ICLR 2024）。本文以「频率阶梯相位剖面」�
 
 ## 附录 A 代码-论文声明交叉索引（对齐 2026-08-23 基态）
 
+> **代码仓库（Artifact）**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 + 实证脚本与数据 + CI）。预印本 DOI：10.6084/m9.figshare.33312336。
+
 | 论文声明 | 代码位置 | 状态 |
 |---------|---------|------|
 | 实例证书 C=4（μ=4/5） | InstanceCertificate.certified_c4_frame_bounds | ✅ |

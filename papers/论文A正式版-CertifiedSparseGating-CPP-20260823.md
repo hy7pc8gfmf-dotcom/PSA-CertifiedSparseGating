@@ -294,6 +294,8 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 
 ## 12. Artifact & Reproducibility
 
+> **代码仓库**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 + 论文 + 实证 + CI，Apache-2.0；CI 徽章见 README）。预印本 DOI：10.6084/m9.figshare.33312189。
+
 - **代码分布**：`src/`（正式模块，含 `_CoqProject`）；`z/`（探针）；合并版
   `src/ca_merged_full_24.v`；归档基态 `D:\ComplexAnalysis\30模块\`（ca_* + 7 探针 pro 版 +
   ca_zeta_euler + 合并版，SHA-256 与 src/z 一致，旧版备份 `.sync-backup-20260823/`）。

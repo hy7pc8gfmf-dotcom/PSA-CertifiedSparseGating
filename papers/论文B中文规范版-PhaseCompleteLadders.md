@@ -371,6 +371,7 @@ rope-NTK 3 个种子：10.74/12.90/10.97（11.54±1.18）；psi-rope-rand（**�
 7a. [论文 A 预印本]：Wang, B., et al. Certified Sparse Gating and Attention Approximation: An Executable Coq Development. Preprint, Figshare, 2026. DOI: 10.6084/m9.figshare.33312189.（2026-08-22 发布）
 7b. [论文 B 预印本]：Wang, B., et al. Phase-Truncated Frequency Ladders: Certified, Extrapolation-Robust Positional Encoding. Preprint, Figshare, 2026. DOI: 10.6084/m9.figshare.33312336.（2026-08-22 发布）
 8. 卷期页码已经 2026-08-21 文献数据库核查校准（核查报告：《参考文献真实性核查报告》）。
+9. [代码仓库] PSA-CertifiedSparseGating. https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating （Artifact：Coq 形式化 + 论文 + 实证 + CI）。
 
 ## 附录 A 温控协议
 
@@ -380,6 +381,9 @@ RTX 3070 8GB（CUDA 12.4, torch 2.6.0+cu124）训练治理：
 - 历史宕机教训（4 次）：空闲基线 56–58°C，死机临界 ~85°C；训练每步 `guard.check()`，>85°C 立即杀进程。
 
 ## 附录 B 复现清单
+
+> **代码仓库（Artifact）**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating —— 配套论文 A 的 Coq 形式化 + 本文实证脚本与数据（mpirical/、data/）+ CI。预印本 DOI：10.6084/m9.figshare.33312336。
+
 
 - 数据：Gutenberg 5.1M 字符（词表 125），`gutenberg_corpus.txt`。
 - 训练：`python length_extrap.py --block 512 --batch 32 --gen-c 4 --bands 0 --seed S --psi-variant none --modes psi [--rope-rand] --gpu-max 79 --gpu-resume 69 --cpu-util-max 90 --check-interval 0.5 --cooldown 60`（`--psi-variant rand/lin` 为嵌入变体；`--modes psi-rope` 为旋转变体）。
