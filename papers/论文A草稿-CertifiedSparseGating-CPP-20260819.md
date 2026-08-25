@@ -15,6 +15,20 @@
 >   2026-08-23）；合并版 `ca_merged_full_24.v`（78051 行，43 模块，含 ca_zeta_euler /
 >   ca_rip_cr 构造性轨道）**全量合并编译 MERGE_EXIT=0**；
 >   **零 Admitted/零自定义公理**。
+> - **G 系列（§5.6，v2.8 2026-08-25）**：G-1 加权阶梯范数闭式、G-2 μ_adj 相变、
+>   **G-3 检查器充要刻画**（`g3_certifiable_iff`，5 Qed）、**G-5 可判定性溢价反例**
+>   （`g5_premium`，35 Qed：存在 [3,7,15] 检查器拒但精确行和 ≤ 4/5）——可判定性
+>   边界的完整刻画（G-3 充分 + G-5 必要方向见证）。
+> - **G-5 构造性三角资产（§5.6.6，2026-08-25 并入合并版 25）**：M1 构造性 π
+>   （`probe_pi_cr_m1a` 25 Qed + `probe_pi_cr_m1b` 43 Qed：Leibniz 级数 + CR_complete，
+>   3.141 ≤ π ≤ 3.142）、M2 构造性 sin（`probe_sin_cr_m2` 39 Qed：交替幂级数）、
+>   M3 构造性 sqrt（`probe_sqrt_cr_m3` 59 Qed：Q 层二分，√21 ≥ 458/100、
+>   √105 ≥ 10246/1000）——**纯 ConstructiveReals、零经典、零 Admitted、零自定义公理，
+>   Print Assumptions 全 Closed**，已并入合并版 `ca_merged_full_25.v`（55 模块，
+>   MERGE_EXIT=0）。定位：G-5 可判定性溢价主定理的**构造化版本三角基座**；
+>   **M4 可判定性溢价主定理已构造化完成**（2026-08-26：`probe_decidability_premium_cr.v`
+>   并入合并版 25 模块 55/55，行和 ≤ 63/80 + 反射界 21/16 + 溢价 5/3，
+>   `m4_decidability_premium : {w & CRle w (63/80)}` Set 层 sigT 定理，零公理 Closed）。
 > - 措辞与引用：按《交接文档》措辞表清洗；参考文献按《参考文献真实性核查报告》校准。
 > - 版本历史（v4–v9 对齐记录）见文末附录 B。
 
@@ -424,7 +438,12 @@ sparse_uniquenessM (M) (c) (u) (W) (mu) : 0 ≤ mu → ∀j≤M: ‖u_j‖²_W =
   破坏相位完备性）、psi-rand 31.04±12.86 高方差（s42 16.21 / s7 37.83 / s1337 39.07）、dense-frozen
   分布内 6.08±0.20 显著差于 psi 系 4.5-5.0（**频率结构对分布内质量有独立贡献**，瓶颈
   机制不充分）。预登记假说"psi-rope-rand 显著差于 psi-rope"被**反向证伪**并多 seed
-  坐实（如实，会话 18；论文 B §8 裁决逆转）。
+  坐实（如实，会话 18；论文 B §8 裁决逆转）。**[2026-08-24 交叉引用注记]：论文 B 的
+  n=5 种子复核已完成（9 方案 × 5 种子，tinystories 快速配置，全部 EXIT=0）——B 的核心
+  方向性判断（ALiBi 全局最优 / grid 崩溃 / rand 旋转族内最优 / rope 差）在 n=5 下成立
+  （rand vs ALiBi t=6.66、grid vs rand t=11.28、rand vs c3 t=−9.44、rand vs rope t=−6.20，
+  df≈4）；本稿引用的 3-seed 数值为 Gutenberg 主表口径，不受 n=5 复核影响；详见
+  《训练数据对比分析-n5种子复核与owt独立验证-20260824.md》。**
 - **主张卫生（覆盖梯度的归因边界，定量如实）**：对论文 B 的"覆盖梯度"经验律
   （剪掉覆盖恰 1.0 的末带在全部 OOD 长度/seed 上严格改善，13.84→12.40），
   本开发**不主张直接或定量解释**该经验律，且须主动披露一个定量事实：
@@ -750,6 +769,54 @@ rand 2.4×）——与 P3 定理互证：**可证性（稀疏）与外推性（�
   ≤ μ_row·M·Σc_j²（δ_k = (k−1)·μ_row，比两两相干 μ 版更紧）；证明链 `row_cross_bound`
   → `row_rip_lower_M`/`row_rip_upper_M` → `row_rip_bound_M`（Rabs_le 组合）。9 Qed /
   0 Admitted / 0 自定义公理。
+- **加权阶梯范数精确闭式（G-1，经典 R 轨道，v2.7 新增）** G1_norm_closed
+  （probe_g1_norm_closed.v，21 Qed / 0 Admitted）：任意长度 M 组合的加权平方范数精确等式
+  ‖Σ_{j≤M} c_j·ψ_{n_j}‖²_W = Σ_{j≤M} c_j²·‖ψ_{n_j}‖²_W + 2·Σ_{j<k≤M} c_j·c_k·K_W(n_j,n_k)，
+  交叉项 K_W(a,b)=⟨ψ_a,ψ_b⟩_W 用单对 Dirichlet 核比闭式精确替换（psi 展开 → rot_atom
+  几何和 → re 提取）。定位：把"上确界写成闭式"，根治审稿 A-1/B-1 的 12.5× 口径混用；
+  G-2/G-5/G-6 共同前置。
+- **相邻带相干渐近闭式 + 相变定理（G-2，经典 R 轨道，v2.7 新增）** mu_adj_decreasing /
+  mu_adj_phase_transition / mu_adj_asymptotic（probe_g2_mu_adj.v，36 Qed / 0 Admitted）：
+  比率 r 阶梯相邻带相干渐近极限 lim_{k→∞} μ(n_k, n_{k+1}) = μ_adj(r)，
+  **μ_adj(r) := √r·sin(π/r)/(π(r−1))**，相变点 r\*（μ_adj(r\*)=4/5，≈1.30）：
+  r≥r\* ⟹ 渐进可认证；r→1⁺ ⟹ μ_adj→1 不可认证。三定理：递减（两段式交叉夹逼）、
+  相变存在（π<17/5 上界 sin_bound 0 阶 + IVT_interv 夹逼）、渐近（Un_cv 复合）。
+  **定位（如实）**：μ_adj 定理化是真正新数学（交叉核验总表公式此前未定理化），
+  把"E5 一个数据点"升级为完整相图，落实 B-7 强叙事（2·0.4502=0.9003>4/5 的 G-4 前置）。
+- **检查器充要刻画（G-3，经典 R 轨道，v2.8 新增）** `g3_certifiable_iff` +
+  `g3_row_bound_mu`（probe_g3_criterion.v，5 Qed / 0 Admitted）：**反射检查器通过
+  ⟺ 每行精确相干行和 ≤ p/q**（框架界 (1±p/q) 的充要条件）。三件套：
+  (a) `g3_row_bound_mu`（逐对 Cnorm ≤ pair_frac_R ⟹ 行和 ≤ p/q 的分数和分解）、
+  (b) `frame_check_instance_mu`（参数化检查器，I/p/q 全参数）、
+  (c) `g3_certifiable_iff`（检查器判定 ⟺ Gershgorin 框架界条件）。
+  **定位（如实）**：G-3 是 Gershgorin 框架界的参数化机器检查（经典结果的形式化），
+  其价值在**充要性**——把"检查器通过 ⟹ 框架界"从单向充分升级为 iff，
+  与 G-5 的反例（检查器拒但行和 ≤ 4/5）构成可判定性边界的完整刻画。
+- **可判定性溢价反例（G-5，经典 R 轨道，v2.8 新增）** `g5_premium`（probe_g5_premium.v，
+  35 Qed / 0 Admitted）：**存在具体阶梯 [3,7,15]：反射检查器拒（frame_check_instance
+  = false）但精确 Gram 相干行和 ≤ 4/5**。三件套：完整口径 Dirichlet 闭式
+  `g5_coh_full_*`（min(a,b) 项，|⟨ψ_3,ψ_7⟩|=sin(4π/7)/(sin(4π/21)√21)≈0.3777、
+  |⟨ψ_7,ψ_15⟩|=sin(8π/15)/(sin(8π/105)√105)≈0.4094，行和≈0.787043，与评估文档一致）、
+  π 界自证（`g5_pi_ge_3141`/`g5_pi_le_3142`：π∈[3.141,3.142]，sin(π/6)=1/2 快收敛路线）、
+  数值界（sin_bound n=0 + 简单分数代入点 + 递增性）。
+  **定位（如实）**：G-5 把 §5.2 的"假阴性 49.1%"叙事升级为**具体机器检查反例**——
+  [3,7,15] 精确可认证（≤4/5）但被反射检查器误拒，是 G-3 必要方向的直接见证；
+  与 §5.2b 的"可判定性溢价"概念闭环（精确界 → 有理保守界的已量化代价）。
+- **G-5 构造性三角资产（纯构造性轨道，2026-08-25 并入合并版）**：M1 构造性 π
+  （`probe_pi_cr_m1a` 25 Qed + `probe_pi_cr_m1b` 43 Qed：Leibniz 级数
+  π/4 = Σ(−1)^k/(2k+1) + CR_complete 取极限，有理界 **3.141 ≤ π ≤ 3.142**
+  ——`CRpi_lower_3141`/`CRpi_upper_3142`，S_2001 奇部分和下界 + S_3001+余项上界）、
+  M2 构造性 sin（`probe_sin_cr_m2` 39 Qed：交替幂级数 Σ(−1)^k x^{2k+1}/(2k+1)!，
+  Taylor 上/下界）、M3 构造性 sqrt（`probe_sqrt_cr_m3` 59 Qed：Q 层二分 +
+  CR 极限，**√21 ≥ 458/100、√105 ≥ 10246/1000**）。三者均**纯 Stdlib
+  ConstructiveReals、零经典、零 Admitted、零自定义公理，Print Assumptions 全
+  Closed under the global context**；已并入合并版 `ca_merged_full_25.v`
+  （55 模块，MERGE_EXIT=0）。**定位（如实）**：G-5 可判定性溢价主定理的
+  **构造化版本三角基座**——π/sin/sqrt 三件超越函数基件补齐后，[3,7,15]
+  精确相干数值化的构造化版本（M4 探针级主定理）**已构造化完成（2026-08-26：
+  `probe_decidability_premium_cr.v` 并入合并版 25 模块 55/55，行和 ≤ 63/80 +
+  反射界 21/16 + 溢价 5/3，`m4_decidability_premium` sigT 定理零公理 Closed）**；
+  本条构成相干缺口的构造化闭合。
 - **意义**：论文 A 在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性，机器检查），并在 **C=4 阶梯完成实例级拼接**（C4_sparse_uniqueness_3，3 原子唯一恢复）；更大阶实例及与 ρ^{−3/2} 行和紧界的合成为后续工作。**数学新颖性（如实）**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复与 RIP 定理的机器检查，数学上非新，形式化价值在 Coq 验证（构造性轨道为独立性验证，C=4 为具体常数核验）。
 
 ### 5.7 部署级证书族（Certified Deployment Robustness，2026-08-22 新增，z 区探针）

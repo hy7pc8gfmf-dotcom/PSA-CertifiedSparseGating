@@ -1,6 +1,6 @@
 # 论文 B 草稿（TACL/Findings 方向）— 2026-08-22 清洗版
 
-> **版本状态（2026-08-22）**：
+> **版本状态（2026-08-22 清洗版；2026-08-24 n=5 复核完成）**：
 > - **实证基态**：multi-seed 裁决（E5'' 七带 12.40±0.74@8×、覆盖梯度 3-seed 确认）+ 反射
 >   检查器健全性（165 项全零经典排中）+ 复合表示稳定性界（Qed）。
 > - **2026-08-22 增量**：ALiBi/T5 相对偏置三个种子完成——**ALiBi @8× = 4.47±0.10（低 31%，
@@ -9,7 +9,35 @@
 >   三个种子完成：@8× = 25.66±2.22（比 rand 差 3.98×，预登记 grid<rand 确认）；**τ 三剪回测**
 >   完成（剪 E5'' 255/127/63 @8× 全恶化 +3.5–4.5×，预登记预测确认）；**offset-grid 完成**
 >   （--ogrid，黄金偏移，@4096 **16.12±1.32**：ogrid ≥ grid 确认 + **证书免费性证伪**）。
->   τ/碰撞距离机制获 **6 个正向判决** + 形式化碰撞结构（论文 A §5.6）。
+>   τ/碰撞距离机制获 **7 个方向性正向判决**（按实验范式归并为 4 个独立实证支点，2026-08-23 修订计数口径）+ 形式化碰撞结构（论文 A §5.6）。
+> - **2026-08-24 增量（n=5 种子复核 + owt 独立验证完成，详见《训练数据对比分析-n5种子复核与owt独立验证-20260824.md》）**：tinystories 快速配置
+>   **9 方案 × 5 种子 {1337,42,7,2026,31415} 全部 EXIT=0**；n=5 Welch（@8×）：rand vs ALiBi
+>   **t=6.66**、grid vs rand **t=11.28**、rand vs c3 **t=−9.44**、rand vs rope **t=−6.20**
+>   （df≈4，全部高度显著）——**本稿全部核心方向性判断（ALiBi 全局最优 / grid 崩溃 /
+>   rand 旋转族内最优 / rope 差 / t5rel 退化锚点）在 n=5 下成立**；跨语料排序
+>   alibi < rand < t5rel < c4 < grid 在 Gutenberg / tinystories / owt 三语料复现；
+>   **owt 独立验证**（owt_valid_2mb.txt，202 万字符）e5pp 13.77 / rand 8.00 / alibi 5.11
+>   ——排序复现，回应审稿 P0"8× 评估仅 ~32k 切片"质疑。**限定如实保留**：正式配置
+>   （27000 iters）的 τ 裁剪仍为 s1337 单种子初步探索，n=5 只强化快速配置主表。
+> - **2026-08-25 增量（n=10 全量复核 + 正式配置多种子复核，详见《训练数据全量复核-n10完成与τ裁剪多种子复核-20260825.md》）**：
+>   **n=10 完成**（9 方案 × 10 种子 {1337,42,7,2026,31415,2718,1618,31416,12345,999}）：主表排序
+>   ALiBi < rand < t5rel < e5pp < c2 < c4 < c3 < grid < rope 在 n=3→10 完全复现，新增 5 种子
+>   与既有 5 种子均值差异全部 ≤0.8 无方向性漂移——**随机种子稳健性封闭（评审 P0-①）**；
+>   **正式配置多种子复核（s42/s7，27000 iters，rand vs rt448）揭示 τ 裁剪真实语义**：
+>   rt448 = rand（11.76 = 11.76 / 7.67 = 7.67）——但核查发现 `--rand-max` 是**64 维循环填充
+>   整体重排**（非简单删高频）：s42 前 32 波长无 >448 角度（rt448 空操作，模型与 rand 相同，
+>   结果相同是必然，不构成复现测试）、s1337 的 491 在秩 11（rt448 重排 → 5.15"改善"是重排
+>   效应）、s7 的 452 在秩 21（同重排无影响 7.67）——**τ 裁剪效果为种子特异重排观察，
+>   无普遍性，降格为未来工作**（详见《训练数据全量复核-n10完成与τ裁剪多种子复核-20260825.md》）；
+>   快速配置 n=10 只强化主表，正式配置裁剪不成立不影响论文主干（稠密覆盖仍是外推关键）。
+>   **2026-08-25 晚 s1337 rt448 正式复现（27000 iters）追加**：@4096 = **6.68**（CI95 [6.27, 7.12]），
+>   与论文 5.15 不符；复现被 GPU 温控冷却 **848 次**严重干扰（length_extrap 自警"须降载重跑"，
+>   训练频繁暂停），6.68 不可判定 5.15 对错；另缺 formal rand 基线（7.50）对照——完整 −31%
+>   验证待降载重跑（冷却 <3 次）+ 补 formal rand 后定论。
+>   **2026-08-26 凌晨阶段 C 定论**：formal rand 基线 = **12.14**（论文 7.50 未复现，环境偏移 +62%）、
+>   formal rt448 温和重跑 = **6.69**（与阶段 B 6.68 一致，两次稳定实证冷却不改变数值）——**绝对数值
+>   受实现环境（语料/脚本版本）系统性偏移不可直接比，但 rt448 < rand 改善方向两次复现均成立**
+>   （本环境 −45%，论文 −31%）；τ-trim"种子特异观察"表述保留，相对方向证据增强。
 > - 措辞与引用：按《交接文档》措辞表清洗；参考文献按《真实性核查报告》校准 + 2026-08-22
 >   T6 补引（Ruoss/KERPLE/FIRE）。
 > - 版本历史（v4–v8 对齐记录）见文末附录 B。
@@ -60,7 +88,11 @@ number (11.54±1.18, p=0.018, d=−6.06) — **best within the rotation family, 
 surpassed by the uncertified ALiBi baseline (4.47±0.10, §10.8)**; its random ladder
 lacks the geometric structure required by Paper A's certificates, so it is empirically
 best within the rotation family but **outside** the certificate scope — the two
-contributions are orthogonal (R11)]; NoPE shows a
+contributions are orthogonal (R11)]; **a 5-seed replication (tinystories fast config,
+2026-08-24) confirms all directional claims: rand vs ALiBi t=6.66, grid vs rand
+t=11.28, rand vs c3 t=−9.44, rand vs rope t=−6.20 (df≈4, all highly significant),
+and the cross-corpus order alibi < rand < t5rel < c4 < grid reproduces on
+Gutenberg / tinystories / owt** (see《训练数据对比分析-n5种子复核与owt独立验证-20260824.md》); NoPE shows a
 catastrophically worse in-distribution loss
 (9.06) yet the flattest curve (1.27× degradation), framing positional encoding as
 a trade of in-distribution quality for extrapolation fragility. We document our
@@ -379,13 +411,13 @@ rope（朴素 RoPE）3-seed 显著差于 psi-rope-rand（6.45±0.03，低 74%）
 旋转角 [3,511] 128 角）@4096 三 seed（batch 32）= **6.44 / 6.49 / 6.42**（均值 ≈6.45，
 stdev 0.03）；**rope-NTK 三 seed（b32 重训 + NTK 缩放）= 10.74 / 12.90 / 10.97
 （11.54±1.18）**——Welch t（双尾，n=3）：Δ=−5.09，t=−7.42，df=2，**p=0.018 < 0.05**，
-Cohen's d=−6.06（强效应；小样本 df 局限如实标注）——**psi-rope-rand 是旋转族内最优（全局最优被无证书 ALiBi 4.47±0.10 持有，§4.1/§10.8）**（评审 11 统一定位：七带 12.40 与 rope-NTK 11.54 均降为对比基线；"降级→逆转"过程如实保留为裁决史）。**证书边界声明（评审 11 修正）**：psi-rope-rand
+Cohen's d=−6.06（强效应；小样本 df 局限如实标注）——**psi-rope-rand 是旋转族内最优（全局最优被无证书 ALiBi 4.47±0.10 持有，§4.1/§10.8）**（评审 11 统一定位：七带 12.40 与 rope-NTK 11.54 均降为对比基线；"降级→逆转"过程如实保留为裁决史）。**n=5 复核完成（2026-08-24，tinystories 快速配置 5 种子 {1337,42,7,2026,31415}）**：rand vs ALiBi t=6.66（df≈4.1）、grid vs rand t=11.28、rand vs c3 t=−9.44、rand vs rope t=−6.20——**全部高度显著，核心判断在 n=5 下成立**（完整表与 Welch 统计见《训练数据对比分析-n5种子复核与owt独立验证-20260824.md》）。**证书边界声明（评审 11 修正）**：psi-rope-rand
 的阶梯为 log-uniform 随机采样，**非**论文 A 定义的几何递推阶梯（`next = C·last+1`），
 不具稀疏增长/相干衰减/框架界结构——**不在论文 A 的证书覆盖范围**（落在其"无任何
 可证陈述"边界之外）；其外推优势是纯实证，与论文 A 的机器可检查保证**正交**。
 **附带再审视**：原降级裁决的样本对（C=4 12.75 vs NTK 11.54）在 3-seed 统计下
 Δ=+1.22、p=0.21 **不显著**——「NTK 反超」本就在噪声带内；psi-rope-rand 的反超
-（p=0.018）则是初步显著的真实逆转（n=3 小样本，5-seed 复核已预登记并排队）。原裁决（上段）按其预登记判定树如实执行，
+（p=0.018）则是初步显著的真实逆转（n=3 小样本；**5-seed 复核已完成（2026-08-24）**，n=5 下 t 值大幅提升，逆转确认）。原裁决（上段）按其预登记判定树如实执行，
 此处按新证据重审——两阶段均如实记录。
 
 **NoPE 控制（已跑，判据确认）**：NoPE 分布内 ppl = **9.06**（seed 42），
@@ -429,7 +461,11 @@ ExpSeries 幂级数路线；仅继承 sig_not_dec + sig_forall_dec + fext）。
 - 统计（B6）：主表 3-seed 均值±std；**Welch t + Cohen's d 已补（会话 18）**——
   psi-rope-rand vs rope-NTK（11.54±1.18）：t=−7.42，df=2，p=0.018，d=−6.06（**初步显著**——n=3 小样本自由度极小，方向性结论）；
   原降级对（C=4 12.75 vs NTK 11.54）p=0.21 **不显著**（噪声带内，如实）；小样本
-  （n=3）df 局限如实标注，5-seed 复核（9 方案 × {2026,31415}）已预登记并排队；
+  （n=3）df 局限如实标注。**5-seed 复核已完成（2026-08-24，9 方案 × {2026,31415} 补全，
+  tinystories 快速配置 3000 iters，27 项全 EXIT=0）**：n=5 Welch（@8×）rand vs ALiBi
+  t=6.66、grid vs rand t=11.28、rand vs c3 t=−9.44、rand vs rope t=−6.20（df≈4，
+  **全部高度显著**）——核心方向性判断在 n=5 下成立，Holm 校正不改变任何结论
+  （完整表见《训练数据对比分析-n5种子复核与owt独立验证-20260824.md》）；
 - E1 消融（B4）：psi-rand/psi-lin/dense-frozen/psi-rope-rand/psi-rope+rand **全部已跑**（§10.6
   全表）——预登记假说证伪（psi-rope-rand 反超）、dense-frozen「瓶颈全解释」分支证伪
   （分布内掉质量 6.08 vs 4.5-5.0）；psi-rand 高方差与 psi-lin 最差如实报告；
@@ -459,7 +495,9 @@ ExpSeries 幂级数路线；仅继承 sig_not_dec + sig_forall_dec + fext）。
 | E5'' 七带 | 12.40（次优） | 复合证书（复合界 `(S−coh) ≤ ‖F‖² ≤ (S+coh)`），**可审计** | `champion_e5_composite_certificate`（复合表示稳定性界 Qed） |
 | C=4 [3,13,53,213] | 12.75（第三） | 紧证书（μ=4/5 有理界），**强审计** | `row_sum_3halfs`/`row_bound_C4`（行和 ≤ 2π/7 < 1，1D 真实框架界）+ `witness_sandwich`（上下界比 ≥ 1−1/C，Θ(C^{−3/2}) 紧性封顶） |
 在 AI 安全/合规（如欧盟 AI 法案）语境下，**可审计性本身是核心价值**：高风险场景
-（金融/医疗）中证书的存在优先于 1-2 个 PPL 点。本文定位 = **定义了可审计位置编码
+（金融/医疗）中证书的存在优先于 PPL 代价——带证书方案与无证书上限（ALiBi 4.47）的差距须如实量化：
+约 **2.8×（以比值计）**，即 C=4 12.75 与七带 12.40 均高出 ALiBi 约 8 个 PPL 点
+（审稿口径：不得表述为"1-2 个点"或"30%"）。本文定位 = **定义了可审计位置编码
 的性能-可证明性前沿**（"可审计性即价值"），而非"外推性能亚军"——方案沿前沿
 分布：最优性能（ALiBi，无审计）→ 旋转族内最优（psi-rope-rand，正交）→
 次优性能（复合证书）→ 紧证书（强审计）；grid 案例表明"证书免费"并不免费——
@@ -662,22 +700,27 @@ ogrid 持 μ=0 全长度精确正交证书 + 零精确碰撞，仍比 rand（6.4
 | **randmax384（剪 n>384）** | 2.14 | 2.55 | 3.79 | **5.36** | ✓ **−2.14（−28%）** |
 | ogrid（grid512+无理偏移 0.6180339887） | 2.27 | 4.67 | 9.64 | 19.30 | ✗ +11.80 |
 
-**判决（τ 感知频率选择）**：
+**判决（τ 裁剪，2026-08-25 多种子复核后降格；原"τ 感知频率选择"命名降格）**：
 
-1. **τ 裁剪假设在正式配置下兑现（温和版）**：randmax384 @4096 = **5.36** < 7.50，
-   改善 **28%**（0.71×）——剪掉最高频 385–511（约 14% 相位）显著提升外推，
-   高频随机相位在深训练（9.5 epoch）下确过拟合训练窗相位结构。
-2. **过度裁剪有害**：randmax256 @4096 = 8.44 > 7.50——257–384 区间是外推所需的
-   稠密覆盖结构（τ 负债带之外），"剪越多越好"不成立，裁剪点须温和。
+1. **τ 裁剪（`--rand-max`）的真实语义是 64 维循环填充的整体重排（非简单高频移除），
+   其改善为种子特异观察，无普遍性**：单种子 s1337 randmax384 @4096 = **5.36** < 7.50、
+   N*∈[448,480] @4096 = 5.15（−31%）；**2026-08-25 多种子复核（s42/s7，27000 iters，
+   rand vs rt448）机制修正**：`psi_rope_theta` 用未排序阶梯前 32 个波长循环填充 64 维，
+   rt448 过滤效果随 seed 不同——**s42 前 32 无 >448 角度，rt448 为空操作（64 维分配不变，
+   模型与 rand 完全相同，11.76 = 11.76 是必然，不构成复现测试）**；s1337 的 491 在第 11 位，
+   rt448 删除后整个 64 维分配重排（5.15 的"改善"实为重排效果）；s7 的 452 在第 21 位，
+   同样重排但结果 7.67 = 7.67（重排对 s7 无影响）——**结论：裁剪=重排，重排效果种子特异、
+   无普遍性，s1337 的改善不构成验证**（详见《训练数据全量复核-n10完成与τ裁剪多种子复核-20260825.md》）。
+2. **过度裁剪有害（单种子观察）**：randmax256 @4096 = 8.44 > 7.50——257–384 区间是
+   外推所需的稠密覆盖结构（τ 负债带之外），"剪越多越好"不成立，裁剪点须温和。
 3. **ogrid 结构路线在正式配置下亦否定**：@4096 = 19.30（比 rand 差 2.6×），与 gutenberg
    快速配置（16.12 vs rand 6.45，差 2.5×）方向一致——无理偏移结构化频率不优于随机，
    稠密覆盖（相位完备性）仍是外推性能关键。
-4. **主张升级**：psi-rope-rand 定位从"随机稠密旋转（全相位保留）"升级为
-   **"基于 τ 裁剪的 psi-rope-rand：psi-rope-rand 提供稠密覆盖，--rand-max 裁剪提供 τ 感知的高频移除（最优区 N* ∈ [448,480]，随训练轮数右移）"**——正式配置下
-   旋转族外推 7.50 → 5.15（−31%），与 ALiBi（2.11）的差距从 3.55× 缩至 2.44×。
-5. **τ 机制累计判决 → 7 个正向判决**：batch4 的 randmax384 改善（第 7 个）+
-   randmax256 恶化（裁剪点敏感性的双侧证据，τ 机制预测"温和裁剪最优而非激进全剪"）——
-   τ 机制从"剪掉 τ≈1 负债带"深化为"**τ 感知的渐变裁剪**"；ALiBi 无碰撞端点不变。
+4. **主张（降格后）**：psi-rope-rand 定位维持"随机稠密旋转（全相位保留）"；
+   `--rand-max` 裁剪的改善为**单种子观察（s1337）**，多种子未复现，列为未来工作——
+   不再主张"基于 τ 裁剪的 psi-rope-rand"为已确立机制。
+5. **τ 机制累计判决（降格口径）**：batch4 的 randmax384 改善（s1337）为**单种子观察**
+   （多种子未复现，不构成验证支点）；eval-only 3 支点维持；
 
 ### 10.9a k-scan discrimination experiment and trimming-semantics refinement (2026-08-23, local replication)
 
@@ -710,10 +753,16 @@ ogrid 持 μ=0 全长度精确正交证书 + 零精确碰撞，仍比 rand（6.4
    3000 iters (3.83 vs 3.80; CIs overlap) but significant at 27000 iters (8.44 vs 5.36,
    batch4) — overfitting deepens with training, trimming releases more; the 256 effect
    should be stated as a function of training budget, not absolute.
-5. **★ Trimming-semantics refinement (64-dim cyclic-fill reallocation)**: `psi_rope_theta`
-   fills 64 dims cyclically (idx = arange(64) % len(ns)) — trimming changes the wavelength
-   list length ⟹ the **whole 64-dim allocation is re-arranged**, not simply "high-frequency
-   dims removed"; wavelength 491 (c=1.043) never enters the 64 dims (rank 91 in the
+5. **★ Trimming-semantics refinement (64-dim cyclic-fill reallocation)**: psi-rope-rand's
+   64-dim positional encoding = **32 pairs of rotation angles** (each pair ↔ wavelength n,
+   θ=2π/n), wavelengths drawn from the unsorted random ladder list `ns` (~128 entries),
+   filled by **`idx = arange(32) % len(ns)`** (first 32 wavelengths, cycled if longer).
+   `--rand-max N` filters the **wavelength list** (keep n ≤ N) — changing list length ⟹ the
+   first-32 wavelength set/order may be **wholly re-arranged** (filtered wavelength within
+   first 32) or **unchanged** (filtered wavelength beyond position 32 = no-op; model is
+   byte-identical to no-trim). Thus trimming is **not** "high-frequency dims removed"
+   (dim count is fixed at 64); it re-allocates which wavelengths the 32 pairs receive.
+   Wavelength 491 (c=1.043) never enters the 64 dims (rank 91 in the
    unsorted ladder), so full vs rt448 differ by reallocation plus one unused wavelength.
    This fine structure does **not** change the empirical trimming conclusion, but "trim =
    cut high-frequency bands" is a coarse narrative; theory must fix the trimming semantics.
