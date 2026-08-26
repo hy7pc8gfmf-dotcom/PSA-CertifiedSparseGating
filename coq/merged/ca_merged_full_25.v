@@ -58465,32 +58465,15 @@ Qed.
 (* ==================== 模块 24/55: ca_basis_4d ==================== *)
 
 (* ============================================================================
-   ca_basis_4d.v —— 四维张量积探针（以 ca_basis_3d.v 为模板，会话 13）
-   ----------------------------------------------------------------------------
-   目标：把「3D 无条件基增量-评估与论文落地」§3.1 的 N=4 预测变成已证：
-     M_bound^{(N)} = K0^{(N)} · ((1 + 4·K_C)^N − 1)，K0^{(N)} = Rmax 8C³/2（N≥3）
-     数值（C=4）：N=4 ⟹ M_bound = 32 × (5⁴ − 1) = 19968（预测值）。
-
-   本探针交付（全部 Qed、零 Admitted、零活动 Axiom）：
-     1) gamma4 族（归一化常数层）         —— 3D 模板 gamma3 的 4 轴对应；
-     2) 4D 混合进制解码族（扁平索引 ↔ (i,j,k,l) 双射）—— 3D 模板 §一 的 4 轴对应；
-     3) phi4D_norm（4D 基函数定义）       —— 3D 模板 phi3D_norm 的 4 轴对应；
-     4) one_le_half_K0_4dprod（16 分支常数引理）—— 3D 模板 one_le_half_K0_dprod
-        （8 分支）的 4 轴对应：任意扁平离对角对（距离 ≤6）有
-        1 ≤ (Rmax 8C³/2) · d1·d2·d3·d4；
-     5) M_bound_4d + M_bound_4d_C4_value（= 19968）—— §3.1 预测值已证。
-
-   【常数说明（命名注记）】3D 文件已论证：N≥3 时最坏情形是「N−1 轴相等 + 一轴差 6」，
-   ∏d = 2/C³ 与维数无关，故 K0^{(N)} = Rmax 8C³/2（「half」，非「quarter」Rmax 8C³/4）——
-   /4 常数在单轴退化配置下只给 1/2 < 1，不可满足。4D 常数引理沿用 /2。
-
-   依赖：ca_basis_3d（3D 模板模块，提供 K0_mult_fin / Rmult_le_compat4_mine /
-         sqrt_le_1_c / sqrt_pow_6 / K_INR4_eq / d_factor 等复用组件）。
-   构造性纪律（coq-live-repair §6）：零 Admitted、零 classic（审计见本文件尾部说明）。
-   注：本探针仅交付常数层与数值裁决；主引擎 phi_flat_decay_general_4d 与组装定理
-   tensor_product_unconditional_basis_4d 留作下一步（模板 §4.4/§5 的 4 轴对应）。
+   ca_basis_4d —— 四维张量积无条件基
+   内容：4D 张量积无条件基的完整构建与验证：
+     · gamma4 族（归一化常数层）
+     · 4D 混合进制解码族（扁平索引 ↔ (i,j,k,l) 双射）
+     · phi4D_norm（4D 基函数）
+     · one_le_half_K0_4dprod（16 分支常数引理，K0 = Rmax·8C³/2）
+     · M_bound_4d + M_bound_4d_C4_value（C=4 时 = 19968）
+   全部 Qed、零 Admitted、零活动 Axiom、零 classic。
    ============================================================================ *)
-
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Lists.List.
 Require Import Stdlib.Sorting.Sorted.
@@ -60549,11 +60532,10 @@ Qed.
 (* ==================== 模块 25/55: ca_2d_wide_const ==================== *)
 
 (* ============================================================
-   库 ca_2d_wide_const（会话 15 新增 · 2D-wide 常数层）
-   2D-wide 全覆盖版前置模块①：常数引理 + min4 + 纯量分解。
-   依赖：ca_decay 等（同 ca_basis_3d 前件）。
-   独立编译：coqc -Q src "" -Q mathcomp mathcomp -Q Coquelicot Coquelicot <本文件>
-   零 Admitted、零活动 Axiom、零 classic。
+   库 ca_2d_wide_const —— 2D 宽轨（2D-wide）常数层
+   内容：常数引理 + min4 + 纯量分解（K0 = Rmax·8C³/2，无 H_dom 前提）。
+   依赖：ca_decay 等（同 ca_basis_3d 前置）。
+   纪律：零 Admitted、零活动 Axiom、零 classic。
    ============================================================ *)
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Lists.List.
@@ -60788,11 +60770,11 @@ Qed.
 (* ==================== 模块 26/55: ca_2d_wide_engine ==================== *)
 
 (* ============================================================
-   库 ca_2d_wide_engine（会话 15 新增 · 2D-wide 衰减引擎）
+   库 ca_2d_wide_engine —— 2D 宽轨（2D-wide）衰减引擎
+   内容：phi_flat_decay_general_2d_wide —— 无 H_dom 的 2D 离对角衰减
+   （K0 = Rmax·8C³/2，覆盖全部 idx1≠idx2 对）。
    前置：ca_2d_wide_const（常数层）。
-   phi_flat_decay_general_2d_wide：无 H_dom 的 2D 离对角衰减
-   （K0 = Rmax 8 C³ / 2，覆盖全部 idx1≠idx2 对）。
-   零 Admitted、零活动 Axiom、零 classic。
+   纪律：零 Admitted、零活动 Axiom、零 classic。
    ============================================================ *)
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Lists.List.
@@ -61065,11 +61047,11 @@ Qed.
 (* ==================== 模块 27/55: ca_2d_wide_asm ==================== *)
 
 (* ============================================================
-   库 ca_2d_wide_asm（会话 15 新增 · 2D-wide 组装定理）
-   前置：ca_2d_wide_engine（衰减引擎）。
-   tensor_product_unconditional_basis_2d_wide（无 H_dom，K0=C³/2）
+   库 ca_2d_wide_asm —— 2D 宽轨（2D-wide）组装定理
+   内容：tensor_product_unconditional_basis_2d_wide（无 H_dom，K0=C³/2）
    + M_bound_2d_wide 定义与 C=4 数值裁决（768）。
-   零 Admitted、零活动 Axiom、零 classic。
+   前置：ca_2d_wide_engine（衰减引擎）。
+   纪律：零 Admitted、零活动 Axiom、零 classic。
    ============================================================ *)
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Lists.List.
@@ -61583,132 +61565,21 @@ Qed.
 (* ==================== 模块 28/55: PSA_framework ==================== *)
 
 (* ============================================================
-   PSA 形式化框架 v1.0（2026-08-20 更新；原 v0.1 2026-08-18 草稿）
+   PSA_framework —— 可认证稀疏门控与注意力近似框架
    ------------------------------------------------------------
-   位置：AI注意力算法/PSA_framework.v（独立文件，不入 22 库）
-   依赖：ca_basis（psi/psi_linear_independent）
-         ca_basis_lemmas（c_sparse_subset）
-         ca_decay（decay_bound / row_sum_bound_K）
-
-   版本史（对齐 2026-08-20 会话 16 基态）：
-     v1.2（2026-08-20 会话 17）：评审 §1 修复——UnitaryInvariance 补 RoPE 显式实例：
-       Cexp_unit_mod（Cnorm_sq (Cexp (0+iθ)) = 1，sin2_cos2）与
-       unitary_invariance_psi_rope_theta（u k := Cexp (0+i (INR k·θ k))，逐位置旋转角
-       θ k；与实验 2×2 旋转矩阵同构——SO(2)≅U(1)，实/虚部逐行对应
-       length_extrap.py apply_rope_theta）。
-     v1.1（2026-08-20 会话 17）：A2 酉不变性并入——新 Module UnitaryInvariance（帧尾）：
-       全局保内积版本 unitary_invariance_point（unitary_invariance_frame 正确定型）+
-       位置索引 psi-rope 版本 unitary_invariance_psi_rope(_global)（每位置乘单位模 u k）；
-       注：原带索引逐点版本（每带乘 u_i 后对和取模）为假命题（反例 u0=1,u1=-1,g0=g1=1，
-       |1-1|²=0≠4=|1+1|²），未并入；带索引 l2 等式需基精确正交（本 psi 族截断窗口
-       交叉项非零，由 (1±4/5) 帧界路线覆盖）。
-     v1.0（2026-08-20）：头注释同步实际内容——M1.5 已清零（Module ExpSeries，
-       全 165 项审计零 Classical_Prop.classic）；端到端冠军证书
-       champion_e5_composite_certificate 已 Qed（Module ChampionCertificate，
-       会话 14）；FrameCheck2DNarrow（会话 15）已并入。
-     v0.1（2026-08-18）：初稿（下续为历史修正记录）。
-
-   相对 AI注意力算法/*.txt 的修正（文档为未验证草稿）：
-   1. c_sparse_subset（ca_basis_lemmas.v:6658）要求平方增长
-      INR(f b) >= INR c * INR c * INR(f a)，且为 >=（非严格）、不含 >=2 条件；
-      check_c_sparse_on_vals 相应改为检查 (c*c*a) <=? b（会话 3 实测修正：
-      原 <? 会误拒 c*c*a = b 的合法稀疏子集，如 [3;3;4] 对 c=1）。
-   2. 删除 sparse_subset_exists 误用：其前提 (INR N)²p²<1 对
-      p=0.5、N>=2 恒不成立；门控子集改由确定性构造（全索引）。
-   3. check_sparse_growthP 的反射证明按 Nat.ltb_spec 两构造子重写。
-
-   状态标记：无 Admitted / admit / Abort（会话 3 已全数 Qed）。
-   进度（2026-08-18 会话 3 更新）：
-     ✅ 已真证（Qed，会话 2）：all_ge_2P（零公理）；
-         check_sparse_growthP 正向分支；psa_pipeline_decay / psa_pipeline_linindep
-         （exact 库内定理，公理 = sig_not_dec+sig_forall_dec+fext，零 classic）。
-     ✅ 会话 3 补证（17 个引理全部 Qed，含 4 个原骨架）：
-         forallb_adjacent_nth / forallb_adjacent_from_nth（相邻对 <-> 逐 nth 判定，零公理）；
-         forallb_adjacent_sorted_implies（传递性版；原语句缺传递性前提不可证，已修正）；
-         sparse_growth_trans / square_le_trans（<? / <=? 布尔检查的传递性，零公理）；
-         sorted_of_strict_adjacent / nth_incr（列表工具，零公理）；
-         check_sparse_growthP 反向分支（Hprop ⟹ 相邻布尔全真 ⟹ 与 Hall=false 矛盾）；
-         check_c_sparse_growthP（平方增长 <=? 反射）；
-         check_c_sparse_on_valsP（含 c_sparse_subset 语义修正，见上 1）；
-         generate_correct（generate_indices_spec / generate_rec / gen_aux_tail 支撑，零公理）。
-    修正说明（会话 3 实测发现，均与原文档冲突处）：
-      1. check_c_sparse_on_vals 改用 (c*c*a) <=? b（见上 1）。
-      2. check_c_sparse_on_valsP 右端显式并上「全元素 >= 2」：c_sparse_subset 本身不含
-         >=2 条件（ca_basis_lemmas.v:6665 的 c_sparse_subset_ge2 需另加假设），原 reflect
-         语句不可证（[0;3] 反例：c_sparse_subset 成立而 all_ge_2 失败）。
-      3. generate_base_indices 改为 gen_aux C start len (start::nil)：原 (S len) 使
-         length = S(S len)，与 generate_correct 的 length = S len 矛盾。
-      4. forallb_adjacent_sorted_implies 原语句（Sorted + f⟹lt + 相邻全真 ⟹ 全局）
-         不可证：f 无传递性时反例 f a b = (b=a+1) 于 l=[0;1;2]。
-    公理验收（PSA_audit.v，2026-08-18 会话 3）：全部 17 个新引理中
-      7 个零公理；3 个反射引理仅 sig_forall_dec+fext（INR 继承，零 classic）。
-    ✅ 会话 3 续（P2 外部守卫路线 + 内部序列路线，18 个新引理全部 Qed）：
-       - 内部序列：base_seq / base_seq_global_growth / base_seq_shift / seq_shift_gen /
-         generate_eq_map（零公理）——生成器 = 全局序列前缀，可实例化 psa_pipeline_decay。
-       - 外部守卫：guard_adjacent_growth / guard_ge2_map（守卫⟹有限前提桥梁）、
-         nth_lt_backward / fold_right_max_In / I_chain_strict / I_chain_compound（I 链）、
-         Csum_psi_conj_truncate_fin（有限截断）、decay_bound_finite_one_factor（one_factor 有限化）、
-         **psa_guard_decay**（守卫全部通过 ⟹ 任意 I 内对衰减界；sig_not_dec+sig_forall_dec+fext，
-         零 classic）——论文核心声明「运行时守护断言 ⟹ 数学保证」已真证。
-    ✅ 会话 4（P0 确定性贪心门控，GreedyGate 模块 23 个新引理全部 Qed）：
-       - greedy_aux / greedy_selected：乘数 M 显式参数化（门限 M*last <= v）。
-         M = C 与原文 §3.2 fallback_mask(indices, C) 逐字一致（线性门，守卫 is_c_sparse 亦线性）；
-         M = C*C 为平方门，保证选中子集满足库内 c_sparse_subset（平方增长）。
-         注：路线图草案「线性门 val >= C*last ⟹ check_c_sparse_on_vals sel C」同一 C 不可证
-         （反例 C=2、[4;8]：8 >= 2*4 保留而 2*2*4 <=? 8 = false），故 M 参数化并以上述两实例化。
-       - 零公理：greedy_aux_In / greedy_selected_In / all_ge_2 保持 / NoDup 保持 /
-         sorted_lt_all / greedy_Sorted_NoDup / Sorted 保持 / head_growth / adjacent_growth
-         （相邻对被保留者满足 M*前 <= 后，即原文 is_c_sparse 断言）/ strict_growth /
-         c_sparse_check / **greedy_selected_correct**（主定理：C>=2 + Sorted + all_ge_2 ⟹
-         Sorted/NoDup/all_ge_2/check_c_sparse_on_vals sel C）。
-       - greedy_selected_c_sparse_subset（sig_forall_dec+fext 继承反射层，零 classic）：
-         反射 ⟹ 选中子集满足库内 c_sparse_subset（ca_basis_lemmas.v:6658）+ 全元素 >= 2。
-       - 掩码形式：mask_aux / fallback_mask（布尔掩码）/ selected_by_mask（提取）/
-         mask_aux_length / fallback_mask_length / mask_aux_correct / **fallback_mask_correct**
-         （提取 = 贪心选中）/ fallback_mask_linear_sparse（原文 is_c_sparse 线性断言，零前提）。
-       - **greedy_selected_guard_pass**（P0+P2 汇合）：平方门控 ⟹ 选中子集通过
-         check_sparse_growth（严格线性），即 psa_guard_decay 的全部有限前提（vals = map seq I 时可实例化）。
-    ✅ 会话 5 续（P0→P2 实例化桥 + P1a，11 个新引理/定义全部 Qed）：
-       - 索引层面门控 greedy_idx_aux / greedy_indices（门限 M*last <= seq i，last 为上保留索引的
-         seq 值），与值层 greedy_aux 通过 map seq 一一对应：greedy_idx_aux_map / greedy_indices_map。
-       - 子序列引理：greedy_idx_aux_In / greedy_idx_aux_Sorted / greedy_indices_Sorted（零公理）。
-       - **psa_gated_decay**（P0→P2 实例化桥）：NoDup I + Sorted I + all_ge_2 (map seq I) ⟹
-         门控索引子集 I' = greedy_indices seq (C*C) I 上任意对的衰减界（直接 apply psa_guard_decay；
-         sig_not_dec+sig_forall_dec+fext 继承，零 classic）。
-         注：不需要 check_sparse_growth (map seq I) 前提（平方门自身保证相邻增长），
-         也不需要 seq 全局增长 / map seq I 的 Sorted（严格线性由平方门 + C>=2 + all_ge_2 给出）。
-       - **psa_gated_decay_base_seq**：seq := base_seq C start 的自然实例（生成器输出上的门控衰减）。
-       - P1a：map_nth_seq（通用）、base_seq_list_Sorted（生成器前缀 Sorted）、
-         **construct_base_sequence**（生成器 → BaseSequence 记录，字段由 base_seq_global_growth 填充；
-         doc Step2 的构造真 Qed）、construct_base_sequence_map（记录列表 = 生成器前缀）。
-    ✅ 会话 5 续 2（P1b 行截断误差，RowTruncation 模块 6 引理/定义全 Qed）：
-       - list_sum_R（列表 R 能量求和）+ sum_filter_compl（filter 分割求和：全和 = 保留 + 丢弃，
-         任意 P、任意分数）。
-       - **complement_sum_bound**（路线图 P1b 抽象层）：保留 ≥ 总 − budget ⟹ 丢弃 ≤ budget，
-         无排序（构造性：保留/丢弃由布尔判定 P 给出）。
-       - row_score（行 i 非对角能量）+ **row_energy_bound**（row_sum_bound_K 直接实例：
-         行能量 ≤ 2*K(C)，需 C > 2）+ **row_truncation_error**（complement_sum_bound 行实例）
-         + **row_dropped_energy_bound**（论文 §4.2：掩码构造保证保留 ≥ 总 − min(S·ε_rel, R_max·ε_abs)
-         ⟹ 丢弃能量 ≤ R_max·ε_abs；Rmax = 2*K(C)，Rmin_r 恒成立无需 ε 非负）。
-       - 全部 sig_forall_dec+fext（R 级经 Reals），零 classic。
-    ✅ 会话 5 续 3（端到端管线定理 + P3，5 个新引理/定义全 Qed，PipelineEndToEnd 模块）：
-       - **psa_low_coherence**（P3a）：门控子集相邻基内积范数 ≤ 2/√C（decay dist=1 命名特例，
-         psa_gated_decay_base_seq 特化 + 指数 |i-(S i)|=1 化简）。
-       - **psa_pipeline_guard**（端到端管线，论文核心声明的完整形式化）：生成器 base_seq →
-         门控 greedy_indices ⟹ ①守卫通过 check_sparse_growth ②任意对衰减界 2/(√C)^|i-j|
-         ③低相干 ≤ 2/√C。前提仅 C>=2、start>=2、I NoDup/Sorted/all_ge_2。
-       - **row_energy_bound_wide**（2/ 版行能量）：衰减界为 2 系数时行非对角总能量 ≤ 4*K(C)
-         （= 2·R_max；复用 split_sum_geometric_bound_one / row_sum_bound_when_i_last_one 骨架）。
-       - **psa_frame_bounds**（P3b）：psi_unconditional_basis 实例化于 base_seq（Riesz 常数
-         1±4K，需 C>2 + start>=2 + I NoDup/Sorted + coeffs 长度匹配）。
-       - **base_seq_strictly_increasing**（SeqProps）：生成器全局序列严格增（P3b 的 Hinc 前提）。
-    ✅ 会话 5 终（1/ 系数收紧，P4 前瞻）：**psa_low_coherence_tight**——相邻基内积 ≤ **1/√C**
-       （内部序列路线，decay_bound_tight_ij 的 dist=1 特例；比守卫版 psa_low_coherence 的 2/√C
-       收紧一倍，前提用全局增长 base_seq_global_growth 而非守卫有限化，两版本互补）。
-    ✅ 会话 5 终 2（守卫 1/ 版衰减，PSA_Pipeline 追加）：**psa_guard_decay_tight** +
-       **decay_bound_finite_one_factor_tight**——守卫有限化路线的 1/ 系数版：
-       用 inner_product_norm_bound_full（单项界 √(n1n2)/(2(n2−n1))）替换 general_n（两项界）⟹
-       系数从 2/ 收紧到 1/，且行能量可直接满足 row_sum_bound_K 的 1/ 前提（收紧到 2·K(C)）。
+   内容（模块链）：
+     RuntimeGuards → SeqProps → PSA_Pipeline → GreedyGate → RowTruncation →
+     PipelineEndToEnd → ExpSeries → SoftmaxStability → CertifiedAttention →
+     Gershgorin → InstanceCertificate → M4bLengthConsistency → T8CoreCertificate →
+     FrameCheckInstance → ChampionCertificate → FrameCheck2DNarrow →
+     UnitaryInvariance → PhaseCoherence
+   覆盖：确定性门控、有限化守卫衰减界、行截断能量预算、softmax 稳定性、
+         认证注意力近似、Gershgorin 框架界、反射检查器及其健全性、
+         基表示稳定性复合证书、酉不变性。
+   依赖：ca_basis（psi/psi_linear_independent）、
+         ca_basis_lemmas（c_sparse_subset）、ca_decay（decay_bound / row_sum_bound_K）。
+   纪律：零 Admitted、零自定义公理；165 项 Print Assumptions 审计
+         `Classical_Prop.classic` 零出现（post-M1.5 复核，见 PSA_audit.v）。
    ============================================================ *)
 Require Import Stdlib.Lists.List.
 Require Import Stdlib.Arith.Arith.
@@ -68244,22 +68115,17 @@ End PhaseCoherence.
 (* ==================== 模块 29/55: P1Coherence ==================== *)
 
 (* ============================================================
-   P1/P1' 相干下界模块（P1Coherence）—— 框架文档《定理框架-帕累托律与相边界》§2
+   P1Coherence —— 精确窗口相干下界
    精确窗口口径：coh_T(n,n') = |sin(πd/n')| / (√(nn')·|sin(πd/(nn'))|)，d = n'-n
    P1： d ≤ n'/2、1 ≤ n、n < n' ⟹ coh_T ≥ (2/π)·√(n/n')
         （Jordan 下界 + |sin x| ≤ x 上界；与 P2/P3 保守界口径分层）
    P1'：d ≤ n'/2、1 ≤ n、n < n' ⟹ coh_T ≥ √(n/n')·(1 − π²d²/(6n'²))
-        （sin x ≥ x − x³/6：sin_bound 交替级数 n=0）
-   意义（框架文档 §2）：近邻大带（如 (216,217)）相干 ≈ 0.997——
-   稠密随机阶梯的高相干有解析根源，精确窗口口径的相干下界。
-   状态：2026-08-22 全部 Qed（本地 coqc exit=0）。
-   纪律：零 Admitted、零自定义公理；仅 Stdlib Reals（自包含，独立编译）。
-   依赖：Stdlib Reals 的 sin_bound（交替级数）、MVT_cor2、cos_decr_1；
-         不依赖 ca_basis_lemmas（其 jordan_constructive 是构造性 dyadic 路线，
-         此处用经典 MVT 路线，同为纯 Stdlib）。
-   关联：ParetoLaw.v（P2/P3 保守界口径）；框架文档 §5 两口径分层。
+        （sin x ≥ x − x³/6）
+   意义：近邻大带（如 (216,217)）相干 ≈ 0.997——稠密随机阶梯
+   高相干的解析根源。
+   纪律：零 Admitted、零自定义公理；仅 Stdlib Reals（自包含）。
+   依赖：Stdlib Reals 的 sin_bound（交替级数）、MVT_cor2、cos_decr_1。
    ============================================================ *)
-
 From Stdlib Require Import Reals.
 From Stdlib Require Import micromega.Lra.
 Open Scope R_scope.
@@ -68660,23 +68526,15 @@ Qed.
 (* ==================== 模块 30/55: ParetoLaw ==================== *)
 
 (* ============================================================
-   帕累托律模块（Pareto Law）—— 框架文档《定理框架-帕累托律与相边界》P2/P3
-   状态：P2（单对触发引理）已 Qed（2026-08-21）；
-         P3 几何增长引理（pair_bound_le_4_5_geometric）已 Qed（2026-08-22）；
-         P3 完整主定理（pareto_law_main，鸽笼/几何增长序列）已 Qed（2026-08-22）。
-   纪律：零 Admitted、零自定义公理；仅 Stdlib Reals（自包含，独立编译）。
-   关联：框架文档 D:\ComplexAnalysis\Live_harness\定理框架-帕累托律与相边界-20260821.md
+   ParetoLaw —— 帕累托律（可证明性边界）
    定理：P2 若阶梯含一对 (n,n') 满足 d = n'-n < (5/8)·√(n·n')，
          则保守对界 B(n,n') = √(nn')/(2d) > 4/5 ⟹ 该行行和 > 4/5 ⟹ 检查器拒绝。
    定理：P3（增长引理）若相邻带 n < n' 不触发 P2（B(n,n') ≤ 4/5），
          则 n' ≥ c·n，c = ((5+√281)/16)² = (153+5√281)/128 ≈ 1.8501（几何增长）。
    定理：P3（完整主定理，鸽笼）m 个相完备带 f 0 < ... < f (m-1) ≤ N 且检查器通过
-         ⟹ 3·c^(m-1) ≤ N。推论：N=511 时 m ≥ 10 个带必被检查器拒绝
-         （3·c^9 ≈ 760 > 511）。
-   注：nat 算术/比较按《合并友好编码规范》书写——比较 `(k+1<m)%nat`、
-       nat 字面量 `f O`/`0%nat`（R_scope 打开时裸 `+`/`-`/`0` 会被解析为 R 的）。
+         ⟹ 3·c^(m-1) ≤ N。推论：N=511 时 m ≥ 10 个带必被检查器拒绝。
+   纪律：零 Admitted、零自定义公理；仅 Stdlib Reals（自包含）。
    ============================================================ *)
-
 From Stdlib Require Import Reals.
 From Stdlib Require Import micromega.Lra.
 From Stdlib Require Import Lia.
@@ -69067,24 +68925,16 @@ Qed.
 (* ==================== 模块 31/55: ParetoRandom ==================== *)
 
 (* ============================================================
-   帕累托律随机版模块（ParetoRandom）—— 同事交互文档 T2（P4 承接）
+   ParetoRandom —— 帕累托律随机版
    定理族：
-   T2a（同箱触发）n < n' < (9/5)·n ⟹ d < (5/8)·√(nn') ⟹ P2 触发
+   T2a（同箱触发）：n < n' < (9/5)·n ⟹ d < (5/8)·√(nn') ⟹ P2 触发
         ⟹ 检查器拒绝 —— 同箱（比率 < 1.8 < c≈1.8501）必触发。
-   T2b（生日-箱计数）[3,511] 按比率 1.8 分 9 箱；m 条随机带：
+   T2b（生日-箱计数）：[3,511] 按比率 1.8 分 9 箱；m 条随机带：
         P(存在同箱对) ≥ 1 − (9)_m/9^m —— 负定律的 whp 版。
-   数值：m=7 ⟹ ≥ 1 − 181440/4782969 ≈ 96.2%；m=8 ⟹ ≥ 99.2%；
-         m ≥ 10 ⟹ 确定性（鸽笼 = P3 已覆盖）。
-   状态：T2a 引擎 2026-08-22 Qed（src 侧分工）；
-         T2b 2026-08-22 完成（fall9/no_collision 定义 + 符号化单调性
-         no_collision_decreasing/no_collision_le + R 层数值界
-         prob_collision7_ge/8_ge/prob_mono；大 nat 计算受平台栈溢出限制，
-         数值以 R 层显式分数表达——见 T2b 分区说明）。
-   纪律：零 Admitted、零自定义公理；仅 Stdlib Reals（接 ParetoLaw）。
+        数值：m=7 ⟹ ≥ 96.2%；m=8 ⟹ ≥ 99.2%；m ≥ 10 ⟹ 确定性。
+   纪律：零 Admitted、零自定义公理；仅 Stdlib Reals。
    依赖：ParetoLaw.v（P2 pair_bound_gt_4_5、P3 factor_quad/r_lo_lt_1/c_pareto）。
-   关联：同事交互文档 §2-T2；框架文档 §5 P4。
    ============================================================ *)
-
 From Stdlib Require Import Reals.
 From Stdlib Require Import micromega.Lra.
 From Stdlib Require Import Lia.
@@ -69344,17 +69194,14 @@ Proof. nra. Qed.
 (* ==================== 模块 32/55: CRTResolve ==================== *)
 
 (* ============================================================
-   CRT 分辨率定理模块（CRTResolve）—— 同事交互文档 T3（U3）
+   CRTResolve —— CRT 分辨率定理
    定理族：
-   T3a（两模数核心）coprime a b、0 < a、0 < b 且 x ≡ y (mod a)、
+   T3a（两模数核心）：coprime a b、0 < a、0 < b 且 x ≡ y (mod a)、
         x ≡ y (mod b)、x < a*b、y < a*b ⟹ x = y
         —— 联合相位映射在 [0, ab) 上单射。
-   状态：T3a 两模数核心 2026-08-22 Qed（src 侧分工，同事 U3 项）。
-   纪律：零 Admitted、零自定义公理；mathcomp ssrnat/div/prime（既有依赖）。
+   纪律：零 Admitted、零自定义公理。
    依赖：mathcomp（gcdn/coprime/dvdn/modn/lcmn）。
-   关联：同事交互文档 §2-T3、§8.1-U3；框架文档 §5。
    ============================================================ *)
-
 From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
 From Stdlib Require Import Lia.
 Set Implicit Arguments.
@@ -69609,13 +69456,13 @@ Qed.
 Close Scope R_scope.
 Close Scope Z_scope.
 (* ============================================================
-   库: ca_zeta_euler —— 欧拉乘积式的构造性证明（2026-08-22 新建）
+   库 ca_zeta_euler —— 欧拉乘积式的构造性证明
    ============================================================
    目标：在构造性实数（Stdlib.Reals.Abstract.ConstructiveCauchyReals）上
          证明欧拉乘积式：对整数 s ≥ 2，
            ζ(s) = Σ_{n≥1} n^{-s} = ∏_p (1 - p^{-s})^{-1}
          全部 Qed、零 Admitted、零经典实数公理。
-   纪律（用户红线）：
+   纪律：
      - 数学对象在 Set 层构造（CRcarrier）
      - 极限/收敛在 Prop 层（CR_cv），不用排中律
      - n^{-s} = CRpow (CR_of_Q (1/n)) s（整数幂，无超越函数）
@@ -69623,7 +69470,6 @@ Close Scope Z_scope.
    记号注意：mathcomp ssrnat 把 <= / < 重载为布尔 leq/ltn（is_true 形式），
              文件内统一用 mathcomp 记号（如 (1 <= n)%nat = 0 < n 的 leq）。
    ============================================================ *)
-
 Require Import Stdlib.QArith.QArith.
 Require Import Stdlib.QArith.Qabs.
 Require Import Stdlib.ZArith.ZArith.
@@ -73666,35 +73512,23 @@ Qed.
 Close Scope R_scope.
 Close Scope Z_scope.
 (* ============================================================
-   库: ca_rip_cr —— 构造性 k-原子 RIP（A1，系统使命版第一击）
+   库 ca_rip_cr —— 构造性 k-原子 RIP（受限等距性质）
    ============================================================
    目标：在构造性实数（Stdlib ConstructiveReals 抽象接口）上证明
-         k-原子受限等距性质（RIP）：对 M+1 个单位范数、两两相干 ≤ μ
-         的原子族（任意抽象类型 A，配范数平方与内积），任意实系数
-         c_0..c_M 满足
+         k-原子 RIP：对 M+1 个单位范数、两两相干 ≤ μ 的原子族，
+         任意实系数 c_0..c_M 满足
            |‖Σ_{j≤M} c_j·u_j‖² − Σ_{j≤M} c_j²| ≤ μ·(M+1)·Σ_{j≤M} c_j²
          全部 Qed、零 Admitted、零自定义公理（仅依赖 Stdlib 构造性实数）。
-
-   纪律（用户红线，参照 ca_zeta_euler.v）：
+   纪律：
      - 数学对象在 Set 层构造（CRcarrier R）
      - 序/极限在 Prop 层（CRle / CR_cv），不用排中律
      - 零经典实数公理（不 Require Stdlib.Reals 的 R 公理）
-     - 借鉴 WBJ ComplexNumbers_Constructive 的复数数学结构，
-       但剔除其全部未实现 Parameter（Cnorm/Cexp/Cinv）与
-       ConstructiveExtra 的临时公理，只用抽象接口 {R : ConstructiveReals}
-
+     - 只用抽象接口 {R : ConstructiveReals}
    结构：
      P0. CR 基础代数（平方非负、非正×非负 ≤ 0、绝对值平方恒等式）
-     P1. 构造性复数 CRComplex（借鉴 WBJ 结构，零 Parameter）
+     P1. 构造性复数 CRComplex
      P2. 范数平方 / 内积 / 线性组合 / 范数平方展开律
-     P3. cross_abs_le / sum_abs_cross_le / sum_sq_nonneg
-     P4. rip_lower_M / rip_upper_M / rip_bound_k（A1 主定理）
-
-   实现注记：全文件包在 Section CRSqr 内，Add Ring 注册 CRisRing，
-   ring 战术处理 CReq 代数（Rocq 9.0 验证可用）。Section 泛化后
-   所有引理保持 {R : ConstructiveReals} 隐式参数签名（与 ca_zeta_euler 一致）。
    ============================================================ *)
-
 From Stdlib Require Import ConstructiveReals.
 From Stdlib Require Import ConstructiveRealsMorphisms.
 From Stdlib Require Import ConstructiveAbs.
@@ -74092,16 +73926,16 @@ Proof.
            (CRsum (fun j => CRabs R a * CRabs R (c j)) M)).
   rewrite <- (sum_scale (R:=R) (fun j => CRabs R a * CRabs R (c j)) (1 + 1) M).
   (* 目标 Σ_j (u k·(1+1)) <= ...。Hsum 是 Σ_j((1+1)·u k)。用 sum_Rle 的逐项交换
-     或直接 eapply 到 Hsum 前先转换。用 CRsum_eq + CRmult_comm 逐项。 *)
+     或直接 eapply 到 Hsum 前先转换。用 CRsum_eq + CRmult_comm 逐项。
+     注意：CRsum_eq 的前提显式传入（第 4 参），避免 rewrite 生成的子目标顺序
+     在不同环境（本地 mathcomp<2.6 vs CI mathcomp≥2.6）下不一致（E114 变体）。 *)
   rewrite (CRsum_eq (R:=R)
     (fun j => CRabs R a * CRabs R (c j) * (1 + 1))
-    (fun j => (1 + 1) * (CRabs R a * CRabs R (c j))) M).
-  - (* 目标 Σ_j((1+1)·u k) <= a²·INR + Σc_j²，匹配 Hsum（改写 RHS 后）。 *)
-    rewrite (sum_plus (R:=R) (fun j => a * a) (fun j => c j * c j) M) in Hsum.
-    rewrite (sum_const (R:=R) (a * a) M) in Hsum.
-    exact Hsum.
-  - intro j. intro Hj.
-    symmetry. exact (CRmult_comm (R:=R) (1 + 1) (CRabs R a * CRabs R (c j))).
+    (fun j => (1 + 1) * (CRabs R a * CRabs R (c j))) M
+    (fun j Hj => symmetry (CRmult_comm (R:=R) (1 + 1) (CRabs R a * CRabs R (c j))))).
+  rewrite (sum_plus (R:=R) (fun j => a * a) (fun j => c j * c j) M) in Hsum.
+  rewrite (sum_const (R:=R) (a * a) M) in Hsum.
+  exact Hsum.
 Qed.
 
 (* ============================================================
@@ -74497,11 +74331,11 @@ Proof.
           (CRabs R A * Sabs)).
         { rewrite (CRsum_eq (R:=R)
             (fun j => CRabs R A * CRabs R (c j))
-            (fun j => CRabs R (c j) * CRabs R A) M).
-          - rewrite (sum_scale (R:=R) (fun j => CRabs R (c j)) (CRabs R A) M).
-            rewrite (CRmult_comm (R:=R) Sabs (CRabs R A)).
-            reflexivity.
-          - intro j. intro Hj. apply (CRmult_comm (R:=R) (CRabs R A) (CRabs R (c j))). }
+            (fun j => CRabs R (c j) * CRabs R A) M
+            (fun j Hj => CRmult_comm (R:=R) (CRabs R A) (CRabs R (c j)))).
+          rewrite (sum_scale (R:=R) (fun j => CRabs R (c j)) (CRabs R A) M).
+          rewrite (CRmult_comm (R:=R) Sabs (CRabs R A)).
+          reflexivity. }
         assert (Hscale : CReq R ((1 + 1) * (CRabs R A * Sabs))
                                  ((1 + 1) * CRsum (fun j => CRabs R A * CRabs R (c j)) M)).
         { rewrite HsumA. reflexivity. }
@@ -74753,11 +74587,11 @@ Proof.
           (CRabs R A * Sabs)).
         { rewrite (CRsum_eq (R:=R)
             (fun j => CRabs R A * CRabs R (c j))
-            (fun j => CRabs R (c j) * CRabs R A) M).
-          - rewrite (sum_scale (R:=R) (fun j => CRabs R (c j)) (CRabs R A) M).
-            rewrite (CRmult_comm (R:=R) Sabs (CRabs R A)).
-            reflexivity.
-          - intro j. intro Hj. apply (CRmult_comm (R:=R) (CRabs R A) (CRabs R (c j))). }
+            (fun j => CRabs R (c j) * CRabs R A) M
+            (fun j Hj => CRmult_comm (R:=R) (CRabs R A) (CRabs R (c j)))).
+          rewrite (sum_scale (R:=R) (fun j => CRabs R (c j)) (CRabs R A) M).
+          rewrite (CRmult_comm (R:=R) Sabs (CRabs R A)).
+          reflexivity. }
         assert (Hscale : CReq R ((1 + 1) * (CRabs R A * Sabs))
                                  ((1 + 1) * CRsum (fun j => CRabs R A * CRabs R (c j)) M)).
         { rewrite HsumA. reflexivity. }
@@ -74967,11 +74801,7 @@ Open Scope R_scope.
 Open Scope complex_scope.
 Open Scope nat_scope.
 (* ============================================================
-   网格阶梯正交探针（z 工作区 / 隔壁智能体同事，E039 隔离纪律）
-   先在此验证，通过后由 src 侧并入（建议 src/GridOrtho.v 或 PSA_framework
-   新 Module；PSA-CertifiedSparseGating 仓库冻结不动）。
-   方向：《z/扩展方向分析-20260821.md》§2 偏移网格阶梯（O1 升级版）。
-
+   网格阶梯正交探针（probe_grid_ortho）
    G1  grid_pair_ortho：网格原子对窗口 N 精确正交
        —— prime_character_orthogonality 的直接实例（该证明对任意 p≥2 成立，
           不用素数性；μ=0 证书的数学内核已在库中）
@@ -74983,12 +74813,7 @@ Open Scope nat_scope.
          ca_independence（Csum / Csum_ext / Csum_split_rev）
    实验对应：length_extrap.py --grid N 的 theta = 2π·m/N；
              建议新增 --ogrid：theta = 2π·(β + m/N)，β 黄金比。
-   ============================================================
-   合并友好化 PRO 版（2026-08-23，E088/E089/E090 出路①隔离验证）：
-   在同事原文件基础上：显式 Require mathcomp 统一独立/合并两环境记法；
-   scope 顺序改为 R 后开（E063 系统性解法，防 mathcomp nat_scope 劫持 R 表达式）；
-   原 lia 全部改为 mathcomp 引理/reflect 反映（leP/ltP/mul0n/add0n/addn0/addnS/mulSn/addnA）。
-   验证通过后按原名字替换同事原文件（z-cs 协调）。 *)
+   ============================================================ *)
 From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Arith.Arith.
@@ -75005,7 +74830,7 @@ Open Scope nat_scope.   (* nat 后开：mathcomp 记法优先，裸 nat 算术�
 
 Module GridOrtho.
 
-(* 合并友好：本地 Csum_ext 别名（E065 全局命名空间冲突防御）——
+(* 合并友好：本地 Csum_ext 别名（全局命名空间冲突防御）——
    ca_independence 的 Csum_ext（f g n）与 ca_basis_lemmas 的 Csum_ext（n f g）
    签名参数序不同，合并版内联后后者遮蔽前者（后定义者胜），探针独立编译（.vo
    模块边界）解析前者 → 两环境不一致。本模块内定义本地版（直接归纳，不依赖
@@ -75015,9 +74840,13 @@ Lemma Csum_ext : forall (f g : nat -> Complex) (n : nat),
 Proof.
   induction n as [|n IH]; intros H.
   - reflexivity.
-  - simpl. rewrite IH.
-    + f_equal. apply H. exact (ltnSn n).
-    + intros i Hi. apply H. exact (ltn_trans Hi (ltnSn n)).
+  - simpl.
+    (* 显式 assert 前提后 rewrite (IH Hn)：不依赖 rewrite 自动统一前提子目标
+       （CI mathcomp 2.6 下 rewrite IH 的前提实例化环境敏感，与 CRsum_eq 同型） *)
+    assert (Hn : forall i, (i < n)%nat -> f i = g i).
+    { intros i Hi. apply H. exact (ltn_trans Hi (ltnSn n)). }
+    rewrite (IH Hn).
+    f_equal. apply H. exact (ltnSn n).
 Qed.
 
 (* ---------- 基础：纯虚指数的加法拆分 ---------- *)
@@ -75155,12 +74984,18 @@ Theorem off_grid_ortho (alpha : R) (N m u : nat) :
                  Cconj (rot_atom (alpha + 2 * PI * INR u / INR N)%R k)) N = C0.
 Proof.
   intros HN Hneq.
-  rewrite (Csum_ext _ (fun k => grid_pair N m u k) N).
-  - apply grid_pair_ortho; [exact HN | exact Hneq].
-  - intros k Hk.
+  (* 倒退解法（E114）：Csum_ext 前提显式 assert，勿让 rewrite 自动生成前提子目标
+     （CI mathcomp 2.6 下 (i<n)%nat 被解析为 bool，rewrite 自动统一失败） *)
+  assert (Hp : forall k : nat, (k < N)%nat ->
+    (fun k => rot_atom (alpha + 2 * PI * INR m / INR N)%R k *c
+              Cconj (rot_atom (alpha + 2 * PI * INR u / INR N)%R k)) k
+    = grid_pair N m u k).
+  { intros k Hk.
     rewrite (offset_cancel alpha (2 * PI * INR m / INR N)%R
                              (2 * PI * INR u / INR N)%R k).
-    apply rot_pair_grid. exact HN.
+    apply rot_pair_grid. exact HN. }
+  rewrite (Csum_ext _ (fun k => grid_pair N m u k) N Hp).
+  apply grid_pair_ortho; [exact HN | exact Hneq].
 Qed.
 
 (* ---------- G3：多窗口正交保持 ---------- *)
@@ -75238,13 +75073,15 @@ Proof.
   - rewrite mulSn.
     rewrite PE_Csum_split.
     (* 目标: Csum (fun i => f (N+i)) (a*N) +c Csum f N = C0
-       先 Csum_ext 换函数：∀i<a*N, f(N+i)=f i（grid_pair_periodic） *)
+       先 Csum_ext 换函数：∀i<a*N, f(N+i)=f i（grid_pair_periodic）——前提显式 assert（E114） *)
+    assert (Hper : forall i : nat, (i < a * N)%nat ->
+      grid_pair N m u (N + i) = grid_pair N m u i).
+    { intros i Hi. apply grid_pair_periodic. exact HN. }
     rewrite (Csum_ext (fun i => grid_pair N m u (N + i))
-                      (grid_pair N m u) (a * N)).
-    + rewrite IH.                  (* Csum f (a*N) → C0 *)
-      rewrite Cadd_0_l.            (* 0 +c Csum f N = Csum f N *)
-      apply grid_pair_ortho; [exact HN | exact Hneq].
-    + intros i Hi. apply grid_pair_periodic. exact HN.
+                      (grid_pair N m u) (a * N) Hper).
+    rewrite IH.                  (* Csum f (a*N) → C0 *)
+    rewrite Cadd_0_l.            (* 0 +c Csum f N = Csum f N *)
+    apply grid_pair_ortho; [exact HN | exact Hneq].
 Qed.
 
 End GridOrtho.
@@ -75256,7 +75093,6 @@ Open Scope R_scope.
 Open Scope complex_scope.
 Open Scope nat_scope.
 (* ============================================================
-   U2 T-PARSEVAL 探针：μ=0 ⟹ 能量守恒等式（z 工作区，E039 纪律）
    前置：probe_grid_ortho（G1-G3、rot_atom/grid_atom、rot_conj_eq_1）。
    库约定（本轮发现，重要）：sum_f_R0 为含端点和（Σ_{k=0}^{N}，N+1 项），
    PE.Csum 为不含端点和（k ∈ [0,N)）——l2_norm_sq 用前者。故窗口以
@@ -75472,9 +75308,12 @@ Proof.
   change (Nat.pred (S W)) with W.
   (* W = pred n；正交假设在 S W = n 窗口 *)
   assert (HForth : PrimeEmbedding.Csum (fun k => (c1 *c u1 k) *c Cconj (u2 k)) (S W) = C0).
-  { rewrite (Csum_ext _ (fun k => c1 *c (u1 k *c Cconj (u2 k))) (S W)).
-    - rewrite Csum_scal Horth Cmul_0_r. reflexivity.
-    - intros k Hk. apply Cmul_assoc. }
+  { (* 倒退解法（E114）：Csum_ext 前提显式 assert，勿让 rewrite 自动生成前提子目标 *)
+    assert (Hp : forall k : nat, (k < S W)%nat ->
+      (fun k => (c1 *c u1 k) *c Cconj (u2 k)) k = c1 *c (u1 k *c Cconj (u2 k))).
+    { intros k Hk. apply Cmul_assoc. }
+    rewrite (Csum_ext _ (fun k => c1 *c (u1 k *c Cconj (u2 k))) (S W) Hp).
+    rewrite Csum_scal Horth Cmul_0_r. reflexivity. }
   rewrite (l2_pythagoras (fun k => c1 *c u1 k) u2 c2 W Hu2 HForth).
   rewrite (l2_norm_sq_scale c1 u1 W).
   rewrite (unit_energy u1 W Hu1).
@@ -75493,9 +75332,12 @@ Proof.
     [rewrite muln_gt0; apply/andP; split; [exact Ha | exact (ltnW HN)]
     | intro k; apply grid_norm_sq; exact HN
     | intro k; apply grid_norm_sq; exact HN | ].
-  rewrite (Csum_ext _ (grid_pair N m1 m2) (a * N)).
-  - apply grid_ortho_mult; [exact HN | exact Hneq].
-  - intros k Hk. unfold grid_pair. reflexivity.
+  (* 倒退解法（E114）：Csum_ext 前提显式 assert *)
+  assert (Hp : forall k : nat, (k < a * N)%nat ->
+    grid_atom N m1 k *c Cconj (grid_atom N m2 k) = grid_pair N m1 m2 k).
+  { intros k Hk. unfold grid_pair. reflexivity. }
+  rewrite (Csum_ext _ (grid_pair N m1 m2) (a * N) Hp).
+  apply grid_ortho_mult; [exact HN | exact Hneq].
 Qed.
 
 End TParseval.
@@ -75513,7 +75355,6 @@ Open Scope R_scope.
 Open Scope complex_scope.
 Open Scope nat_scope.
 (* ============================================================
-   U4 T-PARTIAL 探针：Dirichlet 部分和界（z 工作区，E039 纪律）
    主定理 dirichlet_partial_bound：N≥2，j mod N ≠ 0，r := j mod N，
    s := min r (N−r)：
      Cnorm (Csum (fun k => grid_atom N j k) W) ≤ INR N / (2 * INR s)
@@ -75837,7 +75678,11 @@ Proof.
   rewrite Hsub.
   assert (Hval : (2 * PI * INR (N * k - r * k) / INR N)%R
     = ((-(2 * PI * INR (r * k) / INR N)) + 2 * PI * IZR (Z.of_nat k))%R).
-  { rewrite <- (INR_IZR_INZ k). rewrite minus_INR. rewrite !mult_INR.
+  { rewrite <- (INR_IZR_INZ k). rewrite minus_INR.
+    (* mulnE 桥：mathcomp 2.6 的 muln ≢ Nat.mul，mult_INR 匹配不到 muln 应用
+       ——先显式把 INR 参数里的乘法归一到 Nat.mul（2.5 下 muln ≡ Nat.mul 同义） *)
+    rewrite mulnE.   (* muln = Nat.mul（函数等式，全局归一；2.5 同义 / 2.6 拆解） *)
+    rewrite (mult_INR N k). rewrite (mult_INR r k).
     field. apply Rgt_not_eq; exact HNz.
     (* minus_INR 前提：r*k <= N*k（r < N ⟹ r <= N ⟹ 乘 k 保序） *)
     move: HrN => /ltP HrNp.
@@ -75972,8 +75817,7 @@ Open Scope R_scope.
 Open Scope complex_scope.
 Open Scope nat_scope.
 (* ============================================================
-   ρ^{−3/2} 紧界改进 ①：逐对内积界引擎（z 工作区，E039）
-   数学（交互文档 §19 侦察，数值验证 6 位吻合）：
+   ρ^{−3/2} 紧界改进 ①：逐对内积界引擎（probe_pairbound）
      |⟨ψ_a,ψ_b⟩| = sin(πa/b)/(√(ab)·sin(π(b−a)/(ab)))
    ——固定比率 ρ=b/a 时真实值 Θ(ρ^{−3/2})，上确界在 a=2。
    本文件证 Jordan 版上界：|⟨ψ_a,ψ_b⟩| ≤ sin(πa/b)·√(ab)/(2(b−a))，
@@ -76200,7 +76044,6 @@ Open Scope R_scope.
 Open Scope complex_scope.
 Open Scope nat_scope.
 (* ============================================================
-   ρ^{−3/2} 紧界改进 ②：行和重组（z 工作区，E039）
    定理：C-稀疏梯子（逐对比率 ≥ C ≥ 2）的任意行
      Σ_{j≠i} |⟨ψ_{v_i}, ψ_{v_j}⟩| ≤ 2π·q/(1−q)，q = C^{−3/2} < 1/2
    ——C=4 时 ≤ 2π/7 ≈ 0.898 < 1：**1D 无条件基定理在 C=4 从
@@ -76816,7 +76659,6 @@ Open Scope complex_scope.
 Open Scope nat_scope.
 (* ============================================================
    任意角度对 Dirichlet 界 → 混合网格跨网格相干界
-   （z 工作区，E039 纪律；2026-08-22 第二批 ①）
    前置：probe_grid_ortho（rot 机器）、probe_partial（Dirichlet 主定理）。
 
    主定理 pair_dirichlet：任意两角度 t1 t2，若差频 t1−t2 落在
@@ -76942,9 +76784,6 @@ Open Scope R_scope.
 Open Scope complex_scope.
 Open Scope nat_scope.
 (* ============================================================
-   压缩感知定理补齐 CS-1/CS-2/CS-3（z 工作区，E039）
-   任务源：论文与文档/psi-rope-rand恶化-压缩感知理论缺口-20260822.md §四
-   （用户直派：无条件基/无关性范畴的非平凡定理，兑现压缩感知潜力）
 
    数学内容： psi 频率阶梯（波长 n 截断复指数，库 ca_basis.psi，
    归一化 ‖ψ_n‖=1）构成低相干（incoherent）原子族——压缩感知地基。
@@ -77108,14 +76947,12 @@ Qed.
 End Incoherence.
 
 (* ============================================================
-   CS-2/CS-3：RIP + 稀疏唯一性（z 工作区，E039）
    —— 在既有 IC0/IC1（inner、psi_norm_one）之上。
    Module Incoherence2：ipW 内积机器 + 双原子范数展开 + 稀疏唯一性。
    ============================================================ *)
 Module Incoherence2.
 
 (* ============================================================
-   CS-2/CS-3：RIP + 稀疏唯一性（z 工作区，E039，经典 R 纪律）
    —— ipW 内积机器 + 双原子范数展开 + 稀疏唯一性（非平凡核心）。
    依赖：probe_parseval（Cnorm_sq_add/re_mul_conj/sum_f_R0_*）。
    审计：Dedekind 三件套基座继承，零自定义公理、零 Admitted。
@@ -77447,7 +77284,6 @@ Proof.
 Qed.
 
 (* ============================================================
-   CS-3b 引擎：M-原子组合与线性提取（z 工作区，E039）
    —— comboM（Σ_{j<M} c_j·u_j）+ ipW 线性提取。
    ============================================================ *)
 
@@ -77612,7 +77448,6 @@ Proof.
 Qed.
 
 (* ============================================================
-   CS-3b 最终定理：M-原子稀疏唯一性（z 工作区，E039）
    —— rip_lower_M（RIP 下界，归纳）+ sparse_uniquenessM（最终定理）。
    证明链：norm_sq_comboM_rec（递归展开）+ cross_abs_le（交叉项界）
    + sum_abs_cross_le（AM-GM 聚合）+ 系数 INR 单调。
@@ -77625,7 +77460,6 @@ Proof.
   induction M; simpl; [apply Rle_0_sqr | apply Rplus_le_le_0_compat; [exact IHM | apply Rle_0_sqr]].
 Qed.
 
-(* μ·S + μ·INR(SM)·S = μ·INR(S(SM))·S（S_INR 合并，E058 显式 replace 法 + set N 消歧） *)
 Lemma INR_succ_mul (mu sv : R) (M : nat) :
   (mu * sv + mu * INR (S M) * sv = mu * INR (S (S M)) * sv)%R.
 Proof.
@@ -77913,8 +77747,6 @@ Open Scope R_scope.
 Open Scope complex_scope.
 Open Scope nat_scope.
 (* ============================================================
-   F3：行和 → RIP 桥接（row_bound_implies_rip，z 工作区）
-   任务源：非平凡定理生成方案-压缩感知无条件基深层支撑-20260823.md §F3
 
    数学内容： 行非对角和 μ_row（∀i：Σ_{j≠i}|⟨u_i,u_j⟩| ≤ μ_row）蕴含
    对 M+1 原子（k = M+1）的 RIP：
@@ -78361,8 +78193,6 @@ Open Scope R_scope.
 Open Scope complex_scope.
 Open Scope nat_scope.
 (* ============================================================
-   A2：C=4 精确相干 + 3 原子稀疏唯一恢复实例（z 工作区）
-   任务源：非平凡定理生成方案-压缩感知无条件基深层支撑-20260823.md §F2
 
    数学内容： C=4 阶梯 [3,13,53,213] 的逐对相干上界（PSA_framework 的
    pair_3_13/pair_3_53/pair_3_213/pair_13_53/pair_13_213/pair_53_213 已有，
@@ -78608,8 +78438,6 @@ Open Scope R_scope.
 Open Scope complex_scope.
 Open Scope nat_scope.
 (* ============================================================
-   F4：Welch 界与原子族最优性（z 工作区，E093 五规则）
-   任务源：非平凡定理生成方案-压缩感知无条件基深层支撑-20260823.md §F4
 
    数学内容（Welch 界，经典 R 轨道）：
      M 个单位范数向量 u_0..u_{M-1} ∈ R^N（N < M），互相干上界 μ：
@@ -78619,7 +78447,6 @@ Open Scope nat_scope.
        证明该族在低相干意义下接近理论最优。
 
    证明路线（初等，避免特征值理论——行向量 Cauchy-Schwarz）：
-     R0. 求和工具（全部本地自证，防合并重名 E065）：swap / scal / ext / le / nonneg /
          add / opp / one / sq_expand / factor / sum4_swap / split_diag / ge_diag。
      R1. Gram 重排：Σ_{i,j}⟨u_i,u_j⟩² = Σ_{k,l}(Σ_i u_ik·u_il)²。
      R2. Σ_{k,l}(Σ_i u_ik·u_il)² ≥ (Σ_k Σ_i u_ik²)²/N（对角截断 + CS 幂平均）。
@@ -79276,36 +79103,14 @@ Qed.
 Close Scope R_scope.
 Close Scope Z_scope.
 (* ============================================================
-   F5 不确定性原理（纯构造性 CR 版，probe_uncertainty_cr.v，z 工作区，E093 五规则）
-   任务源：非平凡定理生成方案-压缩感知无条件基深层支撑-20260823.md §F5
-   用户红线：纯构造性——Stdlib ConstructiveReals（与 F7/R4 同轨道），
-             零经典实数、零 Admitted、零自定义公理。
-
-   ★ 完成（2026-08-23）：35 定理全 Qed，编译 EXIT=0，
-     Print Assumptions 全部 Closed under the global context（零经典）。
-     主定理 CRuncertainty_principle（唯一性正形式，Donoho-Stark 相干字典
-     不确定原理的构造性版，常数 1+1/μ——Foucart-Rauhut 标准）已交付。
-
-   数学内容（Donoho-Stark 相干字典不确定原理，唯一性正形式）：
-     若字典 {u_j}（单位范数、相干 ≤ μ）上同一信号 x 有两个稀疏表示
-       x = Σ_{j∈T1} c_j·u_j == Σ_{j∈T2} d_j·u_j
-     （c 在 T1 外为零、d 在 T2 外为零），且 μ·(|T1|+|T2|−1) < 1，
-     则 ∀j: c_j == d_j（表示唯一——不确定性原理的构造性正形式）。
-   经典推论（经典反证）：两表示不同 ⟹ |T1|+|T2| ≥ 1/μ+1。
-     （任务文档的 2/μ 是 Donoho–Huo 两正交基乘积版 a·b ≥ 1/μ² 的 AM-GM 推论；
-       一般相干字典的精确常数是 1+1/μ（Foucart–Rauhut / spark 论证），
-       本探针形式化此标准版；经典版 probe_uncertainty.v 亦存在（并行会话交付，
-       前缀口径 μ(M+1) 版）。）
-
-   证明链（纯 CR，复用 ca_rip_cr P0–P5 + R4 收缩链）：
-     A. 列表基础设施：scal / lst_sum / lst_sqsum / lst_abs_sum / lst_combo
-     B. lst_combo_norm_sq_cons / scal_norm_sq：范数平方展开
-     C. lst_combo_ip_abs_le_sum / lst_cross_abs_le：列表三角 + 相干上界
-     D. lst_sum_amgm：2|a|·Σ_T|e_k| ≤ |T|·a² + Σ_T e_k²（CRabs_amgm 逐对求和）
-     E. lst_rip_lower（核心）：NoDup T ⟹ Σ_T e² ≤ ‖lst_combo T e u‖² + μ·(|T|−1)·Σ_T e²
-     F. 差分线性 + 零项吸收 + 范数零（lst_combo e == 0 ⟹ ‖·‖² == 0）
-     G. 收缩链（R4 同构）：Σe² ≤ μ(t−1)Σe² ∧ μ(t−1)<1 ⟹ Σe²==0 ⟹ 逐项零
-     H. ★ CRuncertainty_principle（主定理）：唯一性（undup 合并两支撑）
+   F5 不确定性原理（纯构造性 CR 版，probe_uncertainty_cr）
+   纪律：纯构造性——Stdlib ConstructiveReals，零经典实数、
+         零 Admitted、零自定义公理；35 定理全 Qed，
+         Print Assumptions 全部 Closed under the global context。
+   主定理 CRuncertainty_principle：相干字典不确定原理（唯一性正形式，
+   Donoho-Stark 标准，常数 1+1/μ）。
+   数学内容：若字典 {u_j}（单位范数、相干 ≤ μ）上同一信号 x 有两个稀疏表示，
+   则两表示在支撑上逐点相同（|T1|+|T2|−1 的相干窗口）。
    ============================================================ *)
 Require Import ConstructiveReals.
 From Stdlib Require Import ConstructiveRealsMorphisms.
@@ -80419,9 +80224,7 @@ End F5Uncertainty.
 Close Scope R_scope.
 Close Scope Z_scope.
 (* ============================================================
-   G-8 字典最优性 ⟹ 恢复保证合成定理（纯构造性 CR 版，z 工作区，E093 五规则）
-   任务源：定理缺口深化分析-最强推理-20260823.md §G-8（第三方评估）
-   用户红线：纯构造性——Stdlib ConstructiveReals（Set 层 CRcarrier + Prop 层
+   纪律：纯构造性——Stdlib ConstructiveReals（Set 层 CRcarrier + Prop 层
              CReq/CRle/CRlt），零经典实数（不用 Stdlib.Reals.Reals）、
              零 Admitted、零自定义公理。
 
@@ -80434,7 +80237,7 @@ Close Scope Z_scope.
         F5 给出"恢复保证"（相干足够小时表示唯一），
         合成 = 相图定理：μ 落在 [Welch, 1/|T|) 才有唯一恢复。
 
-   证明链（本探针，纯 CR，复用同事 F5/R4 战术）：
+   证明链（本探针，纯 CR，复用 F5/R4 战术）：
      R0. CR 算术辅助：0 ≤ z < 1 ⟹ z·z < 1（CRsqr_lt_one，构造性）；
          0 ≤ a ≤ b、0 ≤ c ≤ d ⟹ ac ≤ bd（CRmult_le_compat_4）。
      R1. ★ CRphase_window_nonempty（相图窗口非空）：
@@ -80445,7 +80248,7 @@ Close Scope Z_scope.
              CRle_lt_trans 组装）
      R2. ★ CRg8_recovery_synthesis（主合成定理）：
            Welch 下界（抽象前提）+ F5 全部前提 ⟹ 唯一恢复
-           （直接实例化同事 F5 CRuncertainty_principle——相图区间
+           （直接实例化 F5 CRuncertainty_principle——相图区间
              [Welch, 1/|T|) 上的恢复保证；Welch 前提经
              CRphase_window_nonempty 给出窗口非空叙事）
 
@@ -80466,8 +80269,7 @@ Import ListNotations.
 From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
 
 Local Open Scope ConstructiveReals.
-(* 不开 nat_scope：mathcomp 的 muln 记法会劫持 CR 的 *（E092 教训）。
-   le/lt 用 Coq 原生函数（mathcomp 不劫持这两个标识符），lia 可处理。 *)
+(* le/lt 用 Coq 原生函数（mathcomp 不劫持这两个标识符），lia 可处理。 *)
 
 Section G8Synthesis.
 
@@ -80649,8 +80451,6 @@ Open Scope R_scope.
 Open Scope complex_scope.
 Open Scope nat_scope.
 (* ============================================================
-   G-1 加权阶梯范数精确闭式（z 工作区，E093 五规则）
-   任务源：定理缺口深化分析-最强推理-20260823.md §G-1（第三方评估，最高杠杆）
    用户红线：零 Admitted、零自定义公理；经典 R/C 轨道（与 probe_pairbound/
              probe_incoherence 同轨——G-1 依赖 Cexp/sin 复分析基础设施，
              CR 构造性轨道无 exp/sin，按文档定位走经典轨道）。
@@ -80688,8 +80488,7 @@ Import Incoherence.
 Import Incoherence2.
 Open Scope R_scope.
 (* Open Scope complex_scope 已移除：scope 劫持 nat * 与 +（G-1 全 R 注解） *)
-(* Open Scope nat_scope 已移除：mathcomp 的 / 与 * 会劫持 R 除法/乘法（E092 教训）；
-   所有 nat 运算用显式函数/括号标注 *)
+(* 所有 nat 运算用显式函数/括号标注 *)
 Module G1NormClosed.
 (* ============ R0. 求和工具（本地，防重名） ============ *)
 (* 有限和递归公式（本地自证，probe_incoherence 未暴露顶层版） *)
@@ -81096,7 +80895,6 @@ Open Scope R_scope.
 Open Scope complex_scope.
 Open Scope nat_scope.
 (* ============================================================
-   G-2: mu_adj phase transition (z workspace, E093 rules)
    Task: 定理缺口深化分析 G-2 (third-party eval, B-7 narrative)
    Red lines: zero Admitted, zero custom axioms; classic R track
    (mu_adj has sin/sqrt; CR track has no trig functions).
@@ -81335,7 +81133,7 @@ Proof.
 Qed.
 
 (* ============ R2. Phase transition exists ============ *)
-(* R2: IVT + numeric bracketing (E127/E128 route).
+(* 相变存在性证明路线：
    - pi upper bound pi < 17/5 via sin_bound 0th order (sin_approx t 2 = t - t^3/6 + t^5/120)
    - pi lower bound pi > 3 via PI2_3_2
    - mu_adj(6/5) > 4/5  (sqrt(6/5)*5/(2pi) > 4/5  <=>  750 > 64 pi^2, pi < 17/5)
@@ -81781,7 +81579,6 @@ Close Scope R_scope.
 Close Scope Z_scope.
 (* ============================================================
    M1a：交替级数余项通用引理（纯 CR 基础，π 构造的核心）
-   G-5 可判定性溢价 模块 M1（z 区认领，纯 Stdlib ConstructiveReals）
    零经典、零 Admitted、零自定义公理
    核心：Leibniz 夹逼 S_N ∈ [S_1, S_0] ⟹ |Σ(-1)^k a_k| ≤ a_0
    ============================================================ *)
@@ -82196,7 +81993,6 @@ Close Scope R_scope.
 Close Scope Z_scope.
 (* ============================================================
    M1b CRpi（构造性 π）：交替级数取极限 + 有理界
-   G-5 可判定性溢价 模块 M1（z 区认领，纯 Stdlib ConstructiveReals）
    零经典、零 Admitted、零自定义公理
    复用 M1a：alt_partial/alt_sign/alt_a/alt_series_remainder
    核心：tail_partial 平移余项 → |S_j - S_i| ≤ a_{min+1} → Cauchy → CR_complete → π
@@ -85061,7 +84857,6 @@ Proof.
   exact (HN n Hn).
 Qed.
 
-(* 夹逼：0 ≤ z ≤ w 且 w → 0 ⟹ z → 0（z 取 CRabs 形式保证非负） *)
 Lemma squeeze_cv0 (z w : nat -> CRcarrier R) :
   (forall n, CR_of_Q R 0 <= z n) ->
   (forall n, z n <= w n) ->
@@ -85314,7 +85109,9 @@ Proof.
 Qed.
 
 (* ============ M3 数值界：CRsqrt 21 ≥ 4582/1000、CRsqrt 105 ≥ 10246/1000 ============
-   （M4 G-5 主探针需求；极限 ≥ 单调递增序列每项 + qbisec 有限步 vm_compute） *)
+   代数路线（P4 非平凡化）：Q 层平方界 (4582/1000)² ≤ 21 + 非负平方单调
+   ——替代 qbisec 有限步 vm_compute 核验；qbisec 核验 qlo21_20_ge/qlo105_20_ge
+   保留作交叉验证记录。 *)
 
 (* 极限 ≥ 单调递增序列每项：CRsqrt q ≥ CR_of_Q (qlo q n) *)
 Lemma CRsqrt_ge_qlo (q : Q) (Hq : (0 <= q)%Q) (n : nat) :
@@ -85334,29 +85131,87 @@ Proof. vm_compute. discriminate. Qed.
 Lemma Q105_nonneg : (0 <= 105 # 1)%Q.
 Proof. vm_compute. discriminate. Qed.
 
-(* qbisec 有限步下逼近：qlo (21#1) 20 ≥ 4582/1000（vm_compute 精确计算） *)
+(* qbisec 有限步下逼近核验（交叉验证记录；主证明走下方代数平方界） *)
 Lemma qlo21_20_ge : (4582 # 1000 <= qlo (21 # 1) 20)%Q.
 Proof. vm_compute. discriminate. Qed.
 
 Lemma qlo105_20_ge : (10246 # 1000 <= qlo (105 # 1) 20)%Q.
 Proof. vm_compute. discriminate. Qed.
 
-(* CRsqrt 21 ≥ 4582/1000 *)
+(* ===== 代数化：Q 层平方界 + 非负平方单调（P4，替代 vm_compute） ===== *)
+
+(* Q 层平方界与界值非负：(4582/1000)² ≤ 21、0 ≤ 4582/1000（unfold Qle; simpl; lia） *)
+Lemma q21_sq_bound : ((4582 # 1000) * (4582 # 1000) <= (21 # 1))%Q.
+Proof. unfold Qle. simpl. lia. Qed.
+
+Lemma Q4582_nonneg : (0 <= 4582 # 1000)%Q.
+Proof. unfold Qle. simpl. lia. Qed.
+
+Lemma q105_sq_bound : ((10246 # 1000) * (10246 # 1000) <= (105 # 1))%Q.
+Proof. unfold Qle. simpl. lia. Qed.
+
+Lemma Q10246_nonneg : (0 <= 10246 # 1000)%Q.
+Proof. unfold Qle. simpl. lia. Qed.
+
+(* 非负平方单调：0≤x → 0≤y → x²≤y² → x≤y
+   （CRle := ¬(y<x)，反证 + 乘法保序：CRmult_lt_compat_l / CRmult_le_compat_r / CRle_lt_trans） *)
+Lemma CRle_square_nonneg (x y : CRcarrier R) :
+  CRle R (CR_of_Q R 0%Q) x -> CRle R (CR_of_Q R 0%Q) y ->
+  CRle R (x * x) (y * y) -> CRle R x y.
+Proof.
+  intros Hx Hy Hsq Hyx.
+  assert (Hx0 : CRlt R (CR_of_Q R 0%Q) x).
+  { apply (CRle_lt_trans (CR_of_Q R 0%Q) y x). exact Hy. exact Hyx. }
+  assert (Hyxle : CRle R y x) by exact (CRlt_asym y x Hyx).
+  assert (Hyysq : CRle R (y * y) (x * y)).
+  { apply (CRmult_le_compat_r y y x). exact Hy. exact Hyxle. }
+  assert (Hxy : CRlt R (x * y) (x * x)).
+  { apply (CRmult_lt_compat_l x y x). exact Hx0. exact Hyx. }
+  assert (Hyy : CRlt R (y * y) (x * x)).
+  { apply (CRle_lt_trans (y * y) (x * y) (x * x)). exact Hyysq. exact Hxy. }
+  exact (Hsq Hyy).
+Qed.
+
+(* CRsqrt 21 ≥ 4582/1000（代数：平方界 + 非负平方单调 + CRsqrt_sq） *)
 Lemma sqrt21_lower :
   CRle R (CR_of_Q R (4582 # 1000)) (CRsqrt (21 # 1) Q21_nonneg).
 Proof.
-  apply (CRle_trans _ (CR_of_Q R (qlo (21 # 1) 20)) _).
-  - apply CR_of_Q_le'. exact qlo21_20_ge.
-  - apply CRsqrt_ge_qlo.
+  apply (CRle_square_nonneg (CR_of_Q R (4582 # 1000)) (CRsqrt (21 # 1) Q21_nonneg)).
+  - apply CR_of_Q_le'. exact Q4582_nonneg.
+  - (* 0 ≤ CRsqrt 21：qlo 21 0 = 0，极限 ≥ 单调序列每项 *)
+    assert (Hqlo0 : qlo (21 # 1) 0%nat = 0%Q) by (unfold qlo, qbisec; reflexivity).
+    assert (Hsq0 : CRle R (CR_of_Q R (qlo (21 # 1) 0%nat)) (CRsqrt (21 # 1) Q21_nonneg)).
+    { apply (CRsqrt_ge_qlo (21 # 1) Q21_nonneg 0%nat). }
+    rewrite Hqlo0 in Hsq0. exact Hsq0.
+  - (* (4582/1000)² ≤ (CRsqrt 21)²：CR_of_Q_mult 桥 + CRsqrt_sq *)
+    apply (proj1 (CRle_morph R (CR_of_Q R ((4582 # 1000) * (4582 # 1000)))
+                 (CR_of_Q R (4582 # 1000) * CR_of_Q R (4582 # 1000))
+                 (CR_of_Q_mult R (4582 # 1000) (4582 # 1000))
+                 (CR_of_Q R (21 # 1))
+                 (CRsqrt (21 # 1) Q21_nonneg * CRsqrt (21 # 1) Q21_nonneg)
+                 (CReq_sym (CRsqrt (21 # 1) Q21_nonneg * CRsqrt (21 # 1) Q21_nonneg)
+                   (CR_of_Q R (21 # 1)) (CRsqrt_sq (21 # 1) Q21_nonneg)))).
+    apply CR_of_Q_le'. exact q21_sq_bound.
 Qed.
 
-(* CRsqrt 105 ≥ 10246/1000 *)
+(* CRsqrt 105 ≥ 10246/1000（同上） *)
 Lemma sqrt105_lower :
   CRle R (CR_of_Q R (10246 # 1000)) (CRsqrt (105 # 1) Q105_nonneg).
 Proof.
-  apply (CRle_trans _ (CR_of_Q R (qlo (105 # 1) 20)) _).
-  - apply CR_of_Q_le'. exact qlo105_20_ge.
-  - apply CRsqrt_ge_qlo.
+  apply (CRle_square_nonneg (CR_of_Q R (10246 # 1000)) (CRsqrt (105 # 1) Q105_nonneg)).
+  - apply CR_of_Q_le'. exact Q10246_nonneg.
+  - assert (Hqlo0 : qlo (105 # 1) 0%nat = 0%Q) by (unfold qlo, qbisec; reflexivity).
+    assert (Hsq0 : CRle R (CR_of_Q R (qlo (105 # 1) 0%nat)) (CRsqrt (105 # 1) Q105_nonneg)).
+    { apply (CRsqrt_ge_qlo (105 # 1) Q105_nonneg 0%nat). }
+    rewrite Hqlo0 in Hsq0. exact Hsq0.
+  - apply (proj1 (CRle_morph R (CR_of_Q R ((10246 # 1000) * (10246 # 1000)))
+                 (CR_of_Q R (10246 # 1000) * CR_of_Q R (10246 # 1000))
+                 (CR_of_Q_mult R (10246 # 1000) (10246 # 1000))
+                 (CR_of_Q R (105 # 1))
+                 (CRsqrt (105 # 1) Q105_nonneg * CRsqrt (105 # 1) Q105_nonneg)
+                 (CReq_sym (CRsqrt (105 # 1) Q105_nonneg * CRsqrt (105 # 1) Q105_nonneg)
+                   (CR_of_Q R (105 # 1)) (CRsqrt_sq (105 # 1) Q105_nonneg)))).
+    apply CR_of_Q_le'. exact q105_sq_bound.
 Qed.
 
 End M3.
