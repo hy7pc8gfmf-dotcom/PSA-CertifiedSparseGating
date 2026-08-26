@@ -74331,11 +74331,11 @@ Proof.
           (CRabs R A * Sabs)).
         { rewrite (CRsum_eq (R:=R)
             (fun j => CRabs R A * CRabs R (c j))
-            (fun j => CRabs R (c j) * CRabs R A) M).
-          - rewrite (sum_scale (R:=R) (fun j => CRabs R (c j)) (CRabs R A) M).
-            rewrite (CRmult_comm (R:=R) Sabs (CRabs R A)).
-            reflexivity.
-          - intro j. intro Hj. apply (CRmult_comm (R:=R) (CRabs R A) (CRabs R (c j))). }
+            (fun j => CRabs R (c j) * CRabs R A) M
+            (fun j Hj => CRmult_comm (R:=R) (CRabs R A) (CRabs R (c j)))).
+          rewrite (sum_scale (R:=R) (fun j => CRabs R (c j)) (CRabs R A) M).
+          rewrite (CRmult_comm (R:=R) Sabs (CRabs R A)).
+          reflexivity. }
         assert (Hscale : CReq R ((1 + 1) * (CRabs R A * Sabs))
                                  ((1 + 1) * CRsum (fun j => CRabs R A * CRabs R (c j)) M)).
         { rewrite HsumA. reflexivity. }
@@ -74587,11 +74587,11 @@ Proof.
           (CRabs R A * Sabs)).
         { rewrite (CRsum_eq (R:=R)
             (fun j => CRabs R A * CRabs R (c j))
-            (fun j => CRabs R (c j) * CRabs R A) M).
-          - rewrite (sum_scale (R:=R) (fun j => CRabs R (c j)) (CRabs R A) M).
-            rewrite (CRmult_comm (R:=R) Sabs (CRabs R A)).
-            reflexivity.
-          - intro j. intro Hj. apply (CRmult_comm (R:=R) (CRabs R A) (CRabs R (c j))). }
+            (fun j => CRabs R (c j) * CRabs R A) M
+            (fun j Hj => CRmult_comm (R:=R) (CRabs R A) (CRabs R (c j)))).
+          rewrite (sum_scale (R:=R) (fun j => CRabs R (c j)) (CRabs R A) M).
+          rewrite (CRmult_comm (R:=R) Sabs (CRabs R A)).
+          reflexivity. }
         assert (Hscale : CReq R ((1 + 1) * (CRabs R A * Sabs))
                                  ((1 + 1) * CRsum (fun j => CRabs R A * CRabs R (c j)) M)).
         { rewrite HsumA. reflexivity. }
