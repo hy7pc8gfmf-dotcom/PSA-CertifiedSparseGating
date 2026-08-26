@@ -1,5 +1,6 @@
 (* ============================================================
    网格阶梯正交探针（probe_grid_ortho）
+
    G1  grid_pair_ortho：网格原子对窗口 N 精确正交
        —— prime_character_orthogonality 的直接实例（该证明对任意 p≥2 成立，
           不用素数性；μ=0 证书的数学内核已在库中）
@@ -188,8 +189,7 @@ Theorem off_grid_ortho (alpha : R) (N m u : nat) :
                  Cconj (rot_atom (alpha + 2 * PI * INR u / INR N)%R k)) N = C0.
 Proof.
   intros HN Hneq.
-  (* 倒退解法（E114）：Csum_ext 前提显式 assert，勿让 rewrite 自动生成前提子目标
-     （CI mathcomp 2.6 下 (i<n)%nat 被解析为 bool，rewrite 自动统一失败） *)
+  (* 倒退解法（E114）：Csum_ext 前提显式 assert，勿让 rewrite 自动生成前提子目标 *)
   assert (Hp : forall k : nat, (k < N)%nat ->
     (fun k => rot_atom (alpha + 2 * PI * INR m / INR N)%R k *c
               Cconj (rot_atom (alpha + 2 * PI * INR u / INR N)%R k)) k
