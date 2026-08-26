@@ -26,38 +26,51 @@ test -d "$CQ" || { echo "  ✗ vendored Coquelicot 缺失"; exit 1; }
 test -d "$MC" && test -d "$HB" && test -d "$ELPI" || { echo "  ✗ opam 依赖缺失（需 coq-mathcomp-ssreflect.2.5.0 + coq-elpi）"; exit 1; }
 test -f "$CQ/Coquelicot.vo" && echo "  ✅ Coquelicot .vo 就绪" || { echo "  ✗ Coquelicot 未编译——需 workflow 'Build vendored Coquelicot' 步骤"; exit 1; }
 
-echo "=== 2. lib/ 依赖链编译 ==="
+echo "=== 2. lib/ 依赖链编译（actions/cache 命中则跳过）==="
 cd /repo 2>/dev/null || cd "$(dirname "$0")/.."
+lib_cached=0; lib_compiled=0
 while read -r f; do
   # 跳过注释行（# 开头）与空行
   [ -z "$f" ] && continue
   case "$f" in \#*) continue ;; esac
+  # 缓存命中：.vo 存在即复用（actions/cache key 已含源 hash，命中即源未变）
+  if [ -f "coq/lib/$f.vo" ]; then
+    lib_cached=$((lib_cached+1))
+    continue
+  fi
   echo "  coqc lib/$f.v"
   # mathcomp>=2.6 把 ssrbool/ssrnat/seq/prime/div 移到 boot/，代码用 boot.X 前缀（单映射）
   coqc -Q "coq/lib" "" -Q "$MC" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi "coq/lib/$f.v"
+  lib_compiled=$((lib_compiled+1))
 done < scripts/order.txt
-echo "  lib chain compiled"
+echo "  lib chain: cached=$lib_cached compiled=$lib_compiled"
 
-echo "=== 2.5 合并版编译（E130：PSA_audit 直接 Require 合并版 .vo）==="
-echo "  coqc merged/ca_merged_full_25.v（mathcomp 前缀 CI 适配：ssreflect.* → boot.*）"
+echo "=== 2.5 合并版编译（E130：PSA_audit 直接 Require 合并版 .vo；缓存命中则跳过）==="
 # E081/E082：本地 mathcomp<2.6 用 ssreflect.* 前缀（合并版源保持）；CI opam mathcomp≥2.6
 # 把 ssrbool/ssrnat/eqtype/seq/prime/div 移到 boot/，须 sed 转 boot.* 前缀（-Q 双映射对 .vo 无效）。
-# sed 版输出到临时目录（文件名保持 ca_merged_full_25.v 以维持逻辑名），编译为
-# <tmp>/ca_merged_full_25.vo，再用 -Q <tmp> "" 供 PSA_audit 解析。
-tmp_merged_dir="$(mktemp -d /tmp/merged.XXXXXX)"
-sed -e 's/ssreflect\.ssrbool/boot.ssrbool/g' \
-    -e 's/ssreflect\.ssrnat/boot.ssrnat/g' \
-    -e 's/ssreflect\.eqtype/boot.eqtype/g' \
-    -e 's/ssreflect\.seq/boot.seq/g' \
-    -e 's/ssreflect\.prime/boot.prime/g' \
-    -e 's/ssreflect\.div/boot.div/g' \
-    -e 's/ssreflect\.ssrfun/boot.ssrfun/g' \
-    "coq/merged/ca_merged_full_25.v" > "$tmp_merged_dir/ca_merged_full_25.v"
-coqc -Q "$tmp_merged_dir" "" -Q "$MC" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi "$tmp_merged_dir/ca_merged_full_25.v"
-rc_merged=$?
-if [ "$rc_merged" != "0" ]; then echo "  ❌ 合并版编译失败（RC=$rc_merged）"; rm -rf "$tmp_merged_dir"; exit 1; fi
-MERGEDQ=(-Q "$tmp_merged_dir" "")
-echo "  ✅ 合并版编译通过（$tmp_merged_dir）"
+# sed 版输出到固定路径 coq/merged/.ci/（可被 actions/cache 缓存），文件名保持 ca_merged_full_25.v
+# 以维持逻辑名，再用 -Q coq/merged/.ci "" 供 PSA_audit 解析。
+merged_dir="coq/merged/.ci"
+mkdir -p "$merged_dir"
+MERGEDQ=(-Q "$merged_dir" "")
+# cache key 已含合并版源 hash（actions/cache），命中即源未变——只需检查 .vo 存在
+if [ -f "$merged_dir/ca_merged_full_25.vo" ]; then
+  echo "  ✅ 合并版缓存命中（$merged_dir/ca_merged_full_25.vo）"
+else
+  echo "  coqc merged/ca_merged_full_25.v（mathcomp 前缀 CI 适配：ssreflect.* → boot.*）"
+  sed -e 's/ssreflect\.ssrbool/boot.ssrbool/g' \
+      -e 's/ssreflect\.ssrnat/boot.ssrnat/g' \
+      -e 's/ssreflect\.eqtype/boot.eqtype/g' \
+      -e 's/ssreflect\.seq/boot.seq/g' \
+      -e 's/ssreflect\.prime/boot.prime/g' \
+      -e 's/ssreflect\.div/boot.div/g' \
+      -e 's/ssreflect\.ssrfun/boot.ssrfun/g' \
+      "coq/merged/ca_merged_full_25.v" > "$merged_dir/ca_merged_full_25.v"
+  coqc -Q "$merged_dir" "" -Q "$MC" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi "$merged_dir/ca_merged_full_25.v"
+  rc_merged=$?
+  if [ "$rc_merged" != "0" ]; then echo "  ❌ 合并版编译失败（RC=$rc_merged）"; exit 1; fi
+  echo "  ✅ 合并版编译通过（$merged_dir）"
+fi
 
 echo "=== 3. PSA 核心编译 ==="
 for f in PSA_framework PSA_audit PSA_refcheck; do
@@ -88,6 +101,7 @@ else
   echo "  ❌ coqchk 复验失败（RC=$rc）"
   exit 1
 fi
-rm -rf "$tmp_merged_dir"
+# 合并版 .ci 目录保留（actions/cache 缓存复用；.glob 大文件清理）
+rm -f "$merged_dir"/*.glob
 echo "=== CI 全部通过 ==="
 

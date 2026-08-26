@@ -46,6 +46,22 @@ jobs:
             coq/deps/coquelicot/**/*.vo
           key: ${{ runner.os }}-coquelicot-${{ hashFiles('coq/deps/coquelicot/**/*.v') }}
 
+      - name: Cache lib chain .vo (30 modules, mathcomp-boot CI variant)
+        uses: actions/cache@v4
+        with:
+          path: |
+            coq/lib/*.vo
+            coq/lib/*.glob
+          key: ${{ runner.os }}-libvo-${{ hashFiles('coq/lib/**/*.v', 'scripts/order.txt') }}
+
+      - name: Cache merged .vo (E130 boot variant, sed-transformed)
+        uses: actions/cache@v4
+        with:
+          path: |
+            coq/merged/.ci/*.vo
+            coq/merged/.ci/*.glob
+          key: ${{ runner.os }}-mergedvo-${{ hashFiles('coq/merged/ca_merged_full_25.v') }}
+
       - name: Build vendored Coquelicot (gitlab master, 24 files)
         run: |
           eval "$(opam env)"
