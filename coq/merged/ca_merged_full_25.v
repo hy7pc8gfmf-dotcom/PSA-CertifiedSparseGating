@@ -74984,12 +74984,18 @@ Theorem off_grid_ortho (alpha : R) (N m u : nat) :
                  Cconj (rot_atom (alpha + 2 * PI * INR u / INR N)%R k)) N = C0.
 Proof.
   intros HN Hneq.
-  rewrite (Csum_ext _ (fun k => grid_pair N m u k) N).
-  - apply grid_pair_ortho; [exact HN | exact Hneq].
-  - intros k Hk.
+  (* 倒退解法（E114）：Csum_ext 前提显式 assert，勿让 rewrite 自动生成前提子目标
+     （CI mathcomp 2.6 下 (i<n)%nat 被解析为 bool，rewrite 自动统一失败） *)
+  assert (Hp : forall k : nat, (k < N)%nat ->
+    (fun k => rot_atom (alpha + 2 * PI * INR m / INR N)%R k *c
+              Cconj (rot_atom (alpha + 2 * PI * INR u / INR N)%R k)) k
+    = grid_pair N m u k).
+  { intros k Hk.
     rewrite (offset_cancel alpha (2 * PI * INR m / INR N)%R
                              (2 * PI * INR u / INR N)%R k).
-    apply rot_pair_grid. exact HN.
+    apply rot_pair_grid. exact HN. }
+  rewrite (Csum_ext _ (fun k => grid_pair N m u k) N Hp).
+  apply grid_pair_ortho; [exact HN | exact Hneq].
 Qed.
 
 (* ---------- G3：多窗口正交保持 ---------- *)
@@ -75067,13 +75073,15 @@ Proof.
   - rewrite mulSn.
     rewrite PE_Csum_split.
     (* 目标: Csum (fun i => f (N+i)) (a*N) +c Csum f N = C0
-       先 Csum_ext 换函数：∀i<a*N, f(N+i)=f i（grid_pair_periodic） *)
+       先 Csum_ext 换函数：∀i<a*N, f(N+i)=f i（grid_pair_periodic）——前提显式 assert（E114） *)
+    assert (Hper : forall i : nat, (i < a * N)%nat ->
+      grid_pair N m u (N + i) = grid_pair N m u i).
+    { intros i Hi. apply grid_pair_periodic. exact HN. }
     rewrite (Csum_ext (fun i => grid_pair N m u (N + i))
-                      (grid_pair N m u) (a * N)).
-    + rewrite IH.                  (* Csum f (a*N) → C0 *)
-      rewrite Cadd_0_l.            (* 0 +c Csum f N = Csum f N *)
-      apply grid_pair_ortho; [exact HN | exact Hneq].
-    + intros i Hi. apply grid_pair_periodic. exact HN.
+                      (grid_pair N m u) (a * N) Hper).
+    rewrite IH.                  (* Csum f (a*N) → C0 *)
+    rewrite Cadd_0_l.            (* 0 +c Csum f N = Csum f N *)
+    apply grid_pair_ortho; [exact HN | exact Hneq].
 Qed.
 
 End GridOrtho.
@@ -75300,9 +75308,12 @@ Proof.
   change (Nat.pred (S W)) with W.
   (* W = pred n；正交假设在 S W = n 窗口 *)
   assert (HForth : PrimeEmbedding.Csum (fun k => (c1 *c u1 k) *c Cconj (u2 k)) (S W) = C0).
-  { rewrite (Csum_ext _ (fun k => c1 *c (u1 k *c Cconj (u2 k))) (S W)).
-    - rewrite Csum_scal Horth Cmul_0_r. reflexivity.
-    - intros k Hk. apply Cmul_assoc. }
+  { (* 倒退解法（E114）：Csum_ext 前提显式 assert，勿让 rewrite 自动生成前提子目标 *)
+    assert (Hp : forall k : nat, (k < S W)%nat ->
+      (fun k => (c1 *c u1 k) *c Cconj (u2 k)) k = c1 *c (u1 k *c Cconj (u2 k))).
+    { intros k Hk. apply Cmul_assoc. }
+    rewrite (Csum_ext _ (fun k => c1 *c (u1 k *c Cconj (u2 k))) (S W) Hp).
+    rewrite Csum_scal Horth Cmul_0_r. reflexivity. }
   rewrite (l2_pythagoras (fun k => c1 *c u1 k) u2 c2 W Hu2 HForth).
   rewrite (l2_norm_sq_scale c1 u1 W).
   rewrite (unit_energy u1 W Hu1).
@@ -75321,9 +75332,12 @@ Proof.
     [rewrite muln_gt0; apply/andP; split; [exact Ha | exact (ltnW HN)]
     | intro k; apply grid_norm_sq; exact HN
     | intro k; apply grid_norm_sq; exact HN | ].
-  rewrite (Csum_ext _ (grid_pair N m1 m2) (a * N)).
-  - apply grid_ortho_mult; [exact HN | exact Hneq].
-  - intros k Hk. unfold grid_pair. reflexivity.
+  (* 倒退解法（E114）：Csum_ext 前提显式 assert *)
+  assert (Hp : forall k : nat, (k < a * N)%nat ->
+    grid_atom N m1 k *c Cconj (grid_atom N m2 k) = grid_pair N m1 m2 k).
+  { intros k Hk. unfold grid_pair. reflexivity. }
+  rewrite (Csum_ext _ (grid_pair N m1 m2) (a * N) Hp).
+  apply grid_ortho_mult; [exact HN | exact Hneq].
 Qed.
 
 End TParseval.
