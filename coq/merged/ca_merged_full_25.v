@@ -75652,14 +75652,16 @@ Proof.
   intros HN.
   assert (HNz : (0 < INR N)%R).
   { apply lt_0_INR. move: HN => /leP HNle. lia. }
-  assert (Hdj : (j = N * (j / N) + j mod N)%nat) by (apply Nat.div_mod_eq).
-  assert (Hjk : (j * k = ((j / N) * k) * N + (j mod N) * k)%nat)
-    by (rewrite {1}Hdj; rewrite mulnDl; rewrite -mulnA; rewrite mulnC; reflexivity).
+  (* 显式 Nat 函数（不依赖 * 记法解析，2.5/2.6 双环境稳，E150 续） *)
+  assert (Hdj : j = Nat.add (Nat.mul N (Nat.div j N)) (Nat.modulo j N)) by (apply Nat.div_mod_eq).
+  assert (Hjk : (Nat.mul j k = Nat.add (Nat.mul (Nat.mul (Nat.div j N) k) N) (Nat.mul (Nat.modulo j N) k)))
+    by (rewrite {1}Hdj; lia).
   unfold grid_atom.
-  assert (Hval : (2 * PI * INR (j * k) / INR N)%R
-    = ((2 * PI * INR ((j mod N) * k) / INR N)
-       + 2 * PI * IZR (Z.of_nat ((j / N) * k)))%R).
-  { rewrite <- (INR_IZR_INZ ((j / N) * k)). rewrite Hjk. rewrite plus_INR. rewrite !mult_INR.
+  assert (Hval : (2 * PI * INR (Nat.mul j k) / INR N)%R
+    = ((2 * PI * INR (Nat.mul (Nat.modulo j N) k) / INR N)
+       + 2 * PI * IZR (Z.of_nat (Nat.mul (Nat.div j N) k)))%R).
+  { rewrite <- (INR_IZR_INZ (Nat.mul (Nat.div j N) k)). rewrite Hjk. rewrite plus_INR.
+    rewrite (mult_INR (Nat.mul (Nat.div j N) k) N). rewrite (mult_INR (Nat.modulo j N) k).
     field. apply Rgt_not_eq. exact HNz. }
   rewrite Hval. apply Cexp_2pi_shift.
 Qed.
@@ -75673,20 +75675,22 @@ Proof.
   intros HN Hr HrN.
   assert (HNz : (0 < INR N)%R).
   { apply lt_0_INR. move: HN => /leP HNle. lia. }
+  (* Hsub 保持 %nat 形态（muln），与主目标 grid_atom 展开的 muln 形态匹配（2.5/2.6 一致） *)
   assert (Hsub : ((N - r) * k = N * k - r * k)%nat) by (rewrite mulnBl; reflexivity).
   unfold grid_atom.
   rewrite Hsub.
   assert (Hval : (2 * PI * INR (N * k - r * k) / INR N)%R
     = ((-(2 * PI * INR (r * k) / INR N)) + 2 * PI * IZR (Z.of_nat k))%R).
-  { rewrite <- (INR_IZR_INZ k). rewrite minus_INR.
-    (* mulnE 桥：mathcomp 2.6 的 muln ≢ Nat.mul，mult_INR 匹配不到 muln 应用
-       ——先显式把 INR 参数里的乘法归一到 Nat.mul（2.5 下 muln ≡ Nat.mul 同义） *)
-    rewrite mulnE.   (* muln = Nat.mul（函数等式，全局归一；2.5 同义 / 2.6 拆解） *)
+  { rewrite <- (INR_IZR_INZ k).
+    (* E114：minus_INR 前提（r*k ≤ N*k）显式 assert 并传参——避免自动前提子目标
+       干扰后续 rewrite 焦点（2.6 下子目标顺序敏感，E150 续） *)
+    assert (Hle : (r * k <= N * k)%coq_nat).
+    { apply Nat.mul_le_mono_r. move: HrN => /ltP HrNp. lia. }
+    rewrite (minus_INR (N * k) (r * k) Hle).
+    (* muln → Nat.mul 桥（2.6 muln ≢ Nat.mul；主目标无前提子目标干扰） *)
+    rewrite mulnE.
     rewrite (mult_INR N k). rewrite (mult_INR r k).
-    field. apply Rgt_not_eq; exact HNz.
-    (* minus_INR 前提：r*k <= N*k（r < N ⟹ r <= N ⟹ 乘 k 保序） *)
-    move: HrN => /ltP HrNp.
-    apply Nat.mul_le_mono_r. lia. }
+    field. apply Rgt_not_eq; exact HNz. }
   rewrite Hval (Cconj_Cexp (2 * PI * INR (r * k) / INR N)).
   apply Cexp_2pi_shift.
 Qed.
