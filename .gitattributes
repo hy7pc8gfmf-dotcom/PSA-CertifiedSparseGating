@@ -1,0 +1,16 @@
+# 文本文件统一 LF 行尾（消除 autocrlf 转换警告）
+* text=auto
+*.v text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.py text eol=lf
+*.ps1 text eol=crlf
+*.sh text eol=lf
+# 二进制文件
+*.vo binary
+*.pt binary
+*.docx binary
+*.pdf binary
+*.exe binary
+*.png binary
+*.jpg binary

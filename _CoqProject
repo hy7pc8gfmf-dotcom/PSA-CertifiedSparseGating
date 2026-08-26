@@ -3,9 +3,12 @@
 -Q coq/lib ""
 -Q coq/core PSA
 -Q coq/probes ""
+-Q coq/merged ""
 
 # 核心构建目标（lib 依赖链按 scripts/order.txt，由 Makefile 驱动）
 coq/core/PSA_framework.v
-coq/core/PSA_audit.v
 coq/core/PSA_refcheck.v
 coq/core/PSA_extract.v
+
+# 合并版审计（E130 模式：PSA_audit.v 直接 Require 合并版 .vo，无需 lib 链）
+coq/core/PSA_audit.v

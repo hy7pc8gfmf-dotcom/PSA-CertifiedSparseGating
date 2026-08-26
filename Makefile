@@ -30,9 +30,9 @@ ELPI?= $(COQLIB)/user-contrib/elpi
 
 HAS_HB := $(if $(wildcard $(HB)),-Q $(HB) HB -Q $(ELPI) elpi,)
 
-# -Q 映射：lib 顶层 ""、core 前缀 PSA、probes 顶层 ""
+# -Q 映射：lib 顶层 ""、core 前缀 PSA、probes 顶层 ""、merged 顶层 ""（E130：PSA_audit 直接 Require 合并版 .vo）
 LIBQ    := -Q $(LIB_DIR) ""
-COREQ   := -Q $(CORE_DIR) PSA
+COREQ   := -Q $(CORE_DIR) PSA -Q $(CURDIR)/coq/merged ""
 PROBEQ  := -Q $(PROBES_DIR) ""
 DEPSQ   := -Q $(MC) mathcomp -Q $(CQ) Coquelicot
 
@@ -85,3 +85,4 @@ clean:
 	rm -f $(LIB_DIR)/*.vo $(LIB_DIR)/*.glob $(LIB_DIR)/*.vos $(LIB_DIR)/*.vok
 	rm -f $(CORE_DIR)/*.vo $(CORE_DIR)/*.glob $(CORE_DIR)/*.vos $(CORE_DIR)/*.vok
 	rm -f $(PROBES_DIR)/*.vo $(PROBES_DIR)/*.glob $(PROBES_DIR)/*.vos $(PROBES_DIR)/*.vok
+
