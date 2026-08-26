@@ -722,6 +722,13 @@ ogrid 持 μ=0 全长度精确正交证书 + 零精确碰撞，仍比 rand（6.4
 5. **τ 机制累计判决（降格口径）**：batch4 的 randmax384 改善（s1337）为**单种子观察**
    （多种子未复现，不构成验证支点）；eval-only 3 支点维持；
 
+6. **2026-08-26 s2026 正式配置 9 方案复核（B1 链，27000 iters，batch8/16 降载）**：@4096
+   alibi **4.17** / t5rel **4.45** / c4 15.52 / e5pp 21.53 / c2 22.22 / grid 29.20 / rope 37.89 /
+   c3 45.39（rand 语料错误待重跑）——**两族分化复现**（相对位置族优 vs 显式/结构化族差）；
+   **中间段排序配置依赖**（快速主表 e5pp<c2<c4 vs 正式 c4<e5pp<c2；c3/rope 翻转）——主表以
+   快速配置 n=10 为口径，正式配置仅两族分化口径；rand 语料错误已安排重跑；温控宕机后收紧
+   （GPU 80°/CPU-util 70%/2 核亲和性），冷却次数高（513-1332）但 E139 原则数据有效。
+
 ### 10.9a k-scan discrimination experiment and trimming-semantics refinement (2026-08-23, local replication)
 
 > Discriminant question (T4 corollary): constant-theory predicts the optimal trim point N*
