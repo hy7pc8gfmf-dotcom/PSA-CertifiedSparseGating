@@ -39,15 +39,31 @@ done < scripts/order.txt
 echo "  lib chain compiled"
 
 echo "=== 2.5 合并版编译（E130：PSA_audit 直接 Require 合并版 .vo）==="
-echo "  coqc merged/ca_merged_full_25.v"
-coqc -Q "coq/merged" "" -Q "$MC" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi "coq/merged/ca_merged_full_25.v"
-echo "  ✅ 合并版编译通过"
+echo "  coqc merged/ca_merged_full_25.v（mathcomp 前缀 CI 适配：ssreflect.* → boot.*）"
+# E081/E082：本地 mathcomp<2.6 用 ssreflect.* 前缀（合并版源保持）；CI opam mathcomp≥2.6
+# 把 ssrbool/ssrnat/eqtype/seq/prime/div 移到 boot/，须 sed 转 boot.* 前缀（-Q 双映射对 .vo 无效）。
+# sed 版输出到临时目录（文件名保持 ca_merged_full_25.v 以维持逻辑名），编译为
+# <tmp>/ca_merged_full_25.vo，再用 -Q <tmp> "" 供 PSA_audit 解析。
+tmp_merged_dir="$(mktemp -d /tmp/merged.XXXXXX)"
+sed -e 's/ssreflect\.ssrbool/boot.ssrbool/g' \
+    -e 's/ssreflect\.ssrnat/boot.ssrnat/g' \
+    -e 's/ssreflect\.eqtype/boot.eqtype/g' \
+    -e 's/ssreflect\.seq/boot.seq/g' \
+    -e 's/ssreflect\.prime/boot.prime/g' \
+    -e 's/ssreflect\.div/boot.div/g' \
+    -e 's/ssreflect\.ssrfun/boot.ssrfun/g' \
+    "coq/merged/ca_merged_full_25.v" > "$tmp_merged_dir/ca_merged_full_25.v"
+coqc -Q "$tmp_merged_dir" "" -Q "$MC" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi "$tmp_merged_dir/ca_merged_full_25.v"
+rc_merged=$?
+if [ "$rc_merged" != "0" ]; then echo "  ❌ 合并版编译失败（RC=$rc_merged）"; rm -rf "$tmp_merged_dir"; exit 1; fi
+MERGEDQ=(-Q "$tmp_merged_dir" "")
+echo "  ✅ 合并版编译通过（$tmp_merged_dir）"
 
 echo "=== 3. PSA 核心编译 ==="
 for f in PSA_framework PSA_audit PSA_refcheck; do
   echo "  coqc core/$f.v"
-  # -Q coq/core PSA（PSA 前缀）+ -Q coq/lib ""（lib 顶层）+ -Q coq/merged ""（合并版，PSA_audit 依赖）
-  coqc -Q "coq/core" PSA -Q "coq/lib" "" -Q "coq/merged" "" -Q "$MC" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi "coq/core/$f.v"
+  # -Q coq/core PSA（PSA 前缀）+ -Q coq/lib ""（lib 顶层）+ $MERGEDQ（合并版，PSA_audit 依赖）
+  coqc -Q "coq/core" PSA -Q "coq/lib" "" "${MERGEDQ[@]}" -Q "$MC" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi "coq/core/$f.v"
 done
 echo "  ✅ PSA 核心编译通过"
 
@@ -64,7 +80,7 @@ echo "=== 5. coqchk 内核独立复验 ==="
 if command -v rocqchk >/dev/null 2>&1; then COQCHK=rocqchk; else COQCHK=coqchk; fi
 echo "  使用 $COQCHK 复验 PSA.PSA_framework / PSA.PSA_audit / PSA.PSA_refcheck ..."
 "$COQCHK" -Q "$COQLIB/user-contrib/mathcomp" mathcomp -Q "$CQ" Coquelicot -Q "$HB" HB -Q "$ELPI" elpi \
-  -Q "coq/lib" "" -Q "coq/core" PSA -Q "coq/merged" "" PSA.PSA_framework PSA.PSA_audit PSA.PSA_refcheck 2>&1 | tail -8
+  -Q "coq/lib" "" -Q "coq/core" PSA "${MERGEDQ[@]}" PSA.PSA_framework PSA.PSA_audit PSA.PSA_refcheck 2>&1 | tail -8
 rc=${PIPESTATUS[0]}
 if [ "$rc" = "0" ]; then
   echo "  ✅ coqchk 内核复验通过（RC=0）"
@@ -72,5 +88,6 @@ else
   echo "  ❌ coqchk 复验失败（RC=$rc）"
   exit 1
 fi
-
+rm -rf "$tmp_merged_dir"
 echo "=== CI 全部通过 ==="
+
