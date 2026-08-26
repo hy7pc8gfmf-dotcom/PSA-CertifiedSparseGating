@@ -214,8 +214,8 @@ Proof.
     + (* 严格相邻对：走 same_bin_triggers *)
       exists a. exists b. split; [apply Hback; exact HinA | split; [apply Hback; exact HinB | ]].
       assert (H3a : (3 <= a)%nat) by (apply Hin'; exact HinA).
-      assert (H5b : (INR (5 * b) < INR (9 * a))%R) by (apply lt_INR; lia).
-      rewrite !mult_INR in H5b.
+      assert (H5b : (INR (Nat.mul 5 b) < INR (Nat.mul 9 a))%R) by (apply lt_INR; lia).
+      rewrite (mult_INR 5 b) in H5b. rewrite (mult_INR 9 a) in H5b.
       assert (H55 : (INR (5%nat) = 5)%R) by (simpl; ring).
       assert (H99 : (INR (9%nat) = 9)%R) by (simpl; ring).
       rewrite H55, H99 in H5b.
