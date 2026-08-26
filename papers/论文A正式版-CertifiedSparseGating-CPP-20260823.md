@@ -1,4 +1,4 @@
-# Certified Sparse Gating over Phase-Truncated Frequency Ladders
+﻿# Certified Sparse Gating over Phase-Truncated Frequency Ladders
 ## A Coq Formalization of Representation Stability and Sparse Recovery Guarantees
 
 > 正式版（2026-08-26，对齐母版 v2.9）。来源：论文 A 草稿清洗（删除会话/评审/版本内部注记），
@@ -136,7 +136,7 @@ code 思想在数值框架界上的实例化；(iii) **构造性实数轨道**�
   Gershgorin → InstanceCertificate → M4bLengthConsistency → T8CoreCertificate →
   FrameCheckInstance → ChampionCertificate → FrameCheck2DNarrow → UnitaryInvariance →
   PhaseCoherence。
-- **合并版** `src/ca_merged_full_25.v`：**87733 行 / 57 顶层 Module（55 模块分区 + `ca_independence` 内 `independent`/`independent′` 2 附加）**（30 个 ca_* + PSA_framework +
+- **合并版** `src/ca_merged_full_25.v`：**87588 行 / 57 顶层 Module（55 模块分区 + `ca_independence` 内 `independent`/`independent′` 2 附加）**（30 个 ca_* + PSA_framework +
   独立模块 + **20 个 z 区探针**：probe_grid_ortho/parseval/partial/pairbound/rowsum/
   pairdirichlet/incoherence/row_rip/c4_instance + welch/uncertainty_cr/g8_synthesis_cr/
   g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/
@@ -533,7 +533,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 > **代码仓库**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 + 论文 + 实证 + CI，Apache-2.0；CI 徽章见 README）。预印本 DOI：10.6084/m9.figshare.33312189。
 
 - **代码分布**：`src/`（正式模块，含 `_CoqProject`）；`z/`（探针）；合并版
-  `src/ca_merged_full_25.v`（87733 行，57 顶层 Module = 55 模块分区 + `independent`/`independent′` 2 附加，含 ca_zeta_euler / ca_rip_cr 构造性轨道 + 20 个 z 区探针）；归档基态
+  `src/ca_merged_full_25.v`（87588 行，57 顶层 Module = 55 模块分区 + `independent`/`independent′` 2 附加，含 ca_zeta_euler / ca_rip_cr 构造性轨道 + 20 个 z 区探针）；归档基态
   `D:\ComplexAnalysis\30模块\`（ca_* + 探针 pro 版 + ca_zeta_euler + ca_rip_cr + 合并版，
   SHA-256 与 src/z 一致，旧版备份 `.sync-backup-20260823/`）。
 - **依赖版本**：Rocq/Coq 9.0.1（`C:\Rocq-Platform~9.0~2025.08\bin\coqc.exe`）；mathcomp
@@ -596,7 +596,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 部署级证书族构成三角支撑；**压缩感知族（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏
 唯一性）把「无条件基 + 频率阶梯」的理论优势推进到稀疏恢复**（k-原子 RIP 走纯构造性实数
 轨道、零经典公理）。全部开发零 Admitted、零自定义公理，165 项审计
-`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（87733 行，57 顶层 Module = 55 模块分区 + 2 附加，含 20 个 z 区探针 + 构造性轨道
+`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（87588 行，57 顶层 Module = 55 模块分区 + 2 附加，含 20 个 z 区探针 + 构造性轨道
 ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实证共同构成「可证性（稀疏）—
 外推性（稠密）」双轨的机器检查 + 实证记录。
 
@@ -632,7 +632,7 @@ ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实�
 | ρ^{−3/2} 逐对紧界 | z/probe_pairbound.v（5 Qed） | ✅ **已并入合并版** |
 | 碰撞刻画 / τ 机制 | z/probe_collision.v / probe_tchar.v / probe_taudicho.v | ✅（z 区独立验证） |
 | 部署级证书族 | z/probe_kvevict.v / probe_quant.v / probe_multihead.v / probe_exprat.v | ✅（z 区独立验证） |
-| 合并版 | src/ca_merged_full_25.v（87733 行，57 顶层 Module，20 探针 + ca_zeta_euler / ca_rip_cr 并入） | ✅ **MERGE_EXIT=0** |
+| 合并版 | src/ca_merged_full_25.v（87588 行，57 顶层 Module，20 探针 + ca_zeta_euler / ca_rip_cr 并入） | ✅ **MERGE_EXIT=0** |
 | 归档基态 | D:\ComplexAnalysis\30模块\（SHA-256 与 src/z 一致） | ✅ |
 
 ---

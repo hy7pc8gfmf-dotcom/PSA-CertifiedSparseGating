@@ -1,5 +1,7 @@
 # 论文 A 草稿（CPP/ITP 方向）— 2026-08-22 清洗版
 
+> **计数同步注记（2026-08-27，E113）**：合并版当前为 `ca_merged_full_25.v`（**87588 行 / 57 顶层 Module = 55 模块分区 + independent/independent′ 2 附加** / 20 个 z 区探针并入 / MERGE_EXIT=0，2026-08-27 重生成）；审计 **165 项**（111 段 Axioms + 54 项 Closed，`Classical_Prop.classic` 零出现，post-M1.5 口径，2026-08-27 重跑确认）；M3 √ 界代数化（sqrt21_lower/sqrt105_lower → Q 平方界 + 非负平方单调，零公理）；CI 双环境修复（probe_partial mult_INR vs muln，E150）。以下正文中的旧行数/模块数（78051/43 等）为历史快照，以本注记为准。
+
 > **版本状态（2026-08-22）**：
 > - **认证管线基态**：`frame_check_instance_sound` 主定理 Qed（会话 10+11）、**M1.5 经典清零**
 >   （审计 **165 项 RC=0、零 Admitted、全零经典排中**）、M4b 长度一致性 + T8 复合证书 +
