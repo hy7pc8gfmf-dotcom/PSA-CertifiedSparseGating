@@ -1,6 +1,4 @@
 (* ============================================================
-   F7 骨架（纯构造性版）：唯一性 ⟹ 恢复正确性（recovery_correct，z 工作区，E093 五规则）
-   任务源：非平凡定理生成方案-压缩感知无条件基深层支撑-20260823.md §F7
    用户红线：纯构造性——Stdlib ConstructiveReals（Set 层 CRcarrier + Prop 层 CReq/CRle/CRlt），
              零经典实数（不用 Stdlib.Reals.Reals）、零 Admitted、零自定义公理。
 
@@ -35,8 +33,7 @@ From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
 Require Import ca_rip_cr.
 
 Local Open Scope ConstructiveReals.
-(* 不开 nat_scope：mathcomp 的 muln 记法会劫持 CR 的 *（E092 教训）。
-   mathcomp leq/ltn 经 ssrbool 默认可用（`le j M` = leq）。 *)
+(* 注：mathcomp leq/ltn 经 ssrbool 默认可用（`le j M` = leq）。 *)
 
 Section F7Recovery.
 
