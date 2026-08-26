@@ -73926,16 +73926,16 @@ Proof.
            (CRsum (fun j => CRabs R a * CRabs R (c j)) M)).
   rewrite <- (sum_scale (R:=R) (fun j => CRabs R a * CRabs R (c j)) (1 + 1) M).
   (* 目标 Σ_j (u k·(1+1)) <= ...。Hsum 是 Σ_j((1+1)·u k)。用 sum_Rle 的逐项交换
-     或直接 eapply 到 Hsum 前先转换。用 CRsum_eq + CRmult_comm 逐项。 *)
+     或直接 eapply 到 Hsum 前先转换。用 CRsum_eq + CRmult_comm 逐项。
+     注意：CRsum_eq 的前提显式传入（第 4 参），避免 rewrite 生成的子目标顺序
+     在不同环境（本地 mathcomp<2.6 vs CI mathcomp≥2.6）下不一致（E114 变体）。 *)
   rewrite (CRsum_eq (R:=R)
     (fun j => CRabs R a * CRabs R (c j) * (1 + 1))
-    (fun j => (1 + 1) * (CRabs R a * CRabs R (c j))) M).
-  - (* 目标 Σ_j((1+1)·u k) <= a²·INR + Σc_j²，匹配 Hsum（改写 RHS 后）。 *)
-    rewrite (sum_plus (R:=R) (fun j => a * a) (fun j => c j * c j) M) in Hsum.
-    rewrite (sum_const (R:=R) (a * a) M) in Hsum.
-    exact Hsum.
-  - intro j. intro Hj.
-    symmetry. exact (CRmult_comm (R:=R) (1 + 1) (CRabs R a * CRabs R (c j))).
+    (fun j => (1 + 1) * (CRabs R a * CRabs R (c j))) M
+    (fun j Hj => symmetry (CRmult_comm (R:=R) (1 + 1) (CRabs R a * CRabs R (c j))))).
+  rewrite (sum_plus (R:=R) (fun j => a * a) (fun j => c j * c j) M) in Hsum.
+  rewrite (sum_const (R:=R) (a * a) M) in Hsum.
+  exact Hsum.
 Qed.
 
 (* ============================================================
