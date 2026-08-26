@@ -1,13 +1,13 @@
-File "D:\ComplexAnalysis\PSA-CertifiedSparseGating\coq\core\PSA_audit.v", line 2, characters 0-33:
+File "D:\ComplexAnalysis\PSA-CertifiedSparseGating\coq\core\PSA_audit.v", line 9, characters 0-33:
 Warning: Notation "_ <= _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:\ComplexAnalysis\PSA-CertifiedSparseGating\coq\core\PSA_audit.v", line 2, characters 0-33:
+File "D:\ComplexAnalysis\PSA-CertifiedSparseGating\coq\core\PSA_audit.v", line 9, characters 0-33:
 Warning: Notation "_ < _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:\ComplexAnalysis\PSA-CertifiedSparseGating\coq\core\PSA_audit.v", line 2, characters 0-33:
+File "D:\ComplexAnalysis\PSA-CertifiedSparseGating\coq\core\PSA_audit.v", line 9, characters 0-33:
 Warning: Notation "_ >= _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:\ComplexAnalysis\PSA-CertifiedSparseGating\coq\core\PSA_audit.v", line 2, characters 0-33:
+File "D:\ComplexAnalysis\PSA-CertifiedSparseGating\coq\core\PSA_audit.v", line 9, characters 0-33:
 Warning: Notation "_ > _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
 Axioms:
