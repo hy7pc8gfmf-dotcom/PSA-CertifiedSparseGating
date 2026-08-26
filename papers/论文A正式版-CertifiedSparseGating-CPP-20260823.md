@@ -541,7 +541,8 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 - **构建命令**：各模块独立编译 `coqc -Q <src> "" -Q <z> "" -Q <mathcomp> mathcomp
   -Q <Coquelicot> Coquelicot <file>.v`；合并版重新生成 `python src/_merge_ca.py`，合并编译
   `coqc -Q <mathcomp> mathcomp -Q <Coquelicot> Coquelicot src/ca_merged_full_25.v`
-  （MERGE_EXIT=0）。
+  （MERGE_EXIT=0）。**CI 可复现性**：GitHub Actions 缓存 lib 链与合并版 .vo（按源 hash 失效），
+  编译命令 `scripts/ci_build.sh`（mathcomp 2.6 前缀经 sed 适配 boot.*）。
 - **审计脚本**：PSA_audit.v（165 项，输出 `audit_run_20260826_full.txt`）；PSA_3D_audit.v（10 项）；
   FFI 自测 `python psa_guard_ffi.py`（24/24）。
 - **提取链**：PSA_extract.v → psa_guard.ml → psa_guard.exe → psa_guard_ffi.py。
