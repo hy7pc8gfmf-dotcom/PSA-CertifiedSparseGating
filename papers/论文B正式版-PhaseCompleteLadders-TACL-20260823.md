@@ -444,17 +444,21 @@ KV 逐出实验（训练长度内逐出无系统代价）与论文 A 的 `kv_evi
    general benefit). Eval-only pruning (O2/τ-triple) and true training (batch4/fine scan)
    are distinct protocols and are counted separately (§9.2).
 
-**2026-08-26 s2026 formal-config 9-scheme replication (B1 chain, tinystories200 · 27000 iters, batch8/16 downgraded)**:
+**2026-08-26 formal-config 3-seed replication (B1 + FOLLOWUP chains, tinystories200 · 27000 iters, seeds {1337, 2026, 31415}, batch8/16 downgraded)**:
 
-| scheme | @4096 (8×) | scheme | @4096 (8×) |
-|--------|-----------|--------|-----------|
-| **alibi** | **4.17** | c2 | 22.22 |
-| **t5rel** | **4.45** | grid | 29.20 |
-| c4 | 15.52 | rope | 37.89 |
-| e5pp | 21.53 | c3 | 45.39 |
-| rand | (corpus-error, re-running) | | |
+| scheme | s1337 | s2026 | s31415 |
+|--------|-------|-------|--------|
+| **alibi** | **4.09** | **4.17** | **4.23** |
+| **t5rel** | **4.29** | **4.45** | **4.56** |
+| **rand** | **8.67** | **6.44** | **5.71** |
+| c4 | 16.37 | 15.52 | 14.53 |
+| e5pp | 15.20 | 21.53 | 17.58 |
+| c2 | 16.25 | 22.22 | 20.53 |
+| grid | 25.91 | 29.20 | 20.59 |
+| c3 | 30.53 | 45.39 | 39.38 |
+| rope | 35.81 | 37.89 | 38.31 |
 
-**The relative-vs-explicit frequency dichotomy reproduces under deep training (27000 iters)**: relative-position schemes (alibi 4.17 / t5rel 4.45) clearly beat explicit-frequency (c2/c4/e5pp 15-22) and structured (grid/rope/c3 29-45) families — supporting "explicit-frequency families overfit the training-window phase; relative-position families stay flat". **Config-dependent mid-table ordering (honest qualifier)**: quick-config n=10 main table is e5pp<c2<c4 and c3<grid<rope, while formal-config s2026 is **c4<e5pp<c2** and grid<rope<c3 — **c4/c3/rope relative order flips between quick↔formal configs** — the main-table ordering (core data, n=10 replicated 3→10 seeds) is defined on the quick config; the formal config supports only the two-family dichotomy, not mid-table ordering. **Validity note**: rand_s2026 first run used a wrong corpus (1.8e8 chars vs tinystories200's 5.1e6, from a side chain) and is being re-run; all runs were batch-downgraded (GPU 80°C / CPU-util 70% threshold / 2-core affinity after a thermal crash), cooling counts high (513-1332) — per E139 cooling pauses do not alter training values (fixed seeds), data points valid.
+**The relative-vs-explicit frequency dichotomy reproduces under deep training (27000 iters, 3 seeds)**: relative-position schemes (alibi 4.09-4.23 / t5rel 4.29-4.56) clearly beat explicit-frequency (c2/c4/e5pp 15-22) and structured (grid/rope/c3 20-45) families — supporting "explicit-frequency families overfit the training-window phase; relative-position families stay flat". **Config-dependent mid-table ordering (honest qualifier)**: quick-config n=10 main table is e5pp<c2<c4 and c3<grid<rope, while formal-config is **c4<e5pp<c2** (s2026/s31415) and c4<c2≈e5pp (s1337) — **c4/c3/rope relative order flips between quick↔formal configs** — the main-table ordering (core data, n=10 replicated 3→10 seeds) is defined on the quick config; the formal config supports only the two-family dichotomy, not mid-table ordering. **Validity note**: rand_s2026's first run used a wrong corpus (1.8e8 chars vs tinystories200's 5.1e6, from a side chain) and was re-run (6.44, valid); c3_s31415 was completed by the B2 chain (39.38); all runs were batch-downgraded (GPU 80°C / CPU-util 70% threshold / 2-core affinity after a thermal crash), cooling counts high (513-1332) — per E139 cooling pauses do not alter training values (fixed seeds), data points valid.
 2. **过度裁剪有害（单种子观察）**：randmax256 @4096 = 8.44 > 7.50——257–384 区间是外推
    所需的稠密覆盖结构（τ 负债带之外），「剪越多越好」不成立，裁剪点须温和。
 3. **ogrid 结构路线在正式配置下亦否定**：@4096 = 19.30（比 rand 差 2.6×），与 Gutenberg
