@@ -1,30 +1,13 @@
 (* ============================================================================
-   ca_basis_4d.v —— 四维张量积探针（以 ca_basis_3d.v 为模板，会话 13）
-   ----------------------------------------------------------------------------
-   目标：把「3D 无条件基增量-评估与论文落地」§3.1 的 N=4 预测变成已证：
-     M_bound^{(N)} = K0^{(N)} · ((1 + 4·K_C)^N − 1)，K0^{(N)} = Rmax 8C³/2（N≥3）
-     数值（C=4）：N=4 ⟹ M_bound = 32 × (5⁴ − 1) = 19968（预测值）。
-
-   本探针交付（全部 Qed、零 Admitted、零活动 Axiom）：
-     1) gamma4 族（归一化常数层）         —— 3D 模板 gamma3 的 4 轴对应；
-     2) 4D 混合进制解码族（扁平索引 ↔ (i,j,k,l) 双射）—— 3D 模板 §一 的 4 轴对应；
-     3) phi4D_norm（4D 基函数定义）       —— 3D 模板 phi3D_norm 的 4 轴对应；
-     4) one_le_half_K0_4dprod（16 分支常数引理）—— 3D 模板 one_le_half_K0_dprod
-        （8 分支）的 4 轴对应：任意扁平离对角对（距离 ≤6）有
-        1 ≤ (Rmax 8C³/2) · d1·d2·d3·d4；
-     5) M_bound_4d + M_bound_4d_C4_value（= 19968）—— §3.1 预测值已证。
-
-   【常数说明（命名注记）】3D 文件已论证：N≥3 时最坏情形是「N−1 轴相等 + 一轴差 6」，
-   ∏d = 2/C³ 与维数无关，故 K0^{(N)} = Rmax 8C³/2（「half」，非「quarter」Rmax 8C³/4）——
-   /4 常数在单轴退化配置下只给 1/2 < 1，不可满足。4D 常数引理沿用 /2。
-
-   依赖：ca_basis_3d（3D 模板模块，提供 K0_mult_fin / Rmult_le_compat4_mine /
-         sqrt_le_1_c / sqrt_pow_6 / K_INR4_eq / d_factor 等复用组件）。
-   构造性纪律（coq-live-repair §6）：零 Admitted、零 classic（审计见本文件尾部说明）。
-   注：本探针仅交付常数层与数值裁决；主引擎 phi_flat_decay_general_4d 与组装定理
-   tensor_product_unconditional_basis_4d 留作下一步（模板 §4.4/§5 的 4 轴对应）。
+   ca_basis_4d —— 四维张量积无条件基
+   内容：4D 张量积无条件基的完整构建与验证：
+     · gamma4 族（归一化常数层）
+     · 4D 混合进制解码族（扁平索引 ↔ (i,j,k,l) 双射）
+     · phi4D_norm（4D 基函数）
+     · one_le_half_K0_4dprod（16 分支常数引理，K0 = Rmax·8C³/2）
+     · M_bound_4d + M_bound_4d_C4_value（C=4 时 = 19968）
+   全部 Qed、零 Admitted、零活动 Axiom、零 classic。
    ============================================================================ *)
-
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Lists.List.
 Require Import Stdlib.Sorting.Sorted.

@@ -1,11 +1,11 @@
 (* ============================================================
-   库: ca_zeta_euler —— 欧拉乘积式的构造性证明（2026-08-22 新建）
+   库 ca_zeta_euler —— 欧拉乘积式的构造性证明
    ============================================================
    目标：在构造性实数（Stdlib.Reals.Abstract.ConstructiveCauchyReals）上
          证明欧拉乘积式：对整数 s ≥ 2，
            ζ(s) = Σ_{n≥1} n^{-s} = ∏_p (1 - p^{-s})^{-1}
          全部 Qed、零 Admitted、零经典实数公理。
-   纪律（用户红线）：
+   纪律：
      - 数学对象在 Set 层构造（CRcarrier）
      - 极限/收敛在 Prop 层（CR_cv），不用排中律
      - n^{-s} = CRpow (CR_of_Q (1/n)) s（整数幂，无超越函数）
@@ -13,7 +13,6 @@
    记号注意：mathcomp ssrnat 把 <= / < 重载为布尔 leq/ltn（is_true 形式），
              文件内统一用 mathcomp 记号（如 (1 <= n)%nat = 0 < n 的 leq）。
    ============================================================ *)
-
 Require Import Stdlib.QArith.QArith.
 Require Import Stdlib.QArith.Qabs.
 Require Import Stdlib.ZArith.ZArith.
@@ -3448,6 +3447,514 @@ Proof.
     + exact HP1.
     + exact (introT leP (Pos2Nat.is_pos p)).
     + move/leP: HP. exact id.
+Qed.
+
+(* ============================================================
+   欧拉线延伸：ζ 单调性（s1 ≤ s2 ⟹ ζ(s2) ≤ ζ(s1)，s ≥ 2）
+   —— 探针 zz_probe_zeta_mono.v（EXIT=0，Print Assumptions Closed）
+   —— 链：inv_n_pow_mono_le（逐项，CRpow_decreasing_ge）
+     + zeta_sum_mono_le（部分和逐项，CRsum_le_pointwise）
+     + zeta_mono_le（极限比较，CR_cv_le）
+   —— 意义：ζ(s) 随 s 递减；euler_product 在收敛域上的单调性（级数侧）。
+   ============================================================ *)
+
+(* 逐项：n ≥ 1, s1 ≤ s2 ⟹ n^{-s2} ≤ n^{-s1}
+   —— inv_n_pow n s = CRpow (1/n) s；CRpow_decreasing_ge x s2 s1（s1 ≤ s2 ⟹ x^{s2} ≤ x^{s1}）。 *)
+Lemma inv_n_pow_mono_le {R : ConstructiveReals} (n s1 s2 : nat)
+  (Hn1 : (1 <= n)%N) (Hs : (s1 <= s2)%N) :
+  CRle R (inv_n_pow n s2) (inv_n_pow n s1).
+Proof.
+  unfold inv_n_pow.
+  apply (CRpow_decreasing_ge (R := R) (CR_of_Q R (Qinv_n n)) s2 s1).
+  - (* 0 ≤ 1/n *)
+    apply CRle_of_lt. apply (CR_of_Q_inv_pos (R := R) n). exact Hn1.
+  - (* 1/n ≤ 1 *)
+    apply (CR_of_Q_le (R := R) (Qinv_n n) Q1q).
+    apply (Qinv_n_le_one n Hn1).
+  - exact Hs.
+Qed.
+
+(* 部分和逐项：∀N, Σ_{n≤N} (S(S n))^{-s2} ≤ Σ_{n≤N} (S(S n))^{-s1} *)
+Lemma zeta_sum_mono_le {R : ConstructiveReals} (s1 s2 : nat) (Hs : (s1 <= s2)%N) :
+  forall N : nat,
+  CRle R (CRsum (fun n => inv_n_pow (S (S n)) s2) N)
+         (CRsum (fun n => inv_n_pow (S (S n)) s1) N).
+Proof.
+  move => N.
+  apply (CRsum_le_pointwise (R := R) (fun n => inv_n_pow (S (S n)) s2)
+                            (fun n => inv_n_pow (S (S n)) s1) N).
+  move => k Hk.
+  apply (inv_n_pow_mono_le (R := R) (S (S k)) s1 s2).
+  - (* 1 ≤ S(S k)：0 < S(S k) ≡ 1 ≤ S(S k)（ltn 定义） *)
+    exact (ltn0Sn (S k)).
+  - exact Hs.
+Qed.
+
+(* ★ 主引理：ζ 单调（s1 ≤ s2 ⟹ ζ(s2) ≤ ζ(s1)，s ≥ 2）
+   —— CR_cv_le：部分和沿 s2 ≤ 沿 s1（zeta_sum_mono_le）+ 极限比较。 *)
+Lemma zeta_mono_le {R : ConstructiveReals} (s1 s2 : nat)
+  (Hs1 : (2 <= s1)%N) (Hs2 : (2 <= s2)%N) (Hs : (s1 <= s2)%N) :
+  CRle R (projT1 (zeta_series_cv (R := R) s2 Hs2))
+         (projT1 (zeta_series_cv (R := R) s1 Hs1)).
+Proof.
+  apply (CR_cv_le (R := R)
+           (fun n => CRsum (fun k => inv_n_pow (S (S k)) s2) n)
+           (fun n => CRsum (fun k => inv_n_pow (S (S k)) s1) n)
+           (projT1 (zeta_series_cv (R := R) s2 Hs2))
+           (projT1 (zeta_series_cv (R := R) s1 Hs1))).
+  - exact (zeta_sum_mono_le (R := R) s1 s2 Hs).
+  - exact (projT2 (zeta_series_cv (R := R) s2 Hs2)).
+  - exact (projT2 (zeta_series_cv (R := R) s1 Hs1)).
+Qed.
+
+(* ============================================================
+   欧拉线延伸：ζ 数值界（ζ(2) ≤ 2，s ≥ 2 时 ζ(s) ≤ ζ(2) ≤ 2）
+   —— 探针 zz_probe_zeta_bound.v（EXIT=0，Print Assumptions Closed）
+   —— 链：zeta2_term_le（逐项 1/(n+2)² ≤ 1/(n+1) − 1/(n+2)）
+     + zeta2_sum_le（部分和逐项）+ zeta2_sum_telescope（telescope_shift A=0 闭式）
+     + zeta_2_le_2（部分和 ≤ 1 + CR_cv_bound_up 取极限 ⟹ l ≤ 1）
+   ============================================================ *)
+
+(* 逐项：inv_n_pow (S(S k)) 2 ≤ 1/(S k) - 1/(S(S k))（k ≥ 0）
+   —— inv_n_pow_le_sq（≤ 1/(S(S k))²）→ Qinv_sq_le_telescope（≤ 1/((S(S k))(S k))）
+     → Qinv_n_telescope（== 1/(S k) - 1/(S(S k))）。 *)
+Lemma zeta2_term_le {R : ConstructiveReals} (k : nat) :
+  CRle R (inv_n_pow (S (S k)) 2)
+         (CRminus R (CR_of_Q R (Qinv_n (S k))) (CR_of_Q R (Qinv_n (S (S k))))).
+Proof.
+  eapply CRle_trans.
+  - (* (S(S k))^{-2} ≤ 1/(S(S k))² *)
+    apply (inv_n_pow_le_sq (R := R) (S (S k)) 2).
+    + (* 2 ≤ S(S k) = 2 + k（定义性） *)
+      apply (leq_addr k 2).
+    + apply leqnn.       (* 2 ≤ 2 *)
+  - (* 1/(S(S k))² ≤ 1/((S(S k))(S k)) == 1/(S k) - 1/(S(S k)) *)
+    eapply CRle_trans.
+    + (* 1/(S(S k))² ≤ 1/((S(S k))(S k))：Qinv_sq_le_telescope *)
+      apply (CR_of_Q_le (R := R)
+               (Qinv_n ((S (S k)) * (S (S k))))
+               (Qinv_n ((S (S k)) * (S k)))).
+      apply (Qinv_sq_le_telescope (S (S k))).
+      apply (leq_addr k 2).
+    + (* 1/((S(S k))(S k)) == 1/(S k) - 1/(S(S k))：Qinv_n_telescope + CR_of_Q_minus *)
+      have Hbridge : CReq R (CR_of_Q R (Qinv_n ((S (S k)) * (S k))))
+                            (CRminus R (CR_of_Q R (Qinv_n (S k))) (CR_of_Q R (Qinv_n (S (S k))))).
+      { eapply CReq_trans.
+        - (* CR_of_Q (Qinv_n (...)) == CR_of_Q (Qminus (Qinv_n (S k)) (Qinv_n (S(S k)))) *)
+          apply (CR_of_Q_Qeq (R := R) (Qinv_n ((S (S k)) * (S k)))
+                   (Qminus (Qinv_n (S k)) (Qinv_n (S (S k))))
+                   (Qinv_n_telescope (S (S k)) (leq_addr k 2))).
+        - (* CR_of_Q (Qminus a b) == CR_of_Q a - CR_of_Q b（CR_of_Q_minus 桥） *)
+          apply (CR_of_Q_minus (R := R) (Qinv_n (S k)) (Qinv_n (S (S k)))). }
+      apply (proj1 (CRle_morph R
+        (CRminus R (CR_of_Q R (Qinv_n (S k))) (CR_of_Q R (Qinv_n (S (S k)))))
+        (CR_of_Q R (Qinv_n ((S (S k)) * (S k))))
+        (CReq_sym (CR_of_Q R (Qinv_n ((S (S k)) * (S k))))
+                  (CRminus R (CR_of_Q R (Qinv_n (S k))) (CR_of_Q R (Qinv_n (S (S k)))))
+                  Hbridge)
+        (CRminus R (CR_of_Q R (Qinv_n (S k))) (CR_of_Q R (Qinv_n (S (S k)))))
+        (CRminus R (CR_of_Q R (Qinv_n (S k))) (CR_of_Q R (Qinv_n (S (S k)))))
+        (CReq_refl (R := R) (CRminus R (CR_of_Q R (Qinv_n (S k))) (CR_of_Q R (Qinv_n (S (S k)))))))).
+      apply CRle_refl.
+Qed.
+
+(* 部分和逐项：Σ_{k≤N} (S(S k))^{-2} ≤ Σ_{k≤N} (1/(S k) - 1/(S(S k))) *)
+Lemma zeta2_sum_le {R : ConstructiveReals} (N : nat) :
+  CRle R (CRsum (fun k => inv_n_pow (S (S k)) 2) N)
+         (CRsum (fun k => CRminus R (CR_of_Q R (Qinv_n (S k)))
+                                    (CR_of_Q R (Qinv_n (S (S k))))) N).
+Proof.
+  apply (CRsum_le_pointwise (R := R)
+           (fun k => inv_n_pow (S (S k)) 2)
+           (fun k => CRminus R (CR_of_Q R (Qinv_n (S k)))
+                                (CR_of_Q R (Qinv_n (S (S k))))) N).
+  move => k Hk. exact (zeta2_term_le (R := R) k).
+Qed.
+
+(* 部分和闭式：Σ_{k≤N} (1/(S k) - 1/(S(S k))) == 1 - 1/(S(S N))
+   —— telescope_shift A=0（S 0+k = S k、S 0 = 1、S(S 0+N) = S(S N) 均定义性）。 *)
+Lemma zeta2_sum_telescope {R : ConstructiveReals} (N : nat) :
+  CReq R (CRsum (fun k => CRminus R (CR_of_Q R (Qinv_n (S k)))
+                                    (CR_of_Q R (Qinv_n (S (S k))))) N)
+         (CRminus R (CR_of_Q R Q1q) (CR_of_Q R (Qinv_n (S (S N))))).
+Proof.
+  exact (telescope_shift (R := R) 0 N).
+Qed.
+
+(* ★ 主引理：ζ(2) 级数极限 l ≤ 1（⟹ ζ(2) = 1+l ≤ 2）
+   —— 部分和 ≤ 1（telescope 闭式 + CRle_minus_compat）+ CR_cv_bound_up 取极限。 *)
+Lemma zeta_2_le_2 {R : ConstructiveReals} :
+  CRle R (projT1 (zeta_series_cv (R := R) 2 (leqnn 2))) (CR_of_Q R Q1q).
+Proof.
+  (* 部分和 ≤ 1 *)
+  have Hsum : forall N, CRle R (CRsum (fun k => inv_n_pow (S (S k)) 2) N)
+                                (CR_of_Q R Q1q).
+  { move => N.
+    eapply CRle_trans.
+    - exact (zeta2_sum_le (R := R) N).
+    - (* Σ(1/(S k) - 1/(S(S k))) == 1 - 1/(S(S N)) ≤ 1 *)
+      apply (proj2 (CRle_morph R
+        (CRsum (fun k => CRminus R (CR_of_Q R (Qinv_n (S k)))
+                                   (CR_of_Q R (Qinv_n (S (S k))))) N)
+        (CRminus R (CR_of_Q R Q1q) (CR_of_Q R (Qinv_n (S (S N)))))
+        (zeta2_sum_telescope (R := R) N)
+        (CR_of_Q R Q1q) (CR_of_Q R Q1q)
+        (CReq_refl (R := R) (CR_of_Q R Q1q)))).
+      (* 1 - 1/(S(S N)) ≤ 1：CRle_minus_compat（0 ≤ 1/(S(S N))） *)
+      apply (CRle_minus_compat (R := R) (CR_of_Q R Q1q) (CR_of_Q R (Qinv_n (S (S N))))).
+      apply CR_of_Q_le. unfold Qinv_n, Q0q, Qle. simpl. lia. }
+  (* 极限 ≤ 1：CR_cv_bound_up（部分和 ≤ 1 对任意 N） *)
+  apply (CR_cv_bound_up (R := R)
+           (fun N => CRsum (fun k => inv_n_pow (S (S k)) 2) N)
+           (CR_of_Q R Q1q) (projT1 (zeta_series_cv (R := R) 2 (leqnn 2))) 0).
+  - move => n Hn. exact (Hsum n).
+  - exact (projT2 (zeta_series_cv (R := R) 2 (leqnn 2))).
+Qed.
+
+(* ============================================================
+   延伸 ③：ζ(1) 发散（调和级数部分和无界）
+   —— 纯构造性：CR_archimedean（对任意 B 有正整数 n 使 B < n）
+      + harm_pow2_ge（Σ_{k=1}^{2^m} 1/k ≥ (2+m)/2，经典分组归纳）
+      + CRsum_harm_partial（CRsum ↔ CRsum_list 的 iota 桥）。
+   纪律：全部 Qed、零 Axiom（Print Assumptions zeta_1_diverges = Closed）。
+   技术点（E090 延伸）：mathcomp 2^j（j 变量）在 nat 层卡 Fixpoint，
+     用 positive 递归 pow2p（pow2p O = 1, pow2p (S j) = 2·pow2p j）+ 桥
+     pow2p_to_nat / positive_nat_Z / Qinv_n_pos，2 的幂进 Q 层分母不卡。
+   ============================================================ *)
+
+(* 2 的幂（positive 递归，避免 mathcomp expn 在 nat 层卡 Fixpoint） *)
+Fixpoint pow2p (j : nat) : positive :=
+  match j with O => 1%positive | S j' => (2 * pow2p j')%positive end.
+
+(* 桥：Pos.to_nat (pow2p j) = 2^j（归纳 j；expn 与 positive 2 幂一致） *)
+Lemma pow2p_to_nat (j : nat) : Pos.to_nat (pow2p j) = 2 ^ j.
+Proof.
+  elim: j => [|j IH]; simpl.
+  - reflexivity.
+  - rewrite (Pos2Nat.inj_mul 2 (pow2p j)). simpl.
+    rewrite IH. rewrite expnS. reflexivity.
+Qed.
+
+(* 桥：Qinv_n (Pos.to_nat p) = Qmake 1 p（Q 层，positive_nat_Z 反向） *)
+Lemma Qinv_n_pos (p : positive) : Qinv_n (Pos.to_nat p) = Qmake 1 p.
+Proof.
+  unfold Qinv_n. f_equal.
+  rewrite (positive_nat_Z p).
+  reflexivity.
+Qed.
+
+(* 工具：iota a.+1 n = map S (iota a n)（归纳 n，a 一般化） *)
+Lemma iota_succ_shift (a n : nat) : iota a.+1 n = map S (iota a n).
+Proof.
+  move: a. elim: n => [| n IH] a; simpl.
+  - reflexivity.
+  - f_equal. exact (IH a.+1).
+Qed.
+
+(* 工具：iota 1 n = map S (iota 0 n)（部分和 1..n 与 0..n-1 的对应） *)
+Lemma iota_shift (n : nat) : iota 1 n = map S (iota 0 n).
+Proof.
+  rewrite (iota_succ_shift 0 n). reflexivity.
+Qed.
+
+(* 工具：pow2p m ≥ 1（Pos.to_nat 正性，对 m 归纳：1 > 0，2·p > 0） *)
+Lemma pow2p_pos (m : nat) : 0 < Pos.to_nat (pow2p m).
+Proof.
+  elim: m => [| m IH]; simpl.
+  - apply ltnSn.
+  - rewrite (Pos2Nat.inj_mul 2 (pow2p m)). simpl.
+    apply (leq_trans IH).
+    apply leq_addr.
+Qed.
+
+(* 桥：inv_n_pow (S n) 1 == CR_of_Q (Qinv_n (S n))（CRpow x 1 = x·1 == x） *)
+Lemma inv_n_pow_1 {R : ConstructiveReals} (n : nat) :
+  CReq R (inv_n_pow (S n) 1) (CR_of_Q R (Qinv_n (S n))).
+Proof.
+  unfold inv_n_pow. simpl. exact (CRmult_1_r (R := R) (CR_of_Q R (Qinv_n (S n)))).
+Qed.
+
+(* 列表逐项 ≤ ⟹ 求和 ≤（对 l 归纳；补充到本文件供发散链用） *)
+Lemma CRsum_list_le_pointwise_list {R : ConstructiveReals} (f g : nat -> CRcarrier R) (l : seq nat)
+  (H : forall x : nat, x \in l -> CRle R (f x) (g x)) :
+  CRle R (CRsum_list f l) (CRsum_list g l).
+Proof.
+  induction l as [| x l IH]; simpl.
+  - apply CRle_refl.
+  - apply (CRplus_le_compat (R := R) (f x) (g x) (CRsum_list f l) (CRsum_list g l)).
+    + apply (H x). apply mem_head.
+    + apply IH. move => y Hy. apply (H y). rewrite in_cons. apply/orP. right. exact Hy.
+Qed.
+
+(* 工具：常数在任意列表 l 上的和 == (size l)·c（对 l 归纳） *)
+Lemma sumn_const {R : ConstructiveReals} (c : Q) (l : seq nat) :
+  CReq R (CRsum_list (fun _ : nat => CR_of_Q R c) l)
+         (CR_of_Q R (Qmult (Qmake (Z.of_nat (size l)) 1) c)).
+Proof.
+  elim: l => [| x l IH]; simpl.
+  - apply (CR_of_Q_Qeq (R := R) Q0q (Qmult (Qmake 0 1) c)).
+    unfold Qmult, Qeq. simpl. lia.
+  - eapply CReq_trans.
+    + apply (CRplus_morph R (CR_of_Q R c) (CR_of_Q R c) (CReq_refl (R := R) (CR_of_Q R c))
+               (CRsum_list (fun _ : nat => CR_of_Q R c) l)
+               (CR_of_Q R (Qmult (Qmake (Z.of_nat (size l)) 1) c)) IH).
+    + rewrite <- (CR_of_Q_plus R c (Qmult (Qmake (Z.of_nat (size l)) 1) c)).
+      apply (CR_of_Q_Qeq (R := R)
+               (Qplus c (Qmult (Qmake (Z.of_nat (size l)) 1) c))
+               (Qmult (Qmake (Z.of_nat (S (size l))) 1) c)).
+      rewrite (Nat2Z.inj_succ (size l)).
+      destruct c as [nz d]. simpl.
+      unfold Qeq, Qmult, Qplus. simpl. lia.
+Qed.
+
+(* 工具：iota a n 的长度 = n（iota_size） *)
+Lemma iota_size_le (a n : nat) : size (iota a n) = n.
+Proof. exact (size_iota a n). Qed.
+
+(* 工具：常数在 iota a n 上的和 == n·c（sumn_const + iota_size） *)
+Lemma CRsum_list_const_iota {R : ConstructiveReals} (c : Q) (a n : nat) :
+  CReq R (CRsum_list (fun _ : nat => CR_of_Q R c) (iota a n))
+         (CR_of_Q R (Qmult (Qmake (Z.of_nat n) 1) c)).
+Proof.
+  rewrite (sumn_const (R := R) c (iota a n)).
+  rewrite (iota_size_le a n). apply CReq_refl.
+Qed.
+
+(* 逐项：1 ≤ k ≤ 2^{j+1}（= Pos.to_nat (pow2p (S j))）⟹ 1/2^{j+1} ≤ 1/k
+   —— Qinv_n_pos 桥 + Qinv_n_le（k ≤ 2^{j+1} ⟹ 1/2^{j+1} ≤ 1/k）。 *)
+Lemma inv_ge_pow {R : ConstructiveReals} (j k : nat)
+  (Hk1 : 1 <= k) (Hk : k <= Pos.to_nat (pow2p (S j))) :
+  CRle R (CR_of_Q R (Qmake 1 (pow2p (S j)))) (CR_of_Q R (Qinv_n k)).
+Proof.
+  rewrite <- (Qinv_n_pos (pow2p (S j))).
+  apply (CR_of_Q_le (R := R) (Qinv_n (Pos.to_nat (pow2p (S j)))) (Qinv_n k)).
+  apply (Qinv_n_le (Pos.to_nat (pow2p (S j))) k).
+  - (* 1 ≤ Pos.to_nat (pow2p (S j))：pow2p ≥ 1 ⟹ Pos.to_nat ≥ 1 *)
+    rewrite (pow2p_to_nat (S j)). rewrite expn_gt0. apply/orP. left.
+    apply ltnW. exact (ltn0Sn 1).
+  - exact Hk1.
+  - exact Hk.
+Qed.
+
+(* 组下界：Σ_{k=2^j+1}^{2^{j+1}} 1/k ≥ 1/2
+   —— iota (Pos.to_nat (pow2p j) + 1) (Pos.to_nat (pow2p j)) 有 2^j 项，
+     每项 ≥ 1/2^{j+1}（Qmake 1 (pow2p (S j))），常数和 == 1/2。 *)
+Lemma harm_group_ge_half {R : ConstructiveReals} (j : nat) :
+  CRle R (CR_of_Q R (Qmake 1 2))
+         (CRsum_list (fun k => CR_of_Q R (Qinv_n k)) (iota (Pos.to_nat (pow2p j) + 1) (Pos.to_nat (pow2p j)))).
+Proof.
+  (* 逐项 ≥ 1/2^{j+1} *)
+  have Hpt : forall k, k \in iota (Pos.to_nat (pow2p j) + 1) (Pos.to_nat (pow2p j)) ->
+              CRle R (CR_of_Q R (Qmake 1 (pow2p (S j)))) (CR_of_Q R (Qinv_n k)).
+  { move => k Hk.
+    rewrite mem_iota in Hk. move/andP: Hk => [Hlo Hhi].
+    apply (inv_ge_pow (R := R) j k).
+    - (* 1 ≤ k：1 ≤ Pos.to_nat (pow2p j) + 1 ≤ k（Hlo） *)
+      apply (leq_trans (leq_addl (Pos.to_nat (pow2p j)) 1) Hlo).
+    - (* k ≤ Pos.to_nat (pow2p (S j))：
+         Hhi : k < Pos.to_nat (pow2p j) + 1 + Pos.to_nat (pow2p j)
+             = 2·Pos.to_nat (pow2p j) + 1 = Pos.to_nat (pow2p (S j)) + 1 ⟹ k ≤ ... *)
+      have H2m : Pos.to_nat (pow2p (S j)) = Pos.to_nat (pow2p j) + Pos.to_nat (pow2p j).
+      { rewrite (pow2p_to_nat (S j)). rewrite (pow2p_to_nat j).
+        rewrite expnS. rewrite mulnC. rewrite muln2. rewrite -addnn. reflexivity. }
+      have Hbound : (Pos.to_nat (pow2p j) + 1 + Pos.to_nat (pow2p j)) = S (Pos.to_nat (pow2p (S j))).
+      { rewrite addnAC. rewrite -H2m. rewrite addn1. reflexivity. }
+      rewrite Hbound in Hhi. exact Hhi. }
+  (* Σ ≥ 常数和 == 1/2 *)
+  eapply CRle_trans.
+  - (* 1/2 ≤ 常数和：2^j · 1/2^{j+1} == 1/2 *)
+    have Hconst : CReq R
+      (CRsum_list (fun _ : nat => CR_of_Q R (Qmake 1 (pow2p (S j)))) (iota (Pos.to_nat (pow2p j) + 1) (Pos.to_nat (pow2p j))))
+      (CR_of_Q R (Qmake 1 2)).
+    { rewrite (CRsum_list_const_iota (R := R) (Qmake 1 (pow2p (S j))) (Pos.to_nat (pow2p j) + 1) (Pos.to_nat (pow2p j))).
+      (* CR_of_Q (2^j · 1/2^{j+1}) == CR_of_Q (1/2) *)
+      apply (CR_of_Q_Qeq (R := R)
+               (Qmult (Qmake (Z.of_nat (Pos.to_nat (pow2p j))) 1) (Qmake 1 (pow2p (S j))))
+               (Qmake 1 2)).
+      rewrite (positive_nat_Z (pow2p j)).
+      unfold Qmult, Qeq. simpl.
+      lia. }
+    apply (proj2 (CRle_morph R
+      (CR_of_Q R (Qmake 1 2))
+      (CRsum_list (fun _ : nat => CR_of_Q R (Qmake 1 (pow2p (S j)))) (iota (Pos.to_nat (pow2p j) + 1) (Pos.to_nat (pow2p j))))
+      (CReq_sym (CRsum_list (fun _ : nat => CR_of_Q R (Qmake 1 (pow2p (S j)))) (iota (Pos.to_nat (pow2p j) + 1) (Pos.to_nat (pow2p j))))
+                (CR_of_Q R (Qmake 1 2)) Hconst)
+      (CRsum_list (fun _ : nat => CR_of_Q R (Qmake 1 (pow2p (S j)))) (iota (Pos.to_nat (pow2p j) + 1) (Pos.to_nat (pow2p j))))
+      (CRsum_list (fun _ : nat => CR_of_Q R (Qmake 1 (pow2p (S j)))) (iota (Pos.to_nat (pow2p j) + 1) (Pos.to_nat (pow2p j))))
+      (CReq_refl (R := R) (CRsum_list (fun _ : nat => CR_of_Q R (Qmake 1 (pow2p (S j)))) (iota (Pos.to_nat (pow2p j) + 1) (Pos.to_nat (pow2p j))))))).
+    apply CRle_refl.
+  - (* 常数和 ≤ Σ Qinv_n（逐项） *)
+    apply (CRsum_list_le_pointwise_list (R := R)
+             (fun _ : nat => CR_of_Q R (Qmake 1 (pow2p (S j))))
+             (fun k => CR_of_Q R (Qinv_n k))
+             (iota (Pos.to_nat (pow2p j) + 1) (Pos.to_nat (pow2p j)))).
+    move => k Hk. apply (Hpt k Hk).
+Qed.
+
+(* ★ 部分和 ≥ 1 + m/2：Σ_{k=1}^{2^m} 1/k ≥ (2+m)/2（归纳 m，组下界累加） *)
+Lemma harm_pow2_ge {R : ConstructiveReals} (m : nat) :
+  CRle R (CR_of_Q R (Qmake (Z.of_nat (2 + m)) 2))
+         (CRsum_list (fun k => CR_of_Q R (Qinv_n k)) (iota 1 (Pos.to_nat (pow2p m)))).
+Proof.
+  elim: m => [|m IH].
+  - (* m=0：iota 1 1 = [1]，Σ = Qinv_n 1 + 0；目标 (2+0)/2 = 1 ≤ 1 *)
+    simpl.
+    have Hq : CReq R (CR_of_Q R (Qmake (Z.of_nat (2 + 0)) 2)) (CR_of_Q R (Qinv_n 1)).
+    { apply (CR_of_Q_Qeq (R := R) (Qmake (Z.of_nat (2 + 0)) 2) (Qinv_n 1)).
+      unfold Qinv_n, Qeq. simpl. lia. }
+    eapply CRle_trans.
+    + (* Qmake 2 2 ≤ Qinv_n 1：Qinv_n 1 == Qmake 2 2 反向桥 *)
+      apply (proj1 (CRle_morph R
+        (CR_of_Q R (Qinv_n 1)) (CR_of_Q R (Qmake (Z.of_nat (2 + 0)) 2))
+        (CReq_sym (CR_of_Q R (Qmake (Z.of_nat (2 + 0)) 2)) (CR_of_Q R (Qinv_n 1)) Hq)
+        (CR_of_Q R (Qinv_n 1)) (CR_of_Q R (Qinv_n 1))
+        (CReq_refl (R := R) (CR_of_Q R (Qinv_n 1))))).
+      apply CRle_refl.
+    + (* Qinv_n 1 ≤ Qinv_n 1 + 0 *)
+      rewrite (CRplus_0_r (R := R) (CR_of_Q R (Qinv_n 1))). apply CRle_refl.
+  - (* m+1：Σ_{k=1}^{2^{m+1}} = Σ_{k=1}^{2^m} + Σ_{k=2^m+1}^{2^{m+1}}
+       前段 ≥ (2+m)/2（IH），后段 ≥ 1/2（组下界），和 ≥ (3+m)/2 = (2+(m+1))/2 *)
+    rewrite (pow2p_to_nat (S m)).
+    rewrite expnS. rewrite mulnC. rewrite muln2. rewrite -addnn.
+    rewrite -(pow2p_to_nat m).
+    rewrite (iotaD 1 (Pos.to_nat (pow2p m)) (Pos.to_nat (pow2p m))).
+    rewrite (CRsum_list_cat (R := R) (fun k => CR_of_Q R (Qinv_n k))
+                            (iota 1 (Pos.to_nat (pow2p m)))
+                            (iota (1 + Pos.to_nat (pow2p m)) (Pos.to_nat (pow2p m)))).
+    (* 目标: (2+(S m))/2 ≤ 前段 + 后段 *)
+    have Hsum_morph : CReq R (CRplus R (CR_of_Q R (Qmake (Z.of_nat (2 + m)) 2))
+                                       (CR_of_Q R (Qmake 1 2)))
+                              (CR_of_Q R (Qmake (Z.of_nat (2 + S m)) 2)).
+    { rewrite <- (CR_of_Q_plus R (Qmake (Z.of_nat (2 + m)) 2) (Qmake 1 2)).
+      apply (CR_of_Q_Qeq (R := R)
+               (Qplus (Qmake (Z.of_nat (2 + m)) 2) (Qmake 1 2))
+               (Qmake (Z.of_nat (2 + S m)) 2)).
+      unfold Qplus, Qeq.
+      have HaddL : 2 + m = S (S m) by [].
+      have HaddR : 2 + S m = S (S (S m)) by [].
+      rewrite HaddL HaddR.
+      cbn [Qnum Qden]. lia. }
+    eapply CRle_trans.
+    + (* (2+(S m))/2 ≤ (2+m)/2 + 1/2：Hsum_morph（A+B == C ⟹ C ≤ A+B，proj1） *)
+      exact (proj1 Hsum_morph).
+    + (* (2+m)/2 + 1/2 ≤ 前段 + 后段：逐项（IH + 组下界） *)
+      apply (CRplus_le_compat (R := R)
+               (CR_of_Q R (Qmake (Z.of_nat (2 + m)) 2))
+               (CRsum_list (fun k => CR_of_Q R (Qinv_n k)) (iota 1 (Pos.to_nat (pow2p m))))
+               (CR_of_Q R (Qmake 1 2))
+               (CRsum_list (fun k => CR_of_Q R (Qinv_n k))
+                           (iota (1 + Pos.to_nat (pow2p m)) (Pos.to_nat (pow2p m))))).
+      * exact IH.
+      * rewrite addnC. apply (harm_group_ge_half (R := R) m).
+Qed.
+
+(* 桥：CRsum (fun n => inv_n_pow (S n) 1) (P - 1) == CRsum_list (fun k => CR_of_Q (Qinv_n k)) (iota 1 P)
+   —— CRsum 的 iota 0 形式转 iota 1（map S），逐项 inv_n_pow_1。P ≥ 1（pow2p_pos）。 *)
+Lemma CRsum_harm_partial {R : ConstructiveReals} (m : nat) :
+  CReq R (CRsum (fun n => inv_n_pow (S n) 1) (Pos.to_nat (pow2p m) - 1))
+         (CRsum_list (fun k => CR_of_Q R (Qinv_n k)) (iota 1 (Pos.to_nat (pow2p m)))).
+Proof.
+  pose P := Pos.to_nat (pow2p m).
+  (* P ≥ 1 ⟹ (P-1)+1 = P *)
+  have HP : 0 < P := pow2p_pos m.
+  have Hsub : (P - 1) + 1 = P.
+  { exact (@subnK 1 P HP). }
+  (* CRsum f (P-1) == CRsum_list f (iota 0 (P-1+1))（CRsum_list_iota 反） *)
+  have Hiota : CReq R (CRsum_list (fun n => inv_n_pow (S n) 1) (iota 0 (P - 1 + 1)))
+                      (CRsum (fun n => inv_n_pow (S n) 1) (P - 1)).
+  { exact (CRsum_list_iota (R := R) (fun n => inv_n_pow (S n) 1) (P - 1)). }
+  eapply CReq_trans.
+  - (* CRsum == CRsum_list (iota 0 (P-1+1)) *)
+    apply (CReq_sym (R := R) (CRsum_list (fun n => inv_n_pow (S n) 1) (iota 0 (P - 1 + 1)))
+                     (CRsum (fun n => inv_n_pow (S n) 1) (P - 1))).
+    exact Hiota.
+  - (* CRsum_list (fun n => inv_n_pow (S n) 1) (iota 0 (P-1+1)) == CRsum_list (fun k => CR_of_Q (Qinv_n k)) (iota 1 P)
+       —— iota 0 (P-1+1) = iota 0 P（f_equal Hsub），再 iota_shift + map + 逐项 *)
+    rewrite (f_equal (iota 0) Hsub).
+    rewrite (iota_shift P).
+    rewrite (CRsum_list_map (R := R) (fun k => CR_of_Q R (Qinv_n k)) S (iota 0 P)).
+    apply (CRsum_eq_list (R := R) (A := nat)
+             (fun n => inv_n_pow (S n) 1)
+             (fun n => CR_of_Q R (Qinv_n (S n)))
+             (iota 0 P)).
+    move => x Hx. exact (inv_n_pow_1 (R := R) x).
+Qed.
+
+(* ★ 发散定理：调和部分和无界（对任意 B，存在 N 使 Σ_{n=0}^{N} 1/(S n) > B）
+   —— CR_archimedean：B < n（正整数）；取 m = 2·Pos.to_nat n：
+     部分和（到 N = 2^m - 1）≥ 1 + m/2 = 1 + Pos.to_nat n > n > B。 *)
+Lemma zeta_1_diverges {R : ConstructiveReals} :
+  forall B : CRcarrier R,
+  { N : nat & CRlt R B (CRsum (fun n => inv_n_pow (S n) 1) N) }.
+Proof.
+  move => B.
+  destruct (CR_archimedean R B) as [n Hn].   (* n : positive，Hn : B < n（Qmake (Zpos n) 1） *)
+  pose n' := Pos.to_nat n.
+  pose m := 2 * n'.
+  (* 部分和 N = Pos.to_nat (pow2p m) - 1：CRsum (fun n => inv_n_pow (S n) 1) N == Σ_{k=1}^{2^m} 1/k *)
+  exists (Pos.to_nat (pow2p m) - 1).
+  (* 链：B < n < 1 + n' = 1 + m/2 ≤ Σ_{k=1}^{2^m} 1/k == CRsum N
+     其中 n 作为 Q 值 = Qmake (Zpos n) 1 == Qmake (Z.of_nat n') 1（positive_nat_Z，n' = Pos.to_nat n）。 *)
+  (* n' < 1 + n'：Q 层 Z.of_nat n' < Z.of_nat (S n') *)
+  have Hnlt : CRlt R (CR_of_Q R (Qmake (Z.of_nat n') 1))
+                     (CR_of_Q R (Qmake (Z.of_nat (S n')) 1)).
+  { apply (CR_of_Q_lt R (Qmake (Z.of_nat n') 1) (Qmake (Z.of_nat (S n')) 1)).
+    unfold Qlt. simpl. lia. }
+  (* B < n 且 n == n'（Q 层）⟹ B < n'（CRle_morph 桥 + CRlt_le_trans） *)
+  have Hnq : Qeq (Qmake (Zpos n) 1) (Qmake (Z.of_nat n') 1).
+  { unfold Qeq. simpl. rewrite (positive_nat_Z n). reflexivity. }
+  have Hnle : CRle R (CR_of_Q R (Qmake (Zpos n) 1))
+                     (CR_of_Q R (Qmake (Z.of_nat n') 1)).
+  { exact (proj1 (CR_of_Q_Qeq (R := R) (Qmake (Z.of_nat n') 1) (Qmake (Zpos n) 1)
+                              (Qeq_sym (Qmake (Zpos n) 1) (Qmake (Z.of_nat n') 1) Hnq))). }
+  have Hblt : CRlt R B (CR_of_Q R (Qmake (Z.of_nat n') 1)).
+  { eapply CRlt_le_trans.
+    - exact Hn.
+    - exact Hnle. }
+  (* B < n' < 1+n' ⟹ B < 1+n' *)
+  have Hblt2 : CRlt R B (CR_of_Q R (Qmake (Z.of_nat (S n')) 1)).
+  { eapply CRlt_trans.
+    - exact Hblt.
+    - exact Hnlt. }
+  (* 1 + n' == (2 + m)/2：m = 2n' ⟹ 2(1+n') = 2+m *)
+  have Honeq : CReq R (CR_of_Q R (Qmake (Z.of_nat (S n')) 1))
+                      (CR_of_Q R (Qmake (Z.of_nat (2 + m)) 2)).
+  { apply (CR_of_Q_Qeq (R := R)
+             (Qmake (Z.of_nat (S n')) 1)
+             (Qmake (Z.of_nat (2 + m)) 2)).
+    unfold Qeq.
+    have HaddL : 2 + m = S (S m) by [].
+    rewrite HaddL.
+    cbn [Qnum Qden].
+    have Hm : 2 * n' = m by [].
+    rewrite -Hm.
+    rewrite mulnE.
+    lia. }
+  (* 1+n' ≤ (2+m)/2（CReq proj2：CReq A B = (B ≤ A ∧ A ≤ B) ⟹ A ≤ B） *)
+  have Hle2 : CRle R (CR_of_Q R (Qmake (Z.of_nat (S n')) 1))
+                     (CR_of_Q R (Qmake (Z.of_nat (2 + m)) 2)).
+  { exact (proj2 Honeq). }
+  (* B < 1+n' ≤ (2+m)/2 ⟹ B < (2+m)/2 *)
+  have Hblt3 : CRlt R B (CR_of_Q R (Qmake (Z.of_nat (2 + m)) 2)).
+  { eapply CRlt_le_trans.
+    - exact Hblt2.
+    - exact Hle2. }
+  (* (2+m)/2 ≤ Σ（harm_pow2_ge m）*)
+  have Hsum_le : CRle R (CR_of_Q R (Qmake (Z.of_nat (2 + m)) 2))
+                        (CRsum_list (fun k => CR_of_Q R (Qinv_n k)) (iota 1 (Pos.to_nat (pow2p m)))).
+  { exact (harm_pow2_ge (R := R) m). }
+  (* Σ == CRsum N（CRsum_harm_partial m）*)
+  have Hsum_eq : CReq R (CRsum_list (fun k => CR_of_Q R (Qinv_n k)) (iota 1 (Pos.to_nat (pow2p m))))
+                        (CRsum (fun n => inv_n_pow (S n) 1) (Pos.to_nat (pow2p m) - 1)).
+  { exact (CReq_sym (R := R) (CRsum (fun n => inv_n_pow (S n) 1) (Pos.to_nat (pow2p m) - 1))
+                     (CRsum_list (fun k => CR_of_Q R (Qinv_n k)) (iota 1 (Pos.to_nat (pow2p m))))
+                     (CRsum_harm_partial (R := R) m)). }
+  (* B < (2+m)/2 ≤ Σ == CRsum ⟹ B < CRsum *)
+  eapply CRlt_le_trans.
+  - exact Hblt3.
+  - eapply CRle_trans.
+    + exact Hsum_le.
+    + exact (proj2 Hsum_eq).
 Qed.
 
 

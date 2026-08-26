@@ -1,15 +1,12 @@
 (* ============================================================
-   CRT 分辨率定理模块（CRTResolve）—— 同事交互文档 T3（U3）
+   CRTResolve —— CRT 分辨率定理
    定理族：
-   T3a（两模数核心）coprime a b、0 < a、0 < b 且 x ≡ y (mod a)、
+   T3a（两模数核心）：coprime a b、0 < a、0 < b 且 x ≡ y (mod a)、
         x ≡ y (mod b)、x < a*b、y < a*b ⟹ x = y
         —— 联合相位映射在 [0, ab) 上单射。
-   状态：T3a 两模数核心 2026-08-22 Qed（src 侧分工，同事 U3 项）。
-   纪律：零 Admitted、零自定义公理；mathcomp ssrnat/div/prime（既有依赖）。
+   纪律：零 Admitted、零自定义公理。
    依赖：mathcomp（gcdn/coprime/dvdn/modn/lcmn）。
-   关联：同事交互文档 §2-T3、§8.1-U3；框架文档 §5。
    ============================================================ *)
-
 From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
 From Stdlib Require Import Lia.
 Set Implicit Arguments.

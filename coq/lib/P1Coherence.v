@@ -1,20 +1,15 @@
 (* ============================================================
-   P1/P1' 相干下界模块（P1Coherence）—— 框架文档《定理框架-帕累托律与相边界》§2
+   P1Coherence —— 精确窗口相干下界
    精确窗口口径：coh_T(n,n') = |sin(πd/n')| / (√(nn')·|sin(πd/(nn'))|)，d = n'-n
    P1： d ≤ n'/2、1 ≤ n、n < n' ⟹ coh_T ≥ (2/π)·√(n/n')
         （Jordan 下界 + |sin x| ≤ x 上界；与 P2/P3 保守界口径分层）
    P1'：d ≤ n'/2、1 ≤ n、n < n' ⟹ coh_T ≥ √(n/n')·(1 − π²d²/(6n'²))
-        （sin x ≥ x − x³/6：sin_bound 交替级数 n=0）
-   意义（框架文档 §2）：近邻大带（如 (216,217)）相干 ≈ 0.997——
-   稠密随机阶梯的高相干有解析根源，精确窗口口径的相干下界。
-   状态：2026-08-22 全部 Qed（本地 coqc exit=0）。
-   纪律：零 Admitted、零自定义公理；仅 Stdlib Reals（自包含，独立编译）。
-   依赖：Stdlib Reals 的 sin_bound（交替级数）、MVT_cor2、cos_decr_1；
-         不依赖 ca_basis_lemmas（其 jordan_constructive 是构造性 dyadic 路线，
-         此处用经典 MVT 路线，同为纯 Stdlib）。
-   关联：ParetoLaw.v（P2/P3 保守界口径）；框架文档 §5 两口径分层。
+        （sin x ≥ x − x³/6）
+   意义：近邻大带（如 (216,217)）相干 ≈ 0.997——稠密随机阶梯
+   高相干的解析根源。
+   纪律：零 Admitted、零自定义公理；仅 Stdlib Reals（自包含）。
+   依赖：Stdlib Reals 的 sin_bound（交替级数）、MVT_cor2、cos_decr_1。
    ============================================================ *)
-
 From Stdlib Require Import Reals.
 From Stdlib Require Import micromega.Lra.
 Open Scope R_scope.

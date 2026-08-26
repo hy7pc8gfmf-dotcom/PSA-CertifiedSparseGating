@@ -1,33 +1,21 @@
 (* ============================================================
-   库: ca_rip_cr —— 构造性 k-原子 RIP（A1，系统使命版第一击）
+   库 ca_rip_cr —— 构造性 k-原子 RIP（受限等距性质）
    ============================================================
    目标：在构造性实数（Stdlib ConstructiveReals 抽象接口）上证明
-         k-原子受限等距性质（RIP）：对 M+1 个单位范数、两两相干 ≤ μ
-         的原子族（任意抽象类型 A，配范数平方与内积），任意实系数
-         c_0..c_M 满足
+         k-原子 RIP：对 M+1 个单位范数、两两相干 ≤ μ 的原子族，
+         任意实系数 c_0..c_M 满足
            |‖Σ_{j≤M} c_j·u_j‖² − Σ_{j≤M} c_j²| ≤ μ·(M+1)·Σ_{j≤M} c_j²
          全部 Qed、零 Admitted、零自定义公理（仅依赖 Stdlib 构造性实数）。
-
-   纪律（用户红线，参照 ca_zeta_euler.v）：
+   纪律：
      - 数学对象在 Set 层构造（CRcarrier R）
      - 序/极限在 Prop 层（CRle / CR_cv），不用排中律
      - 零经典实数公理（不 Require Stdlib.Reals 的 R 公理）
-     - 借鉴 WBJ ComplexNumbers_Constructive 的复数数学结构，
-       但剔除其全部未实现 Parameter（Cnorm/Cexp/Cinv）与
-       ConstructiveExtra 的临时公理，只用抽象接口 {R : ConstructiveReals}
-
+     - 只用抽象接口 {R : ConstructiveReals}
    结构：
      P0. CR 基础代数（平方非负、非正×非负 ≤ 0、绝对值平方恒等式）
-     P1. 构造性复数 CRComplex（借鉴 WBJ 结构，零 Parameter）
+     P1. 构造性复数 CRComplex
      P2. 范数平方 / 内积 / 线性组合 / 范数平方展开律
-     P3. cross_abs_le / sum_abs_cross_le / sum_sq_nonneg
-     P4. rip_lower_M / rip_upper_M / rip_bound_k（A1 主定理）
-
-   实现注记：全文件包在 Section CRSqr 内，Add Ring 注册 CRisRing，
-   ring 战术处理 CReq 代数（Rocq 9.0 验证可用）。Section 泛化后
-   所有引理保持 {R : ConstructiveReals} 隐式参数签名（与 ca_zeta_euler 一致）。
    ============================================================ *)
-
 From Stdlib Require Import ConstructiveReals.
 From Stdlib Require Import ConstructiveRealsMorphisms.
 From Stdlib Require Import ConstructiveAbs.

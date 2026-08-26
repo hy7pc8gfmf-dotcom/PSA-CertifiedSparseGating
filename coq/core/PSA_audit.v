@@ -1,4 +1,11 @@
-(* PSA 框架公理审计（会话 3 扩展：覆盖全部新证引理 + P2 两条路线；E130 模式：直接 Require 合并版 .vo ca_merged_full_25，不依赖 lib 链 / PSA 前缀映射——归档/仓库只要有合并版 .vo 即可复跑） *)
+(* PSA_audit —— PSA 框架公理审计（165 项 Print Assumptions）
+   审计对象：PSA_framework 全部 165 项；预期 `Classical_Prop.classic` 零出现，
+   公理脚印仅 sig_not_dec / sig_forall_dec / functional_extensionality_dep
+   （Dedekind 实数基础设施，属可接受 Reals 基底）。
+   构建：E130 模式——直接 Require 合并版 .vo（ca_merged_full_25），
+   归档/仓库只要有合并版 .vo 即可复跑。
+   完整运行日志：audit_run_20260826_full.txt（165/165 块）；
+   定理索引：audit_index_20260826.txt。 *)
 Require Import ca_merged_full_25.
 
 (* 管线定理（原审计项） *)

@@ -1,24 +1,15 @@
 (* ============================================================
-   碰撞距离框架探针（z 工作区 / 隔壁智能体同事，E039 隔离纪律）
-   状态（2026-08-22）：C1-C5 全部 Qed，本地编译 EXIT=0；
-   Print Assumptions 审计：五定理零 classic（脚印仅 Dedekind 三件套
-   sig_not_dec/sig_forall_dec/fext，与 PSA 165 项基线一致；C3 仅两件）。
-   修复记录见 z/同事交互文档.md（Rmult_eq_reg_l 子目标序、INR_eq 改名、
-   le_INR 方向、IZR simpl never、Nat.divide 见证序、nat_scope 劫持、nra）。
-   先在此验证，通过后由 src 侧并入（建议 src/CollisionDistance.v 或
-   PSA_framework 新 Module；仓库冻结不动）。
-   方向：《z/扩展方向分析-20260821.md》§1（机制词汇层）+ §2（与 GridOrtho 合成）。
-
-   C1  kernel_collides_iff：相对核精确碰撞 ⟺ D·θ ∈ 2πℤ（Cexp_eq_1_iff 实例）
+   碰撞距离框架探针（probe_collision）
+   定理族：
+   C1  kernel_collides_iff：相对核精确碰撞 ⟺ D·θ ∈ 2πℤ
    C2  grid_band_collision：θ=2πm/N 碰撞 ⟺ N ∣ D·m
-       （推论 grid_first_collision_at_N：m=1 时 0<D<N 无碰撞——
-        纯网格带在 lag=N 首次精确碰撞、训练窗内不可观测）
-   C3  linear_bias_no_collision：ALiBi 线性偏置任意 lag 无碰撞（碰撞距离 ∞ 端点）
+       （推论 grid_first_collision_at_N：m=1 时 0<D<N 无碰撞）
+   C3  linear_bias_no_collision：ALiBi 线性偏置任意 lag 无碰撞（∞ 端点）
    C4  tau / trained_collision_pair_charac：训练内可观测碰撞质量 τ(n)=T−n
    C5  irrational_offset_no_collision：θ=2π(β+m/N)，β 无理 ⟹ 永无精确碰撞
-       —— 与 GridOrtho.off_grid_ortho（μ=0 全长度证书）合成
-          "证书保持 + 零精确碰撞"的偏移网格设计证书。
-   实验对应：建议 --ogrid：theta = 2π·(β + m/N)，β 黄金比 (√5−1)/2。
+       —— 与 GridOrtho.off_grid_ortho 合成偏移网格设计证书。
+   实验对应：--ogrid：theta = 2π·(β + m/N)，β 黄金比 (√5−1)/2。
+   纪律：零 Admitted、零自定义公理；五定理零 classic（脚印仅 Dedekind 三件套）。
    ============================================================ *)
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Arith.Arith.

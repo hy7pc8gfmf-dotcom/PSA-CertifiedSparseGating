@@ -1,130 +1,19 @@
 (* ============================================================
-   PSA 形式化框架 v1.0（2026-08-20 更新；原 v0.1 2026-08-18 草稿）
+   PSA_framework —— 可认证稀疏门控与注意力近似框架
    ------------------------------------------------------------
-   位置：AI注意力算法/PSA_framework.v（独立文件，不入 22 库）
-   依赖：ca_basis（psi/psi_linear_independent）
-         ca_basis_lemmas（c_sparse_subset）
-         ca_decay（decay_bound / row_sum_bound_K）
-
-   版本史（对齐 2026-08-20 会话 16 基态）：
-     v1.2（2026-08-20 会话 17）：评审 §1 修复——UnitaryInvariance 补 RoPE 显式实例：
-       Cexp_unit_mod（Cnorm_sq (Cexp (0+iθ)) = 1，sin2_cos2）与
-       unitary_invariance_psi_rope_theta（u k := Cexp (0+i (INR k·θ k))，逐位置旋转角
-       θ k；与实验 2×2 旋转矩阵同构——SO(2)≅U(1)，实/虚部逐行对应
-       length_extrap.py apply_rope_theta）。
-     v1.1（2026-08-20 会话 17）：A2 酉不变性并入——新 Module UnitaryInvariance（帧尾）：
-       全局保内积版本 unitary_invariance_point（unitary_invariance_frame 正确定型）+
-       位置索引 psi-rope 版本 unitary_invariance_psi_rope(_global)（每位置乘单位模 u k）；
-       注：原带索引逐点版本（每带乘 u_i 后对和取模）为假命题（反例 u0=1,u1=-1,g0=g1=1，
-       |1-1|²=0≠4=|1+1|²），未并入；带索引 l2 等式需基精确正交（本 psi 族截断窗口
-       交叉项非零，由 (1±4/5) 帧界路线覆盖）。
-     v1.0（2026-08-20）：头注释同步实际内容——M1.5 已清零（Module ExpSeries，
-       全 165 项审计零 Classical_Prop.classic）；端到端冠军证书
-       champion_e5_composite_certificate 已 Qed（Module ChampionCertificate，
-       会话 14）；FrameCheck2DNarrow（会话 15）已并入。
-     v0.1（2026-08-18）：初稿（下续为历史修正记录）。
-
-   相对 AI注意力算法/*.txt 的修正（文档为未验证草稿）：
-   1. c_sparse_subset（ca_basis_lemmas.v:6658）要求平方增长
-      INR(f b) >= INR c * INR c * INR(f a)，且为 >=（非严格）、不含 >=2 条件；
-      check_c_sparse_on_vals 相应改为检查 (c*c*a) <=? b（会话 3 实测修正：
-      原 <? 会误拒 c*c*a = b 的合法稀疏子集，如 [3;3;4] 对 c=1）。
-   2. 删除 sparse_subset_exists 误用：其前提 (INR N)²p²<1 对
-      p=0.5、N>=2 恒不成立；门控子集改由确定性构造（全索引）。
-   3. check_sparse_growthP 的反射证明按 Nat.ltb_spec 两构造子重写。
-
-   状态标记：无 Admitted / admit / Abort（会话 3 已全数 Qed）。
-   进度（2026-08-18 会话 3 更新）：
-     ✅ 已真证（Qed，会话 2）：all_ge_2P（零公理）；
-         check_sparse_growthP 正向分支；psa_pipeline_decay / psa_pipeline_linindep
-         （exact 库内定理，公理 = sig_not_dec+sig_forall_dec+fext，零 classic）。
-     ✅ 会话 3 补证（17 个引理全部 Qed，含 4 个原骨架）：
-         forallb_adjacent_nth / forallb_adjacent_from_nth（相邻对 <-> 逐 nth 判定，零公理）；
-         forallb_adjacent_sorted_implies（传递性版；原语句缺传递性前提不可证，已修正）；
-         sparse_growth_trans / square_le_trans（<? / <=? 布尔检查的传递性，零公理）；
-         sorted_of_strict_adjacent / nth_incr（列表工具，零公理）；
-         check_sparse_growthP 反向分支（Hprop ⟹ 相邻布尔全真 ⟹ 与 Hall=false 矛盾）；
-         check_c_sparse_growthP（平方增长 <=? 反射）；
-         check_c_sparse_on_valsP（含 c_sparse_subset 语义修正，见上 1）；
-         generate_correct（generate_indices_spec / generate_rec / gen_aux_tail 支撑，零公理）。
-    修正说明（会话 3 实测发现，均与原文档冲突处）：
-      1. check_c_sparse_on_vals 改用 (c*c*a) <=? b（见上 1）。
-      2. check_c_sparse_on_valsP 右端显式并上「全元素 >= 2」：c_sparse_subset 本身不含
-         >=2 条件（ca_basis_lemmas.v:6665 的 c_sparse_subset_ge2 需另加假设），原 reflect
-         语句不可证（[0;3] 反例：c_sparse_subset 成立而 all_ge_2 失败）。
-      3. generate_base_indices 改为 gen_aux C start len (start::nil)：原 (S len) 使
-         length = S(S len)，与 generate_correct 的 length = S len 矛盾。
-      4. forallb_adjacent_sorted_implies 原语句（Sorted + f⟹lt + 相邻全真 ⟹ 全局）
-         不可证：f 无传递性时反例 f a b = (b=a+1) 于 l=[0;1;2]。
-    公理验收（PSA_audit.v，2026-08-18 会话 3）：全部 17 个新引理中
-      7 个零公理；3 个反射引理仅 sig_forall_dec+fext（INR 继承，零 classic）。
-    ✅ 会话 3 续（P2 外部守卫路线 + 内部序列路线，18 个新引理全部 Qed）：
-       - 内部序列：base_seq / base_seq_global_growth / base_seq_shift / seq_shift_gen /
-         generate_eq_map（零公理）——生成器 = 全局序列前缀，可实例化 psa_pipeline_decay。
-       - 外部守卫：guard_adjacent_growth / guard_ge2_map（守卫⟹有限前提桥梁）、
-         nth_lt_backward / fold_right_max_In / I_chain_strict / I_chain_compound（I 链）、
-         Csum_psi_conj_truncate_fin（有限截断）、decay_bound_finite_one_factor（one_factor 有限化）、
-         **psa_guard_decay**（守卫全部通过 ⟹ 任意 I 内对衰减界；sig_not_dec+sig_forall_dec+fext，
-         零 classic）——论文核心声明「运行时守护断言 ⟹ 数学保证」已真证。
-    ✅ 会话 4（P0 确定性贪心门控，GreedyGate 模块 23 个新引理全部 Qed）：
-       - greedy_aux / greedy_selected：乘数 M 显式参数化（门限 M*last <= v）。
-         M = C 与原文 §3.2 fallback_mask(indices, C) 逐字一致（线性门，守卫 is_c_sparse 亦线性）；
-         M = C*C 为平方门，保证选中子集满足库内 c_sparse_subset（平方增长）。
-         注：路线图草案「线性门 val >= C*last ⟹ check_c_sparse_on_vals sel C」同一 C 不可证
-         （反例 C=2、[4;8]：8 >= 2*4 保留而 2*2*4 <=? 8 = false），故 M 参数化并以上述两实例化。
-       - 零公理：greedy_aux_In / greedy_selected_In / all_ge_2 保持 / NoDup 保持 /
-         sorted_lt_all / greedy_Sorted_NoDup / Sorted 保持 / head_growth / adjacent_growth
-         （相邻对被保留者满足 M*前 <= 后，即原文 is_c_sparse 断言）/ strict_growth /
-         c_sparse_check / **greedy_selected_correct**（主定理：C>=2 + Sorted + all_ge_2 ⟹
-         Sorted/NoDup/all_ge_2/check_c_sparse_on_vals sel C）。
-       - greedy_selected_c_sparse_subset（sig_forall_dec+fext 继承反射层，零 classic）：
-         反射 ⟹ 选中子集满足库内 c_sparse_subset（ca_basis_lemmas.v:6658）+ 全元素 >= 2。
-       - 掩码形式：mask_aux / fallback_mask（布尔掩码）/ selected_by_mask（提取）/
-         mask_aux_length / fallback_mask_length / mask_aux_correct / **fallback_mask_correct**
-         （提取 = 贪心选中）/ fallback_mask_linear_sparse（原文 is_c_sparse 线性断言，零前提）。
-       - **greedy_selected_guard_pass**（P0+P2 汇合）：平方门控 ⟹ 选中子集通过
-         check_sparse_growth（严格线性），即 psa_guard_decay 的全部有限前提（vals = map seq I 时可实例化）。
-    ✅ 会话 5 续（P0→P2 实例化桥 + P1a，11 个新引理/定义全部 Qed）：
-       - 索引层面门控 greedy_idx_aux / greedy_indices（门限 M*last <= seq i，last 为上保留索引的
-         seq 值），与值层 greedy_aux 通过 map seq 一一对应：greedy_idx_aux_map / greedy_indices_map。
-       - 子序列引理：greedy_idx_aux_In / greedy_idx_aux_Sorted / greedy_indices_Sorted（零公理）。
-       - **psa_gated_decay**（P0→P2 实例化桥）：NoDup I + Sorted I + all_ge_2 (map seq I) ⟹
-         门控索引子集 I' = greedy_indices seq (C*C) I 上任意对的衰减界（直接 apply psa_guard_decay；
-         sig_not_dec+sig_forall_dec+fext 继承，零 classic）。
-         注：不需要 check_sparse_growth (map seq I) 前提（平方门自身保证相邻增长），
-         也不需要 seq 全局增长 / map seq I 的 Sorted（严格线性由平方门 + C>=2 + all_ge_2 给出）。
-       - **psa_gated_decay_base_seq**：seq := base_seq C start 的自然实例（生成器输出上的门控衰减）。
-       - P1a：map_nth_seq（通用）、base_seq_list_Sorted（生成器前缀 Sorted）、
-         **construct_base_sequence**（生成器 → BaseSequence 记录，字段由 base_seq_global_growth 填充；
-         doc Step2 的构造真 Qed）、construct_base_sequence_map（记录列表 = 生成器前缀）。
-    ✅ 会话 5 续 2（P1b 行截断误差，RowTruncation 模块 6 引理/定义全 Qed）：
-       - list_sum_R（列表 R 能量求和）+ sum_filter_compl（filter 分割求和：全和 = 保留 + 丢弃，
-         任意 P、任意分数）。
-       - **complement_sum_bound**（路线图 P1b 抽象层）：保留 ≥ 总 − budget ⟹ 丢弃 ≤ budget，
-         无排序（构造性：保留/丢弃由布尔判定 P 给出）。
-       - row_score（行 i 非对角能量）+ **row_energy_bound**（row_sum_bound_K 直接实例：
-         行能量 ≤ 2*K(C)，需 C > 2）+ **row_truncation_error**（complement_sum_bound 行实例）
-         + **row_dropped_energy_bound**（论文 §4.2：掩码构造保证保留 ≥ 总 − min(S·ε_rel, R_max·ε_abs)
-         ⟹ 丢弃能量 ≤ R_max·ε_abs；Rmax = 2*K(C)，Rmin_r 恒成立无需 ε 非负）。
-       - 全部 sig_forall_dec+fext（R 级经 Reals），零 classic。
-    ✅ 会话 5 续 3（端到端管线定理 + P3，5 个新引理/定义全 Qed，PipelineEndToEnd 模块）：
-       - **psa_low_coherence**（P3a）：门控子集相邻基内积范数 ≤ 2/√C（decay dist=1 命名特例，
-         psa_gated_decay_base_seq 特化 + 指数 |i-(S i)|=1 化简）。
-       - **psa_pipeline_guard**（端到端管线，论文核心声明的完整形式化）：生成器 base_seq →
-         门控 greedy_indices ⟹ ①守卫通过 check_sparse_growth ②任意对衰减界 2/(√C)^|i-j|
-         ③低相干 ≤ 2/√C。前提仅 C>=2、start>=2、I NoDup/Sorted/all_ge_2。
-       - **row_energy_bound_wide**（2/ 版行能量）：衰减界为 2 系数时行非对角总能量 ≤ 4*K(C)
-         （= 2·R_max；复用 split_sum_geometric_bound_one / row_sum_bound_when_i_last_one 骨架）。
-       - **psa_frame_bounds**（P3b）：psi_unconditional_basis 实例化于 base_seq（Riesz 常数
-         1±4K，需 C>2 + start>=2 + I NoDup/Sorted + coeffs 长度匹配）。
-       - **base_seq_strictly_increasing**（SeqProps）：生成器全局序列严格增（P3b 的 Hinc 前提）。
-    ✅ 会话 5 终（1/ 系数收紧，P4 前瞻）：**psa_low_coherence_tight**——相邻基内积 ≤ **1/√C**
-       （内部序列路线，decay_bound_tight_ij 的 dist=1 特例；比守卫版 psa_low_coherence 的 2/√C
-       收紧一倍，前提用全局增长 base_seq_global_growth 而非守卫有限化，两版本互补）。
-    ✅ 会话 5 终 2（守卫 1/ 版衰减，PSA_Pipeline 追加）：**psa_guard_decay_tight** +
-       **decay_bound_finite_one_factor_tight**——守卫有限化路线的 1/ 系数版：
-       用 inner_product_norm_bound_full（单项界 √(n1n2)/(2(n2−n1))）替换 general_n（两项界）⟹
-       系数从 2/ 收紧到 1/，且行能量可直接满足 row_sum_bound_K 的 1/ 前提（收紧到 2·K(C)）。
+   内容（模块链）：
+     RuntimeGuards → SeqProps → PSA_Pipeline → GreedyGate → RowTruncation →
+     PipelineEndToEnd → ExpSeries → SoftmaxStability → CertifiedAttention →
+     Gershgorin → InstanceCertificate → M4bLengthConsistency → T8CoreCertificate →
+     FrameCheckInstance → ChampionCertificate → FrameCheck2DNarrow →
+     UnitaryInvariance → PhaseCoherence
+   覆盖：确定性门控、有限化守卫衰减界、行截断能量预算、softmax 稳定性、
+         认证注意力近似、Gershgorin 框架界、反射检查器及其健全性、
+         基表示稳定性复合证书、酉不变性。
+   依赖：ca_basis（psi/psi_linear_independent）、
+         ca_basis_lemmas（c_sparse_subset）、ca_decay（decay_bound / row_sum_bound_K）。
+   纪律：零 Admitted、零自定义公理；165 项 Print Assumptions 审计
+         `Classical_Prop.classic` 零出现（post-M1.5 复核，见 PSA_audit.v）。
    ============================================================ *)
 Require Import Stdlib.Lists.List.
 Require Import Stdlib.Arith.Arith.

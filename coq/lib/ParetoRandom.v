@@ -1,22 +1,14 @@
 (* ============================================================
-   帕累托律随机版模块（ParetoRandom）—— 同事交互文档 T2（P4 承接）
+   ParetoRandom —— 帕累托律随机版
    定理族：
-   T2a（同箱触发）n < n' < (9/5)·n ⟹ d < (5/8)·√(nn') ⟹ P2 触发
+   T2a（同箱触发）：n < n' < (9/5)·n ⟹ d < (5/8)·√(nn') ⟹ P2 触发
         ⟹ 检查器拒绝 —— 同箱（比率 < 1.8 < c≈1.8501）必触发。
-   T2b（生日-箱计数）[3,511] 按比率 1.8 分 9 箱；m 条随机带：
+   T2b（生日-箱计数）：[3,511] 按比率 1.8 分 9 箱；m 条随机带：
         P(存在同箱对) ≥ 1 − (9)_m/9^m —— 负定律的 whp 版。
-   数值：m=7 ⟹ ≥ 1 − 181440/4782969 ≈ 96.2%；m=8 ⟹ ≥ 99.2%；
-         m ≥ 10 ⟹ 确定性（鸽笼 = P3 已覆盖）。
-   状态：T2a 引擎 2026-08-22 Qed（src 侧分工）；
-         T2b 2026-08-22 完成（fall9/no_collision 定义 + 符号化单调性
-         no_collision_decreasing/no_collision_le + R 层数值界
-         prob_collision7_ge/8_ge/prob_mono；大 nat 计算受平台栈溢出限制，
-         数值以 R 层显式分数表达——见 T2b 分区说明）。
-   纪律：零 Admitted、零自定义公理；仅 Stdlib Reals（接 ParetoLaw）。
+        数值：m=7 ⟹ ≥ 96.2%；m=8 ⟹ ≥ 99.2%；m ≥ 10 ⟹ 确定性。
+   纪律：零 Admitted、零自定义公理；仅 Stdlib Reals。
    依赖：ParetoLaw.v（P2 pair_bound_gt_4_5、P3 factor_quad/r_lo_lt_1/c_pareto）。
-   关联：同事交互文档 §2-T2；框架文档 §5 P4。
    ============================================================ *)
-
 From Stdlib Require Import Reals.
 From Stdlib Require Import micromega.Lra.
 From Stdlib Require Import Lia.

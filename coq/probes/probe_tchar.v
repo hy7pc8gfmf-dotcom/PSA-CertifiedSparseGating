@@ -1,7 +1,4 @@
 (* ============================================================
-   T-CHAR 探针（U1）：碰撞距离完全刻画（z 工作区，E039 隔离纪律）
-   状态：2026-08-22 起草并 Qed。前置：probe_collision（C1-C5 已 Qed，EXIT=0）。
-
    T1 rational_min_period_coprime：θ = 2π·P/Q（gcd(P,Q)=1）⟹
       kernel_collides ⟺ Q ∣ D —— 最小碰撞周期恰为 Q（Nat.gauss 核心）。
    T2 collides_iff_rational_witness：∃精确碰撞 ⟺ θ/2π 有理见证
@@ -9,10 +6,6 @@
    T3 rational_offset_collides：偏移网格角 2π(p/q + m/N) 在 q·N 处碰撞。
    T4 offset_min_period_coprime：分数既约时最小碰撞距离 = q·N（闭式）。
 
-   设计读法（接框架文档 §9 grid 判决 + 交互文档 §8-U1）：
-   纯网格 q=1 ⟹ 最小距离恰 N（grid @8×=25.66 崩塌的形式侧）；
-   偏移分母 q 是把碰撞推出评估视界的零成本旋钮（q·N > 4096 即覆盖 8×）；
-   无理偏移 ⟹ 永不碰撞（C5 已 Qed）——三支合成 T-CHAR 完备刻画。
    ============================================================ *)
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Arith.Arith.

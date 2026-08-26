@@ -1,9 +1,9 @@
-﻿(* ============================================================
-   库 ca_2d_wide_asm（会话 15 新增 · 2D-wide 组装定理）
-   前置：ca_2d_wide_engine（衰减引擎）。
-   tensor_product_unconditional_basis_2d_wide（无 H_dom，K0=C³/2）
+(* ============================================================
+   库 ca_2d_wide_asm —— 2D 宽轨（2D-wide）组装定理
+   内容：tensor_product_unconditional_basis_2d_wide（无 H_dom，K0=C³/2）
    + M_bound_2d_wide 定义与 C=4 数值裁决（768）。
-   零 Admitted、零活动 Axiom、零 classic。
+   前置：ca_2d_wide_engine（衰减引擎）。
+   纪律：零 Admitted、零活动 Axiom、零 classic。
    ============================================================ *)
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Lists.List.

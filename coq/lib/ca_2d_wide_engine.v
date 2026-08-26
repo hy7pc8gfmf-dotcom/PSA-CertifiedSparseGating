@@ -1,9 +1,9 @@
 (* ============================================================
-   库 ca_2d_wide_engine（会话 15 新增 · 2D-wide 衰减引擎）
+   库 ca_2d_wide_engine —— 2D 宽轨（2D-wide）衰减引擎
+   内容：phi_flat_decay_general_2d_wide —— 无 H_dom 的 2D 离对角衰减
+   （K0 = Rmax·8C³/2，覆盖全部 idx1≠idx2 对）。
    前置：ca_2d_wide_const（常数层）。
-   phi_flat_decay_general_2d_wide：无 H_dom 的 2D 离对角衰减
-   （K0 = Rmax 8 C³ / 2，覆盖全部 idx1≠idx2 对）。
-   零 Admitted、零活动 Axiom、零 classic。
+   纪律：零 Admitted、零活动 Axiom、零 classic。
    ============================================================ *)
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Lists.List.

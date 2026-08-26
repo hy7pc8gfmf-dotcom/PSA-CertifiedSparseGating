@@ -1,5 +1,4 @@
 (* ============================================================
-   U4 T-PARTIAL 探针：Dirichlet 部分和界（z 工作区，E039 纪律）
    主定理 dirichlet_partial_bound：N≥2，j mod N ≠ 0，r := j mod N，
    s := min r (N−r)：
      Cnorm (Csum (fun k => grid_atom N j k) W) ≤ INR N / (2 * INR s)

@@ -1,7 +1,4 @@
 (* ============================================================
-   压缩感知定理补齐 CS-1/CS-2/CS-3（z 工作区，E039）
-   任务源：论文与文档/psi-rope-rand恶化-压缩感知理论缺口-20260822.md §四
-   （用户直派：无条件基/无关性范畴的非平凡定理，兑现压缩感知潜力）
 
    数学内容： psi 频率阶梯（波长 n 截断复指数，库 ca_basis.psi，
    归一化 ‖ψ_n‖=1）构成低相干（incoherent）原子族——压缩感知地基。
@@ -178,14 +175,12 @@ Qed.
 End Incoherence.
 
 (* ============================================================
-   CS-2/CS-3：RIP + 稀疏唯一性（z 工作区，E039）
    —— 在既有 IC0/IC1（inner、psi_norm_one）之上。
    Module Incoherence2：ipW 内积机器 + 双原子范数展开 + 稀疏唯一性。
    ============================================================ *)
 Module Incoherence2.
 
 (* ============================================================
-   CS-2/CS-3：RIP + 稀疏唯一性（z 工作区，E039，经典 R 纪律）
    —— ipW 内积机器 + 双原子范数展开 + 稀疏唯一性（非平凡核心）。
    依赖：probe_parseval（Cnorm_sq_add/re_mul_conj/sum_f_R0_*）。
    审计：Dedekind 三件套基座继承，零自定义公理、零 Admitted。
@@ -517,7 +512,6 @@ Proof.
 Qed.
 
 (* ============================================================
-   CS-3b 引擎：M-原子组合与线性提取（z 工作区，E039）
    —— comboM（Σ_{j<M} c_j·u_j）+ ipW 线性提取。
    ============================================================ *)
 
@@ -682,7 +676,6 @@ Proof.
 Qed.
 
 (* ============================================================
-   CS-3b 最终定理：M-原子稀疏唯一性（z 工作区，E039）
    —— rip_lower_M（RIP 下界，归纳）+ sparse_uniquenessM（最终定理）。
    证明链：norm_sq_comboM_rec（递归展开）+ cross_abs_le（交叉项界）
    + sum_abs_cross_le（AM-GM 聚合）+ 系数 INR 单调。
@@ -695,7 +688,6 @@ Proof.
   induction M; simpl; [apply Rle_0_sqr | apply Rplus_le_le_0_compat; [exact IHM | apply Rle_0_sqr]].
 Qed.
 
-(* μ·S + μ·INR(SM)·S = μ·INR(S(SM))·S（S_INR 合并，E058 显式 replace 法 + set N 消歧） *)
 Lemma INR_succ_mul (mu sv : R) (M : nat) :
   (mu * sv + mu * INR (S M) * sv = mu * INR (S (S M)) * sv)%R.
 Proof.

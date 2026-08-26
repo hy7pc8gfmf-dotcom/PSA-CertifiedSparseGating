@@ -1,11 +1,8 @@
 (* ============================================================
-   U6 T-ROBUST 容错 Gershgorin（z 工作区，E039；2026-08-22 第二批 ⑤）
    动机：检查器太二元——好族全过、坏族全拒。容错版：
    坏对占比 ≤ δ 的族获得"分级证书"：
      行和 ≤ INR n · (mu + δ)
-   即干净相干界 mu 上加 δ 加权罚项。激活考古热点
-   ca_decay.v:228 sparse_subset_exists_with_tolerance_corrected
-   （δN² 容错坏对存在性定理）的下游 Gershgorin 半边。
+   （基于 ca_decay 的 δN² 容错坏对存在性定理的下游 Gershgorin 半边）
 
    RR1 list_sum_R 基础件（与 probe_kerneldrift 同款自包含复制）。
    RR2 sum_split_bound：布尔划分计数求和界（归纳主引擎）。

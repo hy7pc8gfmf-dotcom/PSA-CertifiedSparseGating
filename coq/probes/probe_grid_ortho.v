@@ -1,9 +1,5 @@
 (* ============================================================
-   网格阶梯正交探针（z 工作区 / 隔壁智能体同事，E039 隔离纪律）
-   先在此验证，通过后由 src 侧并入（建议 src/GridOrtho.v 或 PSA_framework
-   新 Module；PSA-CertifiedSparseGating 仓库冻结不动）。
-   方向：《z/扩展方向分析-20260821.md》§2 偏移网格阶梯（O1 升级版）。
-
+   网格阶梯正交探针（probe_grid_ortho）
    G1  grid_pair_ortho：网格原子对窗口 N 精确正交
        —— prime_character_orthogonality 的直接实例（该证明对任意 p≥2 成立，
           不用素数性；μ=0 证书的数学内核已在库中）
@@ -15,12 +11,7 @@
          ca_independence（Csum / Csum_ext / Csum_split_rev）
    实验对应：length_extrap.py --grid N 的 theta = 2π·m/N；
              建议新增 --ogrid：theta = 2π·(β + m/N)，β 黄金比。
-   ============================================================
-   合并友好化 PRO 版（2026-08-23，E088/E089/E090 出路①隔离验证）：
-   在同事原文件基础上：显式 Require mathcomp 统一独立/合并两环境记法；
-   scope 顺序改为 R 后开（E063 系统性解法，防 mathcomp nat_scope 劫持 R 表达式）；
-   原 lia 全部改为 mathcomp 引理/reflect 反映（leP/ltP/mul0n/add0n/addn0/addnS/mulSn/addnA）。
-   验证通过后按原名字替换同事原文件（z-cs 协调）。 *)
+   ============================================================ *)
 From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Arith.Arith.
@@ -43,7 +34,7 @@ Open Scope nat_scope.   (* nat 后开：mathcomp 记法优先，裸 nat 算术�
 
 Module GridOrtho.
 
-(* 合并友好：本地 Csum_ext 别名（E065 全局命名空间冲突防御）——
+(* 合并友好：本地 Csum_ext 别名（全局命名空间冲突防御）——
    ca_independence 的 Csum_ext（f g n）与 ca_basis_lemmas 的 Csum_ext（n f g）
    签名参数序不同，合并版内联后后者遮蔽前者（后定义者胜），探针独立编译（.vo
    模块边界）解析前者 → 两环境不一致。本模块内定义本地版（直接归纳，不依赖

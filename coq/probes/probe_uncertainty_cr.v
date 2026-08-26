@@ -1,34 +1,12 @@
 (* ============================================================
-   F5 不确定性原理（纯构造性 CR 版，probe_uncertainty_cr.v，z 工作区，E093 五规则）
-   任务源：非平凡定理生成方案-压缩感知无条件基深层支撑-20260823.md §F5
-   用户红线：纯构造性——Stdlib ConstructiveReals（与 F7/R4 同轨道），
-             零经典实数、零 Admitted、零自定义公理。
-
-   ★ 完成（2026-08-23）：35 定理全 Qed，编译 EXIT=0，
-     Print Assumptions 全部 Closed under the global context（零经典）。
-     主定理 CRuncertainty_principle（唯一性正形式，Donoho-Stark 相干字典
-     不确定原理的构造性版，常数 1+1/μ——Foucart-Rauhut 标准）已交付。
-
-   数学内容（Donoho-Stark 相干字典不确定原理，唯一性正形式）：
-     若字典 {u_j}（单位范数、相干 ≤ μ）上同一信号 x 有两个稀疏表示
-       x = Σ_{j∈T1} c_j·u_j == Σ_{j∈T2} d_j·u_j
-     （c 在 T1 外为零、d 在 T2 外为零），且 μ·(|T1|+|T2|−1) < 1，
-     则 ∀j: c_j == d_j（表示唯一——不确定性原理的构造性正形式）。
-   经典推论（经典反证）：两表示不同 ⟹ |T1|+|T2| ≥ 1/μ+1。
-     （任务文档的 2/μ 是 Donoho–Huo 两正交基乘积版 a·b ≥ 1/μ² 的 AM-GM 推论；
-       一般相干字典的精确常数是 1+1/μ（Foucart–Rauhut / spark 论证），
-       本探针形式化此标准版；经典版 probe_uncertainty.v 亦存在（并行会话交付，
-       前缀口径 μ(M+1) 版）。）
-
-   证明链（纯 CR，复用 ca_rip_cr P0–P5 + R4 收缩链）：
-     A. 列表基础设施：scal / lst_sum / lst_sqsum / lst_abs_sum / lst_combo
-     B. lst_combo_norm_sq_cons / scal_norm_sq：范数平方展开
-     C. lst_combo_ip_abs_le_sum / lst_cross_abs_le：列表三角 + 相干上界
-     D. lst_sum_amgm：2|a|·Σ_T|e_k| ≤ |T|·a² + Σ_T e_k²（CRabs_amgm 逐对求和）
-     E. lst_rip_lower（核心）：NoDup T ⟹ Σ_T e² ≤ ‖lst_combo T e u‖² + μ·(|T|−1)·Σ_T e²
-     F. 差分线性 + 零项吸收 + 范数零（lst_combo e == 0 ⟹ ‖·‖² == 0）
-     G. 收缩链（R4 同构）：Σe² ≤ μ(t−1)Σe² ∧ μ(t−1)<1 ⟹ Σe²==0 ⟹ 逐项零
-     H. ★ CRuncertainty_principle（主定理）：唯一性（undup 合并两支撑）
+   F5 不确定性原理（纯构造性 CR 版，probe_uncertainty_cr）
+   纪律：纯构造性——Stdlib ConstructiveReals，零经典实数、
+         零 Admitted、零自定义公理；35 定理全 Qed，
+         Print Assumptions 全部 Closed under the global context。
+   主定理 CRuncertainty_principle：相干字典不确定原理（唯一性正形式，
+   Donoho-Stark 标准，常数 1+1/μ）。
+   数学内容：若字典 {u_j}（单位范数、相干 ≤ μ）上同一信号 x 有两个稀疏表示，
+   则两表示在支撑上逐点相同（|T1|+|T2|−1 的相干窗口）。
    ============================================================ *)
 Require Import ConstructiveReals.
 From Stdlib Require Import ConstructiveRealsMorphisms.

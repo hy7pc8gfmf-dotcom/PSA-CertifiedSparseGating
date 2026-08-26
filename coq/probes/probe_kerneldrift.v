@@ -1,16 +1,10 @@
 (* ============================================================
-   T4 核漂移定理（logit 层完整版）（z 工作区，E039；2026-08-22 第二批 ②）
-   背景：PSA_framework.vo 当前对重建后的 ca_base.vo 过期
-   （"inconsistent assumptions"），故本探针自包含（仅 ca_* 链），
-   softmax 组合线留接口注释——PSA 重建后 5 行战术即可封口。
-
    KD1 list_sum_R 基础件（与 PhaseCoherence 同陈述自证）。
    KD2 drift_logit_bound：|Σ_j c_j·(K_ij − K'_ij)| ≤ dc·dd
         ——核逐点漂移 ≤ dc 且系数 ℓ1 ≤ dd ⟹ logit 漂移界。
    KD3 kernel_drift_logit（主定理）：∀ i<n，两组 logits 的逐点
         漂移 ≤ dc·dd。
    组合线（接口注释）：与 SoftmaxStability.softmax_l1_bound_exp
-   （z z' n d：ℓ∞ 漂移 ≤ d ⟹ softmax ℓ1 TVD ≤ e^{2d}−1）合成得
         TVD ≤ e^{2·dc·dd} − 1
    ——对网格族（任意 a·N 窗口核相同，窗口无关性）Δ=0 ⟹ TVD=0。
    ============================================================ *)

@@ -1,5 +1,4 @@
 (* ============================================================
-   T4 完全体：核漂移 → softmax TVD 组合线（z 工作区，E039）
    前置：PSA_framework.vo 已对当前 ca_base.vo 重建（2026-08-22，
    本轮执行，EXIT=0）；本文件 Require PSA_framework + probe_kerneldrift。
 

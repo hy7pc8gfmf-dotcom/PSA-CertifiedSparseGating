@@ -1,9 +1,8 @@
-﻿(* ============================================================
-   库 ca_2d_wide_const（会话 15 新增 · 2D-wide 常数层）
-   2D-wide 全覆盖版前置模块①：常数引理 + min4 + 纯量分解。
-   依赖：ca_decay 等（同 ca_basis_3d 前件）。
-   独立编译：coqc -Q src "" -Q mathcomp mathcomp -Q Coquelicot Coquelicot <本文件>
-   零 Admitted、零活动 Axiom、零 classic。
+(* ============================================================
+   库 ca_2d_wide_const —— 2D 宽轨（2D-wide）常数层
+   内容：常数引理 + min4 + 纯量分解（K0 = Rmax·8C³/2，无 H_dom 前提）。
+   依赖：ca_decay 等（同 ca_basis_3d 前置）。
+   纪律：零 Admitted、零活动 Axiom、零 classic。
    ============================================================ *)
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Lists.List.
