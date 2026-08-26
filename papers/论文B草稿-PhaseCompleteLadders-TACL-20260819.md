@@ -73,8 +73,8 @@ certifiable sub-core — a composite certificate (frame core + energy-budget mar
 we formalize (with the orthogonal certified-track composite-certificate composition **Qed**,
 session 14: `champion_e5_composite_certificate` proves (S − coh_e5) ≤ ‖F‖² ≤ (S + coh_e5) —
 a basis-representation stability certificate, orthogonal to the empirical champion,
-see §7; [2026-08-23 代码状态]：论文 A 的 z 区 7 探针（含本证书依赖的 pairbound/rowsum/
-pairdirichlet/parseval/partial）已 pro 化并入合并版 `ca_merged_full_24.v`（75702 行，
+see §7; [2026-08-23 代码状态]：论文 A 的 z 区 20 探针（含本证书依赖的 pairbound/rowsum/
+pairdirichlet/parseval/partial）已 pro 化并入合并版 `ca_merged_full_25.v`（87733 行，
 合并编译 MERGE_EXIT=0），证书链验证等级从独立 .vo 升级为合并版全量验证； certification extends to arbitrary ladders through a reflective checker
 with a machine-checked soundness theorem (165-entry Print Assumptions audit — all
 with **zero `Classical_Prop.classic`**, zero Admitted; the only axioms are the
@@ -722,12 +722,13 @@ ogrid 持 μ=0 全长度精确正交证书 + 零精确碰撞，仍比 rand（6.4
 5. **τ 机制累计判决（降格口径）**：batch4 的 randmax384 改善（s1337）为**单种子观察**
    （多种子未复现，不构成验证支点）；eval-only 3 支点维持；
 
-6. **2026-08-26 s2026 正式配置 9 方案复核（B1 链，27000 iters，batch8/16 降载）**：@4096
-   alibi **4.17** / t5rel **4.45** / c4 15.52 / e5pp 21.53 / c2 22.22 / grid 29.20 / rope 37.89 /
-   c3 45.39（rand 语料错误待重跑）——**两族分化复现**（相对位置族优 vs 显式/结构化族差）；
-   **中间段排序配置依赖**（快速主表 e5pp<c2<c4 vs 正式 c4<e5pp<c2；c3/rope 翻转）——主表以
-   快速配置 n=10 为口径，正式配置仅两族分化口径；rand 语料错误已安排重跑；温控宕机后收紧
-   （GPU 80°/CPU-util 70%/2 核亲和性），冷却次数高（513-1332）但 E139 原则数据有效。
+6. **2026-08-26 正式配置 3 种子复核（B1+FOLLOWUP 链，27000 iters，s1337/s2026/s31415，batch8/16 降载）**：@4096
+   alibi 4.09/4.17/4.23、t5rel 4.29/4.45/4.56、**rand 8.67/6.44/5.71（重跑有效）**、c4 16.37/15.52/14.53、
+   e5pp 15.20/21.53/17.58、c2 16.25/22.22/20.53、grid 25.91/29.20/20.59、rope 35.81/37.89/38.31、
+   c3 30.53/45.39/（s31415 中断待补）——**三种子一致：alibi < t5rel < rand < 结构化族**（随机稠密
+   优于结构化在正式配置成立）+ **两族分化复现**；**中间段（c2/c4/e5pp）排序种子依赖**——主表以
+   快速配置 n=10 为口径，正式配置仅两族分化口径；温控宕机后收紧（GPU 80°/CPU-util 70%/2 核），
+   冷却次数高（513-1332）但 E139 原则数据有效。
 
 ### 10.9a k-scan discrimination experiment and trimming-semantics refinement (2026-08-23, local replication)
 
@@ -904,3 +905,4 @@ C=3 归因 seeds ✅、E1 消融 ✅（psi-rand/psi-lin/dense-frozen/psi-rope-ra
 **Q5：论文 A 证书是否解释 PPL 改善？** 否。增益机制不在形式化谱能量通道内（论文 A §5.3 与本文 §6 同口径）；形式化贡献止于稳定性检验 + 相干定性线索，PPL 桥梁是经验观察、未经形式化。
 
 ---
+

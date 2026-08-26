@@ -1,0 +1,1331 @@
+device=cuda vocab=125 train=5146368 chars block=512 batch=32 gen_c=4 bands=all seed=7 gpu_max=80.0 gpu_resume=75.0 cpu_util_max=90.0 check_interval=0.2
+  psi-rope-rand: 旋转角来自随机全相位阶梯（log-uniform [3,511]，未排序）首 16: [2.5, 1.8, 4.0, 1.3, 3.5, 2.7]
+  [psi-rope] step     0 train 4.8149 (0s)
+[thermal] psi-rope step 0: CPU 利用率 92% >= 90.0%，冷却 30s
+[thermal] psi-rope step 45: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 45: GPU 恢复 73.0°C
+[thermal] psi-rope step 81: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 81: GPU 恢复 74.0°C
+[thermal] psi-rope step 114: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 114: GPU 恢复 74.0°C
+[thermal] psi-rope step 188: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 188: GPU 恢复 73.0°C
+[thermal] psi-rope step 207: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 207: GPU 恢复 74.0°C
+[thermal] psi-rope step 233: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 233: GPU 恢复 72.0°C
+[thermal] psi-rope step 294: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 294: GPU 恢复 73.0°C
+[thermal] psi-rope step 310: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 310: GPU 恢复 73.0°C
+[thermal] psi-rope step 329: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 329: GPU 恢复 73.0°C
+[thermal] psi-rope step 389: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 389: GPU 恢复 74.0°C
+[thermal] psi-rope step 412: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 412: GPU 恢复 74.0°C
+[thermal] psi-rope step 437: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 437: GPU 恢复 73.0°C
+[thermal] psi-rope step 496: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 496: GPU 恢复 74.0°C
+[thermal] psi-rope step 518: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 518: GPU 恢复 73.0°C
+[thermal] psi-rope step 536: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 536: GPU 恢复 74.0°C
+[thermal] psi-rope step 595: CPU 利用率 104% >= 90.0%，冷却 30s
+[thermal] psi-rope step 620: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 620: GPU 恢复 74.0°C
+[thermal] psi-rope step 637: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 637: GPU 恢复 74.0°C
+[thermal] psi-rope step 664: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 664: GPU 恢复 74.0°C
+[thermal] psi-rope step 740: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 740: GPU 恢复 74.0°C
+[thermal] psi-rope step 767: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 767: GPU 恢复 73.0°C
+[thermal] psi-rope step 808: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 808: GPU 恢复 73.0°C
+[thermal] psi-rope step 887: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 887: GPU 恢复 74.0°C
+[thermal] psi-rope step 917: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 917: GPU 恢复 74.0°C
+[thermal] psi-rope step 950: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 950: GPU 恢复 73.0°C
+  [psi-rope] step  1000 train 1.6324 (153s)
+[thermal] psi-rope step 1024: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1024: GPU 恢复 74.0°C
+[thermal] psi-rope step 1044: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1044: GPU 恢复 74.0°C
+[thermal] psi-rope step 1084: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1084: GPU 恢复 74.0°C
+[thermal] psi-rope step 1158: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1158: GPU 恢复 74.0°C
+[thermal] psi-rope step 1191: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1191: GPU 恢复 74.0°C
+[thermal] psi-rope step 1213: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1213: GPU 恢复 74.0°C
+[thermal] psi-rope step 1295: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1295: GPU 恢复 74.0°C
+[thermal] psi-rope step 1317: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1317: GPU 恢复 74.0°C
+[thermal] psi-rope step 1341: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1341: GPU 恢复 74.0°C
+[thermal] psi-rope step 1398: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1398: GPU 恢复 74.0°C
+[thermal] psi-rope step 1422: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1422: GPU 恢复 74.0°C
+[thermal] psi-rope step 1506: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1506: GPU 恢复 74.0°C
+[thermal] psi-rope step 1530: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1530: GPU 恢复 74.0°C
+[thermal] psi-rope step 1617: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1617: GPU 恢复 74.0°C
+[thermal] psi-rope step 1634: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1634: GPU 恢复 74.0°C
+[thermal] psi-rope step 1702: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1702: GPU 恢复 74.0°C
+[thermal] psi-rope step 1728: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1728: GPU 恢复 74.0°C
+[thermal] psi-rope step 1790: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1790: GPU 恢复 74.0°C
+[thermal] psi-rope step 1809: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1809: GPU 恢复 74.0°C
+[thermal] psi-rope step 1875: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1875: GPU 恢复 74.0°C
+[thermal] psi-rope step 1893: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1893: GPU 恢复 74.0°C
+[thermal] psi-rope step 1956: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1956: GPU 恢复 74.0°C
+[thermal] psi-rope step 1976: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 1976: GPU 恢复 74.0°C
+  [psi-rope] step  2000 train 1.4257 (261s)
+[thermal] psi-rope step 2040: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2040: GPU 恢复 74.0°C
+[thermal] psi-rope step 2066: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2066: GPU 恢复 74.0°C
+[thermal] psi-rope step 2135: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2135: GPU 恢复 74.0°C
+[thermal] psi-rope step 2155: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2155: GPU 恢复 74.0°C
+[thermal] psi-rope step 2219: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2219: GPU 恢复 74.0°C
+[thermal] psi-rope step 2243: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2243: GPU 恢复 74.0°C
+[thermal] psi-rope step 2308: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2308: GPU 恢复 74.0°C
+[thermal] psi-rope step 2328: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2328: GPU 恢复 74.0°C
+[thermal] psi-rope step 2388: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2388: GPU 恢复 74.0°C
+[thermal] psi-rope step 2398: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2398: GPU 恢复 74.0°C
+[thermal] psi-rope step 2413: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2413: GPU 恢复 74.0°C
+[thermal] psi-rope step 2467: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2467: GPU 恢复 74.0°C
+[thermal] psi-rope step 2482: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2482: GPU 恢复 74.0°C
+[thermal] psi-rope step 2499: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2499: GPU 恢复 73.0°C
+[thermal] psi-rope step 2509: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2509: GPU 恢复 74.0°C
+[thermal] psi-rope step 2521: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2521: GPU 恢复 74.0°C
+[thermal] psi-rope step 2581: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2581: GPU 恢复 74.0°C
+[thermal] psi-rope step 2605: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2605: GPU 恢复 74.0°C
+[thermal] psi-rope step 2679: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2679: GPU 恢复 74.0°C
+[thermal] psi-rope step 2703: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2703: GPU 恢复 74.0°C
+[thermal] psi-rope step 2763: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2763: GPU 恢复 74.0°C
+[thermal] psi-rope step 2781: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2781: GPU 恢复 74.0°C
+[thermal] psi-rope step 2845: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2845: GPU 恢复 74.0°C
+[thermal] psi-rope step 2863: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2863: GPU 恢复 74.0°C
+[thermal] psi-rope step 2919: CPU 利用率 92% >= 90.0%，冷却 30s
+[thermal] psi-rope step 2954: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2954: GPU 恢复 74.0°C
+[thermal] psi-rope step 2990: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 2990: GPU 恢复 73.0°C
+  [psi-rope] step  3000 train 1.4275 (417s)
+[thermal] psi-rope step 3019: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3019: GPU 恢复 73.0°C
+[thermal] psi-rope step 3098: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3098: GPU 恢复 74.0°C
+[thermal] psi-rope step 3118: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3118: GPU 恢复 73.0°C
+[thermal] psi-rope step 3144: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3144: GPU 恢复 74.0°C
+[thermal] psi-rope step 3208: CPU 利用率 96% >= 90.0%，冷却 30s
+[thermal] psi-rope step 3244: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3244: GPU 恢复 74.0°C
+[thermal] psi-rope step 3273: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3273: GPU 恢复 74.0°C
+[thermal] psi-rope step 3289: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3289: GPU 恢复 74.0°C
+[thermal] psi-rope step 3356: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3356: GPU 恢复 73.0°C
+[thermal] psi-rope step 3386: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3386: GPU 恢复 73.0°C
+[thermal] psi-rope step 3409: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3409: GPU 恢复 72.0°C
+[thermal] psi-rope step 3481: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3481: GPU 恢复 74.0°C
+[thermal] psi-rope step 3503: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3503: GPU 恢复 74.0°C
+[thermal] psi-rope step 3527: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3527: GPU 恢复 74.0°C
+[thermal] psi-rope step 3593: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3593: GPU 恢复 74.0°C
+[thermal] psi-rope step 3613: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3613: GPU 恢复 74.0°C
+[thermal] psi-rope step 3631: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3631: GPU 恢复 74.0°C
+[thermal] psi-rope step 3691: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3691: GPU 恢复 74.0°C
+[thermal] psi-rope step 3716: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3716: GPU 恢复 74.0°C
+[thermal] psi-rope step 3794: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3794: GPU 恢复 74.0°C
+[thermal] psi-rope step 3808: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3808: GPU 恢复 74.0°C
+[thermal] psi-rope step 3883: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3883: GPU 恢复 74.0°C
+[thermal] psi-rope step 3904: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3904: GPU 恢复 74.0°C
+[thermal] psi-rope step 3967: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3967: GPU 恢复 74.0°C
+[thermal] psi-rope step 3992: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 3992: GPU 恢复 74.0°C
+  [psi-rope] step  4000 train 1.3707 (550s)
+[thermal] psi-rope step 4057: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4057: GPU 恢复 74.0°C
+[thermal] psi-rope step 4081: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4081: GPU 恢复 74.0°C
+[thermal] psi-rope step 4131: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4131: GPU 恢复 74.0°C
+[thermal] psi-rope step 4149: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4149: GPU 恢复 74.0°C
+[thermal] psi-rope step 4204: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4204: GPU 恢复 74.0°C
+[thermal] psi-rope step 4215: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4215: GPU 恢复 74.0°C
+[thermal] psi-rope step 4227: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4227: GPU 恢复 74.0°C
+[thermal] psi-rope step 4288: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4288: GPU 恢复 74.0°C
+[thermal] psi-rope step 4313: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4313: GPU 恢复 74.0°C
+[thermal] psi-rope step 4327: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4327: GPU 恢复 74.0°C
+[thermal] psi-rope step 4389: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4389: GPU 恢复 74.0°C
+[thermal] psi-rope step 4414: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4414: GPU 恢复 74.0°C
+[thermal] psi-rope step 4475: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4475: GPU 恢复 74.0°C
+[thermal] psi-rope step 4495: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4495: GPU 恢复 74.0°C
+[thermal] psi-rope step 4506: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4506: GPU 恢复 74.0°C
+[thermal] psi-rope step 4524: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4524: GPU 恢复 74.0°C
+[thermal] psi-rope step 4536: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4536: GPU 恢复 74.0°C
+[thermal] psi-rope step 4603: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4603: GPU 恢复 74.0°C
+[thermal] psi-rope step 4632: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4632: GPU 恢复 74.0°C
+[thermal] psi-rope step 4704: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4704: GPU 恢复 74.0°C
+[thermal] psi-rope step 4717: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4717: GPU 恢复 74.0°C
+[thermal] psi-rope step 4780: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4780: GPU 恢复 74.0°C
+[thermal] psi-rope step 4806: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4806: GPU 恢复 74.0°C
+[thermal] psi-rope step 4873: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4873: GPU 恢复 74.0°C
+[thermal] psi-rope step 4894: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4894: GPU 恢复 74.0°C
+[thermal] psi-rope step 4960: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4960: GPU 恢复 74.0°C
+[thermal] psi-rope step 4987: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 4987: GPU 恢复 74.0°C
+  [psi-rope] step  5000 train 1.3178 (678s)
+[thermal] psi-rope step 5000: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5000: GPU 恢复 74.0°C
+[thermal] psi-rope step 5068: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5068: GPU 恢复 74.0°C
+[thermal] psi-rope step 5095: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5095: GPU 恢复 74.0°C
+[thermal] psi-rope step 5163: CPU 利用率 94% >= 90.0%，冷却 30s
+[thermal] psi-rope step 5200: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5200: GPU 恢复 74.0°C
+[thermal] psi-rope step 5217: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5217: GPU 恢复 74.0°C
+[thermal] psi-rope step 5246: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5246: GPU 恢复 74.0°C
+[thermal] psi-rope step 5312: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5312: GPU 恢复 74.0°C
+[thermal] psi-rope step 5330: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5330: GPU 恢复 73.0°C
+[thermal] psi-rope step 5364: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5364: GPU 恢复 74.0°C
+[thermal] psi-rope step 5426: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5426: GPU 恢复 74.0°C
+[thermal] psi-rope step 5455: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5455: GPU 恢复 74.0°C
+[thermal] psi-rope step 5477: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5477: GPU 恢复 74.0°C
+[thermal] psi-rope step 5528: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5528: GPU 恢复 74.0°C
+[thermal] psi-rope step 5546: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5546: GPU 恢复 74.0°C
+[thermal] psi-rope step 5571: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5571: GPU 恢复 74.0°C
+[thermal] psi-rope step 5626: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5626: GPU 恢复 74.0°C
+[thermal] psi-rope step 5644: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5644: GPU 恢复 74.0°C
+[thermal] psi-rope step 5659: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5659: GPU 恢复 74.0°C
+[thermal] psi-rope step 5692: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5692: GPU 恢复 74.0°C
+[thermal] psi-rope step 5724: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5724: GPU 恢复 74.0°C
+[thermal] psi-rope step 5787: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5787: GPU 恢复 74.0°C
+[thermal] psi-rope step 5809: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5809: GPU 恢复 74.0°C
+[thermal] psi-rope step 5885: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5885: GPU 恢复 74.0°C
+[thermal] psi-rope step 5907: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5907: GPU 恢复 74.0°C
+[thermal] psi-rope step 5969: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5969: GPU 恢复 74.0°C
+[thermal] psi-rope step 5996: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 5996: GPU 恢复 74.0°C
+  [psi-rope] step  6000 train 1.3291 (821s)
+[thermal] psi-rope step 6064: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6064: GPU 恢复 74.0°C
+[thermal] psi-rope step 6086: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6086: GPU 恢复 74.0°C
+[thermal] psi-rope step 6145: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6145: GPU 恢复 74.0°C
+[thermal] psi-rope step 6172: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6172: GPU 恢复 74.0°C
+[thermal] psi-rope step 6237: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6237: GPU 恢复 74.0°C
+[thermal] psi-rope step 6260: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6260: GPU 恢复 74.0°C
+[thermal] psi-rope step 6325: GPU 88.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6325: GPU 恢复 74.0°C
+[thermal] psi-rope step 6346: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6346: GPU 恢复 74.0°C
+[thermal] psi-rope step 6408: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6408: GPU 恢复 74.0°C
+[thermal] psi-rope step 6429: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6429: GPU 恢复 74.0°C
+[thermal] psi-rope step 6490: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6490: GPU 恢复 74.0°C
+[thermal] psi-rope step 6510: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6510: GPU 恢复 74.0°C
+[thermal] psi-rope step 6576: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6576: GPU 恢复 74.0°C
+[thermal] psi-rope step 6598: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6598: GPU 恢复 74.0°C
+[thermal] psi-rope step 6659: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6659: GPU 恢复 74.0°C
+[thermal] psi-rope step 6676: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6676: GPU 恢复 74.0°C
+[thermal] psi-rope step 6740: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6740: GPU 恢复 74.0°C
+[thermal] psi-rope step 6762: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6762: GPU 恢复 74.0°C
+[thermal] psi-rope step 6824: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6824: GPU 恢复 74.0°C
+[thermal] psi-rope step 6844: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6844: GPU 恢复 74.0°C
+[thermal] psi-rope step 6907: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6907: GPU 恢复 74.0°C
+[thermal] psi-rope step 6931: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6931: GPU 恢复 74.0°C
+[thermal] psi-rope step 6993: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 6993: GPU 恢复 74.0°C
+  [psi-rope] step  7000 train 1.2676 (944s)
+[thermal] psi-rope step 7020: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7020: GPU 恢复 74.0°C
+[thermal] psi-rope step 7091: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7091: GPU 恢复 74.0°C
+[thermal] psi-rope step 7111: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7111: GPU 恢复 74.0°C
+[thermal] psi-rope step 7176: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7176: GPU 恢复 74.0°C
+[thermal] psi-rope step 7195: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7195: GPU 恢复 74.0°C
+[thermal] psi-rope step 7259: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7259: GPU 恢复 74.0°C
+[thermal] psi-rope step 7283: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7283: GPU 恢复 74.0°C
+[thermal] psi-rope step 7339: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7339: GPU 恢复 74.0°C
+[thermal] psi-rope step 7358: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7358: GPU 恢复 74.0°C
+[thermal] psi-rope step 7426: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7426: GPU 恢复 74.0°C
+[thermal] psi-rope step 7443: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7443: GPU 恢复 74.0°C
+[thermal] psi-rope step 7520: GPU 88.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7520: GPU 恢复 74.0°C
+[thermal] psi-rope step 7545: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7545: GPU 恢复 74.0°C
+[thermal] psi-rope step 7609: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7609: GPU 恢复 74.0°C
+[thermal] psi-rope step 7629: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7629: GPU 恢复 74.0°C
+[thermal] psi-rope step 7698: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7698: GPU 恢复 74.0°C
+[thermal] psi-rope step 7734: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7734: GPU 恢复 74.0°C
+[thermal] psi-rope step 7804: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7804: GPU 恢复 74.0°C
+[thermal] psi-rope step 7818: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7818: GPU 恢复 74.0°C
+[thermal] psi-rope step 7883: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7883: GPU 恢复 74.0°C
+[thermal] psi-rope step 7905: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7905: GPU 恢复 74.0°C
+[thermal] psi-rope step 7969: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7969: GPU 恢复 74.0°C
+[thermal] psi-rope step 7993: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 7993: GPU 恢复 74.0°C
+  [psi-rope] step  8000 train 1.3134 (1070s)
+[thermal] psi-rope step 8062: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8062: GPU 恢复 74.0°C
+[thermal] psi-rope step 8084: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8084: GPU 恢复 74.0°C
+[thermal] psi-rope step 8149: GPU 88.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8149: GPU 恢复 74.0°C
+[thermal] psi-rope step 8170: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8170: GPU 恢复 74.0°C
+[thermal] psi-rope step 8237: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8237: GPU 恢复 74.0°C
+[thermal] psi-rope step 8260: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8260: GPU 恢复 74.0°C
+[thermal] psi-rope step 8330: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8330: GPU 恢复 74.0°C
+[thermal] psi-rope step 8347: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8347: GPU 恢复 74.0°C
+[thermal] psi-rope step 8419: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8419: GPU 恢复 74.0°C
+[thermal] psi-rope step 8451: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8451: GPU 恢复 74.0°C
+[thermal] psi-rope step 8518: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8518: GPU 恢复 74.0°C
+[thermal] psi-rope step 8543: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8543: GPU 恢复 74.0°C
+[thermal] psi-rope step 8613: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8613: GPU 恢复 74.0°C
+[thermal] psi-rope step 8637: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8637: GPU 恢复 74.0°C
+[thermal] psi-rope step 8705: CPU 利用率 113% >= 90.0%，冷却 30s
+[thermal] psi-rope step 8706: CPU 利用率 92% >= 90.0%，冷却 30s
+[thermal] psi-rope step 8744: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8744: GPU 恢复 74.0°C
+[thermal] psi-rope step 8763: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8763: GPU 恢复 74.0°C
+[thermal] psi-rope step 8789: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8789: GPU 恢复 74.0°C
+[thermal] psi-rope step 8866: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8866: GPU 恢复 73.0°C
+[thermal] psi-rope step 8891: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8891: GPU 恢复 72.0°C
+[thermal] psi-rope step 8918: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8918: GPU 恢复 73.0°C
+[thermal] psi-rope step 8993: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 8993: GPU 恢复 74.0°C
+  [psi-rope] step  9000 train 1.2688 (1234s)
+[thermal] psi-rope step 9023: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9023: GPU 恢复 74.0°C
+[thermal] psi-rope step 9053: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9053: GPU 恢复 74.0°C
+[thermal] psi-rope step 9122: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9122: GPU 恢复 74.0°C
+[thermal] psi-rope step 9151: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9151: GPU 恢复 74.0°C
+[thermal] psi-rope step 9178: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9178: GPU 恢复 74.0°C
+[thermal] psi-rope step 9246: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9246: GPU 恢复 74.0°C
+[thermal] psi-rope step 9276: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9276: GPU 恢复 74.0°C
+[thermal] psi-rope step 9351: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9351: GPU 恢复 74.0°C
+[thermal] psi-rope step 9383: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9383: GPU 恢复 74.0°C
+[thermal] psi-rope step 9454: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9454: GPU 恢复 74.0°C
+[thermal] psi-rope step 9481: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9481: GPU 恢复 74.0°C
+[thermal] psi-rope step 9557: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9557: GPU 恢复 74.0°C
+[thermal] psi-rope step 9580: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9580: GPU 恢复 74.0°C
+[thermal] psi-rope step 9631: CPU 利用率 94% >= 90.0%，冷却 30s
+[thermal] psi-rope step 9655: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9655: GPU 恢复 74.0°C
+[thermal] psi-rope step 9673: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9673: GPU 恢复 74.0°C
+[thermal] psi-rope step 9689: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9689: GPU 恢复 72.0°C
+[thermal] psi-rope step 9755: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9755: GPU 恢复 74.0°C
+[thermal] psi-rope step 9781: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9781: GPU 恢复 73.0°C
+[thermal] psi-rope step 9801: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9801: GPU 恢复 73.0°C
+[thermal] psi-rope step 9864: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9864: GPU 恢复 74.0°C
+[thermal] psi-rope step 9894: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9894: GPU 恢复 74.0°C
+[thermal] psi-rope step 9916: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9916: GPU 恢复 74.0°C
+[thermal] psi-rope step 9977: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9977: GPU 恢复 74.0°C
+[thermal] psi-rope step 9987: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 9987: GPU 恢复 74.0°C
+  [psi-rope] step 10000 train 1.2083 (1369s)
+[thermal] psi-rope step 10008: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10008: GPU 恢复 74.0°C
+[thermal] psi-rope step 10080: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10080: GPU 恢复 74.0°C
+[thermal] psi-rope step 10107: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10107: GPU 恢复 74.0°C
+[thermal] psi-rope step 10193: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10193: GPU 恢复 74.0°C
+[thermal] psi-rope step 10207: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10207: GPU 恢复 74.0°C
+[thermal] psi-rope step 10221: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10221: GPU 恢复 74.0°C
+[thermal] psi-rope step 10237: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10237: GPU 恢复 74.0°C
+[thermal] psi-rope step 10250: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10250: GPU 恢复 74.0°C
+[thermal] psi-rope step 10320: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10320: GPU 恢复 74.0°C
+[thermal] psi-rope step 10334: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10334: GPU 恢复 74.0°C
+[thermal] psi-rope step 10352: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10352: GPU 恢复 74.0°C
+[thermal] psi-rope step 10404: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10404: GPU 恢复 74.0°C
+[thermal] psi-rope step 10426: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10426: GPU 恢复 74.0°C
+[thermal] psi-rope step 10444: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10444: GPU 恢复 74.0°C
+[thermal] psi-rope step 10512: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10512: GPU 恢复 74.0°C
+[thermal] psi-rope step 10543: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10543: GPU 恢复 74.0°C
+[thermal] psi-rope step 10623: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10623: GPU 恢复 74.0°C
+[thermal] psi-rope step 10652: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10652: GPU 恢复 74.0°C
+[thermal] psi-rope step 10665: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10665: GPU 恢复 74.0°C
+[thermal] psi-rope step 10733: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10733: GPU 恢复 74.0°C
+[thermal] psi-rope step 10762: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10762: GPU 恢复 74.0°C
+[thermal] psi-rope step 10834: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10834: GPU 恢复 74.0°C
+[thermal] psi-rope step 10858: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10858: GPU 恢复 74.0°C
+[thermal] psi-rope step 10931: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10931: GPU 恢复 74.0°C
+[thermal] psi-rope step 10953: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 10953: GPU 恢复 74.0°C
+  [psi-rope] step 11000 train 1.2211 (1483s)
+[thermal] psi-rope step 11024: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11024: GPU 恢复 74.0°C
+[thermal] psi-rope step 11048: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11048: GPU 恢复 74.0°C
+[thermal] psi-rope step 11125: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11125: GPU 恢复 74.0°C
+[thermal] psi-rope step 11156: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11156: GPU 恢复 74.0°C
+[thermal] psi-rope step 11234: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11234: GPU 恢复 74.0°C
+[thermal] psi-rope step 11253: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11253: GPU 恢复 74.0°C
+[thermal] psi-rope step 11319: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11319: GPU 恢复 74.0°C
+[thermal] psi-rope step 11350: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11350: GPU 恢复 74.0°C
+[thermal] psi-rope step 11418: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11418: GPU 恢复 74.0°C
+[thermal] psi-rope step 11442: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11442: GPU 恢复 74.0°C
+[thermal] psi-rope step 11510: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11510: GPU 恢复 74.0°C
+[thermal] psi-rope step 11534: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11534: GPU 恢复 74.0°C
+[thermal] psi-rope step 11603: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11603: GPU 恢复 74.0°C
+[thermal] psi-rope step 11638: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11638: GPU 恢复 74.0°C
+[thermal] psi-rope step 11708: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11708: GPU 恢复 74.0°C
+[thermal] psi-rope step 11737: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11737: GPU 恢复 74.0°C
+[thermal] psi-rope step 11813: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11813: GPU 恢复 74.0°C
+[thermal] psi-rope step 11843: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11843: GPU 恢复 74.0°C
+[thermal] psi-rope step 11853: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11853: GPU 恢复 74.0°C
+[thermal] psi-rope step 11871: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11871: GPU 恢复 74.0°C
+[thermal] psi-rope step 11894: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11894: GPU 恢复 74.0°C
+[thermal] psi-rope step 11968: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11968: GPU 恢复 74.0°C
+[thermal] psi-rope step 11988: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11988: GPU 恢复 74.0°C
+[thermal] psi-rope step 11997: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 11997: GPU 恢复 74.0°C
+  [psi-rope] step 12000 train 1.2424 (1600s)
+[thermal] psi-rope step 12014: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12014: GPU 恢复 74.0°C
+[thermal] psi-rope step 12036: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12036: GPU 恢复 74.0°C
+[thermal] psi-rope step 12057: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12057: GPU 恢复 74.0°C
+[thermal] psi-rope step 12088: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12088: GPU 恢复 74.0°C
+[thermal] psi-rope step 12102: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12102: GPU 恢复 74.0°C
+[thermal] psi-rope step 12169: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12169: GPU 恢复 74.0°C
+[thermal] psi-rope step 12188: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12188: GPU 恢复 74.0°C
+[thermal] psi-rope step 12242: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12242: GPU 恢复 74.0°C
+[thermal] psi-rope step 12273: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12273: GPU 恢复 74.0°C
+[thermal] psi-rope step 12289: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12289: GPU 恢复 74.0°C
+[thermal] psi-rope step 12352: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12352: GPU 恢复 74.0°C
+[thermal] psi-rope step 12384: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12384: GPU 恢复 74.0°C
+[thermal] psi-rope step 12394: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12394: GPU 恢复 74.0°C
+[thermal] psi-rope step 12468: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12468: GPU 恢复 74.0°C
+[thermal] psi-rope step 12497: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12497: GPU 恢复 74.0°C
+[thermal] psi-rope step 12573: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12573: GPU 恢复 74.0°C
+[thermal] psi-rope step 12604: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12604: GPU 恢复 74.0°C
+[thermal] psi-rope step 12676: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12676: GPU 恢复 74.0°C
+[thermal] psi-rope step 12702: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12702: GPU 恢复 74.0°C
+[thermal] psi-rope step 12776: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12776: GPU 恢复 74.0°C
+[thermal] psi-rope step 12795: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12795: GPU 恢复 74.0°C
+[thermal] psi-rope step 12861: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12861: GPU 恢复 74.0°C
+[thermal] psi-rope step 12883: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12883: GPU 恢复 74.0°C
+[thermal] psi-rope step 12960: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12960: GPU 恢复 74.0°C
+[thermal] psi-rope step 12991: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 12991: GPU 恢复 74.0°C
+  [psi-rope] step 13000 train 1.1620 (1718s)
+[thermal] psi-rope step 13056: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13056: GPU 恢复 74.0°C
+[thermal] psi-rope step 13081: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13081: GPU 恢复 74.0°C
+[thermal] psi-rope step 13148: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13148: GPU 恢复 74.0°C
+[thermal] psi-rope step 13176: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13176: GPU 恢复 74.0°C
+[thermal] psi-rope step 13239: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13239: GPU 恢复 74.0°C
+[thermal] psi-rope step 13255: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13255: GPU 恢复 74.0°C
+[thermal] psi-rope step 13328: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13328: GPU 恢复 74.0°C
+[thermal] psi-rope step 13353: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13353: GPU 恢复 74.0°C
+[thermal] psi-rope step 13426: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13426: GPU 恢复 74.0°C
+[thermal] psi-rope step 13452: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13452: GPU 恢复 74.0°C
+[thermal] psi-rope step 13516: CPU 利用率 97% >= 90.0%，冷却 30s
+[thermal] psi-rope step 13517: CPU 利用率 91% >= 90.0%，冷却 30s
+[thermal] psi-rope step 13558: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13558: GPU 恢复 74.0°C
+[thermal] psi-rope step 13577: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13577: GPU 恢复 74.0°C
+[thermal] psi-rope step 13597: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13597: GPU 恢复 74.0°C
+[thermal] psi-rope step 13605: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13605: GPU 恢复 74.0°C
+[thermal] psi-rope step 13672: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13672: GPU 恢复 72.0°C
+[thermal] psi-rope step 13699: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13699: GPU 恢复 73.0°C
+[thermal] psi-rope step 13722: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13722: GPU 恢复 74.0°C
+[thermal] psi-rope step 13797: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13797: GPU 恢复 74.0°C
+[thermal] psi-rope step 13829: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13829: GPU 恢复 74.0°C
+[thermal] psi-rope step 13849: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13849: GPU 恢复 73.0°C
+[thermal] psi-rope step 13928: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13928: GPU 恢复 74.0°C
+[thermal] psi-rope step 13948: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13948: GPU 恢复 74.0°C
+[thermal] psi-rope step 13980: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 13980: GPU 恢复 74.0°C
+  [psi-rope] step 14000 train 1.1894 (1881s)
+[thermal] psi-rope step 14056: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14056: GPU 恢复 74.0°C
+[thermal] psi-rope step 14071: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14071: GPU 恢复 74.0°C
+[thermal] psi-rope step 14095: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14095: GPU 恢复 74.0°C
+[thermal] psi-rope step 14175: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14175: GPU 恢复 74.0°C
+[thermal] psi-rope step 14200: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14200: GPU 恢复 74.0°C
+[thermal] psi-rope step 14219: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14219: GPU 恢复 74.0°C
+[thermal] psi-rope step 14284: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14284: GPU 恢复 74.0°C
+[thermal] psi-rope step 14304: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14304: GPU 恢复 74.0°C
+[thermal] psi-rope step 14377: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14377: GPU 恢复 74.0°C
+[thermal] psi-rope step 14389: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14389: GPU 恢复 74.0°C
+[thermal] psi-rope step 14406: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14406: GPU 恢复 74.0°C
+[thermal] psi-rope step 14434: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14434: GPU 恢复 74.0°C
+[thermal] psi-rope step 14457: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14457: GPU 恢复 74.0°C
+[thermal] psi-rope step 14531: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14531: GPU 恢复 74.0°C
+[thermal] psi-rope step 14552: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14552: GPU 恢复 74.0°C
+[thermal] psi-rope step 14587: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14587: GPU 恢复 74.0°C
+[thermal] psi-rope step 14605: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14605: GPU 恢复 74.0°C
+[thermal] psi-rope step 14619: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14619: GPU 恢复 74.0°C
+[thermal] psi-rope step 14699: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14699: GPU 恢复 74.0°C
+[thermal] psi-rope step 14721: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14721: GPU 恢复 74.0°C
+[thermal] psi-rope step 14753: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14753: GPU 恢复 74.0°C
+[thermal] psi-rope step 14811: CPU 利用率 108% >= 90.0%，冷却 30s
+[thermal] psi-rope step 14840: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14840: GPU 恢复 74.0°C
+[thermal] psi-rope step 14858: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14858: GPU 恢复 74.0°C
+[thermal] psi-rope step 14895: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14895: GPU 恢复 73.0°C
+[thermal] psi-rope step 14968: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14968: GPU 恢复 73.0°C
+[thermal] psi-rope step 14999: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 14999: GPU 恢复 74.0°C
+  [psi-rope] step 15000 train 1.2018 (2019s)
+[thermal] psi-rope step 15024: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15024: GPU 恢复 74.0°C
+[thermal] psi-rope step 15096: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15096: GPU 恢复 74.0°C
+[thermal] psi-rope step 15119: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15119: GPU 恢复 74.0°C
+[thermal] psi-rope step 15151: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15151: GPU 恢复 74.0°C
+[thermal] psi-rope step 15226: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15226: GPU 恢复 74.0°C
+[thermal] psi-rope step 15254: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15254: GPU 恢复 74.0°C
+[thermal] psi-rope step 15275: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15275: GPU 恢复 74.0°C
+[thermal] psi-rope step 15301: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15301: GPU 恢复 74.0°C
+[thermal] psi-rope step 15323: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15323: GPU 恢复 74.0°C
+[thermal] psi-rope step 15396: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15396: GPU 恢复 74.0°C
+[thermal] psi-rope step 15424: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15424: GPU 恢复 74.0°C
+[thermal] psi-rope step 15437: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15437: GPU 恢复 74.0°C
+[thermal] psi-rope step 15500: CPU 利用率 90% >= 90.0%，冷却 30s
+[thermal] psi-rope step 15534: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15534: GPU 恢复 74.0°C
+[thermal] psi-rope step 15554: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15554: GPU 恢复 74.0°C
+[thermal] psi-rope step 15574: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15574: GPU 恢复 73.0°C
+[thermal] psi-rope step 15648: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15648: GPU 恢复 74.0°C
+[thermal] psi-rope step 15672: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15672: GPU 恢复 73.0°C
+[thermal] psi-rope step 15700: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15700: GPU 恢复 73.0°C
+[thermal] psi-rope step 15779: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15779: GPU 恢复 74.0°C
+[thermal] psi-rope step 15815: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15815: GPU 恢复 74.0°C
+[thermal] psi-rope step 15847: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15847: GPU 恢复 74.0°C
+[thermal] psi-rope step 15875: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15875: GPU 恢复 74.0°C
+[thermal] psi-rope step 15900: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15900: GPU 恢复 74.0°C
+[thermal] psi-rope step 15976: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15976: GPU 恢复 74.0°C
+[thermal] psi-rope step 15994: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 15994: GPU 恢复 74.0°C
+  [psi-rope] step 16000 train 1.1532 (2151s)
+[thermal] psi-rope step 16024: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16024: GPU 恢复 74.0°C
+[thermal] psi-rope step 16040: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16040: GPU 恢复 74.0°C
+[thermal] psi-rope step 16062: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16062: GPU 恢复 74.0°C
+[thermal] psi-rope step 16095: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16095: GPU 恢复 74.0°C
+[thermal] psi-rope step 16113: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16113: GPU 恢复 74.0°C
+[thermal] psi-rope step 16142: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16142: GPU 恢复 74.0°C
+[thermal] psi-rope step 16220: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16220: GPU 恢复 74.0°C
+[thermal] psi-rope step 16249: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16249: GPU 恢复 74.0°C
+[thermal] psi-rope step 16331: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16331: GPU 恢复 74.0°C
+[thermal] psi-rope step 16359: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16359: GPU 恢复 74.0°C
+[thermal] psi-rope step 16444: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16444: GPU 恢复 74.0°C
+[thermal] psi-rope step 16473: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16473: GPU 恢复 74.0°C
+[thermal] psi-rope step 16546: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16546: GPU 恢复 74.0°C
+[thermal] psi-rope step 16574: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16574: GPU 恢复 74.0°C
+[thermal] psi-rope step 16648: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16648: GPU 恢复 74.0°C
+[thermal] psi-rope step 16667: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16667: GPU 恢复 74.0°C
+[thermal] psi-rope step 16738: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16738: GPU 恢复 74.0°C
+[thermal] psi-rope step 16762: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16762: GPU 恢复 74.0°C
+[thermal] psi-rope step 16833: CPU 利用率 99% >= 90.0%，冷却 30s
+[thermal] psi-rope step 16862: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16862: GPU 恢复 74.0°C
+[thermal] psi-rope step 16884: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16884: GPU 恢复 74.0°C
+[thermal] psi-rope step 16918: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16918: GPU 恢复 73.0°C
+[thermal] psi-rope step 16997: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 16997: GPU 恢复 74.0°C
+  [psi-rope] step 17000 train 1.2177 (2280s)
+[thermal] psi-rope step 17027: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17027: GPU 恢复 73.0°C
+[thermal] psi-rope step 17054: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17054: GPU 恢复 73.0°C
+[thermal] psi-rope step 17130: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17130: GPU 恢复 74.0°C
+[thermal] psi-rope step 17164: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17164: GPU 恢复 74.0°C
+[thermal] psi-rope step 17195: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17195: GPU 恢复 74.0°C
+[thermal] psi-rope step 17266: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17266: GPU 恢复 74.0°C
+[thermal] psi-rope step 17292: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17292: GPU 恢复 74.0°C
+[thermal] psi-rope step 17310: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17310: GPU 恢复 74.0°C
+[thermal] psi-rope step 17383: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17383: GPU 恢复 74.0°C
+[thermal] psi-rope step 17415: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17415: GPU 恢复 74.0°C
+[thermal] psi-rope step 17442: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17442: GPU 恢复 74.0°C
+[thermal] psi-rope step 17508: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17508: GPU 恢复 74.0°C
+[thermal] psi-rope step 17522: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17522: GPU 恢复 74.0°C
+[thermal] psi-rope step 17535: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17535: GPU 恢复 74.0°C
+[thermal] psi-rope step 17603: CPU 利用率 90% >= 90.0%，冷却 30s
+[thermal] psi-rope step 17638: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17638: GPU 恢复 74.0°C
+[thermal] psi-rope step 17658: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17658: GPU 恢复 74.0°C
+[thermal] psi-rope step 17676: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17676: GPU 恢复 72.0°C
+[thermal] psi-rope step 17756: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17756: GPU 恢复 74.0°C
+[thermal] psi-rope step 17769: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17769: GPU 恢复 74.0°C
+[thermal] psi-rope step 17793: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17793: GPU 恢复 73.0°C
+[thermal] psi-rope step 17874: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17874: GPU 恢复 74.0°C
+[thermal] psi-rope step 17920: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17920: GPU 恢复 74.0°C
+[thermal] psi-rope step 17950: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 17950: GPU 恢复 73.0°C
+  [psi-rope] step 18000 train 1.1596 (2403s)
+[thermal] psi-rope step 18030: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18030: GPU 恢复 74.0°C
+[thermal] psi-rope step 18052: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18052: GPU 恢复 74.0°C
+[thermal] psi-rope step 18065: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18065: GPU 恢复 74.0°C
+[thermal] psi-rope step 18150: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18150: GPU 恢复 74.0°C
+[thermal] psi-rope step 18181: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18181: GPU 恢复 74.0°C
+[thermal] psi-rope step 18202: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18202: GPU 恢复 74.0°C
+[thermal] psi-rope step 18281: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18281: GPU 恢复 74.0°C
+[thermal] psi-rope step 18305: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18305: GPU 恢复 74.0°C
+[thermal] psi-rope step 18332: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18332: GPU 恢复 74.0°C
+[thermal] psi-rope step 18414: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18414: GPU 恢复 74.0°C
+[thermal] psi-rope step 18445: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18445: GPU 恢复 74.0°C
+[thermal] psi-rope step 18538: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18538: GPU 恢复 74.0°C
+[thermal] psi-rope step 18571: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18571: GPU 恢复 74.0°C
+[thermal] psi-rope step 18594: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18594: GPU 恢复 74.0°C
+[thermal] psi-rope step 18672: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18672: GPU 恢复 74.0°C
+[thermal] psi-rope step 18690: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18690: GPU 恢复 74.0°C
+[thermal] psi-rope step 18713: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18713: GPU 恢复 74.0°C
+[thermal] psi-rope step 18805: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18805: GPU 恢复 74.0°C
+[thermal] psi-rope step 18838: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18838: GPU 恢复 74.0°C
+[thermal] psi-rope step 18929: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18929: GPU 恢复 74.0°C
+[thermal] psi-rope step 18963: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18963: GPU 恢复 74.0°C
+[thermal] psi-rope step 18993: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 18993: GPU 恢复 74.0°C
+  [psi-rope] step 19000 train 1.1802 (2498s)
+[thermal] psi-rope step 19009: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19009: GPU 恢复 74.0°C
+[thermal] psi-rope step 19029: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19029: GPU 恢复 74.0°C
+[thermal] psi-rope step 19095: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19095: GPU 恢复 74.0°C
+[thermal] psi-rope step 19110: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19110: GPU 恢复 74.0°C
+[thermal] psi-rope step 19131: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19131: GPU 恢复 74.0°C
+[thermal] psi-rope step 19162: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19162: GPU 恢复 74.0°C
+[thermal] psi-rope step 19181: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19181: GPU 恢复 74.0°C
+[thermal] psi-rope step 19251: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19251: GPU 恢复 74.0°C
+[thermal] psi-rope step 19285: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19285: GPU 恢复 74.0°C
+[thermal] psi-rope step 19371: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19371: GPU 恢复 74.0°C
+[thermal] psi-rope step 19410: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19410: GPU 恢复 74.0°C
+[thermal] psi-rope step 19485: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19485: GPU 恢复 74.0°C
+[thermal] psi-rope step 19510: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19510: GPU 恢复 74.0°C
+[thermal] psi-rope step 19589: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19589: GPU 恢复 74.0°C
+[thermal] psi-rope step 19616: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19616: GPU 恢复 74.0°C
+[thermal] psi-rope step 19682: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19682: GPU 恢复 74.0°C
+[thermal] psi-rope step 19700: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19700: GPU 恢复 74.0°C
+[thermal] psi-rope step 19722: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19722: GPU 恢复 74.0°C
+[thermal] psi-rope step 19738: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19738: GPU 恢复 74.0°C
+[thermal] psi-rope step 19760: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19760: GPU 恢复 74.0°C
+[thermal] psi-rope step 19829: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19829: GPU 恢复 74.0°C
+[thermal] psi-rope step 19858: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19858: GPU 恢复 74.0°C
+[thermal] psi-rope step 19878: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19878: GPU 恢复 74.0°C
+[thermal] psi-rope step 19951: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19951: GPU 恢复 74.0°C
+[thermal] psi-rope step 19979: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19979: GPU 恢复 74.0°C
+[thermal] psi-rope step 19998: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 19998: GPU 恢复 74.0°C
+  [psi-rope] step 20000 train 1.2394 (2613s)
+[thermal] psi-rope step 20069: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20069: GPU 恢复 74.0°C
+[thermal] psi-rope step 20085: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20085: GPU 恢复 74.0°C
+[thermal] psi-rope step 20104: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20104: GPU 恢复 74.0°C
+[thermal] psi-rope step 20132: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20132: GPU 恢复 74.0°C
+[thermal] psi-rope step 20155: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20155: GPU 恢复 74.0°C
+[thermal] psi-rope step 20231: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20231: GPU 恢复 74.0°C
+[thermal] psi-rope step 20262: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20262: GPU 恢复 74.0°C
+[thermal] psi-rope step 20353: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20353: GPU 恢复 74.0°C
+[thermal] psi-rope step 20379: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20379: GPU 恢复 74.0°C
+[thermal] psi-rope step 20449: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20449: GPU 恢复 74.0°C
+[thermal] psi-rope step 20481: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20481: GPU 恢复 74.0°C
+[thermal] psi-rope step 20556: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20556: GPU 恢复 74.0°C
+[thermal] psi-rope step 20575: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20575: GPU 恢复 74.0°C
+[thermal] psi-rope step 20647: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20647: GPU 恢复 74.0°C
+[thermal] psi-rope step 20672: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20672: GPU 恢复 74.0°C
+[thermal] psi-rope step 20743: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20743: GPU 恢复 74.0°C
+[thermal] psi-rope step 20767: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20767: GPU 恢复 74.0°C
+[thermal] psi-rope step 20835: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20835: GPU 恢复 74.0°C
+[thermal] psi-rope step 20862: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20862: GPU 恢复 74.0°C
+[thermal] psi-rope step 20939: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20939: GPU 恢复 74.0°C
+[thermal] psi-rope step 20971: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 20971: GPU 恢复 74.0°C
+  [psi-rope] step 21000 train 1.2298 (2717s)
+[thermal] psi-rope step 21044: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21044: GPU 恢复 74.0°C
+[thermal] psi-rope step 21076: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21076: GPU 恢复 74.0°C
+[thermal] psi-rope step 21154: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21154: GPU 恢复 74.0°C
+[thermal] psi-rope step 21185: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21185: GPU 恢复 74.0°C
+[thermal] psi-rope step 21276: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21276: GPU 恢复 74.0°C
+[thermal] psi-rope step 21310: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21310: GPU 恢复 74.0°C
+[thermal] psi-rope step 21372: CPU 利用率 93% >= 90.0%，冷却 30s
+[thermal] psi-rope step 21407: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21407: GPU 恢复 74.0°C
+[thermal] psi-rope step 21436: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21436: GPU 恢复 74.0°C
+[thermal] psi-rope step 21453: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21453: GPU 恢复 73.0°C
+[thermal] psi-rope step 21528: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21528: GPU 恢复 74.0°C
+[thermal] psi-rope step 21549: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21549: GPU 恢复 73.0°C
+[thermal] psi-rope step 21572: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21572: GPU 恢复 74.0°C
+[thermal] psi-rope step 21625: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21625: GPU 恢复 74.0°C
+[thermal] psi-rope step 21654: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21654: GPU 恢复 74.0°C
+[thermal] psi-rope step 21685: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21685: GPU 恢复 74.0°C
+[thermal] psi-rope step 21760: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21760: GPU 恢复 74.0°C
+[thermal] psi-rope step 21780: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21780: GPU 恢复 74.0°C
+[thermal] psi-rope step 21798: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21798: GPU 恢复 74.0°C
+[thermal] psi-rope step 21810: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21810: GPU 恢复 74.0°C
+[thermal] psi-rope step 21827: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21827: GPU 恢复 74.0°C
+[thermal] psi-rope step 21905: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21905: GPU 恢复 74.0°C
+[thermal] psi-rope step 21931: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21931: GPU 恢复 74.0°C
+[thermal] psi-rope step 21992: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 21992: GPU 恢复 74.0°C
+  [psi-rope] step 22000 train 1.1774 (2851s)
+[thermal] psi-rope step 22006: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22006: GPU 恢复 74.0°C
+[thermal] psi-rope step 22022: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22022: GPU 恢复 74.0°C
+[thermal] psi-rope step 22037: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22037: GPU 恢复 74.0°C
+[thermal] psi-rope step 22057: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22057: GPU 恢复 74.0°C
+[thermal] psi-rope step 22137: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22137: GPU 恢复 74.0°C
+[thermal] psi-rope step 22162: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22162: GPU 恢复 74.0°C
+[thermal] psi-rope step 22235: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22235: GPU 恢复 74.0°C
+[thermal] psi-rope step 22249: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22249: GPU 恢复 74.0°C
+[thermal] psi-rope step 22336: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22336: GPU 恢复 74.0°C
+[thermal] psi-rope step 22355: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22355: GPU 恢复 74.0°C
+[thermal] psi-rope step 22423: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22423: GPU 恢复 74.0°C
+[thermal] psi-rope step 22450: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22450: GPU 恢复 74.0°C
+[thermal] psi-rope step 22540: GPU 88.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22540: GPU 恢复 74.0°C
+[thermal] psi-rope step 22566: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22566: GPU 恢复 74.0°C
+[thermal] psi-rope step 22644: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22644: GPU 恢复 74.0°C
+[thermal] psi-rope step 22672: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22672: GPU 恢复 74.0°C
+[thermal] psi-rope step 22748: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22748: GPU 恢复 74.0°C
+[thermal] psi-rope step 22772: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22772: GPU 恢复 74.0°C
+[thermal] psi-rope step 22844: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22844: GPU 恢复 74.0°C
+[thermal] psi-rope step 22869: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22869: GPU 恢复 74.0°C
+[thermal] psi-rope step 22950: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22950: GPU 恢复 74.0°C
+[thermal] psi-rope step 22978: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 22978: GPU 恢复 74.0°C
+  [psi-rope] step 23000 train 1.1770 (2960s)
+[thermal] psi-rope step 23058: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23058: GPU 恢复 74.0°C
+[thermal] psi-rope step 23082: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23082: GPU 恢复 74.0°C
+[thermal] psi-rope step 23167: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23167: GPU 恢复 74.0°C
+[thermal] psi-rope step 23196: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23196: GPU 恢复 74.0°C
+[thermal] psi-rope step 23277: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23277: GPU 恢复 74.0°C
+[thermal] psi-rope step 23301: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23301: GPU 恢复 74.0°C
+[thermal] psi-rope step 23382: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23382: GPU 恢复 74.0°C
+[thermal] psi-rope step 23406: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23406: GPU 恢复 74.0°C
+[thermal] psi-rope step 23429: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23429: GPU 恢复 74.0°C
+[thermal] psi-rope step 23512: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23512: GPU 恢复 74.0°C
+[thermal] psi-rope step 23535: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23535: GPU 恢复 74.0°C
+[thermal] psi-rope step 23639: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23639: GPU 恢复 74.0°C
+[thermal] psi-rope step 23664: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23664: GPU 恢复 74.0°C
+[thermal] psi-rope step 23759: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23759: GPU 恢复 74.0°C
+[thermal] psi-rope step 23783: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23783: GPU 恢复 74.0°C
+[thermal] psi-rope step 23863: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23863: GPU 恢复 74.0°C
+[thermal] psi-rope step 23883: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23883: GPU 恢复 74.0°C
+[thermal] psi-rope step 23971: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23971: GPU 恢复 74.0°C
+[thermal] psi-rope step 23994: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 23994: GPU 恢复 74.0°C
+  [psi-rope] step 24000 train 1.1415 (3054s)
+[thermal] psi-rope step 24063: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24063: GPU 恢复 74.0°C
+[thermal] psi-rope step 24084: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24084: GPU 恢复 74.0°C
+[thermal] psi-rope step 24150: CPU 利用率 95% >= 90.0%，冷却 30s
+[thermal] psi-rope step 24172: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24172: GPU 恢复 74.0°C
+[thermal] psi-rope step 24196: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24196: GPU 恢复 73.0°C
+[thermal] psi-rope step 24218: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24218: GPU 恢复 73.0°C
+[thermal] psi-rope step 24291: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24291: GPU 恢复 74.0°C
+[thermal] psi-rope step 24305: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24305: GPU 恢复 73.0°C
+[thermal] psi-rope step 24322: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24322: GPU 恢复 73.0°C
+[thermal] psi-rope step 24386: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24386: GPU 恢复 74.0°C
+[thermal] psi-rope step 24402: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24402: GPU 恢复 73.0°C
+[thermal] psi-rope step 24438: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24438: GPU 恢复 73.0°C
+[thermal] psi-rope step 24521: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24521: GPU 恢复 74.0°C
+[thermal] psi-rope step 24537: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24537: GPU 恢复 74.0°C
+[thermal] psi-rope step 24558: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24558: GPU 恢复 73.0°C
+[thermal] psi-rope step 24642: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24642: GPU 恢复 74.0°C
+[thermal] psi-rope step 24662: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24662: GPU 恢复 74.0°C
+[thermal] psi-rope step 24682: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24682: GPU 恢复 73.0°C
+[thermal] psi-rope step 24752: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24752: GPU 恢复 74.0°C
+[thermal] psi-rope step 24782: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24782: GPU 恢复 74.0°C
+[thermal] psi-rope step 24872: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24872: GPU 恢复 74.0°C
+[thermal] psi-rope step 24895: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24895: GPU 恢复 74.0°C
+[thermal] psi-rope step 24967: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24967: GPU 恢复 74.0°C
+[thermal] psi-rope step 24987: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 24987: GPU 恢复 74.0°C
+  [psi-rope] step 25000 train 1.1905 (3186s)
+[thermal] psi-rope step 25060: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25060: GPU 恢复 74.0°C
+[thermal] psi-rope step 25084: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25084: GPU 恢复 74.0°C
+[thermal] psi-rope step 25169: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25169: GPU 恢复 74.0°C
+[thermal] psi-rope step 25191: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25191: GPU 恢复 74.0°C
+[thermal] psi-rope step 25261: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25261: GPU 恢复 74.0°C
+[thermal] psi-rope step 25291: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25291: GPU 恢复 74.0°C
+[thermal] psi-rope step 25364: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25364: GPU 恢复 74.0°C
+[thermal] psi-rope step 25386: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25386: GPU 恢复 74.0°C
+[thermal] psi-rope step 25450: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25450: GPU 恢复 74.0°C
+[thermal] psi-rope step 25482: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25482: GPU 恢复 74.0°C
+[thermal] psi-rope step 25535: CPU 利用率 95% >= 90.0%，冷却 30s
+[thermal] psi-rope step 25564: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25564: GPU 恢复 74.0°C
+[thermal] psi-rope step 25584: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25584: GPU 恢复 74.0°C
+[thermal] psi-rope step 25608: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25608: GPU 恢复 74.0°C
+[thermal] psi-rope step 25638: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25638: GPU 恢复 73.0°C
+[thermal] psi-rope step 25722: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25722: GPU 恢复 74.0°C
+[thermal] psi-rope step 25748: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25748: GPU 恢复 74.0°C
+[thermal] psi-rope step 25792: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25792: GPU 恢复 73.0°C
+[thermal] psi-rope step 25874: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25874: GPU 恢复 74.0°C
+[thermal] psi-rope step 25917: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25917: GPU 恢复 74.0°C
+[thermal] psi-rope step 25960: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 25960: GPU 恢复 74.0°C
+  [psi-rope] step 26000 train 1.1720 (3308s)
+[thermal] psi-rope step 26036: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26036: GPU 恢复 74.0°C
+[thermal] psi-rope step 26070: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26070: GPU 恢复 74.0°C
+[thermal] psi-rope step 26094: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26094: GPU 恢复 74.0°C
+[thermal] psi-rope step 26181: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26181: GPU 恢复 74.0°C
+[thermal] psi-rope step 26205: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26205: GPU 恢复 74.0°C
+[thermal] psi-rope step 26232: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26232: GPU 恢复 74.0°C
+[thermal] psi-rope step 26318: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26318: GPU 恢复 74.0°C
+[thermal] psi-rope step 26353: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26353: GPU 恢复 74.0°C
+[thermal] psi-rope step 26432: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26432: GPU 恢复 74.0°C
+[thermal] psi-rope step 26456: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26456: GPU 恢复 74.0°C
+[thermal] psi-rope step 26483: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26483: GPU 恢复 74.0°C
+[thermal] psi-rope step 26499: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26499: GPU 恢复 74.0°C
+[thermal] psi-rope step 26513: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26513: GPU 恢复 74.0°C
+[thermal] psi-rope step 26536: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26536: GPU 恢复 74.0°C
+[thermal] psi-rope step 26617: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26617: GPU 恢复 74.0°C
+[thermal] psi-rope step 26637: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26637: GPU 恢复 74.0°C
+[thermal] psi-rope step 26659: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26659: GPU 恢复 74.0°C
+[thermal] psi-rope step 26737: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26737: GPU 恢复 74.0°C
+[thermal] psi-rope step 26759: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26759: GPU 恢复 74.0°C
+[thermal] psi-rope step 26776: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26776: GPU 恢复 74.0°C
+[thermal] psi-rope step 26848: GPU 87.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26848: GPU 恢复 74.0°C
+[thermal] psi-rope step 26870: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26870: GPU 恢复 74.0°C
+[thermal] psi-rope step 26895: GPU 85.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26895: GPU 恢复 74.0°C
+[thermal] psi-rope step 26962: GPU 86.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26962: GPU 恢复 74.0°C
+[thermal] psi-rope step 26988: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] psi-rope step 26988: GPU 恢复 74.0°C
+  [psi-rope] step 26999 train 1.1583 (3411s)
+===== psi-rope: length extrapolation =====
+[thermal] 固定冷却 5.0s
+  T=  512: loss 1.3611 ± 0.0397 (CI95)  ppl 3.90 [3.75, 4.06]  nb=4
+  T= 1024: loss 1.5269 ± 0.0482 (CI95)  ppl 4.60 [4.39, 4.83]  nb=4
+  T= 2048: loss 1.7254 ± 0.0033 (CI95)  ppl 5.62 [5.60, 5.63]  nb=2
+  T= 4096: loss 2.0379 ± 0.0340 (CI95)  ppl 7.67 [7.42, 7.94]  nb=2
+  [thermal] psi-rope 冷却次数: 652（若 > 3 次须降载重跑）
+
+===== 外推对比汇总（训练 T=512）=====
+     T |   psi-rope
+   512 |       3.90
+  1024 |       4.60
+  2048 |       5.62
+  4096 |       7.67

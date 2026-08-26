@@ -24,7 +24,7 @@
 >   3.141 ≤ π ≤ 3.142）、M2 构造性 sin（`probe_sin_cr_m2` 39 Qed：交替幂级数）、
 >   M3 构造性 sqrt（`probe_sqrt_cr_m3` 59 Qed：Q 层二分，√21 ≥ 458/100、
 >   √105 ≥ 10246/1000）——**纯 ConstructiveReals、零经典、零 Admitted、零自定义公理，
->   Print Assumptions 全 Closed**，已并入合并版 `ca_merged_full_25.v`（55 模块，
+>   Print Assumptions 全 Closed**，已并入合并版 `ca_merged_full_25.v`（57 顶层 Module = 55 模块分区，
 >   MERGE_EXIT=0）。定位：G-5 可判定性溢价主定理的**构造化版本三角基座**；
 >   **M4 可判定性溢价主定理已构造化完成**（2026-08-26：`probe_decidability_premium_cr.v`
 >   并入合并版 25 模块 55/55，行和 ≤ 63/80 + 反射界 21/16 + 溢价 5/3，
@@ -811,7 +811,7 @@ rand 2.4×）——与 P3 定理互证：**可证性（稀疏）与外推性（�
   CR 极限，**√21 ≥ 458/100、√105 ≥ 10246/1000**）。三者均**纯 Stdlib
   ConstructiveReals、零经典、零 Admitted、零自定义公理，Print Assumptions 全
   Closed under the global context**；已并入合并版 `ca_merged_full_25.v`
-  （55 模块，MERGE_EXIT=0）。**定位（如实）**：G-5 可判定性溢价主定理的
+  （57 顶层 Module = 55 模块分区，MERGE_EXIT=0）。**定位（如实）**：G-5 可判定性溢价主定理的
   **构造化版本三角基座**——π/sin/sqrt 三件超越函数基件补齐后，[3,7,15]
   精确相干数值化的构造化版本（M4 探针级主定理）**已构造化完成（2026-08-26：
   `probe_decidability_premium_cr.v` 并入合并版 25 模块 55/55，行和 ≤ 63/80 +
@@ -919,12 +919,13 @@ rand 2.4×）——与 P3 定理互证：**可证性（稀疏）与外推性（�
 ## 7. 公理记账（审计小节，对齐 2026-08-20 基态：165 项全零 classic）
 - **审计总量**：PSA_audit.v **165 项** Print Assumptions，RC=0，零 Admitted；
   原始证据 `audit_run.txt`（165 项：111 段 Axioms + 54 项 "Closed under the
-  global context"）；
+  global context"）；**2026-08-26 重跑完整 165/165 日志 `audit_run_20260826_full.txt` + 定理索引 `audit_index_20260826.txt` 随稿**；
 - **公理脚印（全部 165 项仅此）**：ClassicalDedekindReals.sig_not_dec /
   sig_forall_dec + functional_extensionality_dep（标准库反射层基础设施，
   如实声明）；**`Classical_Prop.classic` 出现 0 次**。
   **如实说明（评审对齐）**：`sig_not_dec` / `sig_forall_dec` / fext 是**非构造性
-  选择类原则**（由 Dedekind 实数构造自身携带，非本开发应用层引入）——文中
+  选择类原则**（由 Dedekind 实数构造自身携带，**属可接受的 Reals 基底、非
+  `Classical_Prop.classic` 公理——显式声明**，非本开发应用层引入）——文中
   "classical-free / zero classical axioms"精确指 **`Classical_Prop.classic`
   （排中律宏）零出现**，而非"无任何经典原则"；应用层（注意力近似 / 张量积证书）
   在实数基础设施之上未新增任何经典公理。

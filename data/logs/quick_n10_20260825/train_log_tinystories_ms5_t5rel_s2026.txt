@@ -1,0 +1,417 @@
+device=cuda vocab=123 train=179870967 chars block=512 batch=32 gen_c=4 bands=all seed=2026 gpu_max=80.0 gpu_resume=75.0 cpu_util_max=90.0 check_interval=0.2
+  [t5rel] step     0 train 4.8296 (0s)
+[thermal] t5rel step 18: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 18: GPU 恢复 73.0°C
+[thermal] t5rel step 29: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 29: GPU 恢复 74.0°C
+[thermal] t5rel step 50: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 50: GPU 恢复 74.0°C
+[thermal] t5rel step 60: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 60: GPU 恢复 74.0°C
+[thermal] t5rel step 71: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 71: GPU 恢复 74.0°C
+[thermal] t5rel step 78: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 78: GPU 恢复 74.0°C
+[thermal] t5rel step 101: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 101: GPU 恢复 73.0°C
+[thermal] t5rel step 113: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 113: GPU 恢复 74.0°C
+[thermal] t5rel step 124: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 124: GPU 恢复 74.0°C
+[thermal] t5rel step 147: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 147: GPU 恢复 73.0°C
+[thermal] t5rel step 159: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 159: GPU 恢复 74.0°C
+[thermal] t5rel step 168: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 168: GPU 恢复 74.0°C
+[thermal] t5rel step 175: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 175: GPU 恢复 73.0°C
+[thermal] t5rel step 187: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 187: GPU 恢复 74.0°C
+[thermal] t5rel step 194: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 194: GPU 恢复 74.0°C
+[thermal] t5rel step 201: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 201: GPU 恢复 74.0°C
+[thermal] t5rel step 213: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 213: GPU 恢复 74.0°C
+[thermal] t5rel step 237: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 237: GPU 恢复 72.0°C
+[thermal] t5rel step 249: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 249: GPU 恢复 74.0°C
+[thermal] t5rel step 262: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 262: GPU 恢复 74.0°C
+[thermal] t5rel step 285: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 285: GPU 恢复 73.0°C
+[thermal] t5rel step 298: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 298: GPU 恢复 74.0°C
+[thermal] t5rel step 307: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 307: GPU 恢复 74.0°C
+[thermal] t5rel step 332: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 332: GPU 恢复 73.0°C
+[thermal] t5rel step 344: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 344: GPU 恢复 74.0°C
+[thermal] t5rel step 356: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 356: GPU 恢复 72.0°C
+[thermal] t5rel step 380: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 380: GPU 恢复 72.0°C
+[thermal] t5rel step 392: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 392: GPU 恢复 74.0°C
+[thermal] t5rel step 405: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 405: GPU 恢复 73.0°C
+[thermal] t5rel step 429: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 429: GPU 恢复 73.0°C
+[thermal] t5rel step 441: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 441: GPU 恢复 72.0°C
+[thermal] t5rel step 451: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 451: GPU 恢复 74.0°C
+[thermal] t5rel step 475: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 475: GPU 恢复 73.0°C
+[thermal] t5rel step 487: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 487: GPU 恢复 72.0°C
+[thermal] t5rel step 499: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 499: GPU 恢复 74.0°C
+[thermal] t5rel step 522: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 522: GPU 恢复 73.0°C
+[thermal] t5rel step 535: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 535: GPU 恢复 73.0°C
+[thermal] t5rel step 547: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 547: GPU 恢复 74.0°C
+[thermal] t5rel step 570: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 570: GPU 恢复 73.0°C
+[thermal] t5rel step 583: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 583: GPU 恢复 73.0°C
+[thermal] t5rel step 595: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 595: GPU 恢复 74.0°C
+[thermal] t5rel step 619: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 619: GPU 恢复 73.0°C
+[thermal] t5rel step 628: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 628: GPU 恢复 74.0°C
+[thermal] t5rel step 641: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 641: GPU 恢复 74.0°C
+[thermal] t5rel step 665: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 665: GPU 恢复 73.0°C
+[thermal] t5rel step 677: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 677: GPU 恢复 72.0°C
+[thermal] t5rel step 690: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 690: GPU 恢复 74.0°C
+[thermal] t5rel step 713: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 713: GPU 恢复 73.0°C
+[thermal] t5rel step 726: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 726: GPU 恢复 72.0°C
+[thermal] t5rel step 738: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 738: GPU 恢复 74.0°C
+[thermal] t5rel step 762: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 762: GPU 恢复 73.0°C
+[thermal] t5rel step 771: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 771: GPU 恢复 74.0°C
+[thermal] t5rel step 786: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 786: GPU 恢复 74.0°C
+[thermal] t5rel step 808: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 808: GPU 恢复 72.0°C
+[thermal] t5rel step 820: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 820: GPU 恢复 74.0°C
+[thermal] t5rel step 832: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 832: GPU 恢复 74.0°C
+[thermal] t5rel step 856: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 856: GPU 恢复 73.0°C
+[thermal] t5rel step 868: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 868: GPU 恢复 72.0°C
+[thermal] t5rel step 881: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 881: GPU 恢复 72.0°C
+[thermal] t5rel step 905: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 905: GPU 恢复 73.0°C
+[thermal] t5rel step 917: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 917: GPU 恢复 73.0°C
+[thermal] t5rel step 929: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 929: GPU 恢复 73.0°C
+[thermal] t5rel step 954: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 954: GPU 恢复 73.0°C
+[thermal] t5rel step 963: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 963: GPU 恢复 74.0°C
+[thermal] t5rel step 975: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 975: GPU 恢复 74.0°C
+[thermal] t5rel step 999: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 999: GPU 恢复 73.0°C
+  [t5rel] step  1000 train 1.7839 (227s)
+[thermal] t5rel step 1010: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1010: GPU 恢复 74.0°C
+[thermal] t5rel step 1023: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1023: GPU 恢复 72.0°C
+[thermal] t5rel step 1047: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1047: GPU 恢复 73.0°C
+[thermal] t5rel step 1059: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1059: GPU 恢复 73.0°C
+[thermal] t5rel step 1071: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1071: GPU 恢复 74.0°C
+[thermal] t5rel step 1095: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1095: GPU 恢复 73.0°C
+[thermal] t5rel step 1107: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1107: GPU 恢复 73.0°C
+[thermal] t5rel step 1117: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1117: GPU 恢复 74.0°C
+[thermal] t5rel step 1141: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1141: GPU 恢复 73.0°C
+[thermal] t5rel step 1153: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1153: GPU 恢复 74.0°C
+[thermal] t5rel step 1165: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1165: GPU 恢复 74.0°C
+[thermal] t5rel step 1189: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1189: GPU 恢复 73.0°C
+[thermal] t5rel step 1202: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1202: GPU 恢复 73.0°C
+[thermal] t5rel step 1214: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1214: GPU 恢复 74.0°C
+[thermal] t5rel step 1238: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1238: GPU 恢复 73.0°C
+[thermal] t5rel step 1250: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1250: GPU 恢复 73.0°C
+[thermal] t5rel step 1262: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1262: GPU 恢复 74.0°C
+[thermal] t5rel step 1286: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1286: GPU 恢复 73.0°C
+[thermal] t5rel step 1295: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1295: GPU 恢复 74.0°C
+[thermal] t5rel step 1302: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1302: GPU 恢复 74.0°C
+[thermal] t5rel step 1308: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1308: GPU 恢复 74.0°C
+[thermal] t5rel step 1329: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1329: GPU 恢复 73.0°C
+[thermal] t5rel step 1338: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1338: GPU 恢复 74.0°C
+[thermal] t5rel step 1345: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1345: GPU 恢复 74.0°C
+[thermal] t5rel step 1357: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1357: GPU 恢复 74.0°C
+[thermal] t5rel step 1370: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1370: GPU 恢复 74.0°C
+[thermal] t5rel step 1382: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1382: GPU 恢复 74.0°C
+[thermal] t5rel step 1394: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1394: GPU 恢复 74.0°C
+[thermal] t5rel step 1418: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1418: GPU 恢复 73.0°C
+[thermal] t5rel step 1430: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1430: GPU 恢复 74.0°C
+[thermal] t5rel step 1442: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1442: GPU 恢复 74.0°C
+[thermal] t5rel step 1466: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1466: GPU 恢复 73.0°C
+[thermal] t5rel step 1478: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1478: GPU 恢复 74.0°C
+[thermal] t5rel step 1490: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1490: GPU 恢复 74.0°C
+[thermal] t5rel step 1512: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1512: GPU 恢复 74.0°C
+[thermal] t5rel step 1526: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1526: GPU 恢复 73.0°C
+[thermal] t5rel step 1538: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1538: GPU 恢复 74.0°C
+[thermal] t5rel step 1562: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1562: GPU 恢复 73.0°C
+[thermal] t5rel step 1571: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1571: GPU 恢复 74.0°C
+[thermal] t5rel step 1578: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1578: GPU 恢复 74.0°C
+[thermal] t5rel step 1584: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1584: GPU 恢复 74.0°C
+[thermal] t5rel step 1606: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1606: GPU 恢复 74.0°C
+[thermal] t5rel step 1615: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1615: GPU 恢复 74.0°C
+[thermal] t5rel step 1622: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1622: GPU 恢复 74.0°C
+[thermal] t5rel step 1634: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1634: GPU 恢复 74.0°C
+[thermal] t5rel step 1646: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1646: GPU 恢复 74.0°C
+[thermal] t5rel step 1659: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1659: GPU 恢复 74.0°C
+[thermal] t5rel step 1671: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1671: GPU 恢复 74.0°C
+[thermal] t5rel step 1695: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1695: GPU 恢复 73.0°C
+[thermal] t5rel step 1707: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1707: GPU 恢复 74.0°C
+[thermal] t5rel step 1719: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1719: GPU 恢复 74.0°C
+[thermal] t5rel step 1741: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1741: GPU 恢复 72.0°C
+[thermal] t5rel step 1753: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1753: GPU 恢复 74.0°C
+[thermal] t5rel step 1765: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1765: GPU 恢复 74.0°C
+[thermal] t5rel step 1789: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1789: GPU 恢复 73.0°C
+[thermal] t5rel step 1801: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1801: GPU 恢复 74.0°C
+[thermal] t5rel step 1814: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1814: GPU 恢复 74.0°C
+[thermal] t5rel step 1838: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1838: GPU 恢复 73.0°C
+[thermal] t5rel step 1850: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1850: GPU 恢复 72.0°C
+[thermal] t5rel step 1862: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1862: GPU 恢复 74.0°C
+[thermal] t5rel step 1886: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1886: GPU 恢复 73.0°C
+[thermal] t5rel step 1898: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1898: GPU 恢复 73.0°C
+[thermal] t5rel step 1910: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1910: GPU 恢复 74.0°C
+[thermal] t5rel step 1934: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1934: GPU 恢复 73.0°C
+[thermal] t5rel step 1944: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1944: GPU 恢复 74.0°C
+[thermal] t5rel step 1956: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1956: GPU 恢复 74.0°C
+[thermal] t5rel step 1980: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1980: GPU 恢复 73.0°C
+[thermal] t5rel step 1992: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 1992: GPU 恢复 72.0°C
+  [t5rel] step  2000 train 1.3894 (460s)
+[thermal] t5rel step 2004: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2004: GPU 恢复 74.0°C
+[thermal] t5rel step 2028: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2028: GPU 恢复 73.0°C
+[thermal] t5rel step 2040: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2040: GPU 恢复 74.0°C
+[thermal] t5rel step 2053: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2053: GPU 恢复 72.0°C
+[thermal] t5rel step 2076: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2076: GPU 恢复 72.0°C
+[thermal] t5rel step 2089: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2089: GPU 恢复 74.0°C
+[thermal] t5rel step 2101: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2101: GPU 恢复 74.0°C
+[thermal] t5rel step 2125: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2125: GPU 恢复 73.0°C
+[thermal] t5rel step 2134: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2134: GPU 恢复 74.0°C
+[thermal] t5rel step 2146: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2146: GPU 恢复 74.0°C
+[thermal] t5rel step 2171: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2171: GPU 恢复 73.0°C
+[thermal] t5rel step 2183: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2183: GPU 恢复 74.0°C
+[thermal] t5rel step 2195: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2195: GPU 恢复 74.0°C
+[thermal] t5rel step 2219: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2219: GPU 恢复 73.0°C
+[thermal] t5rel step 2231: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2231: GPU 恢复 72.0°C
+[thermal] t5rel step 2243: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2243: GPU 恢复 74.0°C
+[thermal] t5rel step 2267: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2267: GPU 恢复 73.0°C
+[thermal] t5rel step 2278: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2278: GPU 恢复 74.0°C
+[thermal] t5rel step 2291: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2291: GPU 恢复 72.0°C
+[thermal] t5rel step 2314: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2314: GPU 恢复 73.0°C
+[thermal] t5rel step 2327: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2327: GPU 恢复 72.0°C
+[thermal] t5rel step 2339: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2339: GPU 恢复 74.0°C
+[thermal] t5rel step 2364: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2364: GPU 恢复 73.0°C
+[thermal] t5rel step 2373: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2373: GPU 恢复 74.0°C
+[thermal] t5rel step 2385: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2385: GPU 恢复 74.0°C
+[thermal] t5rel step 2407: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2407: GPU 恢复 73.0°C
+[thermal] t5rel step 2417: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2417: GPU 恢复 74.0°C
+[thermal] t5rel step 2429: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2429: GPU 恢复 74.0°C
+[thermal] t5rel step 2453: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2453: GPU 恢复 73.0°C
+[thermal] t5rel step 2465: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2465: GPU 恢复 74.0°C
+[thermal] t5rel step 2474: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2474: GPU 恢复 74.0°C
+[thermal] t5rel step 2498: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2498: GPU 恢复 74.0°C
+[thermal] t5rel step 2510: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2510: GPU 恢复 74.0°C
+[thermal] t5rel step 2522: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2522: GPU 恢复 74.0°C
+[thermal] t5rel step 2546: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2546: GPU 恢复 73.0°C
+[thermal] t5rel step 2558: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2558: GPU 恢复 74.0°C
+[thermal] t5rel step 2570: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2570: GPU 恢复 74.0°C
+[thermal] t5rel step 2593: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2593: GPU 恢复 72.0°C
+[thermal] t5rel step 2605: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2605: GPU 恢复 74.0°C
+[thermal] t5rel step 2618: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2618: GPU 恢复 74.0°C
+[thermal] t5rel step 2642: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2642: GPU 恢复 73.0°C
+[thermal] t5rel step 2654: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2654: GPU 恢复 74.0°C
+[thermal] t5rel step 2667: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2667: GPU 恢复 72.0°C
+[thermal] t5rel step 2691: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2691: GPU 恢复 73.0°C
+[thermal] t5rel step 2703: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2703: GPU 恢复 73.0°C
+[thermal] t5rel step 2713: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2713: GPU 恢复 74.0°C
+[thermal] t5rel step 2737: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2737: GPU 恢复 73.0°C
+[thermal] t5rel step 2749: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2749: GPU 恢复 72.0°C
+[thermal] t5rel step 2761: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2761: GPU 恢复 74.0°C
+[thermal] t5rel step 2785: GPU 84.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2785: GPU 恢复 73.0°C
+[thermal] t5rel step 2797: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2797: GPU 恢复 74.0°C
+[thermal] t5rel step 2809: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2809: GPU 恢复 74.0°C
+[thermal] t5rel step 2833: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2833: GPU 恢复 73.0°C
+[thermal] t5rel step 2845: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2845: GPU 恢复 72.0°C
+[thermal] t5rel step 2858: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2858: GPU 恢复 73.0°C
+[thermal] t5rel step 2882: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2882: GPU 恢复 73.0°C
+[thermal] t5rel step 2894: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2894: GPU 恢复 74.0°C
+[thermal] t5rel step 2903: GPU 80.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2903: GPU 恢复 74.0°C
+[thermal] t5rel step 2910: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2910: GPU 恢复 74.0°C
+[thermal] t5rel step 2923: GPU 82.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2923: GPU 恢复 74.0°C
+[thermal] t5rel step 2935: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2935: GPU 恢复 74.0°C
+[thermal] t5rel step 2947: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2947: GPU 恢复 74.0°C
+[thermal] t5rel step 2971: GPU 83.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2971: GPU 恢复 73.0°C
+[thermal] t5rel step 2983: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2983: GPU 恢复 74.0°C
+[thermal] t5rel step 2995: GPU 81.0°C >= 80.0°C，冷却到 75.0°C 以下
+[thermal] t5rel step 2995: GPU 恢复 74.0°C
+  [t5rel] step  2999 train 1.2399 (688s)
+===== t5rel: length extrapolation =====
+[thermal] 固定冷却 5.0s
+  T=  512: loss 1.2002 ± 0.0161 (CI95)  ppl 3.32 [3.27, 3.37]  nb=4
+  T= 1024: loss 1.2860 ± 0.0281 (CI95)  ppl 3.62 [3.52, 3.72]  nb=4
+  T= 2048: loss 1.4899 ± 0.0422 (CI95)  ppl 4.44 [4.25, 4.63]  nb=2
+  T= 4096: loss 1.8691 ± 0.0277 (CI95)  ppl 6.48 [6.31, 6.66]  nb=2
+  [thermal] t5rel 冷却次数: 199（若 > 3 次须降载重跑）
+
+===== 外推对比汇总（训练 T=512）=====
+     T |      t5rel
+   512 |       3.32
+  1024 |       3.62
+  2048 |       4.44
+  4096 |       6.48

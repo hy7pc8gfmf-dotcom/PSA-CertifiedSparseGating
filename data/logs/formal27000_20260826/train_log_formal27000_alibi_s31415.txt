@@ -1,0 +1,403 @@
+﻿device=cuda vocab=125 train=5146368 chars block=512 batch=4 gen_c=4 bands=all seed=31415 gpu_max=80.0 gpu_resume=70.0 cpu_util_max=70.0 check_interval=0.3
+  [alibi] step     0 train 4.8531 (0s)
+[thermal] alibi step 112: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 112: GPU 恢复 69.0°C
+[thermal] alibi step 182: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 182: GPU 恢复 69.0°C
+[thermal] alibi step 234: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 234: GPU 恢复 69.0°C
+[thermal] alibi step 427: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 427: GPU 恢复 69.0°C
+[thermal] alibi step 509: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 509: GPU 恢复 69.0°C
+[thermal] alibi step 677: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 677: GPU 恢复 69.0°C
+[thermal] alibi step 757: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 757: GPU 恢复 69.0°C
+[thermal] alibi step 951: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 951: GPU 恢复 69.0°C
+  [alibi] step  1000 train 1.8046 (54s)
+[thermal] alibi step 1012: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 1012: GPU 恢复 69.0°C
+[thermal] alibi step 1217: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 1217: GPU 恢复 69.0°C
+[thermal] alibi step 1283: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 1283: GPU 恢复 69.0°C
+[thermal] alibi step 1472: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 1472: GPU 恢复 69.0°C
+[thermal] alibi step 1536: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 1536: GPU 恢复 69.0°C
+[thermal] alibi step 1799: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 1799: GPU 恢复 69.0°C
+[thermal] alibi step 1869: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 1869: GPU 恢复 69.0°C
+  [alibi] step  2000 train 1.6354 (103s)
+[thermal] alibi step 2097: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 2097: GPU 恢复 69.0°C
+[thermal] alibi step 2334: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 2334: GPU 恢复 69.0°C
+[thermal] alibi step 2422: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 2422: GPU 恢复 69.0°C
+[thermal] alibi step 2547: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 2547: GPU 恢复 69.0°C
+[thermal] alibi step 2767: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 2767: GPU 恢复 69.0°C
+[thermal] alibi step 2843: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 2843: GPU 恢复 69.0°C
+  [alibi] step  3000 train 1.6216 (153s)
+[thermal] alibi step 3045: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 3045: GPU 恢复 69.0°C
+[thermal] alibi step 3135: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 3135: GPU 恢复 69.0°C
+[thermal] alibi step 3358: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 3358: GPU 恢复 69.0°C
+[thermal] alibi step 3602: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 3602: GPU 恢复 69.0°C
+[thermal] alibi step 3675: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 3675: GPU 恢复 69.0°C
+[thermal] alibi step 3892: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 3892: GPU 恢复 69.0°C
+[thermal] alibi step 3943: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 3943: GPU 恢复 69.0°C
+  [alibi] step  4000 train 1.4177 (212s)
+[thermal] alibi step 4143: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 4143: GPU 恢复 69.0°C
+[thermal] alibi step 4194: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 4194: GPU 恢复 69.0°C
+[thermal] alibi step 4400: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 4400: GPU 恢复 69.0°C
+[thermal] alibi step 4446: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 4446: GPU 恢复 69.0°C
+[thermal] alibi step 4633: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 4633: GPU 恢复 69.0°C
+[thermal] alibi step 4711: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 4711: GPU 恢复 69.0°C
+[thermal] alibi step 4912: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 4912: GPU 恢复 69.0°C
+  [alibi] step  5000 train 1.4897 (263s)
+[thermal] alibi step 5201: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 5201: GPU 恢复 69.0°C
+[thermal] alibi step 5284: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 5284: GPU 恢复 69.0°C
+[thermal] alibi step 5500: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 5500: GPU 恢复 69.0°C
+[thermal] alibi step 5735: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 5735: GPU 恢复 69.0°C
+[thermal] alibi step 5949: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 5949: GPU 恢复 69.0°C
+  [alibi] step  6000 train 1.5481 (306s)
+[thermal] alibi step 6026: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 6026: GPU 恢复 69.0°C
+[thermal] alibi step 6073: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 6073: GPU 恢复 69.0°C
+[thermal] alibi step 6153: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 6153: GPU 恢复 69.0°C
+[thermal] alibi step 6378: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 6378: GPU 恢复 69.0°C
+[thermal] alibi step 6451: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 6451: GPU 恢复 69.0°C
+[thermal] alibi step 6660: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 6660: GPU 恢复 69.0°C
+[thermal] alibi step 6754: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 6754: GPU 恢复 69.0°C
+[thermal] alibi step 6979: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 6979: GPU 恢复 69.0°C
+  [alibi] step  7000 train 1.3916 (355s)
+[thermal] alibi step 7072: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 7072: GPU 恢复 69.0°C
+[thermal] alibi step 7280: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 7280: GPU 恢复 69.0°C
+[thermal] alibi step 7330: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 7330: GPU 恢复 69.0°C
+[thermal] alibi step 7519: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 7519: GPU 恢复 69.0°C
+[thermal] alibi step 7667: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 7667: GPU 恢复 69.0°C
+[thermal] alibi step 7879: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 7879: GPU 恢复 69.0°C
+[thermal] alibi step 7952: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 7952: GPU 恢复 69.0°C
+  [alibi] step  8000 train 1.3325 (399s)
+[thermal] alibi step 8141: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 8141: GPU 恢复 69.0°C
+[thermal] alibi step 8238: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 8238: GPU 恢复 69.0°C
+[thermal] alibi step 8424: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 8424: GPU 恢复 69.0°C
+[thermal] alibi step 8503: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 8503: GPU 恢复 69.0°C
+[thermal] alibi step 8661: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 8661: GPU 恢复 69.0°C
+[thermal] alibi step 8741: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 8741: GPU 恢复 69.0°C
+[thermal] alibi step 8948: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 8948: GPU 恢复 69.0°C
+  [alibi] step  9000 train 1.3572 (446s)
+[thermal] alibi step 9018: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 9018: GPU 恢复 69.0°C
+[thermal] alibi step 9196: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 9196: GPU 恢复 69.0°C
+[thermal] alibi step 9240: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 9240: GPU 恢复 69.0°C
+[thermal] alibi step 9449: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 9449: GPU 恢复 69.0°C
+[thermal] alibi step 9495: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 9495: GPU 恢复 69.0°C
+[thermal] alibi step 9681: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 9681: GPU 恢复 69.0°C
+[thermal] alibi step 9733: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 9733: GPU 恢复 69.0°C
+[thermal] alibi step 9944: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 9944: GPU 恢复 69.0°C
+  [alibi] step 10000 train 1.3517 (497s)
+[thermal] alibi step 10023: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 10023: GPU 恢复 69.0°C
+[thermal] alibi step 10179: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 10179: GPU 恢复 69.0°C
+[thermal] alibi step 10243: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 10243: GPU 恢复 69.0°C
+[thermal] alibi step 10457: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 10457: GPU 恢复 69.0°C
+[thermal] alibi step 10503: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 10503: GPU 恢复 69.0°C
+[thermal] alibi step 10722: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 10722: GPU 恢复 69.0°C
+[thermal] alibi step 10817: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 10817: GPU 恢复 69.0°C
+  [alibi] step 11000 train 1.3655 (542s)
+[thermal] alibi step 11038: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 11038: GPU 恢复 69.0°C
+[thermal] alibi step 11122: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 11122: GPU 恢复 69.0°C
+[thermal] alibi step 11333: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 11333: GPU 恢复 69.0°C
+[thermal] alibi step 11496: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 11496: GPU 恢复 69.0°C
+[thermal] alibi step 11570: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 11570: GPU 恢复 69.0°C
+[thermal] alibi step 11795: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 11795: GPU 恢复 69.0°C
+[thermal] alibi step 11887: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 11887: GPU 恢复 69.0°C
+[thermal] alibi step 11977: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 11977: GPU 恢复 69.0°C
+  [alibi] step 12000 train 1.4065 (597s)
+[thermal] alibi step 12024: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 12024: GPU 恢复 69.0°C
+[thermal] alibi step 12243: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 12243: GPU 恢复 69.0°C
+[thermal] alibi step 12343: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 12343: GPU 恢复 69.0°C
+[thermal] alibi step 12558: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 12558: GPU 恢复 69.0°C
+[thermal] alibi step 12654: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 12654: GPU 恢复 69.0°C
+[thermal] alibi step 12870: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 12870: GPU 恢复 69.0°C
+  [alibi] step 13000 train 1.2879 (633s)
+[thermal] alibi step 13025: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 13025: GPU 恢复 69.0°C
+[thermal] alibi step 13199: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 13199: GPU 恢复 69.0°C
+[thermal] alibi step 13264: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 13264: GPU 恢复 69.0°C
+[thermal] alibi step 13471: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 13471: GPU 恢复 69.0°C
+[thermal] alibi step 13565: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 13565: GPU 恢复 69.0°C
+[thermal] alibi step 13609: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 13609: GPU 恢复 69.0°C
+[thermal] alibi step 13775: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 13775: GPU 恢复 69.0°C
+[thermal] alibi step 13875: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 13875: GPU 恢复 69.0°C
+  [alibi] step 14000 train 1.2834 (688s)
+[thermal] alibi step 14050: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 14050: GPU 恢复 69.0°C
+[thermal] alibi step 14096: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 14096: GPU 恢复 69.0°C
+[thermal] alibi step 14311: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 14311: GPU 恢复 69.0°C
+[thermal] alibi step 14393: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 14393: GPU 恢复 69.0°C
+[thermal] alibi step 14596: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 14596: GPU 恢复 69.0°C
+[thermal] alibi step 14680: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 14680: GPU 恢复 69.0°C
+[thermal] alibi step 14900: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 14900: GPU 恢复 69.0°C
+[thermal] alibi step 14982: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 14982: GPU 恢复 69.0°C
+  [alibi] step 15000 train 1.4181 (736s)
+[thermal] alibi step 15164: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 15164: GPU 恢复 69.0°C
+[thermal] alibi step 15260: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 15260: GPU 恢复 69.0°C
+[thermal] alibi step 15476: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 15476: GPU 恢复 69.0°C
+[thermal] alibi step 15536: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 15536: GPU 恢复 69.0°C
+[thermal] alibi step 15727: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 15727: GPU 恢复 69.0°C
+[thermal] alibi step 15902: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 15902: GPU 恢复 69.0°C
+  [alibi] step 16000 train 1.3957 (777s)
+[thermal] alibi step 16125: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 16125: GPU 恢复 69.0°C
+[thermal] alibi step 16213: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 16213: GPU 恢复 69.0°C
+[thermal] alibi step 16374: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 16374: GPU 恢复 69.0°C
+[thermal] alibi step 16443: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 16443: GPU 恢复 69.0°C
+[thermal] alibi step 16659: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 16659: GPU 恢复 69.0°C
+[thermal] alibi step 16704: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 16704: GPU 恢复 69.0°C
+[thermal] alibi step 16889: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 16889: GPU 恢复 69.0°C
+[thermal] alibi step 16949: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 16949: GPU 恢复 69.0°C
+  [alibi] step 17000 train 1.3278 (830s)
+[thermal] alibi step 17149: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 17149: GPU 恢复 69.0°C
+[thermal] alibi step 17226: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 17226: GPU 恢复 69.0°C
+[thermal] alibi step 17449: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 17449: GPU 恢复 69.0°C
+[thermal] alibi step 17530: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 17530: GPU 恢复 69.0°C
+[thermal] alibi step 17618: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 17618: GPU 恢复 69.0°C
+[thermal] alibi step 17826: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 17826: GPU 恢复 69.0°C
+  [alibi] step 18000 train 1.2170 (880s)
+[thermal] alibi step 18048: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 18048: GPU 恢复 69.0°C
+[thermal] alibi step 18132: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 18132: GPU 恢复 69.0°C
+[thermal] alibi step 18328: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 18328: GPU 恢复 69.0°C
+[thermal] alibi step 18418: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 18418: GPU 恢复 69.0°C
+[thermal] alibi step 18655: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 18655: GPU 恢复 69.0°C
+[thermal] alibi step 18743: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 18743: GPU 恢复 69.0°C
+[thermal] alibi step 18993: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 18993: GPU 恢复 69.0°C
+  [alibi] step 19000 train 1.3256 (932s)
+[thermal] alibi step 19066: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 19066: GPU 恢复 69.0°C
+[thermal] alibi step 19290: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 19290: GPU 恢复 69.0°C
+[thermal] alibi step 19363: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 19363: GPU 恢复 69.0°C
+[thermal] alibi step 19536: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 19536: GPU 恢复 69.0°C
+[thermal] alibi step 19611: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 19611: GPU 恢复 69.0°C
+[thermal] alibi step 19841: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 19841: GPU 恢复 69.0°C
+[thermal] alibi step 19989: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 19989: GPU 恢复 69.0°C
+  [alibi] step 20000 train 1.3646 (981s)
+[thermal] alibi step 20185: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 20185: GPU 恢复 69.0°C
+[thermal] alibi step 20272: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 20272: GPU 恢复 69.0°C
+[thermal] alibi step 20457: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 20457: GPU 恢复 69.0°C
+[thermal] alibi step 20542: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 20542: GPU 恢复 69.0°C
+[thermal] alibi step 20819: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 20819: GPU 恢复 69.0°C
+[thermal] alibi step 20995: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 20995: GPU 恢复 69.0°C
+  [alibi] step 21000 train 1.4914 (1039s)
+[thermal] alibi step 21270: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 21270: GPU 恢复 69.0°C
+[thermal] alibi step 21460: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 21460: GPU 恢复 69.0°C
+[thermal] alibi step 21773: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 21773: GPU 恢复 69.0°C
+[thermal] alibi step 21911: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 21911: GPU 恢复 69.0°C
+  [alibi] step 22000 train 1.1981 (1080s)
+[thermal] alibi step 22097: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 22097: GPU 恢复 69.0°C
+[thermal] alibi step 22193: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 22193: GPU 恢复 69.0°C
+[thermal] alibi step 22390: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 22390: GPU 恢复 69.0°C
+[thermal] alibi step 22454: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 22454: GPU 恢复 69.0°C
+[thermal] alibi step 22671: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 22671: GPU 恢复 69.0°C
+[thermal] alibi step 22771: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 22771: GPU 恢复 69.0°C
+[thermal] alibi step 22950: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 22950: GPU 恢复 69.0°C
+  [alibi] step 23000 train 1.2832 (1139s)
+[thermal] alibi step 23149: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 23149: GPU 恢复 69.0°C
+[thermal] alibi step 23196: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 23196: GPU 恢复 69.0°C
+[thermal] alibi step 23408: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 23408: GPU 恢复 69.0°C
+[thermal] alibi step 23486: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 23486: GPU 恢复 69.0°C
+[thermal] alibi step 23702: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 23702: GPU 恢复 69.0°C
+[thermal] alibi step 23946: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 23946: GPU 恢复 69.0°C
+  [alibi] step 24000 train 1.2135 (1188s)
+[thermal] alibi step 24135: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 24135: GPU 恢复 69.0°C
+[thermal] alibi step 24382: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 24382: GPU 恢复 69.0°C
+[thermal] alibi step 24580: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 24580: GPU 恢复 69.0°C
+[thermal] alibi step 24802: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 24802: GPU 恢复 69.0°C
+  [alibi] step 25000 train 1.3350 (1230s)
+[thermal] alibi step 25106: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 25106: GPU 恢复 69.0°C
+[thermal] alibi step 25263: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 25263: GPU 恢复 69.0°C
+[thermal] alibi step 25364: GPU 81.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 25364: GPU 恢复 69.0°C
+[thermal] alibi step 25571: GPU 85.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 25571: GPU 恢复 69.0°C
+[thermal] alibi step 25657: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 25657: GPU 恢复 69.0°C
+[thermal] alibi step 25867: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 25867: GPU 恢复 69.0°C
+  [alibi] step 26000 train 1.2763 (1281s)
+[thermal] alibi step 26093: GPU 84.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 26093: GPU 恢复 69.0°C
+[thermal] alibi step 26187: GPU 82.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 26187: GPU 恢复 69.0°C
+[thermal] alibi step 26429: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 26429: GPU 恢复 69.0°C
+[thermal] alibi step 26509: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 26509: GPU 恢复 69.0°C
+[thermal] alibi step 26731: GPU 83.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 26731: GPU 恢复 69.0°C
+[thermal] alibi step 26821: GPU 80.0°C >= 80.0°C，冷却到 70.0°C 以下
+[thermal] alibi step 26821: GPU 恢复 69.0°C
+  [alibi] step 26999 train 1.2208 (1324s)
+===== alibi: length extrapolation =====
+[thermal] 固定冷却 10.0s
+  T=  512: loss 1.4690 ± 0.0395 (CI95)  ppl 4.35 [4.18, 4.52]  nb=4
+  T= 1024: loss 1.4573 ± 0.0215 (CI95)  ppl 4.29 [4.20, 4.39]  nb=4
+  T= 2048: loss 1.4065 ± 0.0640 (CI95)  ppl 4.08 [3.83, 4.35]  nb=2
+  T= 4096: loss 1.4423 ± 0.0570 (CI95)  ppl 4.23 [4.00, 4.48]  nb=2
+  [thermal] alibi 冷却次数: 180（若 > 3 次须降载重跑）
+
+===== 外推对比汇总（训练 T=512）=====
+     T |      alibi
+   512 |       4.35
+  1024 |       4.29
+  2048 |       4.08
+  4096 |       4.23

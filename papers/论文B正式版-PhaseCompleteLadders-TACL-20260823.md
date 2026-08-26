@@ -1,8 +1,8 @@
 # Phase-Truncated Frequency Ladders: A Controlled Empirical Study with a Certified Basis-Stability Core
 
-> 正式版（2026-08-26，对齐母版 v2.5；对齐当前代码基态）。来源：论文 B 草稿清洗（删除会话/评审/版本内部注记），
-> 实验数据不变；配套论文 A（Coq 形式化）代码状态按 2026-08-23 基态（z 区 7 探针并入合并版、
-> 合并编译 MERGE_EXIT=0）。投稿方向：TACL/Findings（实证 + 可审计性）。
+> 正式版（2026-08-26，对齐母版 v2.6；对齐当前代码基态）。来源：论文 B 草稿清洗（删除会话/评审/版本内部注记），
+> 实验数据不变；配套论文 A（Coq 形式化）代码状态按 2026-08-26 基态（合并版 `ca_merged_full_25.v`，87733 行 / 57 顶层 Module = 55 模块分区，
+> 20 探针 + ca_zeta_euler/ca_rip_cr 构造性轨道并入、合并编译 MERGE_EXIT=0；165 项审计完整 165/165 日志随稿）。投稿方向：TACL/Findings（实证 + 可审计性）。
 
 ---
 
@@ -290,9 +290,9 @@ Holm 校正（方向性观察）；**n=5 复核已完成（2026-08-24，9 方案
 - **2D-wide / 3D / 4D 张量阶梯（已完成，扩展方向）**：二维频率格子框架界已全量编译零
   classic（免 H_dom，M_bound_2d_wide 4 = 768）；3D/4D 推广已全量编译（M_bound_3d 4 =
   3968 / M_bound_4d 4 = 19968，常数较 1D 显著保守——定位为上界证书 + 组合性演示）。
-- **代码状态**：论文 A 的 z 区 7 探针（grid_ortho + parseval/partial/pairbound/rowsum/
-  pairdirichlet/incoherence）已 pro 化并入合并版 `ca_merged_full_24.v`（75702 行，
-  40 模块，合并编译 MERGE_EXIT=0）——本证书链依赖的 parseval/partial/pairbound/rowsum/
+- **代码状态**：论文 A 的 z 区 20 探针（grid_ortho + parseval/partial/pairbound/rowsum/
+  pairdirichlet/incoherence/row_rip/c4_instance/welch/uncertainty_cr/g8_synthesis_cr/g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/decidability_premium_cr）已 pro 化并入合并版 `ca_merged_full_25.v`（87733 行，
+  57 顶层 Module = 55 模块分区，合并编译 MERGE_EXIT=0）——本证书链依赖的 parseval/partial/pairbound/rowsum/
   pairdirichlet 均在合并版内全量验证，证书链验证等级从独立 .vo 升级为合并版全量验证。
 - **张力（可发表点，如实呈现）**：带证书方案中的性能领先者（七带）与直接证书（C=4）
   分离——带数与可认证性此消彼长，复合证书弥合二者；认证与外推性能呈温和负相关
@@ -347,6 +347,8 @@ Holm 校正（方向性观察）；**n=5 复核已完成（2026-08-24，9 方案
 | C=3 | 0.0795 | 0.0035 | 0.0759 | 22.86 |
 | C=4 | 0.0317 | 0.0009 | 0.0308 | 12.75 |
 | E5'' 七带 | 0.0357 | 0.0110 | 0.0247 | 12.40 |
+
+> **Reviewer P2 note (2026-08-26)**: `Coh(T)` here is the **empirical effective-encoding coherence** (pairwise normalized inner product at evaluation length T, T-dependent, e.g. C=4: 0.0317/0.0009 at T=512/4096) — **not the same quantity as the certificate-layer ψ-Gram coherence** (fixed analytic basis; [3,13,53,213] true max row-sum 0.312, pairwise 0.149, window-independent). The former is the encoding's coherence at the evaluation length, the latter is the basis' analytic coherence; the bridge between them is empirical (§8.2), not formalized. Empirical script `coherence_analysis.py` is provided for reproducibility.
 
 四点上 R²=0.982 的强正相关**未通过 E1 消融扩充的稳健性检验**：13 点后 max 型 R² 崩塌至
 0.101。原因：(i) 随机阶梯取整产生重复带 → ΔCoh≡0 退化；(ii) 稠密阶梯在两个长度上都有
@@ -613,7 +615,7 @@ LongRoPE（Ding et al., ICLR 2024）。本文以「频率阶梯相位剖面」�
 | 165 项审计（Classical_Prop.classic 零出现） | PSA_audit.v（M1.5 已并入） | ✅ |
 | 碰撞刻画 / τ 机制 | z\probe_collision.v（C1–C5）/ probe_tchar.v（T1–T4）/ probe_taudicho.v | ✅（论文 A §8，z 区独立验证） |
 | ρ^{−3/2} 行和紧界（C=4 框架界） | z\probe_rowsum.v（row_sum_3halfs / row_bound_C4，23 Qed） | ✅ **已并入合并版** |
-| 合并版 | src\ca_merged_full_24.v（75702 行，40 模块，7 探针并入） | ✅ MERGE_EXIT=0 |
+| 合并版 | src\ca_merged_full_25.v（87733 行，57 顶层 Module = 55 模块分区，20 探针并入） | ✅ MERGE_EXIT=0 |
 | 经验数值（主表） | psa_empirical\测试数据\multi_seed_main_table.md | ✅ |
 | 偏置对照（ALiBi/T5/grid） | psa_empirical\测试数据\baseline_*.log | ✅ |
 | 正式配置 batch3/4 | psa_empirical\测试数据\（云端 T4，与本地逐位对齐） | ✅ |
