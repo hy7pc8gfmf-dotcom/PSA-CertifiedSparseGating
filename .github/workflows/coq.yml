@@ -19,6 +19,10 @@ jobs:
         with:
           ocaml-compiler: ocaml-variants.4.14.2+options,ocaml-option-flambda
           opam-disable-sandboxing: true
+          # ★ 2026-08-27：跳过自动 opam update（coq.inria.fr 从 GitHub runner 偶发超时
+          #   → Set up OCaml 步骤 exit 40 阻断整个 run）；install 用 opam 缓存索引（cache key
+          #   v3-setup-ocaml-opam-* 已含 coq-released 索引，前序 run 已验证可达）
+          opam-update: false
           opam-repositories: |
             default: https://github.com/ocaml/opam-repository.git
             coq-released: https://coq.inria.fr/opam/released
