@@ -74840,9 +74840,13 @@ Lemma Csum_ext : forall (f g : nat -> Complex) (n : nat),
 Proof.
   induction n as [|n IH]; intros H.
   - reflexivity.
-  - simpl. rewrite IH.
-    + f_equal. apply H. exact (ltnSn n).
-    + intros i Hi. apply H. exact (ltn_trans Hi (ltnSn n)).
+  - simpl.
+    (* 显式 assert 前提后 rewrite (IH Hn)：不依赖 rewrite 自动统一前提子目标
+       （CI mathcomp 2.6 下 rewrite IH 的前提实例化环境敏感，与 CRsum_eq 同型） *)
+    assert (Hn : forall i, (i < n)%nat -> f i = g i).
+    { intros i Hi. apply H. exact (ltn_trans Hi (ltnSn n)). }
+    rewrite (IH Hn).
+    f_equal. apply H. exact (ltnSn n).
 Qed.
 
 (* ---------- 基础：纯虚指数的加法拆分 ---------- *)
