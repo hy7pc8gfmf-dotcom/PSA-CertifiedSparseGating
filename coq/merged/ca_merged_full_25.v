@@ -75678,7 +75678,11 @@ Proof.
   rewrite Hsub.
   assert (Hval : (2 * PI * INR (N * k - r * k) / INR N)%R
     = ((-(2 * PI * INR (r * k) / INR N)) + 2 * PI * IZR (Z.of_nat k))%R).
-  { rewrite <- (INR_IZR_INZ k). rewrite minus_INR. rewrite !mult_INR.
+  { rewrite <- (INR_IZR_INZ k). rewrite minus_INR.
+    (* mulnE 桥：mathcomp 2.6 的 muln ≢ Nat.mul，mult_INR 匹配不到 muln 应用
+       ——先显式把 INR 参数里的乘法归一到 Nat.mul（2.5 下 muln ≡ Nat.mul 同义） *)
+    rewrite mulnE.   (* muln = Nat.mul（函数等式，全局归一；2.5 同义 / 2.6 拆解） *)
+    rewrite (mult_INR N k). rewrite (mult_INR r k).
     field. apply Rgt_not_eq; exact HNz.
     (* minus_INR 前提：r*k <= N*k（r < N ⟹ r <= N ⟹ 乘 k 保序） *)
     move: HrN => /ltP HrNp.
@@ -85105,7 +85109,9 @@ Proof.
 Qed.
 
 (* ============ M3 数值界：CRsqrt 21 ≥ 4582/1000、CRsqrt 105 ≥ 10246/1000 ============
-   （M4 G-5 主探针需求；极限 ≥ 单调递增序列每项 + qbisec 有限步 vm_compute） *)
+   代数路线（P4 非平凡化）：Q 层平方界 (4582/1000)² ≤ 21 + 非负平方单调
+   ——替代 qbisec 有限步 vm_compute 核验；qbisec 核验 qlo21_20_ge/qlo105_20_ge
+   保留作交叉验证记录。 *)
 
 (* 极限 ≥ 单调递增序列每项：CRsqrt q ≥ CR_of_Q (qlo q n) *)
 Lemma CRsqrt_ge_qlo (q : Q) (Hq : (0 <= q)%Q) (n : nat) :
@@ -85125,29 +85131,87 @@ Proof. vm_compute. discriminate. Qed.
 Lemma Q105_nonneg : (0 <= 105 # 1)%Q.
 Proof. vm_compute. discriminate. Qed.
 
-(* qbisec 有限步下逼近：qlo (21#1) 20 ≥ 4582/1000（vm_compute 精确计算） *)
+(* qbisec 有限步下逼近核验（交叉验证记录；主证明走下方代数平方界） *)
 Lemma qlo21_20_ge : (4582 # 1000 <= qlo (21 # 1) 20)%Q.
 Proof. vm_compute. discriminate. Qed.
 
 Lemma qlo105_20_ge : (10246 # 1000 <= qlo (105 # 1) 20)%Q.
 Proof. vm_compute. discriminate. Qed.
 
-(* CRsqrt 21 ≥ 4582/1000 *)
+(* ===== 代数化：Q 层平方界 + 非负平方单调（P4，替代 vm_compute） ===== *)
+
+(* Q 层平方界与界值非负：(4582/1000)² ≤ 21、0 ≤ 4582/1000（unfold Qle; simpl; lia） *)
+Lemma q21_sq_bound : ((4582 # 1000) * (4582 # 1000) <= (21 # 1))%Q.
+Proof. unfold Qle. simpl. lia. Qed.
+
+Lemma Q4582_nonneg : (0 <= 4582 # 1000)%Q.
+Proof. unfold Qle. simpl. lia. Qed.
+
+Lemma q105_sq_bound : ((10246 # 1000) * (10246 # 1000) <= (105 # 1))%Q.
+Proof. unfold Qle. simpl. lia. Qed.
+
+Lemma Q10246_nonneg : (0 <= 10246 # 1000)%Q.
+Proof. unfold Qle. simpl. lia. Qed.
+
+(* 非负平方单调：0≤x → 0≤y → x²≤y² → x≤y
+   （CRle := ¬(y<x)，反证 + 乘法保序：CRmult_lt_compat_l / CRmult_le_compat_r / CRle_lt_trans） *)
+Lemma CRle_square_nonneg (x y : CRcarrier R) :
+  CRle R (CR_of_Q R 0%Q) x -> CRle R (CR_of_Q R 0%Q) y ->
+  CRle R (x * x) (y * y) -> CRle R x y.
+Proof.
+  intros Hx Hy Hsq Hyx.
+  assert (Hx0 : CRlt R (CR_of_Q R 0%Q) x).
+  { apply (CRle_lt_trans (CR_of_Q R 0%Q) y x). exact Hy. exact Hyx. }
+  assert (Hyxle : CRle R y x) by exact (CRlt_asym y x Hyx).
+  assert (Hyysq : CRle R (y * y) (x * y)).
+  { apply (CRmult_le_compat_r y y x). exact Hy. exact Hyxle. }
+  assert (Hxy : CRlt R (x * y) (x * x)).
+  { apply (CRmult_lt_compat_l x y x). exact Hx0. exact Hyx. }
+  assert (Hyy : CRlt R (y * y) (x * x)).
+  { apply (CRle_lt_trans (y * y) (x * y) (x * x)). exact Hyysq. exact Hxy. }
+  exact (Hsq Hyy).
+Qed.
+
+(* CRsqrt 21 ≥ 4582/1000（代数：平方界 + 非负平方单调 + CRsqrt_sq） *)
 Lemma sqrt21_lower :
   CRle R (CR_of_Q R (4582 # 1000)) (CRsqrt (21 # 1) Q21_nonneg).
 Proof.
-  apply (CRle_trans _ (CR_of_Q R (qlo (21 # 1) 20)) _).
-  - apply CR_of_Q_le'. exact qlo21_20_ge.
-  - apply CRsqrt_ge_qlo.
+  apply (CRle_square_nonneg (CR_of_Q R (4582 # 1000)) (CRsqrt (21 # 1) Q21_nonneg)).
+  - apply CR_of_Q_le'. exact Q4582_nonneg.
+  - (* 0 ≤ CRsqrt 21：qlo 21 0 = 0，极限 ≥ 单调序列每项 *)
+    assert (Hqlo0 : qlo (21 # 1) 0%nat = 0%Q) by (unfold qlo, qbisec; reflexivity).
+    assert (Hsq0 : CRle R (CR_of_Q R (qlo (21 # 1) 0%nat)) (CRsqrt (21 # 1) Q21_nonneg)).
+    { apply (CRsqrt_ge_qlo (21 # 1) Q21_nonneg 0%nat). }
+    rewrite Hqlo0 in Hsq0. exact Hsq0.
+  - (* (4582/1000)² ≤ (CRsqrt 21)²：CR_of_Q_mult 桥 + CRsqrt_sq *)
+    apply (proj1 (CRle_morph R (CR_of_Q R ((4582 # 1000) * (4582 # 1000)))
+                 (CR_of_Q R (4582 # 1000) * CR_of_Q R (4582 # 1000))
+                 (CR_of_Q_mult R (4582 # 1000) (4582 # 1000))
+                 (CR_of_Q R (21 # 1))
+                 (CRsqrt (21 # 1) Q21_nonneg * CRsqrt (21 # 1) Q21_nonneg)
+                 (CReq_sym (CRsqrt (21 # 1) Q21_nonneg * CRsqrt (21 # 1) Q21_nonneg)
+                   (CR_of_Q R (21 # 1)) (CRsqrt_sq (21 # 1) Q21_nonneg)))).
+    apply CR_of_Q_le'. exact q21_sq_bound.
 Qed.
 
-(* CRsqrt 105 ≥ 10246/1000 *)
+(* CRsqrt 105 ≥ 10246/1000（同上） *)
 Lemma sqrt105_lower :
   CRle R (CR_of_Q R (10246 # 1000)) (CRsqrt (105 # 1) Q105_nonneg).
 Proof.
-  apply (CRle_trans _ (CR_of_Q R (qlo (105 # 1) 20)) _).
-  - apply CR_of_Q_le'. exact qlo105_20_ge.
-  - apply CRsqrt_ge_qlo.
+  apply (CRle_square_nonneg (CR_of_Q R (10246 # 1000)) (CRsqrt (105 # 1) Q105_nonneg)).
+  - apply CR_of_Q_le'. exact Q10246_nonneg.
+  - assert (Hqlo0 : qlo (105 # 1) 0%nat = 0%Q) by (unfold qlo, qbisec; reflexivity).
+    assert (Hsq0 : CRle R (CR_of_Q R (qlo (105 # 1) 0%nat)) (CRsqrt (105 # 1) Q105_nonneg)).
+    { apply (CRsqrt_ge_qlo (105 # 1) Q105_nonneg 0%nat). }
+    rewrite Hqlo0 in Hsq0. exact Hsq0.
+  - apply (proj1 (CRle_morph R (CR_of_Q R ((10246 # 1000) * (10246 # 1000)))
+                 (CR_of_Q R (10246 # 1000) * CR_of_Q R (10246 # 1000))
+                 (CR_of_Q_mult R (10246 # 1000) (10246 # 1000))
+                 (CR_of_Q R (105 # 1))
+                 (CRsqrt (105 # 1) Q105_nonneg * CRsqrt (105 # 1) Q105_nonneg)
+                 (CReq_sym (CRsqrt (105 # 1) Q105_nonneg * CRsqrt (105 # 1) Q105_nonneg)
+                   (CR_of_Q R (105 # 1)) (CRsqrt_sq (105 # 1) Q105_nonneg)))).
+    apply CR_of_Q_le'. exact q105_sq_bound.
 Qed.
 
 End M3.

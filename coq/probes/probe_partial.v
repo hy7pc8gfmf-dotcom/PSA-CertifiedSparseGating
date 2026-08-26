@@ -331,7 +331,11 @@ Proof.
   rewrite Hsub.
   assert (Hval : (2 * PI * INR (N * k - r * k) / INR N)%R
     = ((-(2 * PI * INR (r * k) / INR N)) + 2 * PI * IZR (Z.of_nat k))%R).
-  { rewrite <- (INR_IZR_INZ k). rewrite minus_INR. rewrite !mult_INR.
+  { rewrite <- (INR_IZR_INZ k). rewrite minus_INR.
+    (* mulnE 桥：mathcomp 2.6 的 muln ≢ Nat.mul，mult_INR 匹配不到 muln 应用
+       ——先显式把 INR 参数里的乘法归一到 Nat.mul（2.5 下 muln ≡ Nat.mul 同义） *)
+    rewrite mulnE.   (* muln = Nat.mul（函数等式，全局归一；2.5 同义 / 2.6 拆解） *)
+    rewrite (mult_INR N k). rewrite (mult_INR r k).
     field. apply Rgt_not_eq; exact HNz.
     (* minus_INR 前提：r*k <= N*k（r < N ⟹ r <= N ⟹ 乘 k 保序） *)
     move: HrN => /ltP HrNp.
