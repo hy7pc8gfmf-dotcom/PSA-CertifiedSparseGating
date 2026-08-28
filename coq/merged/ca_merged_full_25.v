@@ -75057,7 +75057,7 @@ Proof.
   - replace (n + 0) with n by (rewrite addn0; reflexivity).
     simpl.
     symmetry. apply Cadd_0_l.
-  - replace (n + S m) with (S (n + m)) by (rewrite addnS || rewrite Nat.add_succ_r; reflexivity).
+  - replace (n + S m) with (S (n + m)) by (rewrite (addnS n m) || rewrite (Nat.add_succ_r n m); reflexivity).
     simpl.
     rewrite IH.
     symmetry. apply Cadd_assoc.
@@ -76308,7 +76308,7 @@ Proof.
   - rewrite Nat.pow_0_r muln1 addn0. apply leqnn.
   - rewrite Nat.pow_succ_r.
     assert (Hs : (v (i + k) * C <= v (S (i + k)))%nat) by apply Hchain.
-    rewrite addnS || rewrite Nat.add_succ_r.
+    rewrite (addnS i k) || rewrite (Nat.add_succ_r i k).
     rewrite mulnCA mulnC.
     apply (leq_trans (n := v (i + k) * C)).
     + apply (leq_mul (n1 := v (i + k)) (n2 := C)). exact IH. by apply leqnn.

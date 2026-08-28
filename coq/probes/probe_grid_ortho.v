@@ -1,4 +1,4 @@
-﻿(* ============================================================
+(* ============================================================
    网格阶梯正交探针（probe_grid_ortho）
    G1  grid_pair_ortho：网格原子对窗口 N 精确正交
        —— prime_character_orthogonality 的直接实例（该证明对任意 p≥2 成立，
@@ -261,7 +261,7 @@ Proof.
   - replace (n + 0) with n by (rewrite addn0; reflexivity).
     simpl.
     symmetry. apply Cadd_0_l.
-  - replace (n + S m) with (S (n + m)) by (rewrite addnS || rewrite Nat.add_succ_r; reflexivity).
+  - replace (n + S m) with (S (n + m)) by (rewrite (addnS n m) || rewrite (Nat.add_succ_r n m); reflexivity).
     simpl.
     rewrite IH.
     symmetry. apply Cadd_assoc.
