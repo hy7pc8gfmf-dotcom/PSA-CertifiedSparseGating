@@ -76306,7 +76306,7 @@ Lemma chain_pow (C : nat) (v : nat -> nat) (i k : nat) :
 Proof.
   intros Hchain. induction k as [| k IH].
   - rewrite Nat.pow_0_r muln1 addn0. apply leqnn.
-  - rewrite Nat.pow_succ_r.
+  - rewrite (Nat.pow_succ_r C k (Nat.le_0_l k)).
     assert (Hs : (v (i + k) * C <= v (S (i + k)))%nat) by apply Hchain.
     assert (Hsucc : (i + S k = S (i + k))%nat) by first [rewrite (addnS i k); reflexivity | lia].
     setoid_rewrite Hsucc.
@@ -76314,7 +76314,6 @@ Proof.
     apply (leq_trans (n := v (i + k) * C)).
     + apply (leq_mul (n1 := v (i + k)) (n2 := C)). exact IH. by apply leqnn.
     + exact Hs.
-    + by apply Nat.le_0_l.
 Qed.
 
 Lemma v_incr (C : nat) (v : nat -> nat) :
@@ -76385,16 +76384,17 @@ Proof.
     rewrite Hq1 Nat.pow_1_r. exact (q_eq C HC).
   - assert (HC1 : (1 <= C)%nat) by exact (ltnW HC).
     pose proof (pow_ge1 C HC1 (S k)) as Hpp.
-    rewrite pow_S Nat.pow_succ_r.
-    rewrite (mult_INR C (C ^ (S k))).
-    rewrite (sqrt_mult (INR C) (INR (C ^ (S k)))
-              (pos_INR C) (pos_INR (C ^ (S k)))).
+    rewrite pow_S.
+    rewrite (Nat.pow_succ_r C (S k) (Nat.le_0_l (S k))).
+    rewrite (mult_INR C (Nat.pow C (S k))).
+    rewrite (sqrt_mult (INR C) (INR (Nat.pow C (S k)))
+              (pos_INR C) (pos_INR (Nat.pow C (S k)))).
     rewrite <- (q_eq C HC).
-    transitivity ((qval C ^ (S k) * (INR (C ^ (S k)) * sqrt (INR (C ^ (S k)))))
-                  * (qval C * (INR C * sqrt (INR C))))%R.
-    + ring.
-    + rewrite IH (q_eq C HC). ring.
-    + lia.
+    replace ((qval C * qval C ^ (S k))%R
+              * ((INR C * INR (C ^ (S k))) * (sqrt (INR C) * sqrt (INR (C ^ (S k)))))%R)%R
+      with ((qval C * (INR C * sqrt (INR C)))%R
+              * (qval C ^ (S k) * (INR (C ^ (S k)) * sqrt (INR (C ^ (S k)))))%R)%R by ring.
+    rewrite IH. ring.
 Qed.
 
 Lemma q_inv (C : nat) : (2 <= C)%nat -> forall k : nat,
@@ -76754,7 +76754,7 @@ Proof.
                            *c Cconj (rot_atom (2 * PI * INR m2 / INR (a * N)) k)) W).
   { apply Csum_ext. intros k Hk.
     rewrite (rot_grid N m1 k HN).
-    rewrite (rot_grid (a * N) m2 k); [reflexivity | exact (leq_mul Ha HN)]. }
+    rewrite (rot_grid (a * N) m2 k) => //; exact (leq_mul Ha HN). }
   rewrite Hconv.
   assert (HNz : (0 < INR N)%R) by (apply lt_0_INR; move: HN => /ltP HNp; lia).
   assert (HANz : (0 < INR (a * N))%R)
@@ -76906,9 +76906,10 @@ Lemma sum_f_R0_ext_bounded : forall (f g : nat -> R) (N : nat),
 Proof.
   intros f g N H. induction N as [| N IH].
   - apply H. by apply leqnn.
-  - simpl. rewrite IH. rewrite (H (S N)). reflexivity.
-    by apply leqnn.
-    intros k Hk. apply H. exact (leq_trans Hk (leqnSn N)).
+  - simpl.
+    assert (IHsc : forall k : nat, (k <= N)%nat -> (f k = g k)%R) by (intros k Hk; apply H; exact (leq_trans Hk (leqnSn N))).
+    rewrite (IH IHsc).
+    rewrite (H (S N) (leqnn (S N))). reflexivity.
 Qed.
 
 Lemma phi_l2_norm : forall n : nat, (1 <= n)%nat ->
@@ -76919,7 +76920,7 @@ Proof.
   - apply sum_f_R0_ext_bounded. intros k Hk.
     assert (Hkn : (k < n)%nat)
       by (apply/ltP; move: Hk => /leP Hkp; move: Hn => /leP Hnp; lia).
-    rewrite phi_eq_rot; [ apply rot_norm_sq | exact Hkn ].
+    rewrite phi_eq_rot => //; apply rot_norm_sq.
   - replace (INR n)%R with (INR (S (Nat.pred n)))%R by (f_equal; move: Hn => /leP Hnp; lia).
     apply sum_ones.
 Qed.
@@ -76935,7 +76936,7 @@ Theorem psi_norm_one : forall n : nat, (1 <= n)%nat ->
   (l2_norm_sq (psi n) (Nat.pred n))%R = 1%R.
 Proof.
   intros n Hn. unfold psi.
-  rewrite l2_norm_sq_scale Cnorm_sq_Cof_real. rewrite phi_l2_norm; [ | exact Hn ].
+  rewrite l2_norm_sq_scale Cnorm_sq_Cof_real. rewrite (phi_l2_norm n Hn).
   (* 目标：(1/sqrt(INR n))·(1/sqrt(INR n))·INR n = 1。
      用 s := sqrt(INR n)，把 INR n 重写为 s·s，再 field（field 无法直接消化 sqrt）。 *)
   set (s := sqrt (INR n)).
@@ -76995,10 +76996,11 @@ Lemma ipW_CR_l (r : R) (u v : nat -> Complex) (W : nat) :
   (ipW (fun k => Cof_real r *c u k) v W)%R = (r * ipW u v W)%R.
 Proof.
   unfold ipW.
-  rewrite (sum_f_R0_ext _ (fun k => (r * re (u k *c Cconj (v k)))%R) W).
-  rewrite (sum_f_R0_scal r (fun k => re (u k *c Cconj (v k))) W).
-  reflexivity.
-  intro k. rewrite Cmul_assoc. apply Incoherence.Cof_real_mul_re.
+  assert (Hext : forall k : nat, (re (Cof_real r *c u k *c Cconj (v k)) = r * re (u k *c Cconj (v k)))%R)
+    by (intro k; rewrite Cmul_assoc; apply Incoherence.Cof_real_mul_re).
+  rewrite (sum_f_R0_ext (fun k => re (Cof_real r *c u k *c Cconj (v k)))
+                        (fun k => (r * re (u k *c Cconj (v k)))%R) W Hext).
+  exact (sum_f_R0_scal r (fun k => re (u k *c Cconj (v k))) W).
 Qed.
 
 (* 实右缩放：⟨u, r·v⟩ = r·⟨u,v⟩ *)
@@ -77016,11 +77018,12 @@ Lemma ipW_add_l (u v w : nat -> Complex) (W : nat) :
   (ipW (fun k => u k +c v k) w W)%R = ((ipW u w W) + (ipW v w W))%R.
 Proof.
   unfold ipW.
-  rewrite (sum_f_R0_ext _ (fun k => ((re (u k *c Cconj (w k))) + (re (v k *c Cconj (w k))))%R) W).
-  rewrite (sum_f_R0_plus (fun k => re (u k *c Cconj (w k)))
-                         (fun k => re (v k *c Cconj (w k))) W).
-  reflexivity.
-  intro k. rewrite Cmul_add_distr_r. unfold Cadd. simpl. ring.
+  assert (Hext : forall k : nat, (re ((u k +c v k) *c Cconj (w k)) = re (u k *c Cconj (w k)) + re (v k *c Cconj (w k)))%R)
+    by (intro k; rewrite Cmul_add_distr_r; unfold Cadd; simpl; ring).
+  rewrite (sum_f_R0_ext _ (fun k => ((re (u k *c Cconj (w k))) + (re (v k *c Cconj (w k))))%R) W Hext).
+  unfold ipW.
+  exact (sum_f_R0_plus (fun k => re (u k *c Cconj (w k)))
+                       (fun k => re (v k *c Cconj (w k))) W).
 Qed.
 
 (* 右加性：⟨u, v+w⟩ = ⟨u,v⟩ + ⟨u,w⟩ *)
@@ -77166,20 +77169,23 @@ Theorem norm_sq_combo2 (u1 u2 : nat -> Complex) (c1 c2 : R) (W : nat) :
      + 2 * (c1 * c2) * ipW u1 u2 W)%R.
 Proof.
   unfold l2_norm_sq.
+  assert (Hext : forall k : nat, (Cnorm_sq (Cof_real c1 *c u1 k +c Cof_real c2 *c u2 k)
+        = ((c1 * c1) * Cnorm_sq (u1 k) + (c2 * c2) * Cnorm_sq (u2 k)
+           + 2 * (c1 * c2) * re (u1 k *c Cconj (u2 k)))%R))
+    by (intro k; apply norm_sq_combo2_point).
   rewrite (sum_f_R0_ext _ (fun k => ((c1 * c1) * Cnorm_sq (u1 k)
                                      + (c2 * c2) * Cnorm_sq (u2 k)
-                                     + 2 * (c1 * c2) * re (u1 k *c Cconj (u2 k)))%R) W).
-  (* 目标为左结合：((c1²‖u1‖² + c2²‖u2‖²) + 2c1c2⟨⟩)。按最外层 + 拆分。 *)
-  rewrite (sum_f_R0_plus (fun k => ((c1 * c1) * Cnorm_sq (u1 k)
-                                    + (c2 * c2) * Cnorm_sq (u2 k))%R)
-                         (fun k => (2 * (c1 * c2) * re (u1 k *c Cconj (u2 k)))%R) W).
-  rewrite (sum_f_R0_plus (fun k => ((c1 * c1) * Cnorm_sq (u1 k))%R)
-                         (fun k => ((c2 * c2) * Cnorm_sq (u2 k))%R) W).
-  rewrite (sum_f_R0_scal (c1 * c1) (fun k => Cnorm_sq (u1 k)) W).
-  rewrite (sum_f_R0_scal (c2 * c2) (fun k => Cnorm_sq (u2 k)) W).
-  rewrite (sum_f_R0_scal (2 * (c1 * c2)) (fun k => re (u1 k *c Cconj (u2 k))) W).
-  unfold ipW. ring.
-  intro k. apply norm_sq_combo2_point.
+                                     + 2 * (c1 * c2) * re (u1 k *c Cconj (u2 k)))%R) W Hext).
+  unfold ipW.
+  setoid_rewrite (sum_f_R0_plus (fun k => ((c1 * c1) * Cnorm_sq (u1 k)
+                                            + (c2 * c2) * Cnorm_sq (u2 k))%R)
+                               (fun k => (2 * (c1 * c2) * re (u1 k *c Cconj (u2 k)))%R) W).
+  setoid_rewrite (sum_f_R0_plus (fun k => ((c1 * c1) * Cnorm_sq (u1 k))%R)
+                               (fun k => ((c2 * c2) * Cnorm_sq (u2 k))%R) W).
+  setoid_rewrite (sum_f_R0_scal (c1 * c1) (fun k => Cnorm_sq (u1 k)) W).
+  setoid_rewrite (sum_f_R0_scal (c2 * c2) (fun k => Cnorm_sq (u2 k)) W).
+  setoid_rewrite (sum_f_R0_scal (2 * (c1 * c2)) (fun k => re (u1 k *c Cconj (u2 k))) W).
+  ring.
 Qed.
 
 (* CS-3a 核心：2 原子词典的稀疏唯一性。
@@ -77196,13 +77202,15 @@ Proof.
   (* 0 = ‖c1u1+c2u2‖²_W（每点为零 ⟹ Cnorm_sq C0 = 0 ⟹ 和为 0） *)
   assert (Hcombo : (l2_norm_sq (fun k => Cof_real c1 *c u1 k +c Cof_real c2 *c u2 k) W)%R = 0%R).
   { unfold l2_norm_sq.
-    rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => Cnorm_sq C0) W).
+    assert (Hext1 : forall k : nat, (k <= W)%nat -> (Cnorm_sq (Cof_real c1 *c u1 k +c Cof_real c2 *c u2 k) = Cnorm_sq C0)%R)
+      by (intro k; intro Hk; f_equal; exact (Hzero k Hk)).
+    rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => Cnorm_sq C0) W Hext1).
     assert (Hzsum : (sum_f_R0 (fun _ : nat => Cnorm_sq C0) W)%R = 0%R).
-    { rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => 0%R) W).
-      exact (sum_f_R0_zero W).
-      intro k. intro Hk. exact Cnorm_sq_C0. }
-    rewrite Hzsum. reflexivity.
-    intro k. intro Hk. f_equal. exact (Hzero k Hk). }
+    { assert (Hext2 : forall k : nat, (k <= W)%nat -> (Cnorm_sq C0 = 0)%R)
+        by (intro k; intro Hk; exact Cnorm_sq_C0).
+      rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => 0%R) W Hext2).
+      exact (sum_f_R0_zero W). }
+    rewrite Hzsum. reflexivity. }
   (* 用 norm_sq_combo2 + Hu1/Hu2 归约 *)
   rewrite norm_sq_combo2 in Hcombo.
   rewrite Hu1 Hu2 in Hcombo.
@@ -77300,9 +77308,9 @@ Definition comboM (M : nat) (c : nat -> R) (u : nat -> nat -> Complex) (k : nat)
 Lemma ipW_C0 (v : nat -> Complex) (W : nat) : (ipW (fun _ => C0) v W)%R = 0%R.
 Proof.
   unfold ipW.
-  rewrite (sum_f_R0_ext _ (fun _ => 0)%R W).
+  assert (Hext : forall k : nat, (re (C0 *c Cconj (v k)) = 0)%R) by (intro k; unfold Cmul, C0; simpl; ring).
+  rewrite (sum_f_R0_ext _ (fun _ => 0)%R W Hext).
   induction W; simpl; [auto | rewrite IHW; lra].
-  intro k. unfold Cmul, C0. simpl. ring.
 Qed.
 
 (* 递归步（函数等式）：comboM (S M) = comboM M +c c_M·u_M *)
@@ -77402,9 +77410,10 @@ Proof.
   apply (Rle_trans _ (sum_f_R0 (fun j : nat => (Rabs (c j) * Rabs (ipW (u j) (u (S M)) W))%R) M)%R).
   - eapply Rle_trans.
     + apply sum_f_R0_abs.
-    + rewrite (sum_f_R0_ext _ (fun j : nat => (Rabs (c j) * Rabs (ipW (u j) (u (S M)) W))%R) M).
+    + assert (Hext : forall j : nat, (Rabs (c j * ipW (u j) (u (S M)) W) = Rabs (c j) * Rabs (ipW (u j) (u (S M)) W))%R)
+        by (intro j; apply Rabs_mult).
+      rewrite (sum_f_R0_ext _ (fun j : nat => (Rabs (c j) * Rabs (ipW (u j) (u (S M)) W))%R) M Hext).
       apply Rle_refl.
-      intro j. apply Rabs_mult.
   - apply (Rle_trans _ (sum_f_R0 (fun j : nat => (Rabs (c j) * mu)%R) M)%R).
     + apply sum_f_R0_le. intros k Hk.
       apply Rmult_le_compat_l; [apply Rabs_pos | ].
@@ -77412,10 +77421,10 @@ Proof.
       - exact (leq_trans Hk (leqnSn M)).
       - by apply leqnn.
       - move: Hk => /leP Hkp. lia.
-    + rewrite (sum_f_R0_ext _ (fun j : nat => (mu * Rabs (c j))%R) M).
-      rewrite (sum_f_R0_scal mu (fun j : nat => Rabs (c j)) M).
+    + assert (Hext : forall j : nat, (Rabs (c j) * mu = mu * Rabs (c j))%R) by (intro j; ring).
+      rewrite (sum_f_R0_ext _ (fun j : nat => (mu * Rabs (c j))%R) M Hext).
+      rewrite <- (sum_f_R0_scal mu (fun j : nat => Rabs (c j)) M).
       apply Rle_refl.
-      intro j. ring.
 Qed.
 
 (* 2|a||b| ≤ a²+b²（AM-GM，从 Rabs_prod_le_sq_sum 变形） *)
@@ -77444,12 +77453,12 @@ Proof.
     apply (Rle_trans _ (a * a + c k * c k)%R).
     + exact (abs_prod_le_sq a (c k)).
     + apply Rle_refl.
-  - rewrite (sum_f_R0_plus (fun _ : nat => (a * a)%R) (fun j : nat => (c j * c j)%R) M).
-    rewrite (sum_f_R0_ext _ (fun _ : nat => ((a * a) * 1)%R) M).
-    rewrite (sum_f_R0_scal (a * a) (fun _ : nat => 1%R) M).
-    rewrite (sum_f_R0_const M).
+  - setoid_rewrite (sum_f_R0_plus (fun _ : nat => (a * a)%R) (fun j : nat => (c j * c j)%R) M).
+    assert (Hext : forall k : nat, (a * a = (a * a) * 1)%R) by (intro k; ring).
+    setoid_rewrite (sum_f_R0_ext _ (fun _ : nat => ((a * a) * 1)%R) M Hext).
+    setoid_rewrite (sum_f_R0_scal (a * a) (fun _ : nat => 1%R) M).
+    setoid_rewrite (sum_f_R0_const M).
     lra.
-    intro k. ring.
 Qed.
 
 (* ============================================================
@@ -77563,7 +77572,7 @@ Proof.
             with (2 * Rabs (c (S M)) * Rabs (ipW (comboM (S M) c u) (u (S M)) W))%R.
           + apply Rle_refl.
           + rewrite Rabs_mult. rewrite Rabs_mult.
-            replace (Rabs 2)%R with 2%R by (rewrite Rabs_right; [ring | lra]).
+            replace (Rabs 2)%R with 2%R by (rewrite (Rabs_right 2 (Rle_ge 0 2 (Rlt_le 0 2 Rlt_0_2))); ring).
             ring. }
       assert (Hnonneg : (0 <= X + Y)%R) by lra.
       (* 目标：S ≤ L + X + Y + M1。HIH' : S ≤ L + M1。由 Hnonneg：M1 ≤ X + Y + M1。 *)
@@ -77620,7 +77629,7 @@ Proof.
               with (2 * Rabs (c (S M)) * Rabs (ipW (comboM (S M) c u) (u (S M)) W))%R.
             + apply Rle_refl.
             + rewrite Rabs_mult. rewrite Rabs_mult.
-              replace (Rabs 2)%R with 2%R by (rewrite Rabs_right; [ring | lra]).
+              replace (Rabs 2)%R with 2%R by (rewrite (Rabs_right 2 (Rle_ge 0 2 (Rlt_le 0 2 Rlt_0_2))); ring).
               ring. }
         lra. }
     (* 第二步：H2' : 2|A||IP| ≤ μ((M+1)A² + S)（H2 + H3 合成） *)
@@ -77716,11 +77725,13 @@ Proof.
   (* 0 = l2(comboM (S M))（零组合 ⟹ 能量 0） *)
   assert (Hl2 : (l2_norm_sq (comboM (S M) c u) W)%R = 0%R).
   { unfold l2_norm_sq.
-    rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => Cnorm_sq C0) W).
-    rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => 0%R) W).
-    rewrite (sum_f_R0_zero W). reflexivity.
-    intro k. intro Hk. exact Cnorm_sq_C0.
-    intro k. intro Hk. f_equal. exact (Hzero k Hk). }
+    assert (Hext1 : forall k : nat, (k <= W)%nat -> (Cnorm_sq (comboM (S M) c u k) = Cnorm_sq C0)%R)
+      by (intro k; intro Hk; f_equal; exact (Hzero k Hk)).
+    rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => Cnorm_sq C0) W Hext1).
+    assert (Hext2 : forall k : nat, (k <= W)%nat -> (Cnorm_sq C0 = 0)%R)
+      by (intro k; intro Hk; exact Cnorm_sq_C0).
+    rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => 0%R) W Hext2).
+    rewrite (sum_f_R0_zero W). reflexivity. }
   (* RIP 下界：Σc_j² ≤ l2 + μ(M+1)Σc_j² = μ(M+1)Σc_j²（因 l2 = 0） *)
   assert (Hrip := rip_lower_M M c u W mu Hmu0 Hunit Hcoh).
   rewrite Hl2 in Hrip.
@@ -77805,9 +77816,10 @@ Lemma ipW_combo_r (M : nat) (c : nat -> R) (u : nat -> nat -> Complex)
 Proof.
   rewrite ipW_sym.
   rewrite (ipW_combo_l M c u v W).
-  rewrite (sum_f_R0_ext _ (fun i => (c i * ipW v (u i) W)%R) M).
-  - reflexivity.
-  - intro i. rewrite ipW_sym. ring.
+  assert (Hext : forall i : nat, (c i * ipW (u i) v W = c i * ipW v (u i) W)%R)
+    by (intro i; rewrite ipW_sym; ring).
+  rewrite (sum_f_R0_ext _ (fun i => (c i * ipW v (u i) W)%R) M Hext).
+  reflexivity.
 Qed.
 
 (* 行和（对角排除）：row_sum i = Σ_{j≠i, j≤M} |⟨u_i,u_j⟩| *)
@@ -77944,7 +77956,7 @@ Proof.
         with (sum_f_R0 (fun j => (Rabs (c j) * Rabs (c j) * Rabs (ipW (u j) (u (S M)) W)
                                   + c (S M) * c (S M) * Rabs (ipW (u j) (u (S M)) W))%R) M)%R
         by (apply sum_f_R0_ext; intro k; ring).
-      rewrite (sum_f_R0_plus (fun j => (Rabs (c j) * Rabs (c j) * Rabs (ipW (u j) (u (S M)) W))%R)
+      setoid_rewrite (sum_f_R0_plus (fun j => (Rabs (c j) * Rabs (c j) * Rabs (ipW (u j) (u (S M)) W))%R)
                              (fun j => (c (S M) * c (S M) * Rabs (ipW (u j) (u (S M)) W))%R) M).
       rewrite Rmult_plus_distr_l.
       apply Rplus_le_compat.
@@ -78061,7 +78073,7 @@ Proof.
         + apply Rle_abs.
         + rewrite Rabs_opp. apply Rle_refl.
       - rewrite Rabs_mult. rewrite Rabs_mult.
-        replace (Rabs 2)%R with 2%R by (rewrite Rabs_right; [ring | lra]).
+        replace (Rabs 2)%R with 2%R by (rewrite (Rabs_right 2 (Rle_ge 0 2 (Rlt_le 0 2 Rlt_0_2))); ring).
         apply Rle_refl. }
     (* 去掉 Rabs：−2c⟨⟩ ≤ μ_row(Σ_M + c_{SM}²)（Hneg2 + Hcb 组合，供 nra 使用） *)
     assert (Hcross : (- (2 * c (S M) * ipW (comboM (S M) c u) (u (S M)) W)
@@ -78149,7 +78161,7 @@ Proof.
     { apply (Rle_trans _ (Rabs (2 * c (S M) * ipW (comboM (S M) c u) (u (S M)) W))).
       - apply Rle_abs.
       - rewrite Rabs_mult. rewrite Rabs_mult.
-        replace (Rabs 2)%R with 2%R by (rewrite Rabs_right; [ring | lra]).
+        replace (Rabs 2)%R with 2%R by (rewrite (Rabs_right 2 (Rle_ge 0 2 (Rlt_le 0 2 Rlt_0_2))); ring).
         apply Rle_refl. }
     (* 去掉 Rabs：2c⟨⟩ ≤ μ_row(Σ_M + c_{SM}²)（Hpos + Hcb 组合，供 nra 使用） *)
     assert (Hcross_pos : (2 * c (S M) * ipW (comboM (S M) c u) (u (S M)) W
@@ -78690,11 +78702,10 @@ Proof.
     + (* M = S (S M')：Nat.pred = S M' *)
       simpl. destruct (Nat.eqb_spec (S M') i) as [Hi' | Hi'].
       * subst i.
-        rewrite (wl_sum_ext (fun j => if Nat.eqb j (S M') then 1 else 0) (fun _ => 0) M').
-        -- rewrite wl_sum_zero. rewrite Nat.eqb_refl. ring.
-        -- intros j Hj. destruct (Nat.eqb_spec j (S M')) as [Hjs | Hjs].
-           ++ exfalso. lia.
-           ++ simpl. reflexivity.
+        assert (Hext : forall j : nat, le j M' -> ((if Nat.eqb j (S M') then 1 else 0) = 0)%R)
+          by (intros j Hj; destruct (Nat.eqb_spec j (S M')) as [Hjs | Hjs]; [exfalso; lia | simpl; reflexivity]).
+        rewrite (wl_sum_ext (fun j => if Nat.eqb j (S M') then 1 else 0) (fun _ => 0) M' Hext).
+        rewrite wl_sum_zero. rewrite Nat.eqb_refl. ring.
       * assert (Hilt : lt i (S M')) by lia.
         rewrite (IHm Hilt).
         -- destruct i as [| i'].
@@ -78710,18 +78721,22 @@ Lemma wl_count_offdiag (M i : nat) :
 Proof.
   intro Hi.
   (* 把 if 展开为 1 − (if j=?i then 1 else 0) *)
-  assert (Heq : forall j, (if Nat.eqb j i then 0 else 1) = 1 - (if Nat.eqb j i then 1 else 0)).
-  { intros j. destruct (Nat.eqb_spec j i); simpl; ring. }
+  assert (Heq : forall j, ((if Nat.eqb j i then 0 else 1) : R) = (1 - (if Nat.eqb j i then 1 else 0))%R).
+  { intros j. case (Nat.eqb j i) eqn:E.
+    - apply Nat.eqb_eq in E. subst j. simpl. ring.
+    - simpl. ring. }
+  assert (Hext2 : forall k : nat, le k (Nat.pred M) -> ((if Nat.eqb k i then 0 else 1) = (1 - (if Nat.eqb k i then 1 else 0)))%R)
+    by (intros k Hk; apply Heq).
   rewrite (wl_sum_ext (fun j => if Nat.eqb j i then 0 else 1)
-                      (fun j => 1 - (if Nat.eqb j i then 1 else 0)) (Nat.pred M)).
-  2: { intros k Hk. apply Heq. }
-  rewrite (wl_sum_add (fun _ : nat => 1)
-                      (fun j => - (if Nat.eqb j i then 1 else 0)) (Nat.pred M)).
-  rewrite wl_sum_opp.
-  rewrite wl_sum_one.
+                      (fun j => (1 - (if Nat.eqb j i then 1 else 0))%R) (Nat.pred M) Hext2).
+  setoid_rewrite (wl_sum_add (fun _ : nat => 1%R)
+                             (fun j => (- (if Nat.eqb j i then 1 else 0))%R) (Nat.pred M)).
+  setoid_rewrite wl_sum_opp.
+  setoid_rewrite wl_sum_one.
   rewrite (wl_count_diag M i Hi).
   replace (INR (S (Nat.pred M)))%R with (INR M)%R by (f_equal; lia).
-  rewrite (minus_INR M 1); [simpl; ring | lia].
+  assert (HM1 : le 1 M) by lia.
+  rewrite (minus_INR M 1 HM1); simpl; ring.
 Qed.
 
 (* Gram 平方和 ≤ M + M(M−1)μ² *)
@@ -78745,7 +78760,8 @@ Proof.
     2: { rewrite <- (wl_sum_scal_l (x k) (fun j => if Nat.eqb j k then 1 else 0) n).
          apply wl_sum_ext. intros j Hj.
          destruct (Nat.eqb_spec j k); simpl; ring. }
-    rewrite (wl_count_diag (S n) k); [lra | lia]. }
+    assert (Hlt : lt k (S n)) by (apply/ltP; lia).
+    rewrite (wl_count_diag (S n) k Hlt). rewrite Rmult_1_r. apply Rle_refl. }
   assert (HsumB : 0 <= sum_f_R0 (fun j => if Nat.eqb j k then 0 else x j) n).
   { apply wl_sum_nonneg. intros j Hj.
      destruct (Nat.eqb_spec j k) as [Hjk | Hjk].
@@ -81303,7 +81319,7 @@ Proof.
     { unfold Rsqr, Rdiv.
       assert (Hnz : sqrt 2 <> 0) by (apply Rgt_not_eq; apply g2_sqrt_pos; lra).
       replace (3 * / sqrt 2 * (3 * / sqrt 2))%R with (9 * / (sqrt 2 * sqrt 2))%R by (field; exact Hnz).
-      replace (sqrt 2 * sqrt 2)%R with 2%R by (rewrite sqrt_sqrt; [reflexivity | lra]).
+      replace (sqrt 2 * sqrt 2)%R with 2%R by (rewrite (sqrt_sqrt 2 (Rlt_le 0 2 Rlt_0_2)); ring).
       field. }
     rewrite Ht1. rewrite Ht2. reflexivity.
 Qed.
@@ -81404,7 +81420,7 @@ Proof.
     replace (Rsqr (4 * sqrt 2 * PI))%R with (32 * Rsqr PI)%R in Hsqle.
     + lra.
     + rewrite Rsqr_mult. rewrite Rsqr_mult.
-      replace (Rsqr (sqrt 2))%R with 2%R by (unfold Rsqr; rewrite sqrt_sqrt; [ring | lra]).
+      replace (Rsqr (sqrt 2))%R with 2%R by (unfold Rsqr; rewrite (sqrt_sqrt 2 (Rlt_le 0 2 Rlt_0_2)); ring).
       unfold Rsqr. ring. }
   apply Rmult_lt_reg_r with (sqrt 2 * PI)%R; [apply Rmult_lt_0_compat; [apply g2_sqrt_pos; lra | apply PI_RGT_0] |].
   apply Rmult_lt_reg_r with 5%R; [lra |].
