@@ -261,7 +261,7 @@ Proof.
   - replace (n + 0) with n by (rewrite addn0; reflexivity).
     simpl.
     symmetry. apply Cadd_0_l.
-  - replace (n + S m) with (S (n + m)) by (rewrite (addnS n m) || rewrite (Nat.add_succ_r n m); reflexivity).
+  - replace (n + S m) with (S (n + m)) by (rewrite (addnS n m) || (rewrite addnE; rewrite (Nat.add_succ_r n m)); reflexivity).
     simpl.
     rewrite IH.
     symmetry. apply Cadd_assoc.
