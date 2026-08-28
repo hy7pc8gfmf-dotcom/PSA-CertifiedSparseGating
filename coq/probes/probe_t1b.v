@@ -15,6 +15,7 @@
      OC7 window_ortho_charac（主定理）：族级 iff 合成。
    审计：Print Assumptions 尾部。
    ============================================================ *)
+From mathcomp Require Import ssreflect ssrnat.
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Arith.Arith.
 Require Import Stdlib.micromega.Lia.
@@ -33,6 +34,32 @@ Require Import probe_partial.
 Require Import probe_pairdirichlet.
 Require Import probe_collision.
 Require Import probe_tchar.
+(* E138①：Notation 注册（8 项，Nat.*——覆盖 mathcomp 劫持，独立环境仅 warning） *)
+Notation "a + b" := (Nat.add a b) (at level 50, left associativity) : nat_scope.
+Notation "a - b" := (Nat.sub a b) (at level 50, left associativity) : nat_scope.
+Notation "a * b" := (Nat.mul a b) (at level 40, left associativity) : nat_scope.
+Notation "a / b" := (Nat.div a b) (at level 40, left associativity) : nat_scope.
+Notation "a <= b" := (Nat.le a b) (at level 70, no associativity) : nat_scope.
+Notation "a < b" := (Nat.lt a b) (at level 70, no associativity) : nat_scope.
+Notation "a >= b" := (Nat.le b a) (at level 70, no associativity) : nat_scope.
+Notation "a > b" := (Nat.lt b a) (at level 70, no associativity) : nat_scope.
+
+(* E089 双向桥：mathcomp bool 层 ⟷ Stdlib Prop 层（leq m n 展开为 Nat.eqb (m-n) 0） *)
+Lemma le_mc_to_Prop (m n : nat) : is_true (ssrnat.leq m n) -> (m <= n)%nat.
+Proof.
+  intros H. unfold ssrnat.leq, is_true in H.
+  unfold eqtype.eq_op in H. simpl in H.
+  apply Nat.eqb_eq in H. apply Nat.sub_0_le in H. exact H.
+Qed.
+Lemma lt_mc_to_Prop (m n : nat) : is_true (ssrnat.leq (S m) n) -> (m < n)%nat.
+Proof. intros H. apply le_mc_to_Prop in H. exact H. Qed.
+Lemma le_Prop_to_mc (m n : nat) : (m <= n)%nat -> is_true (ssrnat.leq m n).
+Proof.
+  intros H. unfold ssrnat.leq, is_true, eqtype.eq_op. simpl.
+  apply Nat.eqb_eq. apply Nat.sub_0_le. exact H.
+Qed.
+Lemma lt_Prop_to_mc (m n : nat) : (m < n)%nat -> is_true (ssrnat.leq (S m) n).
+Proof. intros H. apply le_Prop_to_mc. exact H. Qed.
 Import ComplexNumbers.
 Import FourierAnalysis.
 Import GridOrtho.
@@ -52,8 +79,8 @@ Module OrthoCharac.
 Lemma pair_ortho_rot (a b : R) (k : nat) :
   (rot_atom a k *c Cconj (rot_atom b k) = rot_atom (a - b) k)%C.
 Proof.
-  rewrite rot_conj_rot, rot_mul_rot.
-  replace (a + - b)%R with (a - b)%R by ring. reflexivity.
+  rewrite rot_conj_rot. rewrite rot_mul_rot.
+  replace (a + - b)%R with (a - b)%R by (ring). reflexivity.
 Qed.
 
 (* ---------- OC2：N 个 1 之和 ≠ 0 ---------- *)
@@ -84,9 +111,9 @@ Lemma rot_all_one (theta : R) (K : nat) :
 Proof.
   intros H1. induction K as [| K IH].
   - apply rot_atom_zero.
-  - replace (S K)%nat with (K + 1)%nat by lia.
+  - replace (S K)%nat with (K + 1)%nat by (lia).
     rewrite rot_atom_lag_add.
-    rewrite IH, H1. unfold C1, Cmul. simpl. f_equal; ring.
+    rewrite IH. rewrite H1. unfold C1, Cmul. simpl. f_equal; ring.
 Qed.
 
 (* ---------- OC4：桥梁 ---------- *)
@@ -98,13 +125,13 @@ Proof.
   - intros HD d.
     change (phase_rot theta (d + D)) with (rot_atom theta (d + D)).
     change (phase_rot theta d) with (rot_atom theta d).
-    rewrite rot_atom_lag_add, HD, Cmul_1_r.
+    rewrite rot_atom_lag_add. rewrite HD. rewrite Cmul_1_r.
     reflexivity.
   - intros H.
     assert (H0 := H 0%nat).
     change (phase_rot theta (0 + D)) with (rot_atom theta (0 + D)) in H0.
     change (phase_rot theta 0) with (rot_atom theta 0) in H0.
-    replace (0 + D)%nat with D%nat in H0 by lia.
+    replace (0 + D)%nat with D%nat in H0 by (lia).
     rewrite rot_atom_zero in H0. exact H0.
 Qed.
 
@@ -116,14 +143,13 @@ Theorem ortho_pair_grid_offset (a b : R) (N : nat) :
   exists m : Z, ((a - b = 2 * PI * IZR m / INR N))%R /\ ((m mod Z.of_nat N <> 0)%Z).
 Proof.
   intros HN Hortho.
-  assert (Hsum : (PrimeEmbedding.Csum (fun k => rot_atom (a - b) k) N = C0)%C).
-  { assert (Hpt : (forall i, (i < N)%nat ->
+  assert (Hpt2 : (forall i, is_true (ssrnat.leq (S i) N) ->
        (rot_atom (a - b) i = rot_atom a i *c Cconj (rot_atom b i)))%C).
-    { intros i Hi. symmetry. apply pair_ortho_rot. }
-    transitivity (PrimeEmbedding.Csum
-                    (fun k => rot_atom a k *c Cconj (rot_atom b k)) N).
-    - apply Csum_ext. exact Hpt.
-    - exact Hortho. }
+  { intros i _Hi. symmetry. apply pair_ortho_rot. }
+  assert (Hsum : (PrimeEmbedding.Csum (fun k => rot_atom (a - b) k) N = C0)%C).
+  { rewrite (Csum_ext (fun k => rot_atom (a - b) k)
+                      (fun k => rot_atom a k *c Cconj (rot_atom b k)) N Hpt2).
+    exact Hortho. }
   pose proof (geom_sum_identity (a - b) N) as Hg.
   rewrite Hsum in Hg. rewrite Cmul_0_r in Hg.
   assert (HrotN : (rot_atom (a - b) N = C1)%C).
@@ -139,22 +165,22 @@ Proof.
       [ exact Hgoal
       | intros Hc; assert (Hpos : (0 < INR N)%R) by (apply lt_0_INR; lia); lra ].
   - intro Hm0.
-    assert (HNz : (Z.of_nat N <> 0)%Z) by lia.
+    assert (HNz : (Z.of_nat N <> 0)%Z) by (lia).
     pose proof (Z.div_mod m (Z.of_nat N) HNz) as Hq.
     rewrite Hm0 in Hq.
     remember (Z.div m (Z.of_nat N)) as q eqn:Hqdef.
     (* m = N·q, 故 a−b = 2π·IZR q *)
     assert (Habq : (a - b = 2 * PI * IZR q)%R).
     { assert (HmI : (IZR m = INR N * IZR q)%R).
-      { rewrite Hq. rewrite plus_IZR, mult_IZR, INR_IZR_INZ. simpl. ring. }
+      { rewrite Hq. rewrite plus_IZR. rewrite mult_IZR. rewrite INR_IZR_INZ. simpl. ring. }
       apply (Rmult_eq_reg_l (INR N)).
-      * rewrite Hm, HmI. ring.
+      * rewrite Hm. rewrite HmI. ring.
       * intros Hc. assert (Hpos : (0 < INR N)%R) by (apply lt_0_INR; lia). lra. }
     assert (Hrot1 : (rot_atom (a - b) 1 = C1)%C).
     { apply (proj2 (rot_C1_iff_collides (a - b) 1)).
       apply (proj2 (kernel_collides_iff (a - b) 1)).
       exists q. rewrite INR_1.
-      replace (a - b)%R with (1 * (a - b))%R by ring.
+      replace (a - b)%R with (1 * (a - b))%R by (ring).
       rewrite Habq. ring. }
     (* ⟹ 所有 k, rot k = C1 *)
     assert (Hall : (forall k, (k < N)%nat -> (rot_atom (a - b) k = C1))%C).
@@ -162,8 +188,11 @@ Proof.
     (* ⟹ 和 = N·C1 ≠ C0，与 Hsum 矛盾 *)
     assert (HsumC : (PrimeEmbedding.Csum (fun k => rot_atom (a - b) k) N
                       = PrimeEmbedding.Csum (fun _ => C1) N)%C).
-    { apply Csum_ext. exact Hall. }
-    assert (H1N : (1 <= N)%nat) by lia.
+    assert (Hall2 : (forall i, is_true (ssrnat.leq (S i) N) ->
+                      (rot_atom (a - b) i = C1))%C).
+    { intros i _Hi. apply rot_all_one. exact Hrot1. }
+    { apply Csum_ext. exact Hall2. }
+    assert (H1N : (1 <= N)%nat) by (lia).
     exact (csum_ones_neq_0 N H1N (eq_trans (eq_sym HsumC) Hsum)).
 Qed.
 
@@ -176,53 +205,58 @@ Theorem grid_offset_ortho_pair (a b : R) (N : nat) (m : Z) :
   (PrimeEmbedding.Csum (fun k => rot_atom a k *c Cconj (rot_atom b k)) N = C0)%C.
 Proof.
   intros HN Hdiff Hm0.
-  assert (HNzb : (0 < Z.of_nat N)%Z) by lia.
-  assert (HNz : (Z.of_nat N <> 0)%Z) by lia.
+  assert (HNzb : (0 < Z.of_nat N)%Z) by (lia).
+  assert (HNz : (Z.of_nat N <> 0)%Z) by (lia).
   pose proof (Z.div_mod m (Z.of_nat N) HNz) as Hq.
   destruct (Z.mod_pos_bound m (Z.of_nat N) HNzb) as [Hp1 Hp2].
   remember (Z.div m (Z.of_nat N)) as q eqn:Hqdef.
   remember ((m mod Z.of_nat N)%Z) as r eqn:Hrdef.
-  assert (Hrpos : (0 < r)%Z) by lia.
-  assert (HrN : (r < Z.of_nat N)%Z) by lia.
+  assert (Hrpos : (0 < r)%Z) by (lia).
+  assert (HrN : (r < Z.of_nat N)%Z) by (lia).
   assert (HmI : (IZR m = INR N * IZR q + IZR r)%R).
-  { rewrite Hq. rewrite plus_IZR, mult_IZR, INR_IZR_INZ. simpl. ring. }
+  { rewrite Hq. rewrite plus_IZR. rewrite mult_IZR. rewrite INR_IZR_INZ. simpl. ring. }
   assert (HrI : (IZR r = INR (Z.to_nat r))%R).
   { rewrite INR_IZR_INZ. f_equal. symmetry. apply Z2Nat.id. lia. }
-  assert (Hnrpos : (0 < Z.to_nat r)%nat) by lia.
-  assert (HnrN : (Z.to_nat r < N)%nat) by lia.
+  assert (Hnrpos : (0 < Z.to_nat r)%nat) by (lia).
+  assert (HnrN : (Z.to_nat r < N)%nat) by (lia).
   assert (Hmodne : (Z.to_nat r mod N <> 0)%nat).
   { intro H0. assert (Hs : (Z.to_nat r mod N = Z.to_nat r)%nat)
       by (apply Nat.mod_small; lia). lia. }
   assert (Hmodne' : (Z.to_nat r mod N <> 0 mod N)%nat)
     by (rewrite Nat.mod_0_l; [ exact Hmodne | lia ]).
-  pose proof (off_grid_ortho 0%R N (Z.to_nat r) 0%nat HN Hmodne') as Hoff.
+  pose proof (off_grid_ortho 0%R N (Z.to_nat r) 0%nat (le_Prop_to_mc 2 N HN) Hmodne') as Hoff.
   transitivity (PrimeEmbedding.Csum
                   (fun k => rot_atom (2 * PI * INR (Z.to_nat r) / INR N) k) N).
-  - apply Csum_ext. intros k Hk.
-    unfold rot_atom. f_equal. f_equal.
-    assert (Hiz : (IZR (Z.of_nat k * q) = INR k * IZR q)%R).
-    { rewrite mult_IZR, <- INR_IZR_INZ. reflexivity. }
-    (* INR k * (a-b) = 2pi*IZR(Z.of_nat k * q) + INR k*(2pi*INR(Z.to_nat r)/INR N) *)
-    replace (INR k * (a - b))%R
-      with (INR k * (2 * PI * IZR m / INR N))%R by (rewrite Hdiff; ring).
-    rewrite HmI. replace (2 * PI * (INR N * IZR q + IZR r) / INR N)%R
-      with (2 * PI * IZR q + 2 * PI * IZR r / INR N)%R
-      by (unfold Rdiv; ring).
-    rewrite HrI.
-    replace (INR k * (2 * PI * IZR q + 2 * PI * INR (Z.to_nat r) / INR N))%R
-      with (INR k * (2 * PI * IZR q) + INR k * (2 * PI * INR (Z.to_nat r) / INR N))%R
-      by ring.
-    rewrite Hiz. ring.
+  - apply Csum_ext. intros i Hi.
+    transitivity (rot_atom (a - b) i).
+    + apply pair_ortho_rot.
+    + replace (a - b)%R
+        with (2 * PI * IZR q + 2 * PI * INR (Z.to_nat r) / INR N)%R.
+      * assert (Hq1 : (rot_atom (2 * PI * IZR q) i = C1)%C).
+        { unfold rot_atom.
+          replace (INR i * (2 * PI * IZR q))%R
+            with (0 + 2 * PI * IZR (Z.of_nat i * q))%R.
+          - rewrite Cexp_2pi_shift. exact Cexp_0.
+          - rewrite mult_IZR. rewrite <- INR_IZR_INZ. ring. }
+        rewrite (rot_atom_add (2 * PI * IZR q)
+                   (2 * PI * INR (Z.to_nat r) / INR N) i).
+        rewrite Hq1. apply Cmul_1_l.
+      * rewrite Hdiff. rewrite HmI. rewrite HrI. field.
+        intros Hc. assert (Hpos : (0 < INR N)%R) by (apply lt_0_INR; lia). lra.
   - transitivity (PrimeEmbedding.Csum
                     (fun k => rot_atom (0 + 2 * PI * INR (Z.to_nat r) / INR N) k
                                *c Cconj (rot_atom (0 + 2 * PI * INR 0 / INR N) k)) N).
     + apply Csum_ext. intros k Hk.
       replace ((0 + 2 * PI * INR (Z.to_nat r) / INR N))%R
-        with ((2 * PI * INR (Z.to_nat r) / INR N))%R by ring.
-      replace ((0 + 2 * PI * INR 0 / INR N))%R with 0%R by (simpl; ring).
-      rewrite rot_atom_zero.
-      replace (Cconj C1) with C1 by reflexivity.
-      rewrite Cmul_1_r. reflexivity.
+        with ((2 * PI * INR (Z.to_nat r) / INR N))%R by (ring).
+      replace ((0 + 2 * PI * INR 0 / INR N))%R with 0%R
+        by (rewrite INR_0; field; intros Hc; assert (Hpos : (0 < INR N)%R) by (apply lt_0_INR; lia); lra).
+      replace (rot_atom 0%R k) with C1.
+      * replace (Cconj C1) with C1 by (unfold Cconj, C1; apply Complex_eq; simpl; ring).
+        symmetry. apply Cmul_1_r.
+      * unfold rot_atom.
+        replace (INR k * 0)%R with 0%R by (ring).
+        apply (eq_sym Cexp_0).
     + exact Hoff.
 Qed.
 
@@ -255,21 +289,21 @@ Theorem ortho_family_common_offset (M N : nat) (theta : nat -> R) :
      (PrimeEmbedding.Csum
         (fun k => rot_atom (theta t) k *c Cconj (rot_atom (theta u) k)) N = C0)%C) ->
   (forall t, (t < M)%nat -> exists mt : Z,
-     ((theta t = theta 0 + 2 * PI * IZR mt / INR N))%R
+     ((theta t = theta 0%nat + 2 * PI * IZR mt / INR N))%R
      /\ ((t <> 0%nat -> (mt mod Z.of_nat N <> 0)%Z))).
 Proof.
   intros HN HM Hortho t Ht.
-  assert (H0M : (0 < M)%nat) by lia.
+  assert (H0M : (0 < M)%nat) by (lia).
   destruct (Nat.eq_dec t 0) as [Et | Et].
   - subst t. exists 0%Z. split.
-    + replace (2 * PI * IZR 0 / INR N)%R with 0%R
-        by (replace (IZR 0)%R with 0%R by reflexivity; field; apply lt_0_INR; lia).
+    + replace (2 * PI * IZR Z0 / INR N)%R with 0%R
+        by (replace (IZR Z0)%R with 0%R by (reflexivity); field; intros Hc; assert (Hpos : (0 < INR N)%R) by (apply lt_0_INR; lia); lra).
       ring.
     + intros Hne. lia.
-  - destruct (ortho_pair_grid_offset (theta t) (theta 0) N HN
+  - destruct (ortho_pair_grid_offset (theta t) (theta 0%nat) N HN
                 (Hortho t 0%nat Ht H0M Et)) as [mt [Hmt Hmt0]].
     exists mt. split.
-    + replace (theta t)%R with ((theta t - theta 0) + theta 0)%R by ring.
+    + replace (theta t)%R with ((theta t - theta 0%nat) + theta 0%nat)%R by (ring).
       rewrite Hmt. ring.
     + intros Hne. exact Hmt0.
 Qed.
@@ -284,37 +318,35 @@ Theorem ortho_family_witness_distinct (M N : nat) (theta : nat -> R) :
         (fun k => rot_atom (theta t) k *c Cconj (rot_atom (theta u) k)) N = C0)%C) ->
   (forall t u, (t < M)%nat -> (u < M)%nat -> t <> u ->
      forall mt mu : Z,
-       ((theta t = theta 0 + 2 * PI * IZR mt / INR N))%R ->
-       ((theta u = theta 0 + 2 * PI * IZR mu / INR N))%R ->
+       ((theta t = theta 0%nat + 2 * PI * IZR mt / INR N))%R ->
+       ((theta u = theta 0%nat + 2 * PI * IZR mu / INR N))%R ->
        ((mt mod Z.of_nat N <> mu mod Z.of_nat N)%Z)).
 Proof.
   intros HN HM Hortho t u Ht Hu Htu mt mu Hmt Hmu.
-  assert (H0M : (0 < M)%nat) by lia.
+  assert (H0M : (0 < M)%nat) by (lia).
   destruct (ortho_pair_grid_offset (theta t) (theta u) N HN
               (Hortho t u Ht Hu Htu)) as [d [Hd Hd0]].
   (* θt − θu = 2π·(mt − mu)/N = 2π·d/N ⟹ mt − mu = d ⟹ mod ≠ *)
   assert (Heq : ((mt - mu = d)%Z)).
-  { assert (Hr : ((2 * PI * IZR (mt - mu) = 2 * PI * IZR d)))%R.
-    { apply (Rmult_eq_reg_l (INR N));
-      [ intros Hc; assert (Hpos : (0 < INR N)%R) by (apply lt_0_INR; lia); lra
-      | ].
-      assert (Ht1 : ((INR N * (theta t - theta u) = 2 * PI * IZR d))).
+  { assert (Hr : (2 * PI * IZR (mt - mu) = 2 * PI * IZR d)%R).
+    { assert (Ht1 : (INR N * (theta t - theta u) = 2 * PI * IZR d)%R).
       { rewrite Hd. field; intros Hc; assert (Hpos : (0 < INR N)%R) by (apply lt_0_INR; lia); lra. }
-      rewrite <- Ht1.
-      replace (theta t - theta u)%R
-        with ((theta 0 + 2 * PI * IZR mt / INR N)
-              - (theta 0 + 2 * PI * IZR mu / INR N))%R by (rewrite Hmt, Hmu; ring).
-      field; intros Hc; assert (Hpos : (0 < INR N)%R) by (apply lt_0_INR; lia); lra. }
-    apply (Rmult_eq_reg_l (2 * PI)).
-    + intros Hc; assert (Hp : (0 < 2 * PI))%R
-        by (apply Rmult_lt_0_compat; [ apply Rlt_0_2 | apply PI_RGT_0 ]); lra.
-    + exact Hr. }
+      apply (Rmult_eq_reg_l (INR N)).
+      * rewrite minus_IZR. rewrite <- Ht1.
+        replace (theta t - theta u)%R
+          with ((theta 0%nat + 2 * PI * IZR mt / INR N)
+                - (theta 0%nat + 2 * PI * IZR mu / INR N))%R by (rewrite Hmt; rewrite Hmu; ring).
+        field; intros Hc; assert (Hpos : (0 < INR N)%R) by (apply lt_0_INR; lia); lra.
+      * intros Hc; assert (Hpos : (0 < INR N)%R) by (apply lt_0_INR; lia); lra. }
+    apply eq_IZR. apply (Rmult_eq_reg_l (2 * PI)).
+    + exact Hr.
+    + intros Hc; assert (Hp : (0 < 2 * PI)%R)
+        by (apply Rmult_lt_0_compat; [ lra | apply PI_RGT_0 ]); lra. }
   intro Hmod.
-  assert (Hdm : ((d mod Z.of_nat N = 0)%Z)).
-  { replace (d)%Z with ((mt - mu))%Z by (rewrite Heq; reflexivity).
-    replace ((mt - mu) mod N)%Z with ((mu + 1 * (mt - mu)) mod N)%Z by ring.
-    rewrite Z.mod_add by lia. exact Hmod. }
-  lia.
+  assert (Hdm : ((mt - mu) mod Z.of_nat N = 0)%Z).
+  { rewrite Zminus_mod. rewrite Hmod. rewrite Z.sub_diag. apply Zmod_0_l. }
+  rewrite Heq in Hdm.
+  exact (Hd0 Hdm).
 Qed.
 
 End OrthoCharac.
@@ -324,4 +356,3 @@ Print Assumptions OrthoCharac.grid_offset_ortho_pair.
 Print Assumptions OrthoCharac.window_ortho_pairwise_iff.
 Print Assumptions OrthoCharac.ortho_family_common_offset.
 Print Assumptions OrthoCharac.ortho_family_witness_distinct.
-End OrthoCharac.
