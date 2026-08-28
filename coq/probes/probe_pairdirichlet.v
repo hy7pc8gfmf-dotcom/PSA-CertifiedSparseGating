@@ -52,7 +52,7 @@ Qed.
 Lemma rot_mul_rot (a b : R) (k : nat) :
   rot_atom a k *c rot_atom b k = rot_atom (a + b) k.
 Proof.
-  unfold rot_atom. rewrite <- Cexp_add, <- i_split.
+  unfold rot_atom. rewrite <- Cexp_add. rewrite <- i_split.
   replace ((INR k * (a + b)))%R with ((INR k * a) + (INR k * b))%R by ring.
   reflexivity.
 Qed.
