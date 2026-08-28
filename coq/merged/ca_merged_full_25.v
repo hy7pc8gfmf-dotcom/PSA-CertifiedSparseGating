@@ -75057,7 +75057,7 @@ Proof.
   - replace (n + 0) with n by (rewrite addn0; reflexivity).
     simpl.
     symmetry. apply Cadd_0_l.
-  - replace (n + S m) with (S (n + m)) by (rewrite addnS; reflexivity).
+  - replace (n + S m) with (S (n + m)) by (rewrite addnS || rewrite Nat.add_succ_r; reflexivity).
     simpl.
     rewrite IH.
     symmetry. apply Cadd_assoc.
@@ -76308,7 +76308,7 @@ Proof.
   - rewrite Nat.pow_0_r muln1 addn0. apply leqnn.
   - rewrite Nat.pow_succ_r.
     assert (Hs : (v (i + k) * C <= v (S (i + k)))%nat) by apply Hchain.
-    rewrite addnS.
+    rewrite addnS || rewrite Nat.add_succ_r.
     rewrite mulnCA mulnC.
     apply (leq_trans (n := v (i + k) * C)).
     + apply (leq_mul (n1 := v (i + k)) (n2 := C)). exact IH. by apply leqnn.
@@ -76468,7 +76468,7 @@ Proof.
     assert (H2 : (v i * 2 <= v i * C)%nat)
       by (apply (leq_mul (leqnn (v i)) HC)).
     assert (H3 : (v (S i) <= v ((i + S k)%nat))%nat)
-      by (apply (v_incr C v HC Hchain); rewrite addnS; rewrite ltnS; apply leq_addr).
+      by (apply (v_incr C v HC Hchain); rewrite addnS || rewrite Nat.add_succ_r; rewrite ltnS; apply leq_addr).
     apply (leq_trans (n := v i * C)).
     - rewrite mulnC. exact H2.
     - apply (leq_trans (n := v (S i))).
@@ -76487,7 +76487,7 @@ Proof.
     assert (Hib : (0 < INR (v ((i + S k)%nat)))%R).
     { apply (Rlt_le_trans _ (INR (v i)) _); [ exact Hia | ].
       apply le_INR. apply/leP.
-      apply (v_incr C v HC Hchain). rewrite addnS.
+      apply (v_incr C v HC Hchain). rewrite addnS || rewrite Nat.add_succ_r.
       apply (leq_trans (n := i + k)).
       - apply leq_addr.
       - by apply leqnSn. }
