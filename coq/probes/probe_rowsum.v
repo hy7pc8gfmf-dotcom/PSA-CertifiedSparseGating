@@ -269,7 +269,8 @@ Proof.
   - rewrite Nat.pow_0_r muln1 addn0. apply leqnn.
   - rewrite Nat.pow_succ_r.
     assert (Hs : (v (i + k) * C <= v (S (i + k)))%nat) by apply Hchain.
-    rewrite (addnS i k) || (rewrite addnE; rewrite (Nat.add_succ_r i k)).
+    assert (Hsucc : (i + S k = S (i + k))%nat) by first [rewrite (addnS i k); reflexivity | lia].
+    rewrite Hsucc.
     rewrite mulnCA mulnC.
     apply (leq_trans (n := v (i + k) * C)).
     + apply (leq_mul (n1 := v (i + k)) (n2 := C)). exact IH. by apply leqnn.
