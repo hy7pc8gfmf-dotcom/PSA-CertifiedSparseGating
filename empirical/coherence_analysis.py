@@ -14,8 +14,8 @@
   effrank  #特征值 > 0.01·λ_max（有效秩；OOD 崩塌是嵌入族定性信号）
 G_ij = |⟨ψ_i,ψ_j⟩_T|/(‖ψ_i‖_T·‖ψ_j‖_T) = |Dirichlet(2π(1/n_i−1/n_j))|/T。
 
-数据点：基础 4 稀疏几何阶梯（3-seed 均值 ppl）+ E1 消融点（ppl 读 eval_*.txt /
-ms_*.txt，阶梯按 seed 用 length_extrap.log_uniform_ladder 确定性重建）。
+数据点：基础 4 稀疏几何梯子（3-seed 均值 ppl）+ E1 消融点（ppl 读 eval_*.txt /
+ms_*.txt，梯子按 seed 用 length_extrap.log_uniform_ladder 确定性重建）。
 
 用法：
   python coherence_analysis.py              # 原版行为（--metric max → coherence_scatter.csv）
@@ -100,7 +100,7 @@ def build_points(T):
     }
     for name, (lad, ppl) in base.items():
         pts.append((name, lad, ppl, "3-seed 均值"))
-    # E1 消融点（单 seed；阶梯按 seed 确定性重建）
+    # E1 消融点（单 seed；梯子按 seed 确定性重建）
     e1 = [
         ("psi-rand(s1337)", lambda s: log_uniform_ladder(3, 54613, 128, s), 1337,
          os.path.join(DATA, "eval_psi_rand_1337.txt")),
@@ -148,7 +148,7 @@ def main():
     pts = build_points(args.T)
     print(f"相干衰减指标族分析：Δ{args.metric if args.metric != 'all' else '(all)'} = m({args.T})−m({args.Tood})，"
           f"Y = ppl({args.Tood})，数据点 {len(pts)}\n")
-    header = f"{'阶梯':<22}{'带数':>5}"
+    header = f"{'梯子':<22}{'带数':>5}"
     for m in (METRICS if args.metric == "all" else [args.metric]):
         header += f"{'Δ' + m:>11}"
     header += f"{'ppl':>9}"

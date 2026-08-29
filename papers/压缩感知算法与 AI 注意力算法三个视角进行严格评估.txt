@@ -1,0 +1,391 @@
+本 Coq 形式化框架在给定依赖库与公理的前提下，内部逻辑链条清晰、证明目标划分合理，且针对原文档中的不可证语句给出了明确的修正与反例。以下从形式化专家、压缩感知算法与 AI 注意力算法三个视角进行严格评估。
+
+---
+
+## 一、总体结构与进展
+
+代码按模块组织：
+
+- `RuntimeGuards`：运行时布尔守卫（`all_ge_2`、`check_sparse_growth`、`check_c_sparse_on_vals`）及其反射引理。
+- `SeqProps`：生成器 `base_seq`、全局序列与列表等价性、P1a 构造。
+- `PSA_Pipeline`：核心衰减定理（全局版、有限化守卫版、1/ 系数守卫版）。
+- `GreedyGate`：确定性贪心门控（值层与索引层），与掩码形式对应。
+- `RowTruncation`：行截断误差的抽象界。
+- `PipelineEndToEnd`：端到端管线、低相干、框架界。
+
+注释详尽地记录了历次修正、反例与不可证语句，体现了作者对 Coq 严格性的高度自觉。例如：
+
+- `check_c_sparse_on_vals` 从 `<?` 修正为 `<=?`，避免拒绝 `c*c*a = b` 的合法平方稀疏子集（反例 `[3;3;4]` 对 `c=1`）。
+- `forallb_adjacent_sorted_implies` 原语句缺传递性前提，修正为显式 `Htrans`，反例说明不可证原因。
+- `check_c_sparse_on_valsP` 右端必须并上“全元素 ≥ 2”，因库内 `c_sparse_subset` 不含 `≥2` 条件，反例 `[0;3]` 说明了不可证性。
+
+这些修正提高了可信度。
+
+---
+
+## 二、主要定理与证明路径分析
+
+### 1. 运行时守卫 → 衰减界（`psa_guard_decay` / `psa_guard_decay_tight`）
+
+这是论文核心声明“运行时守护断言 ⟹ 数学保证”的形式化。证明路径为：
+
+- `guard_adjacent_growth` / `guard_ge2_map`：将布尔守卫转化为 I 内相邻索引的 R 级增长与值≥2。
+- `I_chain_strict` / `I_chain_compound`：由相邻增长导出任意索引对的值严格增长及指数下界 `INR(seq j) ≥ (INR C)^{j-i} * INR(seq i)`。
+- `Csum_psi_conj_truncate_fin`：将求和从 `seq(max I)-1` 截断到 `seq a`，利用值增长。
+- `decay_bound_finite_one_factor`：基于截断后的内积界、`sqrt_div_bound`、`sparse_sqrt_inv_bound` 得到系数 `2/` 的衰减界。
+- `psa_guard_decay`：对称情况处理，最终完成。
+
+该路径**在逻辑上自洽**，但高度依赖库内引理：
+
+- `inner_product_norm_bound_general_n`
+- `sqrt_div_bound`
+- `sparse_sqrt_inv_bound`
+
+这些引理必须精确匹配调用签名，且其内部证明不能引入额外未声明的前提。若库内这些引理本身依赖 `decay_bound` 的全局增长条件，则有限化版本可能循环或不可用。但代码中通过 `I_chain_compound` 构造了 I 内的指数增长，因此通常可行。
+
+### 2. 贪心门控 → 稀疏子集（`GreedyGate`）
+
+门控参数化为乘数 `M`：
+
+- `M = C`：与原文线性门一致。
+- `M = C*C`：保证平方增长，满足库内 `c_sparse_subset`。
+
+关键定理 `greedy_selected_correct` 证明：
+
+- Sorted / NoDup / all_ge_2 / check_c_sparse_on_vals 全保持。
+- 平方门控通过 `greedy_selected_adjacent_growth` 提供 `M*前 ≤ 后`；结合 `C≥2` 和 `all_ge_2`，推出严格线性增长 `C*前 < 后`，从而通过 `check_sparse_growth`。
+
+此部分**零公理**（除反射层继承的 `sig_forall_dec+fext`），证明完整，且与索引层门控通过 `greedy_indices_map` 一一对应，桥接正确。
+
+### 3. 端到端管线（`psa_pipeline_guard`）
+
+该定理将生成器、门控、守卫、衰减、低相干串联，前提仅需 `C≥2、start≥2、I NoDup/Sorted、all_ge_2(map base_seq I)`。
+
+证明中：
+
+- 守卫通过：直接由 `greedy_selected_strict_growth`。
+- 衰减界：由 `psa_gated_decay_base_seq` 提供。
+- 低相干：由 `psa_low_coherence` 给出。
+
+逻辑链条完整。**但需注意**：端到端管线未显式声明行截断误差、框架界与门控子集的结合。`RowTruncation` 模块独立，尚未与门控索引子集建立桥梁。
+
+---
+
+## 三、潜在问题与严格性风险
+
+### 1. 依赖库未审计
+
+头文件依赖 `ca_base`、`ca_complex_foundation`、`ca_independence`、`ca_basis`、`ca_basis_lemmas`、`ca_decay`。其中关键引理如 `decay_bound`、`row_sum_bound_K`、`psi_unconditional_basis`、`inner_product_norm_bound_full`、`sqrt_div_bound` 等均未在代码中给出。**若这些库内存在隐含公理、未声明的全局增长条件或经典逻辑，则整体保证会减弱。**
+
+例如：
+
+- `row_sum_bound_K` 的签名必须恰好匹配 `row_energy_bound` 的使用，否则需额外假设。
+- `psi_unconditional_basis` 可能要求额外的有限性、NoDup、Sorted 等，但代码中提供的条件基本满足。
+
+### 2. 公理使用
+
+注释声称“零 classic”，但实际使用了 `sig_forall_dec` 和 `fext`。这两个不是 Coq 标准库中的默认公理（`fext` 可来自 `FunctionalExtensionality` 模块，`sig_forall_dec` 可能是自定义的选择公理）。
+
+- `fext`：函数外延性，通常被视为安全但独立于 CIC。
+- `sig_forall_dec`：若该公理允许对任意谓词决定存在性，则隐含某种非构造性选择，强度可能接近经典排中律。
+
+**严格评估**：使用这些公理不破坏一致性（相对一致），但“零 classic”的说法不完全准确，因为经典选择可能被隐藏。这些公理仅用于反射证明，不影响运行时布尔守卫的可执行性。
+
+### 3. `INR_lt` / `INR_le` 反向使用
+
+在反射引理的反向分支中，代码多次使用：
+
+```coq
+apply INR_lt.   (* 从 R 级不等式推出 nat 级不等式 *)
+apply INR_le.   (* 类似 *)
+```
+
+在 Coq 标准库中，`INR_lt` 和 `INR_le` 通常是单向（nat 不等式 → R 不等式）。反向需要使用 `Rlt_lt_INR` 或 `Rle_le_INR`。**若依赖库重新导出了双向版本，则证明有效；否则无法通过。** 代码声称已 Qed，暗示库中提供了双向或反射版本。但该点需确认。
+
+### 4. `RowTruncation` 与主线的缺口
+
+`RowTruncation` 使用 `list_sum_R` 定义列表求和，而 `row_energy_bound` / `row_energy_bound_wide` 使用 `sum_f_R0`。两者数学上等价，但**代码未提供等价性引理**。因此：
+
+- `row_dropped_energy_bound` 的“保留 ≥ 总 − budget”中的“总”是 `list_sum_R`，与 `row_energy_bound` 的 `sum_f_R0` 行能量界无法直接组合。
+- 端到端管线尚不能证明“门控后的行截断误差 ≤ 预算”这一最终目标。
+
+这不一定影响已证定理的正确性，但表明**整体算法验证尚未完全闭环**。
+
+### 5. 生成器与守卫的关系
+
+`generate_correct` 证明了生成器本身满足 `check_sparse_growth`，且 `Sorted`、`NoDup`、`all_ge_2` 均成立。因此若直接使用生成器输出，无需贪心门控即可通过守卫。但论文可能强调门控用于进一步筛选，此处无矛盾。
+
+---
+
+## 四、算法视角（压缩感知与 AI 注意力）
+
+从压缩感知角度看，核心是构造低相干框架。该框架通过：
+
+- `base_seq` 生成严格倍增序列（`> C*last` 保证稀疏增长）。
+- 贪心门控（平方门 `C*C`）进一步保证平方稀疏条件，满足 `c_sparse_subset`。
+- 守卫 `check_sparse_growth` 与库内衰减界绑定，最终得到相邻基内积 ≤ `2/√C`（守卫版）或 ≤ `1/√C`（全局增长版）。
+
+这符合压缩感知对低相干性的要求（相干性 ~ `1/√C`）。证明中处理了有限索引子集的截断问题，通过 `I_chain_compound` 恢复指数增长，是有限化衰减界的关键创新。
+
+从 AI 注意力算法视角，运行时布尔守卫（`check_sparse_growth`、`all_ge_2`）可直接在推理时对候选索引进行判定，无需调用定理证明。一旦守卫通过，数学保证由 `psa_guard_decay` 提供。这种“运行时断言 + 形式化后证”的模式在实际部署中可行。不过需注意：
+
+- 守卫本身的计算复杂度为 O(length I)（相邻对检查），可接受。
+- 门控 `greedy_indices` 也是线性扫描，适合在线处理。
+
+---
+
+## 五、结论
+
+**优点：**
+
+- 逻辑结构清晰，模块划分合理。
+- 修正了原文档中的不可证语句，并给出反例说明，严谨性高。
+- 成功形式化了核心衰减界、贪心门控、低相干、框架界等声明。
+- 有限化策略（`I_chain_compound` + 截断）巧妙地将全局增长条件转化为局部相邻条件。
+
+**待改进/风险：**
+
+- 依赖库未完全审计，关键引理需确认无额外公理或循环。
+- 公理 `sig_forall_dec` 强度未明，“零 classic”说法需修正。
+- `INR_lt`/`INR_le` 反向使用依赖库版本，需验证。
+- `RowTruncation` 与门控子集尚未建立桥梁，端到端行截断误差未完全闭合。
+- `list_sum_R` 与 `sum_f_R0` 等价性缺失。
+
+**总体评价：**  
+该 Coq 开发在给定前提和公理下，成功形式化了所声称的主要数学保证，且修正了多处原始草稿的错误。作为一项进行中的工作，其严格性和完整性值得肯定，但距离完全端到端、零额外公理、全库审计的最终验证仍有距离。建议后续补充依赖库审查、公理来源说明、行截断误差与门控子集的桥接引理，并可能统一 `list_sum_R` 与 `sum_f_R0`。
+
+
+
+
+
+## 深入展开：形式化细节、隐藏假设与闭环缺口
+
+在上一轮总体评估的基础上，以下从证明内核、公理依赖、与算法原文档的对应关系、以及尚未闭合的端到端链路四个维度进行更细致的审查。
+
+---
+
+### 一、关键反射引理的证明细节
+
+#### 1. `check_sparse_growthP` 的反向分支
+
+该引理断言布尔检查 `forallb_adjacent (fun a b => C*a <? b)` 与全局严格增长 `INR(nth j) > INR C * INR(nth i)` 等价（在 `Sorted` 前提下）。
+
+**正向分支**（`Hall = true`）依赖传递性引理 `sparse_growth_trans`，将相邻布尔真推广到任意 `i<j`，再通过 `Nat.ltb_lt` 和 `lt_INR` 转化为 R 不等式。此路径正确。
+
+**反向分支**（`Hall = false`）的证明策略是反证法：假设全局性质 `Hprop` 成立，则相邻对上的布尔检查也应为真，从而与 `Hall=false` 矛盾。代码中关键步骤：
+
+```coq
+assert (Hk : forall k, (k < length indices - 1)%nat ->
+           ((C * nth k indices 0%nat) <? nth (S k) indices 0%nat) = true).
+{ intros k Hk.
+  apply Nat.ltb_lt.
+  apply INR_lt.
+  assert (Hg : (INR (nth (S k) indices 0%nat) > INR C * INR (nth k indices 0%nat))%R).
+  { apply Hprop; lia. }
+  apply Rgt_lt in Hg.
+  rewrite <- mult_INR in Hg.
+  exact Hg. }
+```
+
+这里使用 `apply INR_lt`。在 Coq 标准库中，`INR_lt` 的完整名称是 `INR_lt`（或 `lt_INR` 的反向？），标准库中通常提供 `INR_lt : forall n m, (n < m)%nat -> INR n < INR m`，而反向是 `INR_lt` 吗？实际上 Coq 的 `Reals` 库中有 `INR_lt` 和 `lt_INR`，方向如下：
+
+- `INR_lt : forall n m, (n < m)%nat -> INR n < INR m`。
+- `lt_INR : forall n m, INR n < INR m -> (n < m)%nat`。
+
+代码中在反向分支中写 `apply INR_lt`，之后目标应为 `(C * nth k ... < nth (S k) ...)%nat`，而 `INR_lt` 的方向是从 nat 不等式到 R 不等式，无法直接应用。如果代码确实编译通过，那么依赖库必定导出了方向相反的引理，或者作者重新定义了 `INR_lt`。注释未说明此点，**这是一个潜在的外部依赖**。需要检查 `ca_complex_foundation` 或 `ca_base` 是否导出了 `INR_lt` 的双向版本或自定义反射引理。若没有，则该证明无法通过编译，与“已 Qed”矛盾。因此，必须确认库中引理名称。
+
+类似的，`check_c_sparse_growthP` 反向分支中也使用了 `apply INR_le`，而标准库中 `INR_le` 的方向也是从 nat 到 R；反向通常为 `le_INR`。所以同样存在依赖问题。
+
+**结论**：反射引理的正确性高度依赖库中提供的 `INR_lt`/`INR_le` 方向。需审计这些引理。
+
+---
+
+#### 2. `check_c_sparse_on_valsP` 的修正合理性
+
+原始反射语句试图证明 `reflect (c_sparse_subset ... ) (check_c_sparse_on_vals vals c)`。作者指出 `c_sparse_subset` 仅含 NoDup 和平方增长，不含 `all_ge_2`，因此不可证。修正为：
+
+```
+reflect (c_sparse_subset ... /\ forall v, In v vals -> v >= 2)
+        (check_c_sparse_on_vals vals c)
+```
+
+并且 `check_c_sparse_on_vals` 的定义是 `forallb_adjacent (c*c*a <=? b) && all_ge_2 vals`。
+
+证明中 `left` 分支直接构造 `c_sparse_subset`：NoDup 由 `seq_NoDup` 给出；平方增长由 `check_c_sparse_growthP` 的正向分支得出。`all_ge_2` 部分由 `all_ge_2P` 正向分支给出。
+
+`right` 分支需要从 `Hsubset ∧ Hge2'` 推出矛盾。其中 `Hsubset : c_sparse_subset ...`，其平方增长条件为 `forall i j, (i<j)%nat -> (j<length ...)%nat -> INR(nth j) >= INR c * INR c * INR(nth i)`。代码中通过 `Hgrowth` 应用到相邻 `(k, S k)`，再将 R 不等式转为 nat 不等式，最后得到相邻布尔 `<=?` 为 true，与 `Hall=false` 矛盾。这避免了依赖 `check_c_sparse_growthP` 反向分支（因为 `c_sparse_subset` 使用的是 `>=` 而非 `>`），路径更直接。但同样需要使用 `INR_le` 的反向（即 `le_INR`）将 R 的 `>=` 转为 nat 的 `<=`。因此问题同上。
+
+---
+
+### 二、有限化衰减界的证明内核
+
+#### 1. `I_chain_compound` 的指数下界
+
+该引理从相邻增长 `INR(seq(nth(S k))) > INR C * INR(seq(nth k))` 推出任意 `i<j` 的指数下界：
+
+```
+INR(seq(nth j)) >= (INR C)^{j-i} * INR(seq(nth i))
+```
+
+证明通过归纳 `j-i` 进行。基础情形 `j = S i` 时，直接由相邻增长得到 `>` 强于 `>=`。归纳情形使用乘法单调性：
+
+```
+INR C * INR(seq(nth m)) >= (INR C * (INR C)^{m-i}) * INR(seq(nth i))
+```
+
+再结合 `INR(seq(nth(S m))) > INR C * INR(seq(nth m))`，得到 `>` 传递。这里需要 `INR C >= 0`，由 `pos_INR` 提供；`C>=2` 保证了严格正。证明严谨。
+
+#### 2. `Csum_psi_conj_truncate_fin` 的截断
+
+该引理将求和上界从 `seq(max I) - 1` 截断到 `seq a`（`a = nth i I`）。证明依赖于：
+
+- `I_chain_strict` 推出 `seq a < seq(max I)`。
+- 通过 `nth_lt_backward` 找到 `max` 在 I 中的位置 `m`，并得到 `i < m`。
+- 然后使用 `Csum_trunc_tail` 截断求和，利用 `psi_ge_n_zero` 处理超出 `seq a` 的项。
+
+此证明路径精巧，但要求 `max` 确实在 I 中。代码使用 `fold_right_max_In` 得到 `In (fold_right Nat.max 0 I) I`，然后 `In_nth` 得到位置。但是 `fold_right_max_In` 要求 `(0 < length I)%nat`。在 `decay_bound_finite_one_factor` 中，由于 `Hi_len : i < length I`，显然 `length I > 0`，因此满足。此引理本身正确。
+
+#### 3. `decay_bound_finite_one_factor` 与 `inner_product_norm_bound_general_n`
+
+有限化衰减界的证明路径：
+
+1. 将求和重写为 `Csum ... n1`（截断到较小索引的值）。
+2. 使用 `inner_product_norm_bound_general_n` 给出内积范数的上界 `sqrt(n1*n2)/(2*(n2-n1)) + 1/sqrt(n1*n2)`。
+3. 分别用 `sqrt_div_bound` 和 `sparse_sqrt_inv_bound` 将这两项分别界住 `1/(sqrt C)^d`，相加得 `2/(sqrt C)^d`。
+
+此路径依赖 `inner_product_norm_bound_general_n` 的正确性，特别是该引理可能要求 `n1` 和 `n2` 的某些关系。代码提供了 `n1 < n2` 和 `n1, n2 >= 2`，但可能还需要 `n1` 与 `n2` 互质或 `n2` 足够大？这需要检查库内引理。如果该引理来自 `ca_decay`，其签名很可能与 `decay_bound` 共享全局增长条件，因此需要确认它是否可以在有限化前提下使用。代码的作者显然假设该引理只依赖局部不等式，但未展示其证明。
+
+**风险点**：`inner_product_norm_bound_general_n` 若内部使用了 `decay_bound` 的结论，则会导致循环。但更可能它是 `ca_decay` 中的基础引理，证明不依赖 `decay_bound`。需要审计。
+
+#### 4. 对称情形的处理
+
+`psa_guard_decay` 中处理 `i > j` 时，使用 `Cnorm_Csum_conj_sym` 交换内积顺序，并利用 `Z.abs_nat` 的对称性。关键步骤：
+
+```coq
+rewrite (Cnorm_Csum_conj_sym (fun k => psi (seq (nth i I 0%nat)) k)
+                             (fun k => psi (seq (nth j I 0%nat)) k)
+                             (seq (fold_right Nat.max 0%nat I) - 1)).
+```
+
+该引理的签名必须允许任意长度 `N`，且要求两个函数类型为 `nat -> Complex`。假设正确。然后交换 `i,j` 并重新应用 `decay_bound_finite_one_factor`，因为 `j < i` 且距离相同。此方法标准。
+
+---
+
+### 三、贪心门控的形式化精确性
+
+#### 1. 门控参数化 `M` 的必要性
+
+文档注释指出：原路线图草案提出“线性门 `val >= C*last` ⟹ 选中子集满足 `c_sparse_subset`”，但该命题不可证，反例 `C=2, [4;8]`：`8 >= 2*4` 保留，但平方条件 `2*2*4 <= 8` 为假。因此引入参数 `M`，并区分：
+
+- `M = C`：与原文 `fallback_mask(indices, C)` 线性门一致。
+- `M = C*C`：保证平方增长，从而满足 `c_sparse_subset`。
+
+这是形式化验证中发现的实质性算法修正，避免了原始设计中可能产生的非稀疏子集。从压缩感知角度看，平方门更保守但确保理论保证。
+
+#### 2. `greedy_selected_guard_pass` 的桥梁作用
+
+该定理证明平方门控子集满足 `psa_guard_decay` 的全部前提：`Sorted`、`NoDup`、`all_ge_2`、`check_sparse_growth`。其中 `check_sparse_growth` 的成立依赖于 `greedy_selected_strict_growth`：
+
+```
+C * nth k < nth (S k)
+```
+
+该引理从平方门给出的 `C*C*前 <= 后` 和 `前 >= 2` 推出：
+
+- `C*C*前 >= 2*C*前 > C*前`（因为 C>=2, 前>=2），因此严格线性增长。
+
+**微妙之处**：`greedy_selected_adjacent_growth` 对任意 `M` 成立，但只给 `M*前 <= 后`。当 `M=C*C` 时，要推出 `C*前 < 后` 需要 `C*前 < C*C*前`，这要求 `C > 1` 且 `前 > 0`。而 `前 >= 2` 保证 `前 > 0`，`C>=2` 保证 `C > 1`，所以成立。证明中使用 `nia` 自动化完成，简洁。
+
+#### 3. 索引层门控与值层门控的对应
+
+`greedy_indices_map` 证明 `map seq (greedy_indices seq M I) = greedy_selected M (map seq I)`。这是通过归纳和 `greedy_idx_aux_map` 建立的。该对应关系是 `psa_gated_decay` 桥接的关键，使得值层门控的性质可以转移到索引层。证明直接，零公理。
+
+---
+
+### 四、公理与逻辑强度
+
+代码注释反复强调“零 classic”，但实际使用了：
+
+- `sig_not_dec`：`forall P, {~P} + {~~P}` 或类似的否定判定。
+- `sig_forall_dec`：可能指对任意谓词的 `forall` 判定或函数外延性。
+- `fext`：函数外延性。
+
+这些公理的具体内容未展示，但通常：
+
+- `fext`（函数外延性）不引入排中律，但在 Coq 中属于非构造性扩展，一致性强。
+- `sig_forall_dec` 若指 `forall P, {forall x, P x} + {~forall x, P x}`，则其逻辑强度**超过**经典排中律，因为它允许对任意全称命题进行判定。这等价于 `LEM` 加上某种选择？实际上，对任意谓词的 `forall` 判定意味着 `LEM`（因为对命题 `Q`，取 `P := fun _ => Q` 可判定 `Q` 或 `~Q`）。因此如果 `sig_forall_dec` 是这种形式，则它确实包含了经典逻辑。但注释说“零 classic”可能指没有显式引入 `classic` 公理，但这些判定公理可能隐含经典。需具体检查其定义。
+
+**严格评估**：即使使用经典逻辑，也不影响相对一致性，但“零 classic”的表述可能具有误导性。建议明确列出所有公理及其强度。
+
+---
+
+### 五、行截断误差与主线的缺口
+
+`RowTruncation` 模块定义了抽象截断界 `complement_sum_bound` 及行实例 `row_truncation_error` 和 `row_dropped_energy_bound`。其中 `row_dropped_energy_bound` 依赖 `row_energy_bound` 得到的行能量上界 `2*K(INR C)`，并给出丢弃能量的上界。
+
+**然而**，该模块中的“保留”和“丢弃”由布尔判定 `P` 定义，但并未与门控索引子集 `greedy_indices` 建立任何联系。也就是说，目前形式化没有证明“贪心门控后，被丢弃的索引行能量总和 ≤ 某个预算”。要闭合端到端行截断误差，需要：
+
+1. 定义与门控对应的保留/丢弃集合。
+2. 证明保留集合的行能量 ≥ 总能量 − 目标预算。
+3. 结合 `row_dropped_energy_bound` 得到丢弃能量上界。
+
+但代码注释在 `PipelineEndToEnd` 模块中并未包含这一部分。因此，论文 §4.2 的完整声明尚未完全形式化。这是一个重要缺口。
+
+---
+
+### 六、框架界 `psa_frame_bounds` 的前提核对
+
+该定理将 `psi_unconditional_basis` 实例化到 `base_seq`。前提包括：
+
+- `(C > 2)` 提供。
+- `start >= 2` 提供。
+- `NoDup I` 和 `Sorted Nat.lt I` 提供。
+- `length I = length coeffs` 提供。
+- 全局增长：`forall i, INR (base_seq (S i)) > INR C * INR (base_seq i)` 由 `base_seq_global_growth` 提供。
+- 严格递增：由 `base_seq_strictly_increasing` 提供。
+- 每个值 `>= 2`：由 `base_seq_global_growth` 第一分量提供。
+
+因此前提满足。但 `psi_unconditional_basis` 可能还要求 `seq` 是无限序列且严格递增，这些均满足。该定理的证明非常简洁，直接 `apply`，说明 `psi_unconditional_basis` 的签名与前提完全匹配。
+
+---
+
+### 七、后续改进与闭合建议
+
+1. **审计依赖库**：逐一定位 `INR_lt`、`INR_le`、`inner_product_norm_bound_general_n`、`sqrt_div_bound`、`row_sum_bound_K` 等引理，确认其前提和公理使用。建议生成 `Print Assumptions` 报告。
+
+2. **明确公理强度**：列出 `sig_forall_dec` 的精确定义，评估其是否隐含经典逻辑。若目标是构造性证明，应考虑使用可判定谓词的具体判定函数替代全称判定公理。
+
+3. **闭合行截断误差**：在 `PipelineEndToEnd` 中增加引理，将 `greedy_indices` 的保留/丢弃决策与行能量预算联系起来，证明门控后的丢弃行能量 ≤ 指定阈值。这需要定义与门控对应的布尔掩码，并利用 `fallback_mask_correct` 建立联系。
+
+4. **统一求和表示**：目前 `row_score` 使用 `Csum` 和 `sum_f_R0`，而 `list_sum_R` 使用列表折叠。建议证明 `list_sum_R` 与 `sum_f_R0` 在 `seq 0 n` 上的等价性，以便在行截断误差与行能量界之间自由转换。
+
+5. **加强注释与文档**：虽然注释已很详细，但可增加每个模块的“前置条件、后置条件、依赖的公理/引理”摘要，便于审计。
+
+6. **性能与可维护性**：大量使用 `lia`、`nra`、`field` 等自动化，虽然缩短证明，但可能对 Coq 版本敏感。建议记录使用的 Coq 版本及依赖库版本。
+
+---
+
+### 八、结论
+
+该 Coq 形式化在现有前提和公理下成功证明了所声称的大部分数学保证，且对原始设计进行了关键修正。有限化衰减界、贪心门控的平方门修正、以及生成器与全局序列的等价性都是扎实的工作。但仍然存在若干未闭合链路和隐藏依赖，特别是行截断误差与门控的结合、以及公理强度的精确表述。整体而言，这是一项高质量但尚未最终完成的形式化验证工作，适合作为进一步研究和完善的基础。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

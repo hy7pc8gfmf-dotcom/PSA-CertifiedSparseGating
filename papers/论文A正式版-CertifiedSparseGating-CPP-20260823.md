@@ -140,7 +140,7 @@ code 思想在数值框架界上的实例化；(iii) **构造性实数轨道**�
   独立模块 + **20 个 z 区探针**：probe_grid_ortho/parseval/partial/pairbound/rowsum/
   pairdirichlet/incoherence/row_rip/c4_instance + welch/uncertainty_cr/g8_synthesis_cr/
   g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/
-  decidability_premium_cr + **构造性轨道 ca_zeta_euler / ca_rip_cr**），`_merge_ca.py`
+  decidability_premium_cr + **构造性轨道 ca_zeta_euler / ca_rip_cr** + **CS 战役族 taugrid/taugrid_cr/cs/cs5（2026-08-29，合计 64 Qed，未并入合并版）**），`_merge_ca.py`
   重新生成，**全量合并编译 MERGE_EXIT=0**。
 - **z 区探针（并入合并版 9 个：8 经典 pro 化 + c4_instance）**：grid_ortho 18 Qed / parseval 19 / partial 27 /
   pairbound 5 / rowsum 23 / pairdirichlet 5 / incoherence 51 / row_rip 9（行和→RIP 桥接）/ c4_instance 14（C=4 实例拼接）——
@@ -497,6 +497,11 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   Closed——相干缺口闭合的构造性收官）。
   **意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版） + 字典最优性⟹恢复保证合成（G-8），机器检查，其中 k-原子 RIP、唯一性骨架、不确定原理与相图合成走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界的合成为后续工作（future work 第一项）。**数学新颖性（如实）**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle、CRg8_recovery_synthesis 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复、RIP、Donoho–Stark 不确定性原理与 Welch 界-恢复保证相图的机器检查，数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径、构造性轨道独立性验证与三角闭环相图合成）。本族主要探针已并入合并版 `ca_merged_full_25.v`（57 顶层 Module = 55 模块分区，MERGE_EXIT=0），
 独立 + 合并双通过；G-3（probe_g3_criterion）/G-5（probe_g5_premium）未并入合并版（z 区探针待合并），probe_recovery_cr 为构造性轨道独立验证。
+
+- **τ 裁剪最优性（CS-11，经典 R 轨道，2026-08-28 新增）** `probe_taugrid.v`（17 Qed / 0 Admitted）：**覆盖债精确量化** `coverage_fraction`/`coverage_debt`（S T < n ⟹ 窗 [0,T] 内能量恰 = (T+1)/n，窗外能量 1−(T+1)/n ∈ (0,1)——**τ 负债的机器可计算量**，"剪 255/127/63 应恶化"的定理侧镜像）；**支撑完备刻画** `support_classification`（n ≤ T ⟺ ψ_n 完全支撑训练窗，iff）；**裁剪证书单调** `prune_row_le`（kept 子族行和 ≤ 全族——上界型证书不损）；**C-梯子稀疏化迁移** `thinning_preserves_ratio`；**三连合成** `tau_prune_optimality`——randmax256/384 裁剪实验的定理化。
+- **构造性孪生（CS-12，纯构造性轨道，2026-08-29 新增）** `probe_taugrid_cr.v`（13 Qed / 0 Admitted，Print Assumptions **全 Closed 零公理**）：抽象接口 `{R : ConstructiveReals}` + 归一梯子 u（cos/复指数构造性未实现，接口与主线数学一致）；**严格序 CRlt 本身是 Set 值**（ConstructiveReals.v:88 库设计），覆盖债界定定理以信息性形式 **0 < debt < 1**（Set 值 prod，证明项可提取）陈述，主定理结论 prod 型（信息性分支不能进 Prop 的 /\），sigT 被类型系统强制；序判定下放 Q 层（Qlt 判定经 CR_of_Q_lt 提升为带数据 CRlt，CRlt_proper 信息性搬运）；**提取 `taugrid_cr.ml` 经 DkMLNative ocamlc 4.14.2 编译通过**（柯西实例 cRealConstructive 具象化）。
+- **CS 生产线（CS-13，经典 R 轨道，2026-08-29 新增）** `probe_cs.v`（29 Qed / 0 Admitted，审计仅 Dedekind 三允许公理）：**一致 RIP** `cs2_rip_uniform`（(1−δ)‖c‖² ≤ ‖Φc‖² ≤ (1+δ)‖c‖²，δ = 4K(C) **∀s 一致**）；**★s-sparse 唯一性** `cs3_energy_zero`/`cs3_unique`（C ≥ 10：测量 y = y' ⟹ 系数 c = c'——测量端信息不丢失）；**embedding** `cs6_embedding`（1−2K(C) > 0）；**spark 下界** `cs1b_spark`（spark ≥ n+1，Elad–Bruckstein 判据）；**逐对相干** `cs1a_pair_bound`（≤ 2πq/(1−q)）；**★近重复对爆炸** `near_dup_coherence_12`（coh 1 2 = **1/√2 精确值**）+ `cs4c_explosion`（**2μ = √2 > 1**——s ≥ 3 时 Gershgorin 型 RIP 证书在含近重复对梯子上必然失效，"剪 503/255/127 应恶化"完整定理链）。
+- **offset 无关性（CS-14，经典 R 轨道，2026-08-29 新增）** `probe_cs5.v`（5 Qed / 0 Admitted）：**同族平移 t→t+δ 下跨网格对相干界不变**（≤ N/(2·min(j mod N, N−j mod N))，**右端不含 δ**——偏移在差频中相消，pair_dirichlet 接管）；**黄金比护城河** `cs5_golden_moat`（1/(3d) ≤ |d·φ_gold − m|）；**offset 语义非空** `cs5_gold_not_grid`（φ_gold ∉ ℤ）——ogrid 实验的定理侧。
 
 ## 10. 部署级证书族（KV 逐出 / 量化 / 多头）
 

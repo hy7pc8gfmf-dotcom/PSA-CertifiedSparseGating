@@ -49,9 +49,31 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 GUTENBERG = resolve_data("gutenberg_corpus.txt")
 ARXIV = resolve_data("arxiv_corpus.txt")
 TINY = resolve_data("tinyshakespeare.txt")
+TINYSTORIES = resolve_data("tinystories_corpus.txt")
 
-def load_data():
-    for p in (GUTENBERG, TINY, ARXIV):
+CORPUS_DIR = os.path.dirname(GUTENBERG)   # 默认语料根 = 测试数据；云端用 --corpus-dir 重定向到 新数据
+def set_corpus_dir(d):
+    global CORPUS_DIR
+    if d:
+        CORPUS_DIR = d
+
+_CORPUS_NAMES = {
+    "gutenberg": "gutenberg_corpus.txt",
+    "arxiv": "arxiv_corpus.txt",
+    "tiny": "tinyshakespeare.txt",
+    "tinystories": "tinystories_corpus.txt",
+    "tinystories200": "tinystories_corpus_200mb.txt",
+    "tinystories_valid": "tinystories_valid.txt",
+    "owt": "owt_train_10mb.txt",
+}
+def load_data(key="gutenberg"):
+    # 优先使用该 key 指定语料（用于语料升级 A/B）；回退到首个 >200KB 的现有语料
+    if key in _CORPUS_NAMES:
+        for base in (CORPUS_DIR, os.path.dirname(GUTENBERG)):
+            p = os.path.join(base, _CORPUS_NAMES[key])
+            if os.path.exists(p) and os.path.getsize(p) > 200000:
+                return open(p, encoding="utf-8").read()
+    for p in (GUTENBERG, TINY, ARXIV, TINYSTORIES):
         if os.path.exists(p) and os.path.getsize(p) > 200000:
             return open(p, encoding="utf-8").read()
     raise FileNotFoundError("no corpus")
@@ -90,19 +112,26 @@ def get_batch(data, ix, block_size, batch_size, device):
     return x.to(device), y.to(device)
 
 @torch.no_grad()
-def eval_at_length(model, data_val, T, batch_size, n_batches, device):
-    """在长度 T 上评估平均 loss（支持 T > 训练长度）。"""
+def eval_at_length(model, data_val, T, batch_size, n_batches, device, seed=None):
+    """在长度 T 上评估平均 loss（支持 T > 训练长度）。
+    seed 非 None 时固定抽窗 RNG（评审 P0：可复现评估）；返回 (mean_loss, per_batch_losses)。
+    """
     model.eval()
     losses = []
     n = len(data_val) - T - 1
+    gen = torch.Generator(device="cpu")
+    if seed is not None:
+        gen.manual_seed(seed)
     for _ in range(n_batches):
-        ix = torch.randint(0, max(n, 1), (batch_size,))
+        ix = torch.randint(0, max(n, 1), (batch_size,), generator=gen)
         x = torch.stack([torch.tensor(data_val[i:i+T], dtype=torch.long) for i in ix]).to(device)
         y = torch.stack([torch.tensor(data_val[i+1:i+1+T], dtype=torch.long) for i in ix]).to(device)
-        _, loss = model(x, y)
+        with torch.no_grad():
+            _, loss = model(x, y)
         losses.append(loss.item())
     model.train()
-    return sum(losses) / len(losses)
+    mean = sum(losses) / len(losses)
+    return mean, losses
 
 def apply_rope_theta(q, k, T, device, theta):
     """通用旋转位置编码：theta (d/2,) 为逐维旋转角。RoPE 用 10000^{-2i/d}，psi-rope 用 2π/n_j。"""
@@ -278,24 +307,36 @@ def build_model(mode, config, block_size, theta=None):
                    n_embd=config["n_embd"], block_size=block_size, mode=mode,
                    psi_indices=config["psi_indices"], theta=theta)
 
-def train_and_save(mode, iters, config, data_train, block_size, device, path, theta=None, guard=None, seed=1337):
+def train_and_save(mode, iters, config, data_train, block_size, device, path, theta=None, guard=None,
+                   seed=1337, ckpt_interval=500, resume=False):
     torch.manual_seed(seed)
     model = build_model(mode, config, block_size, theta).to(device)
     opt = torch.optim.AdamW(model.parameters(), lr=config["lr"])
+    ckpt_path = path + ".ckpt"
+    start = 0
+    if resume and os.path.exists(ckpt_path):
+        ck = torch.load(ckpt_path, map_location=device, weights_only=False)
+        model.load_state_dict(ck["model"]); opt.load_state_dict(ck["opt"]); start = ck["step"]
+        print(f"  [resume] {mode} 从 step {start}/{iters} 续跑", flush=True)
     n = len(data_train) - block_size - 1
     t0 = time.time()
-    for step in range(iters):
+    for step in range(start, iters):
         ix = torch.randint(0, n, (config["batch"],))
         x, y = get_batch(data_train, ix.tolist(), block_size, config["batch"], device)
         _, loss = model(x, y)
         opt.zero_grad(); loss.backward(); opt.step()
         if step % 1000 == 0 or step == iters - 1:
             print(f"  [{mode}] step {step:5d} train {loss.item():.4f} ({time.time()-t0:.0f}s)", flush=True)
+        if ckpt_interval > 0 and (step + 1) % ckpt_interval == 0 and (step + 1) < iters:
+            # 周期 ckpt：模型+优化器+步号；抢占/崩溃后由 --resume 接续（云端无人值守前提）
+            torch.save({"model": model.state_dict(), "opt": opt.state_dict(), "step": step + 1}, ckpt_path)
         if guard is not None:
             guard.check(f"{mode} step {step}")   # v3: 每步检查（后台线程 0.5s 测温，过热即阻塞）
     if guard is not None:
         guard.check(f"{mode} done")
     torch.save(model.state_dict(), path)
+    if os.path.exists(ckpt_path):
+        os.remove(ckpt_path)   # 训练正常完成，清临时 ckpt（避免下一轮误判为待续跑）
     return model
 
 def main():
@@ -305,9 +346,9 @@ def main():
     ap.add_argument("--n-embd", type=int, default=128)
     ap.add_argument("--n-layer", type=int, default=2)
     ap.add_argument("--batch", type=int, default=64)          # v2: 传 32（v1 是 64）
-    ap.add_argument("--gpu-max", type=float, default=58.0)    # v2: 58（v1 是 70）
-    ap.add_argument("--gpu-resume", type=float, default=52.0) # v2: 52（v1 是 65）
-    ap.add_argument("--cpu-util-max", type=float, default=70.0)  # v2: 70（v1 是 90）
+    ap.add_argument("--gpu-max", type=float, default=79.0)    # v4: 79（08-22 ogrid 死锁修复：本机 RTX3070 空闲 ~64°C，58 上限导致永久冷却死锁；79/69 为 ALiBi/T5/grid 全部成功基线实测可用配置）
+    ap.add_argument("--gpu-resume", type=float, default=69.0) # v4: 69（v3 是 52，同上修复）
+    ap.add_argument("--cpu-util-max", type=float, default=90.0)  # v4: 90（v3 是 70，同上修复）
     ap.add_argument("--check-interval", type=float, default=0.5)  # v3: 0.5s 高频探测（v2 是 15s，E5 第三次宕机教训）
     ap.add_argument("--cooldown", type=float, default=60.0)   # v2: 60（v1 是 30）
     ap.add_argument("--gen-c", type=int, default=4)           # E5: 2（C=2 八频带全相位阶梯）
@@ -326,21 +367,51 @@ def main():
                     help="rand-trunc：psi-rope-rand 阶梯截断到 n≤rand-max（0=不截断；τ vs 密度判决实验：τ 预测剪 n>256 改善）")
     ap.add_argument("--modes", type=str, default="dense,psi,psi-trunc,rope,psi-rope")
     ap.add_argument("--eval-only", type=str, default="")      # 只评估已存模型（纯前向），如 "psi-trunc"
+    ap.add_argument("--eval-batches", type=int, default=0,
+                    help="评审 P0：评估批数覆盖（0=旧默认 2-4；≥50 给 CI）")
+    ap.add_argument("--corpus", type=str, default="gutenberg",
+                    help="训练语料：gutenberg|tinystories|arxiv|tiny|tinystories200|tinystories_valid"
+                         "（语料升级 A/B；默认 gutenberg 保持已发表结果可比）")
+    ap.add_argument("--corpus-dir", type=str, default="",
+                    help="语料根目录（默认=测试数据；云端指向 新数据）")
+    ap.add_argument("--valid-file", type=str, default="",
+                    help="独立验证集文件（评估用；vocab 用训练字符集，未知字符映射到空格；"
+                         "回应审稿人 P0：8× 评估需独立大验证集 + 可复现 RNG）")
+    ap.add_argument("--out-dir", type=str, default="",
+                    help="模型/ckpt 输出目录（默认 HERE；云端指向 新数据/models）")
+    ap.add_argument("--resume", action="store_true",
+                    help="从 <model>.ckpt 续跑（云端抢占/崩溃恢复；默认关，保已发表结果可复现）")
+    ap.add_argument("--ckpt-interval", type=int, default=500,
+                    help="周期 ckpt 步数（0=关；默认 500；与 --resume 配合实现无人值守）")
+    ap.add_argument("--no-guard", action="store_true",
+                    help="云端关闭 ThermalGuard（散热好，且无本机 RTX3070 特化死锁阈值）")
     ap.add_argument("--rope-variant", type=str, default="none",
                     help="测试时 rope 缩放（eval-only 用）：none|pi|ntk。"
                          "pi=位置插值 θ/r；ntk=base 缩放 base·r^(d/(d-2))。")
     args = ap.parse_args()
 
-    guard = ThermalGuard(gpu_max=args.gpu_max, gpu_resume=args.gpu_resume,
+    guard = None if args.no_guard else ThermalGuard(gpu_max=args.gpu_max, gpu_resume=args.gpu_resume,
                          cpu_util_max=args.cpu_util_max, check_interval=args.check_interval,
                          verbose=True)
 
-    text = load_data()
+    if args.corpus_dir:
+        set_corpus_dir(args.corpus_dir)
+    text = load_data(args.corpus)
     chars = sorted(list(set(text)))
     stoi = {c: i for i, c in enumerate(chars)}
     data = [stoi[c] for c in text]
     split = int(0.9 * len(data))
     data_train, data_val = data[:split], data[split:]
+    if args.valid_file:
+        # 独立验证集：vocab 用训练字符集，未知字符 → 空格（回应审稿人：评估集独立于训练）
+        vpath = os.path.join(args.corpus_dir or os.path.dirname(GUTENBERG), args.valid_file)
+        if os.path.exists(vpath):
+            vtext = open(vpath, encoding="utf-8").read()
+            unk = stoi.get(' ', 0)
+            data_val = [stoi.get(c, unk) for c in vtext]
+            print(f"  [valid-file] 独立验证集 {args.valid_file}: {len(data_val)} chars", flush=True)
+        else:
+            print(f"  [valid-file] 未找到 {vpath}，回退语料尾 10%", flush=True)
     if args.psi_variant == "rand":
         psi_ladder = log_uniform_ladder(3, 54613, 128, args.seed)
     elif args.psi_variant == "lin":
@@ -414,13 +485,25 @@ def main():
                 model = build_model(mode, {**config, "psi_indices": idxs}, args.block, theta_v)
                 model.load_state_dict(torch.load(path, map_location=DEVICE, weights_only=True))
                 model.to(DEVICE).eval()
-            nb = 4 if T <= 1024 else 2
+            nb = args.eval_batches if args.eval_batches > 0 else (4 if T <= 1024 else 2)
             bs = 8 if T <= 1024 else 4
-            loss = eval_at_length(model, data_val, T, bs, nb, DEVICE)
+            # 评审 P0：固定抽窗 RNG + 批级 CI（seed=args.seed+T，评估可复现）
+            eval_seed = args.seed + T
+            mean_loss, batch_losses = eval_at_length(model, data_val, T, bs, nb, DEVICE, seed=eval_seed)
+            loss = mean_loss
+            import statistics
+            if len(batch_losses) >= 2:
+                sd = statistics.stdev(batch_losses)
+                ci95 = 1.96 * sd / (len(batch_losses) ** 0.5)
+                print(f"  T={T:5d}: loss {loss:.4f} ± {ci95:.4f} (CI95)  ppl {math.exp(loss):.2f} "
+                      f"[{math.exp(loss-ci95):.2f}, {math.exp(loss+ci95):.2f}]  nb={nb}", flush=True)
+            else:
+                print(f"  T={T:5d}: loss {loss:.4f}  ppl {math.exp(loss):.2f}  nb={nb}", flush=True)
             row[T] = (loss, math.exp(loss))
-            print(f"  T={T:5d}: loss {loss:.4f}  ppl {math.exp(loss):.2f}", flush=True)
-            guard.check(f"{mode} eval T={T}")
-        guard.stop()
+            if guard is not None:
+                guard.check(f"{mode} eval T={T}")
+        if guard is not None:
+            guard.stop()
         sys.exit(0)
 
     results = {}
@@ -458,22 +541,35 @@ def main():
               + (f"_{args.psi_variant}" if args.psi_variant != "none" else "") \
               + ("_rr" if args.rope_rand else "") + (("_ogrid" if args.grid_offset else "_grid") if args.grid else "") \
               + (f"_rt{args.rand_max}" if args.rand_max > 0 else "")
-        path = os.path.join(HERE, f"model_{mode}_b{args.block}{tag}.pt")
+        path = os.path.join(args.out_dir or HERE, f"model_{mode}_b{args.block}{tag}.pt")
         model = train_and_save(mode, args.iters, {**config, "psi_indices": idxs},
-                               data_train, args.block, DEVICE, path, theta, guard, args.seed)
+                               data_train, args.block, DEVICE, path, theta, guard, args.seed,
+                               ckpt_interval=args.ckpt_interval, resume=args.resume)
         print(f"===== {mode}: length extrapolation =====", flush=True)
-        guard.cooldown(args.cooldown)      # 模式间固定冷却
+        if guard is not None:
+            guard.cooldown(args.cooldown)      # 模式间固定冷却（--no-guard 时跳过）
         row = {}
         for T in (512, 1024, 2048, 4096):
-            nb = 4 if T <= 1024 else 2
+            nb = args.eval_batches if args.eval_batches > 0 else (4 if T <= 1024 else 2)
             bs = 8 if T <= 1024 else 4
-            loss = eval_at_length(model, data_val, T, bs, nb, DEVICE)
+            # 评审 P0：固定抽窗 RNG + 批级 CI（seed=args.seed+T，评估可复现）
+            eval_seed = args.seed + T
+            mean_loss, batch_losses = eval_at_length(model, data_val, T, bs, nb, DEVICE, seed=eval_seed)
+            loss = mean_loss
+            import statistics
+            if len(batch_losses) >= 2:
+                sd = statistics.stdev(batch_losses)
+                ci95 = 1.96 * sd / (len(batch_losses) ** 0.5)
+                print(f"  T={T:5d}: loss {loss:.4f} ± {ci95:.4f} (CI95)  ppl {math.exp(loss):.2f} "
+                      f"[{math.exp(loss-ci95):.2f}, {math.exp(loss+ci95):.2f}]  nb={nb}", flush=True)
+            else:
+                print(f"  T={T:5d}: loss {loss:.4f}  ppl {math.exp(loss):.2f}  nb={nb}", flush=True)
             row[T] = (loss, math.exp(loss))
-            print(f"  T={T:5d}: loss {loss:.4f}  ppl {math.exp(loss):.2f}", flush=True)
-            guard.check(f"{mode} eval T={T}")   # 评估也检查温度
+            if guard is not None:
+                guard.check(f"{mode} eval T={T}")   # 评估也检查温度
         results[mode] = row
-        mode_cooled = guard.cooled - cooled_before
-        cooled_before = guard.cooled
+        mode_cooled = guard.cooled - cooled_before if guard is not None else 0
+        cooled_before = guard.cooled if guard is not None else 0
         print(f"  [thermal] {mode} 冷却次数: {mode_cooled}（若 > 3 次须降载重跑）", flush=True)
 
     print("\n===== 外推对比汇总（训练 T=%d）=====" % args.block)
@@ -482,7 +578,8 @@ def main():
     for T in (512, 1024, 2048, 4096):
         row = f"{T:>6} | " + " | ".join(f"{results[m][T][1]:>10.2f}" for m in modes)
         print(row)
-    guard.stop()
+    if guard is not None:
+        guard.stop()
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,133 @@
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Closed under the global context
+Closed under the global context
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+Axioms:
+ClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}
+ClassicalDedekindReals.sig_forall_dec :
+  forall P : nat -> Prop,
+  (forall n : nat, {P n} + {~ P n}) ->
+  {n : nat | ~ P n} + {forall n : nat, P n}
+FunctionalExtensionality.functional_extensionality_dep :
+  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),
+  (forall x : A, f x = g x) -> f = g
+     = (if
+         Rle_dec ((R1 + R1) * ((R1 + R1) * (R1 + R1)))
+           ((R1 + R1 + R1 + R1) *
+            ((R1 + R1 + R1 + R1) * ((R1 + R1 + R1 + R1) * R1)))
+        then
+         (R1 + R1 + R1 + R1) *
+         ((R1 + R1 + R1 + R1) * ((R1 + R1 + R1 + R1) * R1))
+        else (R1 + R1) * ((R1 + R1) * (R1 + R1))) *
+       / (R1 + R1) *
+       ((R1 +
+         (R1 + R1) * (R1 + R1) *
+         (R1 *
+          /
+          (match Rcase_abs (R1 + R1 + R1 + R1) with
+           | left _ => R0
+           | right x =>
+               let (x0, _) :=
+                 Rsqrt_exists (R1 + R1 + R1 + R1)
+                   (Rge_le (R1 + R1 + R1 + R1) R0 x) in
+               x0
+           end + - R1))) *
+        (R1 +
+         (R1 + R1) * (R1 + R1) *
+         (R1 *
+          /
+          (match Rcase_abs (R1 + R1 + R1 + R1) with
+           | left _ => R0
+           | right x =>
+               let (x0, _) :=
+                 Rsqrt_exists (R1 + R1 + R1 + R1)
+                   (Rge_le (R1 + R1 + R1 + R1) R0 x) in
+               x0
+           end + - R1))) *
+        (R1 +
+         (R1 + R1) * (R1 + R1) *
+         (R1 *
+          /
+          (match Rcase_abs (R1 + R1 + R1 + R1) with
+           | left _ => R0
+           | right x =>
+               let (x0, _) :=
+                 Rsqrt_exists (R1 + R1 + R1 + R1)
+                   (Rge_le (R1 + R1 + R1 + R1) R0 x) in
+               x0
+           end + - R1))) *
+        (R1 +
+         (R1 + R1) * (R1 + R1) *
+         (R1 *
+          /
+          (match Rcase_abs (R1 + R1 + R1 + R1) with
+           | left _ => R0
+           | right x =>
+               let (x0, _) :=
+                 Rsqrt_exists (R1 + R1 + R1 + R1)
+                   (Rge_le (R1 + R1 + R1 + R1) R0 x) in
+               x0
+           end + - R1))) +
+        - R1)
+     : R

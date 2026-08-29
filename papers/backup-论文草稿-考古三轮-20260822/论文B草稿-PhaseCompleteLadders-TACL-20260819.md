@@ -1,43 +1,15 @@
 # 论文 B 草稿（TACL/Findings 方向）— 2026-08-22 清洗版
 
-> **版本状态（2026-08-22 清洗版；2026-08-24 n=5 复核完成）**：
+> **版本状态（2026-08-22）**：
 > - **实证基态**：multi-seed 裁决（E5'' 七带 12.40±0.74@8×、覆盖梯度 3-seed 确认）+ 反射
->   检查器健全性（165 项全零经典排中）+ 复合表示稳定性界（Qed）。
+>   检查器健全性（165 项全零经典排中）+ 端到端复合证书（Qed）。
 > - **2026-08-22 增量**：ALiBi/T5 相对偏置三个种子完成——**ALiBi @8× = 4.47±0.10（低 31%，
 >   外推平坦）推翻 psi-rope-rand 的"性能最优方案"主张**（预登记判据触发），psi-rope-rand
 >   降级为"旋转族内最优"；T5 相对偏置（8.48±0.60）为偏置类退化锚点。**网格阶梯**（--grid 512）
 >   三个种子完成：@8× = 25.66±2.22（比 rand 差 3.98×，预登记 grid<rand 确认）；**τ 三剪回测**
 >   完成（剪 E5'' 255/127/63 @8× 全恶化 +3.5–4.5×，预登记预测确认）；**offset-grid 完成**
 >   （--ogrid，黄金偏移，@4096 **16.12±1.32**：ogrid ≥ grid 确认 + **证书免费性证伪**）。
->   τ/碰撞距离机制获 **7 个方向性正向判决**（按实验范式归并为 4 个独立实证支点，2026-08-23 修订计数口径）+ 形式化碰撞结构（论文 A §5.6）。
-> - **2026-08-24 增量（n=5 种子复核 + owt 独立验证完成，详见《训练数据对比分析-n5种子复核与owt独立验证-20260824.md》）**：tinystories 快速配置
->   **9 方案 × 5 种子 {1337,42,7,2026,31415} 全部 EXIT=0**；n=5 Welch（@8×）：rand vs ALiBi
->   **t=6.66**、grid vs rand **t=11.28**、rand vs c3 **t=−9.44**、rand vs rope **t=−6.20**
->   （df≈4，全部高度显著）——**本稿全部核心方向性判断（ALiBi 全局最优 / grid 崩溃 /
->   rand 旋转族内最优 / rope 差 / t5rel 退化锚点）在 n=5 下成立**；跨语料排序
->   alibi < rand < t5rel < c4 < grid 在 Gutenberg / tinystories / owt 三语料复现；
->   **owt 独立验证**（owt_valid_2mb.txt，202 万字符）e5pp 13.77 / rand 8.00 / alibi 5.11
->   ——排序复现，回应审稿 P0"8× 评估仅 ~32k 切片"质疑。**限定如实保留**：正式配置
->   （27000 iters）的 τ 裁剪仍为 s1337 单种子初步探索，n=5 只强化快速配置主表。
-> - **2026-08-25 增量（n=10 全量复核 + 正式配置多种子复核，详见《训练数据全量复核-n10完成与τ裁剪多种子复核-20260825.md》）**：
->   **n=10 完成**（9 方案 × 10 种子 {1337,42,7,2026,31415,2718,1618,31416,12345,999}）：主表排序
->   ALiBi < rand < t5rel < e5pp < c2 < c4 < c3 < grid < rope 在 n=3→10 完全复现，新增 5 种子
->   与既有 5 种子均值差异全部 ≤0.8 无方向性漂移——**随机种子稳健性封闭（评审 P0-①）**；
->   **正式配置多种子复核（s42/s7，27000 iters，rand vs rt448）揭示 τ 裁剪真实语义**：
->   rt448 = rand（11.76 = 11.76 / 7.67 = 7.67）——但核查发现 `--rand-max` 是**64 维循环填充
->   整体重排**（非简单删高频）：s42 前 32 波长无 >448 角度（rt448 空操作，模型与 rand 相同，
->   结果相同是必然，不构成复现测试）、s1337 的 491 在秩 11（rt448 重排 → 5.15"改善"是重排
->   效应）、s7 的 452 在秩 21（同重排无影响 7.67）——**τ 裁剪效果为种子特异重排观察，
->   无普遍性，降格为未来工作**（详见《训练数据全量复核-n10完成与τ裁剪多种子复核-20260825.md》）；
->   快速配置 n=10 只强化主表，正式配置裁剪不成立不影响论文主干（稠密覆盖仍是外推关键）。
->   **2026-08-25 晚 s1337 rt448 正式复现（27000 iters）追加**：@4096 = **6.68**（CI95 [6.27, 7.12]），
->   与论文 5.15 不符；复现被 GPU 温控冷却 **848 次**严重干扰（length_extrap 自警"须降载重跑"，
->   训练频繁暂停），6.68 不可判定 5.15 对错；另缺 formal rand 基线（7.50）对照——完整 −31%
->   验证待降载重跑（冷却 <3 次）+ 补 formal rand 后定论。
->   **2026-08-26 凌晨阶段 C 定论**：formal rand 基线 = **12.14**（论文 7.50 未复现，环境偏移 +62%）、
->   formal rt448 温和重跑 = **6.69**（与阶段 B 6.68 一致，两次稳定实证冷却不改变数值）——**绝对数值
->   受实现环境（语料/脚本版本）系统性偏移不可直接比，但 rt448 < rand 改善方向两次复现均成立**
->   （本环境 −45%，论文 −31%）；τ-trim"种子特异观察"表述保留，相对方向证据增强。
+>   τ/碰撞距离机制获 **6 个正向判决** + 形式化碰撞结构（论文 A §5.6）。
 > - 措辞与引用：按《交接文档》措辞表清洗；参考文献按《真实性核查报告》校准 + 2026-08-22
 >   T6 补引（Ruoss/KERPLE/FIRE）。
 > - 版本历史（v4–v8 对齐记录）见文末附录 B。
@@ -70,12 +42,10 @@ improves all extrapolation lengths across all seeds — a coverage *gradient*, n
 threshold; (4) the certified 4-band ladder [3,13,53,213] carries a machine-checked
 rational frame certificate (μ = 4/5, Coq), and the 7-band geometric ladder contains a
 certifiable sub-core — a composite certificate (frame core + energy-budget margin)
-we formalize (with the orthogonal certified-track composite-certificate composition **Qed**,
-session 14: `champion_e5_composite_certificate` proves (S − coh_e5) ≤ ‖F‖² ≤ (S + coh_e5) —
+we formalize (with the end-to-end composite-certificate composition **Qed**, session 14:
+`champion_e5_composite_certificate` proves (S − coh_e5) ≤ ‖F‖² ≤ (S + coh_e5) —
 a basis-representation stability certificate, orthogonal to the empirical champion,
-see §7; [2026-08-23 代码状态]：论文 A 的 z 区 20 探针（含本证书依赖的 pairbound/rowsum/
-pairdirichlet/parseval/partial）已 pro 化并入合并版 `ca_merged_full_25.v`（87733 行，
-合并编译 MERGE_EXIT=0），证书链验证等级从独立 .vo 升级为合并版全量验证； certification extends to arbitrary ladders through a reflective checker
+see §7); certification extends to arbitrary ladders through a reflective checker
 with a machine-checked soundness theorem (165-entry Print Assumptions audit — all
 with **zero `Classical_Prop.classic`**, zero Admitted; the only axioms are the
 standard Dedekind-real infrastructure sig_not_dec / sig_forall_dec / fext);
@@ -88,11 +58,7 @@ number (11.54±1.18, p=0.018, d=−6.06) — **best within the rotation family, 
 surpassed by the uncertified ALiBi baseline (4.47±0.10, §10.8)**; its random ladder
 lacks the geometric structure required by Paper A's certificates, so it is empirically
 best within the rotation family but **outside** the certificate scope — the two
-contributions are orthogonal (R11)]; **a 5-seed replication (tinystories fast config,
-2026-08-24) confirms all directional claims: rand vs ALiBi t=6.66, grid vs rand
-t=11.28, rand vs c3 t=−9.44, rand vs rope t=−6.20 (df≈4, all highly significant),
-and the cross-corpus order alibi < rand < t5rel < c4 < grid reproduces on
-Gutenberg / tinystories / owt** (see《训练数据对比分析-n5种子复核与owt独立验证-20260824.md》); NoPE shows a
+contributions are orthogonal (R11)]; NoPE shows a
 catastrophically worse in-distribution loss
 (9.06) yet the flattest curve (1.27× degradation), framing positional encoding as
 a trade of in-distribution quality for extrapolation fragility. We document our
@@ -226,7 +192,7 @@ Welch t（vs NTK）p=0.018、d=−6.06——主表 10.74 列为 s1337 单点，3
    保留、ΔCoh 定量预测收缩为稀疏几何族内指标；
    进一步剪掉覆盖恰 1.0 的 511 带后，全部 OOD 长度、全部 seed 严格改善
    （8× 均值 13.84→12.40，分布内仅付 0.07）——**边缘覆盖带是 OOD 纯负债，
-   **经验上**，覆盖以梯度起作用而非阈值（单一八带→七带剪枝案例，机制未明）**；
+   覆盖以梯度起作用而非阈值**；
    **两文联合边界图示（P1，强化可读性）**——覆盖梯度的"能量通道不敏感 vs ppl
    跃迁"在论文 A/B 联合视角下的定位：
    ```
@@ -289,7 +255,7 @@ Welch t（vs NTK）p=0.018、d=−6.06——主表 10.74 列为 s1337 单点，3
 - **T8 复合证书（已并入）**：T8CoreCertificate 模块 11 Qed 零 classic，
   最优阶梯 = 认证核（gershgorin 框架界）+ 边际带（[7,31,127]，行能量预算）——
   "核带框架保证、边带能量保证"——**已证部分即此复合形态**（核 + 边带能量两构件
-  均 Qed）；**复合表示稳定性界已 Qed（会话 14）**：`champion_e5_composite_certificate`
+  均 Qed）；**端到端复合证书已 Qed（会话 14）**：`champion_e5_composite_certificate`
   对七带证明 `(S−coh_e5) ≤ ‖F‖²_{255} ≤ (S+coh_e5)`（全矩阵相干加权对称界，
   论文 A §5.3）——**带证书方案中的性能领先者（七带）现持复合界机器证书**（`(S−coh_e5) ≤ ‖F‖² ≤ (S+coh_e5)`，
   非外推性能证书；明确为**基的复合界证书**（"认证了七带方案所用基函数"，非"认证
@@ -360,7 +326,7 @@ Welch t（vs NTK）p=0.018、d=−6.06——主表 10.74 列为 s1337 单点，3
   （含本文全部实验）采用窄轨，不受高维常数爆炸影响；
 - **酉不变性接口声明（✅ 已机器检查，2026-08-20 会话 17）**：本文"旋转组"（psi-rope）
   = 基函数乘旋转矩阵。旋转是酉变换，不改变内积与范数，故论文 A 的框架界/衰减界/
-  证书**自动覆盖旋转版本**（对几何阶梯的旋转；psi-rope-rand 的随机阶梯未通过检查器验证，不在证书范围）——Module `UnitaryInvariance` 已并入 `PSA_framework.v`：
+  证书**自动覆盖旋转版本**——Module `UnitaryInvariance` 已并入 `PSA_framework.v`：
   `unitary_invariance_point`（U 保内积 ⟹ ‖Σ U(g_i)‖² = ‖Σ g_i‖²）与位置索引 psi-rope
   实例 `unitary_invariance_psi_rope` / `_global`（每位置乘单位模 u_k，RoPE 语义）均 Qed
   零 classic；**显式实例** `unitary_invariance_psi_rope_theta`（u k := Cexp (0+i·θ_k)，
@@ -374,7 +340,7 @@ Welch t（vs NTK）p=0.018、d=−6.06——主表 10.74 列为 s1337 单点，3
   未认证七带 12.40）——"带证书"的可证内容止于表示稳定性与能量有界（论文 A
   联合元定理边界），**能量控制 → 外推 ppl 增益的桥梁未经形式化**、依赖本文的
   覆盖梯度经验观察。这一反直觉张力本身是可发表发现，不掩饰；
-  复合表示稳定性界的顶层组合定理已 Qed（`champion_e5_composite_certificate`，
+  端到端复合证书的顶层组合定理已 Qed（`champion_e5_composite_certificate`，
   论文 A §5.3，会话 14——七带 `(S−coh_e5) ≤ ‖F‖² ≤ (S+coh_e5)`）。
 
 ## 8. 对照组（判据逐项落地）
@@ -411,13 +377,13 @@ rope（朴素 RoPE）3-seed 显著差于 psi-rope-rand（6.45±0.03，低 74%）
 旋转角 [3,511] 128 角）@4096 三 seed（batch 32）= **6.44 / 6.49 / 6.42**（均值 ≈6.45，
 stdev 0.03）；**rope-NTK 三 seed（b32 重训 + NTK 缩放）= 10.74 / 12.90 / 10.97
 （11.54±1.18）**——Welch t（双尾，n=3）：Δ=−5.09，t=−7.42，df=2，**p=0.018 < 0.05**，
-Cohen's d=−6.06（强效应；小样本 df 局限如实标注）——**psi-rope-rand 是旋转族内最优（全局最优被无证书 ALiBi 4.47±0.10 持有，§4.1/§10.8）**（评审 11 统一定位：七带 12.40 与 rope-NTK 11.54 均降为对比基线；"降级→逆转"过程如实保留为裁决史）。**n=5 复核完成（2026-08-24，tinystories 快速配置 5 种子 {1337,42,7,2026,31415}）**：rand vs ALiBi t=6.66（df≈4.1）、grid vs rand t=11.28、rand vs c3 t=−9.44、rand vs rope t=−6.20——**全部高度显著，核心判断在 n=5 下成立**（完整表与 Welch 统计见《训练数据对比分析-n5种子复核与owt独立验证-20260824.md》）。**证书边界声明（评审 11 修正）**：psi-rope-rand
+Cohen's d=−6.06（强效应；小样本 df 局限如实标注）——**psi-rope-rand 是旋转族内最优（全局最优被无证书 ALiBi 4.47±0.10 持有，§4.1/§10.8）**（评审 11 统一定位：七带 12.40 与 rope-NTK 11.54 均降为对比基线；"降级→逆转"过程如实保留为裁决史）。**证书边界声明（评审 11 修正）**：psi-rope-rand
 的阶梯为 log-uniform 随机采样，**非**论文 A 定义的几何递推阶梯（`next = C·last+1`），
 不具稀疏增长/相干衰减/框架界结构——**不在论文 A 的证书覆盖范围**（落在其"无任何
 可证陈述"边界之外）；其外推优势是纯实证，与论文 A 的机器可检查保证**正交**。
 **附带再审视**：原降级裁决的样本对（C=4 12.75 vs NTK 11.54）在 3-seed 统计下
 Δ=+1.22、p=0.21 **不显著**——「NTK 反超」本就在噪声带内；psi-rope-rand 的反超
-（p=0.018）则是初步显著的真实逆转（n=3 小样本；**5-seed 复核已完成（2026-08-24）**，n=5 下 t 值大幅提升，逆转确认）。原裁决（上段）按其预登记判定树如实执行，
+（p=0.018）则是初步显著的真实逆转（n=3 小样本，5-seed 复核已预登记并排队）。原裁决（上段）按其预登记判定树如实执行，
 此处按新证据重审——两阶段均如实记录。
 
 **NoPE 控制（已跑，判据确认）**：NoPE 分布内 ppl = **9.06**（seed 42），
@@ -461,11 +427,7 @@ ExpSeries 幂级数路线；仅继承 sig_not_dec + sig_forall_dec + fext）。
 - 统计（B6）：主表 3-seed 均值±std；**Welch t + Cohen's d 已补（会话 18）**——
   psi-rope-rand vs rope-NTK（11.54±1.18）：t=−7.42，df=2，p=0.018，d=−6.06（**初步显著**——n=3 小样本自由度极小，方向性结论）；
   原降级对（C=4 12.75 vs NTK 11.54）p=0.21 **不显著**（噪声带内，如实）；小样本
-  （n=3）df 局限如实标注。**5-seed 复核已完成（2026-08-24，9 方案 × {2026,31415} 补全，
-  tinystories 快速配置 3000 iters，27 项全 EXIT=0）**：n=5 Welch（@8×）rand vs ALiBi
-  t=6.66、grid vs rand t=11.28、rand vs c3 t=−9.44、rand vs rope t=−6.20（df≈4，
-  **全部高度显著**）——核心方向性判断在 n=5 下成立，Holm 校正不改变任何结论
-  （完整表见《训练数据对比分析-n5种子复核与owt独立验证-20260824.md》）；
+  （n=3）df 局限如实标注，5-seed 复核（9 方案 × {2026,31415}）已预登记并排队；
 - E1 消融（B4）：psi-rand/psi-lin/dense-frozen/psi-rope-rand/psi-rope+rand **全部已跑**（§10.6
   全表）——预登记假说证伪（psi-rope-rand 反超）、dense-frozen「瓶颈全解释」分支证伪
   （分布内掉质量 6.08 vs 4.5-5.0）；psi-rand 高方差与 psi-lin 最差如实报告；
@@ -483,31 +445,21 @@ ExpSeries 幂级数路线；仅继承 sig_not_dec + sig_forall_dec + fext）。
 
 ## 10.5 性能-可证明性帕累托前沿（评审 5 方向 7，定位重构）
 把"降级"重构为**可审计 AI 的定位**：性能与可证明性构成帕累托前沿——
-（第四列为**机器检查锚**：每一行的证书主张都映射到论文 A 的一个 Qed 定理，
-2026-08-22 考古三轮补齐）
-| 方案 | 8× 外推 PPL | 证书（可审计性） | 机器检查锚（论文 A） |
-|------|------------|-----------------|----------------------|
-| **psi-rope-rand（随机稠密旋转角）** | **6.45±0.03（3-seed，旋转族内最优）** | **不在**论文 A 证书覆盖范围（随机阶梯无几何结构，评审 11）；与证书正交 | 负面：T2b（随机 log-uniform whp 被拒，论文 A §5.6.3）；正面：`pairwise_inner_bound_probabilistic`——**增长 ≥ c² 的结构化随机 whp 获逐对证书**（1−N²p²），随机角的连续均匀分布不在该子集模型内，如实区分 |
-| **ALiBi（线性偏置，无证书强基线）** | **4.47±0.10（3-seed，全局最优）** | **无证书**（线性偏置核与论文 A 正交，不可审计） | `linear_bias_no_collision`（非周期核零碰撞端点，碰撞距离 = ∞，论文 A §5.6.4）——机制刻画存在、框架证书正交 |
-| **grid（θ=2πm/512）** | 25.66±2.22（3-seed） | 可给 μ=0 精确正交证书（论文 A §5.6），但外推崩溃——证书免费性以外推为代价（§10.8） | `grid_pair_ortho`/`parseval_two`（μ=0 + 能量守恒等式）+ `grid_first_collision_at_N`（首次精确碰撞恰在 lag=N——8× 崩塌的定理侧） |
-| **ogrid（θ=2π(α+m/512)，黄金偏移）** | **16.12±1.32（3-seed）** | **μ=0 全长度精确正交证书 + 零精确碰撞（可审计）**，但外推仍差 rand 2.4×——证书免费性被证伪（§10.8） | C5 `irrational_offset_no_collision`（无理偏移永无精确碰撞）+ T-CHAR `collides_iff_rational_witness`（碰撞完备刻画）+ U5 `golden_near_collision`（近碰撞护城河 \|dφ−m\| ≥ 1/(3d)）——碰撞谱双向挡死，仍差 rand 2.4×：**证书内容 ≠ 外推性能** |
-| rope-NTK | 11.54±1.18（3-seed） | **无证书 / 不可审计**（纯经验修复，破坏阶梯结构） | ——（结构破坏，锚缺席本身即判读） |
-| E5'' 七带 | 12.40（次优） | 复合证书（复合界 `(S−coh) ≤ ‖F‖² ≤ (S+coh)`），**可审计** | `champion_e5_composite_certificate`（复合表示稳定性界 Qed） |
-| C=4 [3,13,53,213] | 12.75（第三） | 紧证书（μ=4/5 有理界），**强审计** | `row_sum_3halfs`/`row_bound_C4`（行和 ≤ 2π/7 < 1，1D 真实框架界）+ `witness_sandwich`（上下界比 ≥ 1−1/C，Θ(C^{−3/2}) 紧性封顶） |
+| 方案 | 8× 外推 PPL | 证书（可审计性） |
+|------|------------|-----------------|
+| **psi-rope-rand（随机稠密旋转角）** | **6.45±0.03（3-seed，旋转族内最优）** | **不在**论文 A 证书覆盖范围（随机阶梯无几何结构，评审 11）；与证书正交 |
+| **ALiBi（线性偏置，无证书强基线）** | **4.47±0.10（3-seed，全局最优）** | **无证书**（线性偏置核与论文 A 正交，不可审计） |
+| **grid（θ=2πm/512）** | 25.66±2.22（3-seed） | 可给 μ=0 精确正交证书（论文 A §5.6），但外推崩溃——证书免费性以外推为代价（§10.8） |
+| **ogrid（θ=2π(α+m/512)，黄金偏移）** | **16.12±1.32（3-seed）** | **μ=0 全长度精确正交证书 + 零精确碰撞（可审计）**，但外推仍差 rand 2.4×——证书免费性被证伪（§10.8） |
+| rope-NTK | 11.54±1.18（3-seed） | **无证书 / 不可审计**（纯经验修复，破坏阶梯结构） |
+| E5'' 七带 | 12.40（次优） | 复合证书（复合界 `(S−coh) ≤ ‖F‖² ≤ (S+coh)`），**可审计** |
+| C=4 [3,13,53,213] | 12.75（第三） | 紧证书（μ=4/5 有理界），**强审计** |
 在 AI 安全/合规（如欧盟 AI 法案）语境下，**可审计性本身是核心价值**：高风险场景
-（金融/医疗）中证书的存在优先于 PPL 代价——带证书方案与无证书上限（ALiBi 4.47）的差距须如实量化：
-约 **2.8×（以比值计）**，即 C=4 12.75 与七带 12.40 均高出 ALiBi 约 8 个 PPL 点
-（审稿口径：不得表述为"1-2 个点"或"30%"）。本文定位 = **定义了可审计位置编码
+（金融/医疗）中证书的存在优先于 1-2 个 PPL 点。本文定位 = **定义了可审计位置编码
 的性能-可证明性前沿**（"可审计性即价值"），而非"外推性能亚军"——方案沿前沿
 分布：最优性能（ALiBi，无审计）→ 旋转族内最优（psi-rope-rand，正交）→
 次优性能（复合证书）→ 紧证书（强审计）；grid 案例表明"证书免费"并不免费——
 μ=0 精确正交证书与崩溃的外推性能同存（§10.8）。
-第四列的读法：**每行一个可验证脚注**——审稿人可在论文 A（或其 Coq 源）中按名
-检索该锚的 Qed 语句与 Print Assumptions 审计（全部零经典排中）；ogrid 行三锚
-合成的正是"证书内容与外推性能分离"这一反直觉发现的定理面。随机侧的完整图景
-（**随机阶梯三面律**）：无增长约束的随机 ⟹ whp 被拒（T2b）；增长受控的结构化
-随机 ⟹ whp 逐对证书（`pairwise_inner_bound_probabilistic`）；连续均匀随机角 ⟹
-实证最优但零证书（rand 6.45，正面出路留作 future work）。
 
 ## 10.6 相干衰减率与 E1 消融：相位剖面预测因子的边界（评审 6 方向一实证，2026-08-20/21 会话 17/18）
 定义 `Coh(T) = max_{i<j} |⟨ψ_i,ψ_j⟩_T|/(‖ψ_i‖_T·‖ψ_j‖_T)`（带间相干衰减率）与
@@ -597,14 +549,6 @@ psi-rope-rand 恒偏离回归线）——原 R²=0.982 是小样本过拟合，�
 的关系**（评审 11）：该证书给出的是丢弃远距 KV 的**偏差上界**（有界），并不承诺
 无害——实测偏差为**负**（改善），兼容且更强；外推崩坏的根源（相位失配）不在
 KV 数量，而在此处全上下文本身携带混淆远距信息。
-**定理侧（2026-08-22 新增，论文 A §5.7 T-KV）**：KV 逐出的注意力稳定性现为机器
-检查定理——逐出 = 核列删除 ⟹ softmax ℓ1 TVD ≤ e^{2·dropped_mass} − 1（被逐质量
-的显式函数，`kv_eviction_controls_attention`，Coq Qed）；本表实证中"训练长度内
-窗口无系统代价"对应小被逐质量侧的紧界，OOD 全上下文的 5× 恶化则是证书范围外的
-相位失配效应（定理不承诺无害，只给出显式偏差界）。**部署鲁棒性族（论文 A §5.7）
-另含量化证书（per-key 误差 ⟹ TVD ≤ e^{2·Σ|c_j|e_j}−1）与漂移源无关的 top-1 决策
-稳定性定理（`drift_top1_stable`：间隔 gap > 2·漂移 ⟹ top-1 概率序保持）与多头合成证书（`multihead_output_bound`：逐头证书可组合 + 全头决策稳定）——本节
-实证之外，定理侧已把逐出/量化/多头/决策四类部署扰动纳入同一证书半径，且 TVD 界已可判化（T-EXP：2d ≤ 1 时 TVD ≤ 2d + (2d)²/2 + (2d)³/2，全有理——检查器可直接复用的显式界）。**
 **2D 截断验证（已删除，评审 11 判定）**：两轮实验（初版 vocab 16 纯 MLP：ppl≈1.4
 天花板；难任务 vocab 64 + 噪声 + 自注意力：ppl 21–110 但 A/B 差值无方向且不随 T
 单调，-5.7 至 +3.0）均**无法判别**"仅截断长轴 vs 双轴独立截断"。深层原因：训练
@@ -613,15 +557,6 @@ KV 数量，而在此处全上下文本身携带混淆远距信息。
 可判别场景在经验侧难以构造**（其语义域在论文 A 的高维框架常数 M = S(max) 形式化
 侧）。按评审 11 删除本验证，假说检验列为 future work（真实图像 patch / 高维
 M=S(max) 实证）。
-
-> **2026-08-22 云端复核（不复活删除）**：接入阿里云 T4（gn6i-c4g1，云端数据已与本地
-> RTX3070 逐位对齐）后重新评估删除依据：**云端算力不改变评审 11 的判定**。删除根因是
-> 实验判别力（A/B 差值无方向、不随 T 单调），属实验设计/模型行为层面的不可判别性，
-> 而非样本量或算力限制——增加种子或评估批次只会在无方向差异上叠加更紧的噪声带，
-> 不产生判别信号。该假说的可判别语义域仍在论文 A 的高维框架常数形式化侧（
-> `M_bound_2d_wide 4 = 768` 已证）与 future work（真实图像 patch / 高维实证），
-> 与云端能力无关。云端资源转向评审 P0 三件事：10 seeds 全矩阵 + OWT 500MB 语料 +
-> 评估协议升级（n_batches≥50 + 固定 RNG + CI）。
 
 ## 10.8 τ/碰撞距离机制的判决实验（2026-08-22 三个种子，预登记执行）
 
@@ -677,124 +612,6 @@ ogrid 持 μ=0 全长度精确正交证书 + 零精确碰撞，仍比 rand（6.4
 纯网格距恰 N、无理偏移零碰撞）+ **ALiBi 无碰撞**（`linear_bias_no_collision`，碰撞
 距离 = ∞）为其"无证书强基线"定位提供形式化镜像（τ 语义：ALiBi 恒等核、无负债带）。
 
-**τ 裁剪定理侧（probe_taugrid/probe_taugrid_cr/probe_cs，2026-08-29，z 区四模块 64 Qed，构造性孪生 13 Qed 零公理 + 可提取 OCaml 编译验证）**：① 覆盖债精确量化（窗 [0,T] 能量恰 = (T+1)/n，债 1−(T+1)/n ∈ (0,1) 机器可计算——"剪 255/127/63 应恶化"的定理侧：高负债带 = 大窗外能量）；② 裁剪证书单调（kept 行和 ≤ 全族，不损可证性）；③ 支撑完备刻画（iff）；④ 近重复对爆炸（coh 1 2 = 1/√2 ⟹ 2μ = √2 > 1，s ≥ 3 RIP 证书失效）；合成 `tau_prune_optimality`。**边界声明**：数学结构刻画，不改变正式配置裁剪点单种子/事后性定位。
-
-## 10.9 正式配置复现（tinystories200 · 27000 iters）与 τ 感知频率选择（2026-08-23）
-
-> 数据可信度：batch1/2（3000 iters）与本地 RTX3070 逐位对齐（偏差 ≤0.03）；batch3/4
-> 同脚本同语料，云端 T4 与本地可互换。正式配置 = tinystories200（200MB）· block 512 /
-> batch 32 / 27000 iters ≈ 9.5 epoch，与 gutenberg 快速配置的 epoch 平价对齐。
-
-**batch3：四模式正式对照（s1337，27000 iters，T_train=512）**
-
-| 方案 | @512 | @1024 | @2048 | @4096 (8×) |
-|------|------|-------|-------|------------|
-| ALiBi | 2.11 | 2.13 | 2.19 | **2.11** |
-| t5rel | 2.11 | 2.15 | 2.31 | **2.75** |
-| psi-rope-rand（τ 全保留） | 2.16 | 2.65 | 4.70 | **7.50** |
-| e5pp | 2.22 | 2.38 | 6.34 | **14.21** |
-
-**batch4：τ 裁剪验证（s1337，27000 iters，对照 rand 7.50）**
-
-| 方案 | @512 | @1024 | @2048 | @4096 | vs rand |
-|------|------|-------|-------|-------|---------|
-| randmax256（剪 n>256） | 2.17 | 2.70 | 4.80 | 8.44 | ✗ +0.94 |
-| **randmax384（剪 n>384）** | 2.14 | 2.55 | 3.79 | **5.36** | ✓ **−2.14（−28%）** |
-| ogrid（grid512+无理偏移 0.6180339887） | 2.27 | 4.67 | 9.64 | 19.30 | ✗ +11.80 |
-
-**判决（τ 裁剪，2026-08-25 多种子复核后降格；原"τ 感知频率选择"命名降格）**：
-
-1. **τ 裁剪（`--rand-max`）的真实语义是 64 维循环填充的整体重排（非简单高频移除），
-   其改善为种子特异观察，无普遍性**：单种子 s1337 randmax384 @4096 = **5.36** < 7.50、
-   N*∈[448,480] @4096 = 5.15（−31%）；**2026-08-25 多种子复核（s42/s7，27000 iters，
-   rand vs rt448）机制修正**：`psi_rope_theta` 用未排序阶梯前 32 个波长循环填充 64 维，
-   rt448 过滤效果随 seed 不同——**s42 前 32 无 >448 角度，rt448 为空操作（64 维分配不变，
-   模型与 rand 完全相同，11.76 = 11.76 是必然，不构成复现测试）**；s1337 的 491 在第 11 位，
-   rt448 删除后整个 64 维分配重排（5.15 的"改善"实为重排效果）；s7 的 452 在第 21 位，
-   同样重排但结果 7.67 = 7.67（重排对 s7 无影响）——**结论：裁剪=重排，重排效果种子特异、
-   无普遍性，s1337 的改善不构成验证**（详见《训练数据全量复核-n10完成与τ裁剪多种子复核-20260825.md》）。
-2. **过度裁剪有害（单种子观察）**：randmax256 @4096 = 8.44 > 7.50——257–384 区间是
-   外推所需的稠密覆盖结构（τ 负债带之外），"剪越多越好"不成立，裁剪点须温和。
-3. **ogrid 结构路线在正式配置下亦否定**：@4096 = 19.30（比 rand 差 2.6×），与 gutenberg
-   快速配置（16.12 vs rand 6.45，差 2.5×）方向一致——无理偏移结构化频率不优于随机，
-   稠密覆盖（相位完备性）仍是外推性能关键。
-4. **主张（降格后）**：psi-rope-rand 定位维持"随机稠密旋转（全相位保留）"；
-   `--rand-max` 裁剪的改善为**单种子观察（s1337）**，多种子未复现，列为未来工作——
-   不再主张"基于 τ 裁剪的 psi-rope-rand"为已确立机制。
-5. **τ 机制累计判决（降格口径）**：batch4 的 randmax384 改善（s1337）为**单种子观察**
-   （多种子未复现，不构成验证支点）；eval-only 3 支点维持；
-
-6. **2026-08-26 正式配置 3 种子复核（B1+FOLLOWUP 链，⚠️ gutenberg · 27000 iters 口径，s1337/s2026/s31415，batch8/16 降载）**：@4096
-   alibi 4.09/4.17/4.23、t5rel 4.29/4.45/4.56、**rand 8.67/6.44/5.71（gutenberg 语料重跑值）**、c4 16.37/15.52/14.53、
-   e5pp 15.20/21.53/17.58、c2 16.25/22.22/20.53、grid 25.91/29.20/20.59、rope 35.81/37.89/38.31、
-   c3 30.53/45.39/39.38（2026-08-26 B2 链补跑 s31415 完成）——**三种子一致：alibi < t5rel < rand < 结构化族**（随机稠密
-   优于结构化在深训练成立）+ **两族分化复现**；**中间段（c2/c4/e5pp）排序种子依赖**——主表以
-   快速配置 n=10 为口径，本表仅两族分化口径；温控宕机后收紧（GPU 80°/CPU-util 70%/2 核），
-   冷却次数高（513-1332）但 E139 原则数据有效。
-   **⚠️ 2026-08-27 语料勘误（E148）**：本表实为 **gutenberg 语料**（本地链未带 `--corpus-dir` 静默回退，
-   `train=5146368`/`vocab=125`；原"rand_s2026 1.8 亿≠514 万"认知相反——1.8 亿才是 tinystories200）；
-   与云端 tinystories200 正式配置（§10.9 主表）不可直接比绝对值；两族分化模式不变；
-   tinystories200 27000 复核列入重跑计划。
-
-### 10.9a k-scan discrimination experiment and trimming-semantics refinement (2026-08-23, local replication)
-
-> Discriminant question (T4 corollary): constant-theory predicts the optimal trim point N*
-> is stable in the extrapolation multiple k; depth-theory (variational balance) predicts N*
-> moves with k. True training (`--rand-max N`, trim at train time) × 7 trim points ×
-> k ∈ {1,2,4,8}, tinystories / block 512 / batch 32 / **3000 iters** / seed 1337
-> (local RTX 3070).
-
-**Results** (ppl, CI95 in brackets):
-
-| N \ T | 512 (k=1) | 1024 (k=2) | 2048 (k=4) | 4096 (k=8) |
-|---|---|---|---|---|
-| 256 | 2.68 | 2.89 | 3.08 | 3.83 [3.77,3.89] |
-| 320 | 2.68 | 2.89 | 3.08 | 3.83 [3.77,3.89] |
-| 352–448 | 2.68 | **2.86** | **3.04** | **3.80 [3.79,3.81]** |
-| 511 (full) | 2.68 | 2.90 | 3.38 | 4.44 [4.43,4.45] |
-
-**Verdicts (k-scan)**:
-
-1. **τ-trim improvement independently replicated**: full (no trim) @8× = 4.44 is
-   significantly worse than trimmed (3.80; CIs disjoint, Δ17%) — consistent with the
-   formal config (27000 iters: 7.50 vs 5.36) across devices and training budgets.
-2. **N* stable in k (weak constant-theory supported)**: the optimal trim region [352,448]
-   is stable for all k ≥ 2 (no effect at k=1) — the trim point is set by structure, not by
-   the extrapolation multiple; depth-theory (N* moves with k) not supported.
-3. **Trim gain grows monotonically with k**: @2× Δ0.04 → @4× Δ0.34 → @8× Δ0.64
-   (a T4-corollary prediction).
-4. **Trim sensitivity grows with training budget**: over-trim at 256 is insignificant at
-   3000 iters (3.83 vs 3.80; CIs overlap) but significant at 27000 iters (8.44 vs 5.36,
-   batch4) — overfitting deepens with training, trimming releases more; the 256 effect
-   should be stated as a function of training budget, not absolute.
-5. **★ Trimming-semantics refinement (64-dim cyclic-fill reallocation)**: psi-rope-rand's
-   64-dim positional encoding = **32 pairs of rotation angles** (each pair ↔ wavelength n,
-   θ=2π/n), wavelengths drawn from the unsorted random ladder list `ns` (~128 entries),
-   filled by **`idx = arange(32) % len(ns)`** (first 32 wavelengths, cycled if longer).
-   `--rand-max N` filters the **wavelength list** (keep n ≤ N) — changing list length ⟹ the
-   first-32 wavelength set/order may be **wholly re-arranged** (filtered wavelength within
-   first 32) or **unchanged** (filtered wavelength beyond position 32 = no-op; model is
-   byte-identical to no-trim). Thus trimming is **not** "high-frequency dims removed"
-   (dim count is fixed at 64); it re-allocates which wavelengths the 32 pairs receive.
-   Wavelength 491 (c=1.043) never enters the 64 dims (rank 91 in the
-   unsorted ladder), so full vs rt448 differ by reallocation plus one unused wavelength.
-   This fine structure does **not** change the empirical trimming conclusion, but "trim =
-   cut high-frequency bands" is a coarse narrative; theory must fix the trimming semantics.
-6. **Methodology (mask-eval negative result)**: loading the full-frequency model and
-   zeroing high-frequency rotations at eval time (keeping dimension assignment) is
-   full-retain-optimal at every k (@8× 4.36 vs silenced 6.94) — it cannot reproduce the
-   true-training gain ⟹ the trimming gain is a **training-adaptation effect** (not pure
-   geometry); discrimination requires true training.
-
-**Relation to 4/3 (updated 2026-08-23)**: the 27000-iter focused scan (rt448/480) shows
-N* in [448,480] (@8× 5.15, better than batch4 384 = 5.36) — 4/3 = 384 is a local optimum of
-the three-point scan, not the true N*; c* = T/N* ≈ 1.07–1.14 (near T), supporting
-"overfitting culprit = bands with c(n)→1". N* shifts right with training budget
-(3000: [352,448] → 27000: [448,480]), supporting the depth-theory phrasing
-"the trim point is a setting function, not a universal constant"; the "4/3 is a hidden
-constant" hypothesis is further weakened. N*'s exact position ([480,511]) needs a fine scan
-near 491 (future work).
-
 ## 11. Conclusion
 把位置编码的外推行为还原为**频率阶梯的相位剖面**：截断部分相位带 + 旋转注入 +
 覆盖梯度构成当前最优经验规律；对照组划定其边界——**旋转族内最优是随机稠密旋转角
@@ -803,15 +620,11 @@ psi-rope-rand @4096 = 6.45±0.03（3-seed 确认，会话 18），击败 NTK-awa
 保持全局最优（外推平坦，退化比 0.96<1），T5 相对偏置（8.48±0.60）为偏置类退化
 锚点**——带证书方案与无证书上限的差距由此标明；psi-rope-rand 的随机阶梯**不在**
 配套形式化的证书覆盖范围（与证书正交——实证最优与可证明最优是两条平行轨道）；
-免修复的阶梯方案以 2× 内优势 + 零修改 + 机器证书为保留的主张；**正式配置复现
-（tinystories200 · 27000 iters，§10.9）确认排序并升级主张：τ 感知频率选择——保留
-低中频 + 温和裁剪高频端（最优区 N* ∈ [448,480]）把旋转族外推 7.50 → 5.15（−31%），过度裁剪
-（256）恶化、结构化频率（ogrid）否定**；NoPE 的平坦曲线
+免修复的阶梯方案以 2× 内优势 + 零修改 + 机器证书为保留的主张；NoPE 的平坦曲线
 揭示位置编码的本质交易（分布内质量 ↔ 外推稳健）；**τ/碰撞距离机制统一解释排行榜
-（周期带承载碰撞负债、ALiBi 非周期无碰撞），并获 7 个正向判决：O2 两点 + τ 三剪
+（周期带承载碰撞负债、ALiBi 非周期无碰撞），并获 5 个正向判决：O2 两点 + τ 三剪
 回测（剪 255/127/63 @8× 全恶化 +3.5–4.5×）+ 网格判决（grid 8× 25.66，比 rand 差
-3.98×）+ offset-grid（ogrid ≥ grid）+ 正式配置温和裁剪（randmax384 −28%）——
-"交易是周期参数化的属性，非周期偏置近零代价逃逸"**；该机制呈
+3.98×）——"交易是周期参数化的属性，非周期偏置近零代价逃逸"**；该机制呈
 **"经验律 + 机器检查碰撞结构"双层**（碰撞距离完备刻画、τ 三分、纯网格首碰撞恰在
 训练窗、ALiBi 无碰撞端点，论文 A §5.6.4）——网格判决的"τ≈1 负债带"解释是
 `grid_first_collision_at_N` 定理的实例而非纯经验猜测。
@@ -827,8 +640,6 @@ psi-rope-rand @4096 = 6.45±0.03（3-seed 确认，会话 18），击败 NTK-awa
 ---
 
 ## 附录 A 代码-论文声明交叉索引表（评审 6 建议）
-
-> **代码仓库（Artifact）**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 + 实证脚本与数据 + CI）。预印本 DOI：10.6084/m9.figshare.33312336。
 | 论文声明 | 代码位置 | 状态 |
 |---------|---------|------|
 | 实例证书 C=4（mu=4/5） | InstanceCertificate.certified_c4_frame_bounds | ✅ |
@@ -850,15 +661,9 @@ psi-rope-rand @4096 = 6.45±0.03（3-seed 确认，会话 18），击败 NTK-awa
 
 > v4–v8 对齐协议全文（2026-08-20 至 2026-08-22 的开发演进记录，保留以供追溯）。
 
-**v9 正式配置复现（2026-08-23）**：新增 §10.9——tinystories200 · 27000 iters（≈9.5 epoch）
-正式配置四模式对照（ALiBi 2.11 / t5rel 2.75 / rand 7.50 / e5pp 14.21 @8×）与 **τ 感知频率选择**
-（randmax384 = 5.36，−28%；randmax256 = 8.44 恶化；ogrid = 19.30 否定）；主张升级为
-"保留低中频 + 温和裁剪高频端（最优区 N* ∈ [448,480]）"；τ 机制判决 6 → 7 个方向性正向判决。数据源：
-云端 T4（batch3/4，与本地逐位对齐），补丁见 `论文B更新补丁-batch34-τ感知频率选择-20260823.md`。
-
 **对齐协议（基态，2026-08-20 会话 17）**：本版对齐至 2026-08-20 会话 17 终态（A2/A1 完成后基态）——
 multi-seed 裁决（E5'' 七带均值最优 12.40±0.74@8×，覆盖梯度 3-seed 确认）+ T8 复合证书 +
-**复合表示稳定性界 `champion_e5_composite_certificate`（会话 14 Qed）** 已并入 +
+**端到端复合证书 `champion_e5_composite_certificate`（会话 14 Qed）** 已并入 +
 **`frame_check_instance` 反射检查器健全性已 Qed（配套审计 165 项全零经典排中，M1.5 已清零）**。
 
 **v7 对齐修正（2026-08-20 会话 17 终态）**：① **A2 酉不变性已完成机器检查**——v6 的
@@ -867,7 +672,7 @@ multi-seed 裁决（E5'' 七带均值最优 12.40±0.74@8×，覆盖梯度 3-see
 假命题未并入）；② **A1 4D 组装完成**：`tensor_product_unconditional_basis_4d` 已 Qed
 （coqchk 复验，合并版 28 分区）。
 
-**v6 P0 修正（2026-08-20 专家裁定）**：① 复合表示稳定性界表述由"在制"改为"✅ 已 Qed
+**v6 P0 修正（2026-08-20 专家裁定）**：① 端到端复合证书表述由"在制"改为"✅ 已 Qed
 （`champion_e5_composite_certificate`，七带 `(S−coh_e5) ≤ ‖F‖² ≤ (S+coh_e5)`）"；
 ② 酉不变性接口声明如实降级为"数学事实（未机器检查）"（unitary 在 .v 零命中）——
 **该降级已于 v7 被 A2 完成推翻**。
@@ -911,4 +716,3 @@ C=3 归因 seeds ✅、E1 消融 ✅（psi-rand/psi-lin/dense-frozen/psi-rope-ra
 **Q5：论文 A 证书是否解释 PPL 改善？** 否。增益机制不在形式化谱能量通道内（论文 A §5.3 与本文 §6 同口径）；形式化贡献止于稳定性检验 + 相干定性线索，PPL 桥梁是经验观察、未经形式化。
 
 ---
-

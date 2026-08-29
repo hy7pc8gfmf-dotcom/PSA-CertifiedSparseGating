@@ -1,0 +1,51 @@
+# 论文 ↔ 代码状态对齐（2026-08-23 11:30 复核）
+
+> 目的：论文 A/B 引用的代码库数字与「当前最新且通过编译」的代码状态逐项核对，
+> 差异即待办。代码分布：`src/`（正式）、`30模块/`（归档）、`z/`（探针）、`AI注意力算法/`（PSA 主文件）。
+
+## 一、欧拉乘积式主线（ca_zeta_euler.v）
+
+| 项目 | 论文口径 | 当前代码（2026-08-23 11:15 编译） | 对齐 |
+|---|---|---|---|
+| 位置 | 论文未直接引用（独立主线，交接文档追踪） | `src/ca_zeta_euler.v` = `30模块/ca_zeta_euler.v`（SHA-256 一致） | ✅ |
+| Qed 数 | 交接文档 53 → #23 105 → 当前进展中 | **137 Qed / 0 Admitted / 0 Axiom / EXIT=0** | ✅ 更新 |
+| 阶段 | L4 P→∞ | L1b/L2/Part1/L3/L4 反向主引理 + 尾部界完成 | ✅ 更新 |
+| 备份 | — | backup-smooth_in / smooth_cover / reverse_main / tail_bound（4 个） | ✅ |
+
+**欧拉线里程碑链**（137 Qed 分解）：L1b 几何级数（38）→ L2 素数幂（44）→ Part1 ζ 收敛（68）→
+L3 有限欧拉乘积（91）→ L4 E→∞（100）→ 正向主引理（116）→ 反向分解四砖块（120）→
+smooth_in（121）→ smooth_cover 砖块（123）→ 反向主引理第一形态（132）→ 尾部界（137）。
+
+**剩余**：组合引理（Σ_{n=1}^{N} ≤ ∏(Σ_e)+1/P）→ euler_product 双极限 → 论文 A「可认证稀疏」
+若需引用欧拉线，对齐点在此。
+
+## 二、论文 A（CertifiedSparseGating）引用的代码数字
+
+| 论文 § | 论文口径 | 当前代码 | 对齐 |
+|---|---|---|---|
+| §3 模块图 | PSA_framework.v **6659 行 / 18 Module / 265 Qed** | 实测 6659 行 / 18 Module / 265 Qed（2026-08-22 09:08 编译） | ✅ |
+| z 区探针 | **24 探针全 Qed** | `z/` 25 个 probe_*.v（23 个 .vo 编译产物 + probe_grid_ortho_pro 是 pro 版 + probe_t1b 源码 10 Qed） | ⚠️ 见下 |
+| FFI 自测 | 24/24 | PSA_refcheck.v 20 项 Check/Eval + 4 整数行和（口径一致） | ✅ |
+| 合并版 | 23/24（31/32 模块）独立编译 EXIT=0 + coqchk | 合并版当前无法编译（#23 已知，正式形态以独立模块为准） | ⚠️ 已知待办 |
+
+**z 区探针「24」口径**：25 个 probe_*.v 中，probe_grid_ortho_pro.v 是 E091 pro 版（不独立编译），
+probe_grid_ortho.v + probe_pairdirichlet.v + probe_parseval.v + probe_partial.v 等 23 个有 .vo；
+**probe_rowsum.v 过期**（src 11:17 改动 > vo 08/22），其下游 probe_incoherence/probe_witness
+依赖链编译失败（inconsistent assumptions）——建议重编译 rowsum 恢复 z 区全绿。
+
+## 三、论文 B（PhaseCompleteLadders）引用的代码数字
+
+| 论文 § | 论文口径 | 当前代码 | 对齐 |
+|---|---|---|---|
+| batch3/4 数据 | tinystories200/27000 iters（ALiBi 2.11 / randmax384 5.36 等） | 已并入 §10.9/#23 | ✅ 数据不动 |
+| τ 感知频率选择 | randmax384 5.36（−28%） | 论文主张已更新（#23） | ✅ |
+| 待办 | randmax384 多 seed（s42/s7）+ 细扫 320/352/416 | 未做（无云端资源） | 🔲 B 线待办 |
+
+## 四、结论与待办
+
+1. **欧拉线**：论文未引用，代码 137 Qed 全绿，30模块 归档同步；完成组合引理 + euler_product 后
+   如需入论文 A（可认证稀疏的级数侧佐证），按 137+ Qed 口径更新。
+2. **论文 A 数字**：PSA_framework 6659/18/265 ✅ 已对齐（9:01 复核后无变化）；
+   z 区「24 探针」口径需重编译 rowsum 恢复（当前 17 独立编译通过 + 7 依赖链失败）。
+3. **合并版**：仍无法编译（已知，#23 记录），正式形态以独立模块为准——不阻塞论文。
+4. **论文 B**：数据/主张已对齐；多 seed 扩展是唯一待办（需云端，暂缓）。

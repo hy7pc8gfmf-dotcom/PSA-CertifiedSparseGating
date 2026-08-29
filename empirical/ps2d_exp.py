@@ -3,11 +3,11 @@
 2D 图像 patch 验证（评审 5 方向 6，P2）："截断应逐轴独立"假说
 ================================================================
 论文 B §6 假说：轴间可比性（H_dom）破坏 ⟹ 外推崩坏；截断必须逐轴独立执行。
-本脚本用 2D 合成 patch 数据验证：二维频率阶梯 (i,j) 满足 max(i,j) ≤ T_train 训练，
+本脚本用 2D 合成 patch 数据验证：二维频率梯子 (i,j) 满足 max(i,j) ≤ T_train 训练，
 外推时（A）仅截断长轴 vs（B）两轴同时截断 的困惑度对比。
 
 2D 位置编码 = 论文 A §5.4 的二维张量积：φ2D(i,j)(k) = γ⁻¹·ψ_i(k)·ψ_j(k)
-（ψ_n(k) = (1/√n)·e^{2πik/n}，n 为阶梯频带；γ = √(min(i,j)/(ij))）。
+（ψ_n(k) = (1/√n)·e^{2πik/n}，n 为梯子频带；γ = √(min(i,j)/(ij))）。
 
 用法：python ps2d_exp.py [--patch 8] [--iters 3000] [--trunc-axis 16,16]
 温控：同 length_extrap（ThermalGuard 0.5s 探测）。
@@ -64,7 +64,7 @@ def build_data(n_patches=4096, patch=8, seed=1337, vocab=16, noise=0.0):
 
 # ---------- 2D psi 位置编码 ----------
 def psi2d_embedding(L, idx_i, idx_j, device):
-    """二维张量积位置编码：φ2D(i,j)(k) = γ⁻¹ ψ_i(k) ψ_j(k)（i 轴/ j 轴各取阶梯频带）。
+    """二维张量积位置编码：φ2D(i,j)(k) = γ⁻¹ ψ_i(k) ψ_j(k)（i 轴/ j 轴各取梯子频带）。
     返回实虚部对（每个位置 k 一个 2·m_i·m_j 维嵌入）。"""
     ni = torch.tensor(idx_i, dtype=torch.float32, device=device)
     nj = torch.tensor(idx_j, dtype=torch.float32, device=device)
@@ -123,7 +123,7 @@ def main():
     ap.add_argument("--n-layer", type=int, default=2)
     ap.add_argument("--n-patches", type=int, default=4096)
     ap.add_argument("--patch", type=int, default=8)
-    ap.add_argument("--trunc", type=str, default="16,16")   # 训练时二维阶梯截断（i,j 各取前 n 带）
+    ap.add_argument("--trunc", type=str, default="16,16")   # 训练时二维梯子截断（i,j 各取前 n 带）
     ap.add_argument("--vocab", type=int, default=16)        # 难任务：量化级数（64 = 更细）
     ap.add_argument("--noise", type=float, default=0.0)     # 难任务：高斯噪声
     ap.add_argument("--attn", action="store_true")          # 难任务：加自注意力层
@@ -138,12 +138,12 @@ def main():
     data_train, data_val = data[:split], data[split:]
     vocab = args.vocab
     ti, tj = [int(v) for v in args.trunc.split(",")]
-    # 二维阶梯：C=4 生成器取前 ti/tj 带（与论文 A 2D 张量积一致）
+    # 二维梯子：C=4 生成器取前 ti/tj 带（与论文 A 2D 张量积一致）
     ladder = le.gen_indices(32, 4)
     idx_i, idx_j = ladder[:ti], ladder[:tj]
     config = dict(vocab=vocab, n_layer=args.n_layer, n_embd=args.n_embd)
     print(f"2D patch 实验：grid={grid} patch={args.patch} vocab={vocab} noise={args.noise} attn={args.attn} "
-          f"阶梯截断 i≤{ti}(带{idx_i[:4]}...) j≤{tj}(带{idx_j[:4]}...) "
+          f"梯子截断 i≤{ti}(带{idx_i[:4]}...) j≤{tj}(带{idx_j[:4]}...) "
           f"gpu_max={args.gpu_max}", flush=True)
 
     model = MiniGPT2D(vocab, args.n_layer, args.n_embd, args.block, idx_i, idx_j,

@@ -1,0 +1,20 @@
+File "D:\ComplexAnalysis\PSA-CertifiedSparseGating\coq\lib\ca_base.v", line 207, characters 0-36:
+Warning: Use of “Require” inside a module is fragile. It is not recommended
+to use this functionality in finished proof scripts.
+[require-in-module,fragile,default]
+File "D:\ComplexAnalysis\PSA-CertifiedSparseGating\coq\lib\ca_base.v", line 208, characters 0-34:
+Warning: Use of “Require” inside a module is fragile. It is not recommended
+to use this functionality in finished proof scripts.
+[require-in-module,fragile,default]
+File "D:\ComplexAnalysis\PSA-CertifiedSparseGating\coq\lib\ca_base.v", line 209, characters 0-34:
+Warning: Use of “Require” inside a module is fragile. It is not recommended
+to use this functionality in finished proof scripts.
+[require-in-module,fragile,default]
+File "D:\ComplexAnalysis\PSA-CertifiedSparseGating\coq\lib\ca_base.v", line 210, characters 0-36:
+Warning: Use of “Require” inside a module is fragile. It is not recommended
+to use this functionality in finished proof scripts.
+[require-in-module,fragile,default]
+File "D:\ComplexAnalysis\PSA-CertifiedSparseGating\coq\lib\ca_base.v", line 211, characters 0-35:
+Warning: Use of “Require” inside a module is fragile. It is not recommended
+to use this functionality in finished proof scripts.
+[require-in-module,fragile,default]

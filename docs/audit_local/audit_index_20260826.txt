@@ -1,0 +1,168 @@
+PSA 审计索引（2026-08-26 完整重跑）：块号 ↔ 定理名（与 audit_run_20260826_full.txt 逐块对应）
+总项数: 165（111 Axioms 段 + 54 Closed 段）
+  1: PSA_Pipeline.psa_pipeline_decay
+  2: PSA_Pipeline.psa_pipeline_linindep
+  3: RuntimeGuards.all_ge_2P
+  4: RuntimeGuards.forallb_adjacent_nth
+  5: RuntimeGuards.forallb_adjacent_from_nth
+  6: RuntimeGuards.forallb_adjacent_sorted_implies
+  7: RuntimeGuards.sparse_growth_trans
+  8: RuntimeGuards.square_le_trans
+  9: RuntimeGuards.sorted_of_strict_adjacent
+ 10: RuntimeGuards.nth_incr
+ 11: RuntimeGuards.check_sparse_growthP
+ 12: RuntimeGuards.check_c_sparse_growthP
+ 13: RuntimeGuards.check_c_sparse_on_valsP
+ 14: SeqProps.rev_cons
+ 15: SeqProps.gen_aux_tail
+ 16: SeqProps.generate_rec
+ 17: SeqProps.generate_nth0
+ 18: SeqProps.generate_indices_spec
+ 19: SeqProps.generate_correct
+ 20: SeqProps.base_seq_global_growth
+ 21: SeqProps.base_seq_shift
+ 22: SeqProps.seq_shift_gen
+ 23: SeqProps.generate_eq_map
+ 24: PSA_Pipeline.guard_adjacent_growth
+ 25: PSA_Pipeline.guard_ge2_map
+ 26: PSA_Pipeline.nth_lt_backward
+ 27: PSA_Pipeline.fold_right_max_In
+ 28: PSA_Pipeline.I_chain_strict
+ 29: PSA_Pipeline.I_chain_compound
+ 30: PSA_Pipeline.Csum_psi_conj_truncate_fin
+ 31: PSA_Pipeline.decay_bound_finite_one_factor
+ 32: PSA_Pipeline.psa_guard_decay
+ 33: PSA_Pipeline.decay_bound_finite_one_factor_tight
+ 34: PSA_Pipeline.psa_guard_decay_tight
+ 35: GreedyGate.greedy_aux_In
+ 36: GreedyGate.greedy_selected_In
+ 37: GreedyGate.greedy_aux_all_ge_2
+ 38: GreedyGate.greedy_selected_all_ge_2
+ 39: GreedyGate.greedy_aux_NoDup
+ 40: GreedyGate.greedy_selected_NoDup
+ 41: GreedyGate.sorted_lt_all
+ 42: GreedyGate.greedy_Sorted_NoDup
+ 43: GreedyGate.greedy_aux_Sorted
+ 44: GreedyGate.greedy_selected_Sorted
+ 45: GreedyGate.greedy_aux_head_growth
+ 46: GreedyGate.greedy_aux_adjacent_growth
+ 47: GreedyGate.greedy_selected_adjacent_growth
+ 48: GreedyGate.greedy_selected_strict_growth
+ 49: GreedyGate.greedy_selected_c_sparse_check
+ 50: GreedyGate.greedy_selected_correct
+ 51: GreedyGate.greedy_selected_c_sparse_subset
+ 52: GreedyGate.mask_aux_length
+ 53: GreedyGate.fallback_mask_length
+ 54: GreedyGate.mask_aux_correct
+ 55: GreedyGate.fallback_mask_correct
+ 56: GreedyGate.fallback_mask_linear_sparse
+ 57: GreedyGate.greedy_selected_guard_pass
+ 58: SeqProps.map_nth_seq
+ 59: SeqProps.base_seq_list_Sorted
+ 60: SeqProps.construct_base_sequence
+ 61: SeqProps.construct_base_sequence_map
+ 62: GreedyGate.greedy_idx_aux_In
+ 63: GreedyGate.greedy_idx_aux_Sorted
+ 64: GreedyGate.greedy_indices_Sorted
+ 65: GreedyGate.greedy_idx_aux_map
+ 66: GreedyGate.greedy_indices_map
+ 67: GreedyGate.psa_gated_decay
+ 68: GreedyGate.psa_gated_decay_base_seq
+ 69: RowTruncation.list_sum_R
+ 70: RowTruncation.sum_filter_compl
+ 71: RowTruncation.complement_sum_bound
+ 72: RowTruncation.row_score
+ 73: RowTruncation.row_energy_bound
+ 74: RowTruncation.row_truncation_error
+ 75: RowTruncation.row_dropped_energy_bound
+ 76: SeqProps.base_seq_strictly_increasing
+ 77: PipelineEndToEnd.psa_low_coherence
+ 78: PipelineEndToEnd.psa_pipeline_guard
+ 79: PipelineEndToEnd.row_energy_bound_wide
+ 80: PipelineEndToEnd.psa_frame_bounds
+ 81: PipelineEndToEnd.psa_low_coherence_tight
+ 82: SoftmaxStability.softmax_sum_one
+ 83: SoftmaxStability.softmax_ratio_le2
+ 84: SoftmaxStability.softmax_diff_i
+ 85: SoftmaxStability.softmax_l1_bound_exp
+ 86: CertifiedAttention.Complex_eq_local
+ 87: CertifiedAttention.list_sum_R_map
+ 88: CertifiedAttention.sum_f_R0_shift_head
+ 89: CertifiedAttention.list_sum_R_seq_eq_sum_f_R0
+ 90: CertifiedAttention.Rsqr_le_list_sum
+ 91: CertifiedAttention.linf_le_sqrt_sqsum
+ 92: CertifiedAttention.Csum_norm_le_sum_pred
+ 93: CertifiedAttention.Cnorm_Cof_real_abs
+ 94: CertifiedAttention.Cof_real_minus
+ 95: CertifiedAttention.Csub_add_distr
+ 96: CertifiedAttention.Cmul_sub_distr_l
+ 97: CertifiedAttention.Csum_minus
+ 98: CertifiedAttention.attention_output_diff
+ 99: CertifiedAttention.weighted_avg_lipschitz
+100: CertifiedAttention.certified_attention_approx
+101: Gershgorin.gershgorin_frame
+102: Gershgorin.gershgorin_frame_mu
+103: Gershgorin.Cexp_pow_local
+104: Gershgorin.geom_sum_norm_dirichlet
+105: Gershgorin.dirichlet_algebra
+106: Gershgorin.psi_inner_dirichlet
+107: InstanceCertificate.psi_inner_cons_bound
+108: InstanceCertificate.cons_bound_floor
+109: InstanceCertificate.INR_sqrt_le
+110: InstanceCertificate.psi_unit_norm
+111: InstanceCertificate.certified_c4_frame_bounds
+112: M4bLengthConsistency.c4_row0_gen
+113: M4bLengthConsistency.c4_row1_gen
+114: M4bLengthConsistency.c4_row2_gen
+115: M4bLengthConsistency.c4_row3_gen
+116: M4bLengthConsistency.certified_c4_frame_bounds_anyN
+117: T8CoreCertificate.pair_3_15
+118: T8CoreCertificate.pair_3_63
+119: T8CoreCertificate.pair_3_255
+120: T8CoreCertificate.pair_15_63
+121: T8CoreCertificate.pair_15_255
+122: T8CoreCertificate.pair_63_255
+123: T8CoreCertificate.t8_row0
+124: T8CoreCertificate.t8_row1
+125: T8CoreCertificate.t8_row2
+126: T8CoreCertificate.t8_row3
+127: T8CoreCertificate.certified_t8_core_frame_bounds
+128: FrameCheckInstance.pair_sound
+129: FrameCheckInstance.div_le
+130: FrameCheckInstance.frac_add_R
+131: FrameCheckInstance.row_le_R
+132: FrameCheckInstance.pair_bound_ok
+133: FrameCheckInstance.pair_inner_frac_bound
+134: FrameCheckInstance.row_sum_frac_aux_R
+135: FrameCheckInstance.row_sum_frac_R_value
+136: FrameCheckInstance.all_rows_le_forall
+137: FrameCheckInstance.row_sum_frac_den_neq0
+138: FrameCheckInstance.frame_check_instance_row_bound
+139: FrameCheckInstance.frame_check_instance_sound
+140: ChampionCertificate.pair_3_7
+141: ChampionCertificate.pair_3_31
+142: ChampionCertificate.pair_3_127
+143: ChampionCertificate.pair_7_15
+144: ChampionCertificate.pair_7_63
+145: ChampionCertificate.pair_7_127
+146: ChampionCertificate.pair_7_255
+147: ChampionCertificate.pair_15_31
+148: ChampionCertificate.pair_15_127
+149: ChampionCertificate.pair_7_31
+150: ChampionCertificate.pair_31_63
+151: ChampionCertificate.pair_31_127
+152: ChampionCertificate.pair_31_255
+153: ChampionCertificate.pair_63_127
+154: ChampionCertificate.pair_127_255
+155: ChampionCertificate.inner_diag_one
+156: ChampionCertificate.coh_delta_bound
+157: ChampionCertificate.term_bound_upper
+158: ChampionCertificate.term_bound_lower
+159: ChampionCertificate.champion_e5_composite_certificate
+160: FrameCheck2DNarrow.seq_ext_growth_R
+161: FrameCheck2DNarrow.seq_ext_tail_first_R
+162: FrameCheck2DNarrow.hdom_2d_narrow
+163: FrameCheck2DNarrow.index_bound_2d
+164: FrameCheck2DNarrow.tensor_product_unconditional_basis_pointwise
+165: FrameCheck2DNarrow.frame_check_2d_narrow_sound
+
