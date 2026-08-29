@@ -681,6 +681,27 @@ training-adaptation effects, not purely geometric ones).
 - 数据文件：`psa_empirical\测试数据\`（ms_*/ms2_*/ntk_*/kv_*/ps2d_*/coherence_*）。
 - 证书侧：`PSA_framework.v`（165 项审计）、`psa_guard.exe`（反射检查器，24/24 FFI）。
 
+## 附录 C″ Seed-Robustness Convergence Table (n=3 → 5 → 10)
+
+n=10 full replication (9 schemes × 10 seeds {1337,42,7,2026,31415,2718,1618,31416,12345,999}, 2026-08-25, @4096):
+
+| Scheme | n | Mean | Median | Range | Rank |
+|---|---|---|---|---|---|
+| alibi | 10 | 2.63 | 2.62 | 2.53–2.71 | 1 |
+| rand | 10 | 4.00 | 3.90 | 3.40–4.96 | 2 |
+| t5rel | 10 | 6.60 | 6.47 | 6.08–7.17 | 3 |
+| e5pp | 10 | 8.09 | 7.78 | 7.07–9.29 | 4 |
+| c2 | 10 | 9.30 | 9.06 | 7.54–11.80 | 5 |
+| c4 | 10 | 10.22 | 10.21 | 8.65–11.63 | 6 |
+| c3 | 10 | 22.23 | 20.89 | 15.22–31.65 | 7 |
+| grid | 10 | 26.97 | 26.61 | 19.08–30.39 | 8 |
+| rope | 10 | 31.16 | 25.53 | 23.11–46.40 | 9 |
+
+Convergence: the ordering alibi < rand < t5rel < e5pp < c2 < c4 < c3 < grid < rope
+replicates at every stage n=3 → 5 → 10 with no transpositions; the 5 new seeds
+differ from the original 5 by ≤0.8 in mean with no directional drift. Welch t,
+Cohen's d and Holm-corrected values are provided in the artifact.
+
 ## 附录 D 常见问题与边界澄清
 
 本节回答评审与读者最可能提出的五类边界问题；所有答案与正文 §5、§7、§8 及配套论文 A

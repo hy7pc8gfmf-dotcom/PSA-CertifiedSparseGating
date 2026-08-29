@@ -65,6 +65,13 @@ same ladder family; this work supplies the formal guarantees.
 
 ## 1. Introduction
 
+> **Contribution-type statement.** This paper is *formalization engineering*: the
+> contribution is a decidability methodology (the relaxation chain), a reflective
+> checker mechanism, and audit discipline — not new mathematics (all proved
+> statements are machine-checked instantiations of classical results; see §9.1
+> for library comparisons). Readers weighing mathematical novelty as the primary
+> criterion should read with this positioning in mind.
+
 稀疏/近似注意力方法（top-k 门控、KV 逐出、低秩投影）在实践中有性能优势，但均无误差证书。
 本工作采用「验证解析核、学习其余」（verify the analytic kernel, learn the rest）的路线：
 在解析核层（稀疏门控、频率基、截断能量、softmax 稳定性）提供机器检查的保证，而学习分量
@@ -585,6 +592,79 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 - **与论文 B 的关系**：论文 B 的实证结果验证本工作形式化框架（同一阶梯族）的适用性；本工作
   的框架界/能量界为「免修改 + 证书」定位提供理论支持——主张正交：形式化保「表示稳定性/
   能量有界」，实证报「外推 ppl」。
+
+### 13.1 Design Choices vs. Alternative Libraries
+
+**Real-number representation: Dedekind main track + ConstructiveReals dual track.**
+The main track uses the Stdlib Reals Dedekind reals, for two reasons: (a) mature
+interoperability with Coquelicot (`Cexp`, complex numbers, derivatives) and the
+mathcomp ecosystem; (b) the three classical axioms (`sig_not_dec`,
+`sig_forall_dec`, `fext`) are used only at the proof layer and never enter the
+extracted computational content. The cost is non-constructivity; the core
+theorems (k-atom RIP, sparse uniqueness, coherent-dictionary uncertainty,
+decidability-premium synthesis) are therefore independently re-proven over the
+Stdlib `ConstructiveReals` (Cauchy-sequence representation whose `CRlt` carries
+approximation data as a Set), giving `ca_rip_cr.v` (33 theorems, zero axioms) as
+an independence check on the classical formalization rather than a redundancy.
+We did not use mathcomp's `algR`/`realalg`: they target algebraic reals and do
+not cover the analytic structure needed for `sin`/`π`.
+
+**Rational layer: mathcomp `Q` + boolean reflection.** The certificate decision
+layer (μ=4/5, 11289/33920 < 1/3) lives entirely in the rationals. mathcomp's `Q`
+was chosen over Stdlib `QArith` for consistency with the ssreflect boolean
+reflection style (`<=?`/`<?` decisions map directly to runtime booleans) and
+native `Qle_bool`/`Qeq_bool` decidability.
+
+**Why not Flocq**: Flocq formalizes IEEE floating-point semantics; its goal is
+correctness of float implementations. Our goal is the opposite — replacing
+floating-point numerical bounds by decidable rational certificates. The two are
+orthogonal. **Why not interval arithmetic** (Coquelicot Interval / the Interval
+plugin): interval methods produce enclosing intervals with externally certified
+bounds; our relaxation chain (floor-sqrt → Jordan → Dirichlet → π←22/7) reduces
+the certificate layer to one-sided rational domination closed by `compute;
+field` — no interval arithmetic, no oracle. **Why not CoqEAL refinement**: the
+refinement paradigm suits "Nat prototype → efficient Z/bin"; our direction is
+inverted — the `nat` checker is the *specification* (`frame_check_instance_sound`
+is stated about the nat decision procedure) and the OCaml int mirror is a
+runtime approximation (§6).
+
+**Reflective checker vs. general decision procedures**: compared with CAD-style
+decision procedures, `frame_check_instance` is not a general decision procedure
+but a specialized *sufficient* condition for the Gershgorin row-sum test —
+conservatively sound (false-negative rate 49.1% quantified; exact-layer
+iff-criterion proven as G-3; false negatives attributed to the decidability
+slack layer, not to checker logic), trading generality for decidability and
+runtime lightness (typical ladders < 1 ms).
+
+### 13.2 Feedback on Rocq / mathcomp
+
+Four rounds of large-scale adaptation (this development spans mathcomp 2.5/2.6
+and Rocq 9.0.x/9.1.x) yielded the following first-hand feedback:
+
+1. **ssreflect 2.5 → 2.6 rewrite behavior change**: the side-condition goal
+   order of premise-carrying `rewrite H` flipped (last in 2.5, first in 2.6),
+   systematically breaking position-dependent selectors (`2: {...}`,
+   `; [t1|t2]`) across large scripts; β-redexes are not matched syntactically;
+   `rewrite H in H' by tac` does not discharge side goals. *Suggestion*: a
+   goal-order compatibility switch and β-normalizing matching; large
+   developments should prefer explicit premise parameterization (immune to
+   plugin versions).
+2. **Scope hijacking**: mathcomp's `_ <= _`/`_ < _` nat notations resolve by
+   scope-opening order, so the same notation may parse to different relations at
+   different points of a file. *Suggestion*: an optional load mode that does not
+   shadow Prop notations.
+3. **Large nat usability**: `2^53`-scale nat literals trigger stack warnings and
+   micromega fails on nonlinear nat goals — a painless nat↔Z casting layer is
+   needed.
+4. **`Print Assumptions` output lacks theorem names**: a 165-entry audit cannot
+   mechanically align axiom blocks to theorems. *Suggestion*: an option to
+   prefix outputs with theorem names — essential for audit automation.
+5. **`Require` inside a module**: concatenated-file developments (our 87K-line
+   merge of 55 partitions) inevitably trigger this warning — official guidance
+   on safe conditions would help.
+6. **Toolchain**: coqc with large output over pipes can deadlock (hundreds of
+   warnings during merged compilation); file redirection is required — chunked
+   flushing or documentation would help.
 
 ## 14. Limitations
 
