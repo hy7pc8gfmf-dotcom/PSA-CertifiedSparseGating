@@ -88,7 +88,7 @@ code 思想在数值框架界上的实例化；(iii) **构造性实数轨道**�
 2. **有限化守卫衰减界**（PSA_Pipeline）：全局增长前提 → 运行时可判定检查，系数 2/√C 与
    tight 1/√C 两版。
 3. **行截断能量预算**（RowTruncation）与 **softmax 稳定性**（SoftmaxStability：
-   ‖softmax z − softmax z'‖₁ ≤ 2(e^d − 1)）。
+   ‖softmax z − softmax z'‖₁ ≤ exp(2·d) − 1；2026-08-30 勘误对齐代码实形态）。
 4. **认证注意力近似**（CertifiedAttention）：谱能量 ≤ ε ⟹ 输出偏差 ≤ (e^{2√ε}−1)·V_max。
 5. **实例证书**（Gershgorin + InstanceCertificate）：对 C=4 阶梯 [3,13,53,213] 证明框架界
    [1/5, 9/5]（μ=4/5）——参数化最坏情形 1±4K(C) 在 C=4 空洞成立、需 C>25 的问题就此终结。
@@ -167,7 +167,8 @@ psi_inner_dirichlet : |⟨ψ_{n1},ψ_{n2}⟩| = |sin(πNΔ)/sin(πΔ)| / √(n1�
 
 psi_inner_cons_bound : |⟨ψ_{n1},ψ_{n2}⟩| ≤ 1/(2Δ√(n1n2))   (* 窗口无关保守界 *)
 
-softmax_l1_bound_exp : ‖z−z'‖∞ ≤ d → ‖softmax z − softmax z'‖₁ ≤ 2(e^d − 1)
+softmax_l1_bound_exp : ‖z−z'‖∞ ≤ d → ‖softmax z − softmax z'‖₁ ≤ exp(2·d) − 1
+  (* 2026-08-30 勘误对齐代码 PSA_framework.v:2216-2220 实形态 *)
 
 certified_attention_approx : 逐行丢弃谱能量 ≤ ε →
   ‖attn_out − attn_out_approx‖ ≤ (e^{2√ε} − 1) · V_max

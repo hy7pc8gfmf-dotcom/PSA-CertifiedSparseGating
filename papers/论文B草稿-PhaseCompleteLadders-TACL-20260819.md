@@ -73,9 +73,10 @@ certifiable sub-core — a composite certificate (frame core + energy-budget mar
 we formalize (with the orthogonal certified-track composite-certificate composition **Qed**,
 session 14: `champion_e5_composite_certificate` proves (S − coh_e5) ≤ ‖F‖² ≤ (S + coh_e5) —
 a basis-representation stability certificate, orthogonal to the empirical champion,
-see §7; [2026-08-23 代码状态]：论文 A 的 z 区 20 探针（含本证书依赖的 pairbound/rowsum/
-pairdirichlet/parseval/partial）已 pro 化并入合并版 `ca_merged_full_25.v`（87733 行，
-合并编译 MERGE_EXIT=0），证书链验证等级从独立 .vo 升级为合并版全量验证； certification extends to arbitrary ladders through a reflective checker
+see §7; [2026-08-30 代码状态对齐]：论文 A 的 z 区 20 探针（含本证书依赖的 pairbound/rowsum/
+pairdirichlet/parseval/partial）已 pro 化并入合并版 `ca_merged_full_25.v`（**87632 行**，
+合并编译 MERGE_EXIT=0，**CI 全链路绿 2026-08-30：编译 + 零 Admitted 检查 + coqchk 内核复验**），
+证书链验证等级从独立 .vo 升级为合并版全量验证 + CI 内核复验； certification extends to arbitrary ladders through a reflective checker
 with a machine-checked soundness theorem (165-entry Print Assumptions audit — all
 with **zero `Classical_Prop.classic`**, zero Admitted; the only axioms are the
 standard Dedekind-real infrastructure sig_not_dec / sig_forall_dec / fext);
@@ -628,6 +629,13 @@ M=S(max) 实证）。
 > 机制候选（O2）：带 n 的相位在位置 k 与 k+n 恒等（周期性），训练内可观测碰撞质量
 > τ(n) = max(0, T_train − n)。覆盖梯度 = τ 的阈值结构：τ≈0（n→T_train）的带是 OOD
 > 纯负债（剪掉严格改善）；τ 大的带承载分布内质量（剪掉恶化）。
+>
+> **代码口径对齐（2026-08-30，P1-2 修订）**：形式化侧 `ca_tau.v` 的 `tau_mass T n := T − n`
+> 为 **raw 定义（可负，无 clamp）**；本节实验口径的 `max(0, T_train − n)` 为 raw τ 在
+> 裁剪判定窗口内的等效截断（n ≤ T_train 时二者恒等；OOD 带 n > T_train 时 raw τ 为负、
+> 裁剪判据取 0）。机器检查支撑：`tau_crop_mono`（ca_tau.v:63-65，N1≤N2 ⟹ Σ_{n≤N1} τ(n) ≤
+> Σ_{n≤N2} τ(n)，纯 mathcomp 零公理）——"裁剪点越大保留越多（碰撞负债越多）"的经验律
+> 有对应形式化（2026-08-30 P1-3 补引，回应"形式化与实证脱节"）。
 
 **τ 三剪回测（eval-only 同权重换 theta，3 种子，T_train=512）**：
 

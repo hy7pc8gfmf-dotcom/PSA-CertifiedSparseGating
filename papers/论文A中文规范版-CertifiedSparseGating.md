@@ -3,7 +3,8 @@
 **Certified Sparse Gating and Attention Approximation: An Executable Coq Development**
 
 > 作者：王宝军、夏挽岚、祖光照、周志农、高雪峰
-> 版本：最终版 v2.13（2026-08-29）｜代码基态：PSA_framework.v（18 模块 / 269 顶层 Lemma·Theorem（316 顶层声明 / 272 Qed 口径内）/ 165 项审计全零 Classical_Prop.classic（排中律宏零出现，post-M1.5 复核成立））+ 可证明性边界族（ParetoLaw / P1Coherence / ParetoRandom / CRTResolve）+ z 区 34 探针（**20 个已并入合并版 25**：8 经典 pro 化探针 grid_ortho/parseval/partial/pairbound/rowsum/pairdirichlet/incoherence/row_rip + c4_instance + welch/uncertainty_cr/g8_synthesis_cr/g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/decidability_premium_cr）+ **合并版 ca_merged_full_25.v（87588 行，57 顶层 Module = 55 模块分区 + independent/independent′ 2 附加，MERGE_EXIT=0）**｜CI（GitHub Actions，缓存机制已上线）
+> 版本：最终版 v2.14（2026-08-30）｜代码基态：PSA_framework.v（18 模块 / 269 顶层 Lemma·Theorem（316 顶层声明 / 272 Qed 口径内）/ 165 项审计：**`Classical_Prop.classic`（排中律宏）零出现**——非"零任何经典原则"，公理脚印 sig_not_dec/sig_forall_dec/fext 为 Dedekind 实数基底可接受原则，post-M1.5 复核成立）+ 可证明性边界族（ParetoLaw / P1Coherence / ParetoRandom / CRTResolve）+ z 区 34 探针（**20 个已并入合并版 25**：8 经典 pro 化探针 grid_ortho/parseval/partial/pairbound/rowsum/pairdirichlet/incoherence/row_rip + c4_instance + welch/uncertainty_cr/g8_synthesis_cr/g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/decidability_premium_cr；2026-08-30 welch/g1_norm_closed/g2_mu_adj 三探针**场景模式化**（独立编译 2.5 EXIT=0：welch 补 `Require Import ca_taylor`、g1 依赖链 8 文件重编收敛））+ **合并版 ca_merged_full_25.v（87632 行，57 顶层 Module = 55 模块分区 + independent/independent′ 2 附加，MERGE_EXIT=0）**｜**CI（GitHub Actions）全链路绿（2026-08-30）**：lib 链编译 + 合并版编译（Rocq 9.0 + mathcomp 2.6 真环境）+ PSA 核心三文件 + 零 Admitted 检查 + coqchk 内核独立复验，五步全过
+> 修订摘要（v2.13→v2.14，2026-08-30，E153 收官对齐 + 2026-08-29 交叉分析修订落实）：**代码基态刷新**——合并版 87632 行（E153 批次二：78808→81169 八处 mathcomp 2.6 适配修复，本地 2.5 + WSL 9.1.1 双环境验证），**CI 全链路绿收官**（commit b57a2b5/7628fef/2f21249：编译 + 零 Admitted 检查 + coqchk 内核复验，检查脚本 grep 误报注释已修为语句形态 `Admitted\.`）；**P0-2 softmax 紧度勘误**——摘要/§1/§4 的 ‖softmax z − softmax z'‖₁ 界从 `2(e^d − 1)` 更正为 **`exp(2·d) − 1`**（代码 `softmax_l1_bound_exp` PSA_framework.v:2216-2220 实形态，旧稿高估紧度）；**P1-1 引用-权威对齐**——§5.6 压缩感知/τ 族的探针引用补注权威独立模块（`ca_rip_cr.v` `row_rip_bound_M`、`ca_tau.v` `tau_crop_mono`），探针降级为独立验证附注；**审计口径统一**——"全零经典排中"表述全文统一为诚实口径（排中律宏零出现 + 公理脚印披露，正文 §5/§6 原有精确表述不变）；30模块 归档 2026-08-30 新增 probe_welch / probe_g1_norm_closed / probe_g2_mu_adj（SHA 一致）；开发区→PSA 仓库对齐提交 2f21249（ca_tau 入 lib、CS 战役 4 探针入 probes、14 py 入 empirical）。
 > 修订摘要（v2.11→v2.12，2026-08-27，合并版重生成 + M3 代数化）：**合并版 `ca_merged_full_25.v` 重新生成**（87588 行 / 57 顶层 Module / 20 探针，`_merge_ca.py`，MERGE_EXIT=0 复验；30模块 归档 SHA-256 同步）；**M3 构造性 √ 界代数化**（`probe_sqrt_cr_m3.v` 的 `sqrt21_lower`/`sqrt105_lower` 从 qbisec vm_compute 数值核验升级为代数证明——Q 层平方界 `(4582/1000)²≤21` + 自建非负平方单调 `CRle_square_nonneg` + `CR_of_Q_mult`/`CRsqrt_sq` 桥，Print Assumptions 全 Closed 零公理，qbisec 核验保留交叉验证）；**CI 双环境修复**（`probe_partial.v` grid_conj 的 `rewrite !mult_INR` 在 mathcomp 2.6 下 LHS 不匹配——`muln` 新定义 ≢ `Nat.mul`——改 `rewrite mulnE` + 显式 `mult_INR` 参数，经验卡 E150）；**165 项审计重跑确认**（111 段 Axioms + 54 项 Closed，`Classical_Prop.classic` 零出现，post-M1.5 口径维持）。
 > 修订摘要（v2.12→v2.13，2026-08-29，CS 战役定理化与代码基态对齐）：§5.6.6 压缩感知族新增 **CS-11/CS-12/CS-13/CS-14 四条目**（z 区四模块合计 **64 Qed / 0 Admitted**，全部独立编译 EXIT=0、归档 30模块 SHA 一致、未并入合并版 25——并入待合并版再生）：**CS-11 τ 裁剪最优性**（`probe_taugrid.v` 17 Qed：覆盖债精确量化（窗 [0,T] 能量恰 = (T+1)/n，债 1−(T+1)/n ∈ (0,1) 机器可计算）+ 支撑完备刻画（n ≤ T ⟺ ψ_n 完全支撑训练窗，iff）+ 裁剪证书单调（kept 子族行和 ≤ 全族，上界型证书不损）+ C-梯子稀疏化迁移 + 三连合成 `tau_prune_optimality`——randmax 裁剪实验的定理侧）；**CS-12 构造性孪生**（`probe_taugrid_cr.v` 13 Qed **零公理**：抽象接口 {R : ConstructiveReals} + 归一梯子 u（cos/复指数构造性未实现，接口与主线数学一致）；**严格序 CRlt 本身是 Set 值**（ConstructiveReals.v:88 库设计——柯西实数在序证明中存储信息），覆盖债界定定理以信息性形式 0 < debt < 1（Set 值 prod，证明项可提取）陈述；主定理结论 prod 型（信息性 (iii) 不能进 Prop 的 /\）；sigT 被类型系统强制；提取 `taugrid_cr.ml` 经 DkMLNative ocamlc 4.14.2 编译通过（柯西实例 cRealConstructive 具象化））；**CS-13 CS 生产线**（`probe_cs.v` 29 Qed：一致 RIP `cs2_rip_uniform`（(1−δ)‖c‖² ≤ ‖Φc‖² ≤ (1+δ)‖c‖²，δ = 4K(C) **∀s 一致**）+ ★s-sparse 唯一性 `cs3_energy_zero`/`cs3_unique`（C ≥ 10 时测量 y = y' ⟹ 系数 c = c'——测量端信息不丢失）+ embedding `cs6_embedding`（1−2K(C) > 0）+ spark 下界 `cs1b_spark`（spark ≥ n+1，Gershgorin 冗余路径收编为 CS-3 推论）+ 逐对相干 `cs1a_pair_bound`（≤ 2πq/(1−q)）+ ★近重复对爆炸 `near_dup_coherence_12`（coh 1 2 = 1/√2 精确值）+ `cs4c_explosion`（2μ = √2 > 1——s ≥ 3 时 Gershgorin 型 RIP 证书在含近重复对梯子上必然失效，"剪 503/255/127 应恶化"的定理侧镜像））；**CS-14 offset 无关性**（`probe_cs5.v` 5 Qed：跨网格对相干界 N/(2·min(j mod N, N−j mod N)) **右端不含偏移 δ**（同族平移差频相消，pair_dirichlet 接管）+ 黄金比护城河 1/(3d) + φ_gold ∉ ℤ（offset 语义非空）——ogrid 实验"跨网格对证书不含偏移"的定理侧）。定位（如实）：CS-11/13/14 为 Candès–Tao RIP 框架与 Elad–Bruckstein 判据在频率阶梯原子族上的机器检查 + 与本项目 randmax/ogrid/τ 三剪实验直接对接的新组合（覆盖债量化、近重复对爆炸、offset 无关性）；CS-12 为构造性轨道平行实现（序的 Set 值信息性 + 可提取 OCaml）。
 
@@ -36,7 +37,7 @@
 
 1. **确定性门控的形式化**（GreedyGate，28 引理）：原文概率门控前提不可满足（$(INR\,N)^2 p^2 < 1$ 恒假，反例已录），我们裁决并证明确定性平方门 M=C² 是**本文选定模型下**的可行路线（严格表述限定于该概率门控前提框架内，不声称一般意义唯一性）；
 2. **有限化守卫衰减界**（PSA_Pipeline）：全局增长前提 → 运行时可判定检查，系数 2/√C 与 tight 1/√C 两版；
-3. **行截断能量预算**（RowTruncation）与 **softmax 稳定性**（SoftmaxStability，$\|\mathrm{softmax}\,z - \mathrm{softmax}\,z'\|_1 \le 2(e^d - 1)$）；
+3. **行截断能量预算**（RowTruncation）与 **softmax 稳定性**（SoftmaxStability，$\|\mathrm{softmax}\,z - \mathrm{softmax}\,z'\|_1 \le \exp(2d) - 1$；v2.14 勘误对齐代码 `softmax_l1_bound_exp` 实形态，旧稿 2(e^d−1) 高估紧度）；
 4. **认证注意力近似**（CertifiedAttention）：谱能量 ≤ ε ⟹ 输出偏差 ≤ $(e^{2\sqrt{\varepsilon}}-1)\cdot V_{\max}$；
 5. **实例证书**（Gershgorin + InstanceCertificate）：对 C=4 阶梯 [3,13,53,213] 证明框架界 [1/5, 9/5]（μ=4/5）——参数化最坏情形 1±4K(C) 在 C=4 空洞成立、需 C>25 的问题就此终结；
 6. **有理支配方法论**（实现贡献）：证书全部常数经 floor-sqrt / Jordan / Dirichlet 单侧松弛化为有理数，`compute; field` 封口——零数值策略、零区间算术、可判定、可提取；
@@ -85,7 +86,8 @@ psi_inner_dirichlet : |⟨ψ_{n1},ψ_{n2}⟩| = |sin(πNΔ)/sin(πΔ)| / √(n1�
 
 psi_inner_cons_bound : |⟨ψ_{n1},ψ_{n2}⟩| ≤ 1/(2Δ√(n1n2))   (* 窗口无关保守界 *)
 
-softmax_l1_bound_exp : ‖z−z'‖∞ ≤ d → ‖softmax z − softmax z'‖₁ ≤ 2(e^d − 1)
+softmax_l1_bound_exp : ‖z−z'‖∞ ≤ d → ‖softmax z − softmax z'‖₁ ≤ exp(2·d) − 1
+  (* v2.14 勘误对齐代码 PSA_framework.v:2216-2220 实形态；原稿 2(e^d − 1) 系紧度高估 *)
 
 certified_attention_approx : 逐行丢弃谱能量 ≤ ε →
   ‖attn_out − attn_out_approx‖ ≤ (e^{2√ε} − 1) · V_max
@@ -196,7 +198,7 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
 - **窗口无关 Dirichlet 部分和界**（probe_partial）：j ≢ 0 (mod N) ⟹ ‖Σ_{k<W} e^{2πikj/N}‖ ≤ N/(2·min(j mod N, N−j mod N))，窗口无关。
 - **任意角度对 Dirichlet 界与混合网格相干界**（probe_pairdirichlet）：任意角度 t1 t2，差频 = 2π·j/N（j mod N ≠ 0）⟹ 任意窗口 W 上 ‖Σ e^{ik·t1}·conj(e^{ik·t2})‖ ≤ N/(2·min(j mod N, N−j mod N))（`pair_dirichlet`）；推论 `mixed_grid_coherence`：嵌套网格 N 与 a·N 两原子跨网格相干界——grid 崩塌后多尺度设计空间的定理。
 - **U5 黄金近碰撞半径**（probe_nearcoll，皇冠）：∀ d ≥ 1、∀ m ∈ Z：**|d·φ_gold − m| ≥ 1/(3d)**（代数数范数路线，`square5_zero` 零公理）——近碰撞不能快于 O(1/d) 聚集；与 C5/T2 合成 offset-grid 的完整定量辩护（碰撞谱双向挡死）。
-- **τ 三分**（probe_taudicho，零公理）：碰撞质量 τ 的窗内/OOD/三分刻画。
+- **τ 三分**（probe_taudicho，零公理）：碰撞质量 τ 的窗内/OOD/三分刻画。权威独立模块：`ca_tau.v` `tau_crop_mono`（N1≤N2 ⟹ Στ 裁剪单调，纯 mathcomp 零公理；2026-08-30 对齐补注，论文 B §8.4 经验律的定理侧）。
 - **素数阶梯分辨率与最优性**（`src/CRTResolve.v` + probe_ladderlimit）：存在性 `prime_ladder_8` + `prime_ladder_8_pairwise_coprime`（8 素数链 [3,7,13,29,59,127,251,503]，两两互素）+ 分辨率 `crt_inj`（联合模单射，lcm ≈ 7.49×10¹² ≫ 8× 视界）+ **最优性 `no_nine_band_ladder`**（**[3,511] 不存在 9 元素素数阶梯**，贪心交换论证，贪心链 113/211/397 更紧）——素数叙事完整（存在性 + 分辨率 + 最优性），支撑论文 B 素数阶梯受控对照（prime-7 vs prime-8）。
 
 ### 5.6.5 分级证书、一般维张量与核漂移（z 区探针）

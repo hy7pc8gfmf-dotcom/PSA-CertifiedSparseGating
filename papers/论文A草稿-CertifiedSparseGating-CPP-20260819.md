@@ -1,10 +1,11 @@
 # 论文 A 草稿（CPP/ITP 方向）— 2026-08-22 清洗版
 
-> **计数同步注记（2026-08-27，E113）**：合并版当前为 `ca_merged_full_25.v`（**87588 行 / 57 顶层 Module = 55 模块分区 + independent/independent′ 2 附加** / 20 个 z 区探针并入 / MERGE_EXIT=0，2026-08-27 重生成）；审计 **165 项**（111 段 Axioms + 54 项 Closed，`Classical_Prop.classic` 零出现，post-M1.5 口径，2026-08-27 重跑确认）；M3 √ 界代数化（sqrt21_lower/sqrt105_lower → Q 平方界 + 非负平方单调，零公理）；CI 双环境修复（probe_partial mult_INR vs muln，E150）。以下正文中的旧行数/模块数（78051/43 等）为历史快照，以本注记为准。
+> **计数同步注记（2026-08-30，E153 战役收官对齐）**：合并版当前为 `ca_merged_full_25.v`（**87632 行 / 57 顶层 Module = 55 模块分区 + independent/independent′ 2 附加** / 20 个 z 区探针并入 / **MERGE_EXIT=0**）；**CI 全链路绿（2026-08-30）**：GitHub Actions 五步全过——lib 链编译 + 合并版编译（Rocq 9.0 + mathcomp 2.6 真环境）+ PSA 核心三文件 + 零 Admitted 检查 + **coqchk 内核独立复验**（commit b57a2b5 合并版批次二 + 7628fef 检查脚本修正 + 2f21249 开发区对齐）；E153 批次二修复 78808→81169 八处（mathcomp 2.6 ssreflect 行为适配，本地 2.5 + WSL 9.1.1 双环境验证，方法论沉淀《CI 三层编译同行准则》白皮书）；审计 **165 项**（111 段 Axioms + 54 项 Closed；口径：**`Classical_Prop.classic`（排中律宏）零出现**——非"零任何经典原则"，公理脚印 sig_not_dec/sig_forall_dec/fext 为 Dedekind 实数基底可接受原则，2026-08-27 重跑确认）；30模块 归档 2026-08-30 新增 probe_welch / probe_g1_norm_closed / probe_g2_mu_adj（三探针场景模式化：独立编译 2.5 EXIT=0，welch 补 `Require Import ca_taylor`）。以下正文中的旧行数/模块数（78051/87588 等）为历史快照，以本注记为准。
 
 > **版本状态（2026-08-22）**：
 > - **认证管线基态**：`frame_check_instance_sound` 主定理 Qed（会话 10+11）、**M1.5 经典清零**
->   （审计 **165 项 RC=0、零 Admitted、全零经典排中**）、M4b 长度一致性 + T8 复合证书 +
+>   （审计 **165 项 RC=0、零 Admitted、`Classical_Prop.classic` 零出现**（公理脚印仅
+>   sig_not_dec/sig_forall_dec/fext，诚实口径见正文 §5 审计节））、M4b 长度一致性 + T8 复合证书 +
 >   **复合表示稳定性界 `champion_e5_composite_certificate`（Qed）**、酉不变性机器检查（A2）、
 >   4D 组装（A1）、2D-wide 免 H_dom、FrameCheck2DNarrow（§5.5）、FFI 24/24（详见正文 §5）。
 > - **可证明性边界新定理族（§5.6，2026-08-22）**：P2/P3/N511（`src/ParetoLaw.v`）、
@@ -111,7 +112,9 @@ for the uncertified empirical leader.
   2. **有限化守卫衰减界**（PSA_Pipeline）：全局增长前提 → 运行时可判定检查，
      系数 2/√C 与 tight 1/√C 两版；
   3. **行截断能量预算**（RowTruncation）与 **softmax 稳定性**（SoftmaxStability，
-     ‖softmax z − softmax z'‖₁ ≤ 2(e^d −1)）；
+     ‖softmax z − softmax z'‖₁ ≤ exp(2d) − 1；2026-08-30 勘误：代码
+     `softmax_l1_bound_exp`（PSA_framework.v:2216-2220）实为 `exp(2·d) − 1`，
+     旧稿 `2(e^d − 1)` 高估了引理紧度）；
   4. **认证注意力近似**（CertifiedAttention）：谱能量 ≤ ε ⟹ 输出偏差 ≤ (e^{2√ε}−1)·V_max；
   5. **实例证书**（Gershgorin + InstanceCertificate，**已完成**）：对实际 C=4 阶梯
      [3,13,53,213] 证明框架界 [1/5, 9/5]（μ=4/5）——参数化最坏情形 1±4K(C) 在 C=4
@@ -207,7 +210,8 @@ psi_inner_dirichlet : |⟨ψ_{n1},ψ_{n2}⟩| = |sin(πNΔ)/sin(πΔ)| / √(n1�
 
 psi_inner_cons_bound : |⟨ψ_{n1},ψ_{n2}⟩| ≤ 1/(2Δ√(n1n2))   (* 窗口无关保守界 *)
 
-softmax_l1_bound_exp : ‖z−z'‖∞ ≤ d → ‖softmax z − softmax z'‖₁ ≤ 2(e^d − 1)
+softmax_l1_bound_exp : ‖z−z'‖∞ ≤ d → ‖softmax z − softmax z'‖₁ ≤ exp(2·d) − 1
+  (* 2026-08-30 勘误对齐代码：原稿 2(e^d − 1) 系紧度高估 *)
 
 certified_attention_approx : 逐行丢弃谱能量 ≤ ε →
   ‖attn_out − attn_out_approx‖ ≤ (e^{2√ε} − 1) · V_max
@@ -254,7 +258,9 @@ unitary_invariance_psi_rope_theta (θ) (vals) (coeffs) (n N) :
   (* 酉不变性 RoPE 显式实例（Module UnitaryInvariance，会话 17）：u k := Cexp (0+i·INR k·θ k)，
      Cexp_unit_mod 证 Cnorm_sq (u k) = 1；与实验 2×2 旋转矩阵同构（SO(2)≅U(1)），见 §5.3 *)
 
-(* ── 压缩感知级理论保证（probe_incoherence.v，2026-08-23 并入，CS-1/2/3）── *)
+(* ── 压缩感知级理论保证（probe_incoherence.v，2026-08-23 并入，CS-1/2/3；
+      权威独立模块：ca_rip_cr.v `row_rip_bound_M`（P5 收缩链 33 定理）——
+      2026-08-30 对齐：引用-权威错配修正，探针为独立验证（EXIT=0、零公理）附注 ── *)
 psi_norm_one (n) : 1 ≤ n → l2_norm_sq (psi n) (pred n) = 1
   (* 频率阶梯原子族单位范数：‖ψ_n‖ = 1 *)
 
@@ -703,6 +709,8 @@ E5''（7 带）在阈值内但实际已失败（累积行和 1.41），C3-trunc�
   待 src 侧完成；K0=32 高维联动不承诺。
 - **τ 三分（probe_taudicho.v，零公理）**：`tau_inwindow`/`tau_ood`/`tau_split`/
   `tau_count_link`——碰撞质量 τ 的窗内/OOD/三分刻画（OOD 见证 k := 0 的教训已录）。
+  权威独立模块：`ca_tau.v` `tau_crop_mono`（N1≤N2 ⟹ Στ 裁剪单调，纯 mathcomp 零公理，
+  2026-08-30 对齐补注）。
 - **U5 黄金近碰撞半径（probe_nearcoll.v，皇冠收官，2026-08-22）**：
   **∀ d ≥ 1、∀ m ∈ Z：|d·φ_gold − m| ≥ 1/(3d)**（`golden_near_collision_gold`，
   φ_gold = (√5−1)/2；代数数范数路线：e·(m+d+dφ) = d²−dm−m² + 无穷递降
