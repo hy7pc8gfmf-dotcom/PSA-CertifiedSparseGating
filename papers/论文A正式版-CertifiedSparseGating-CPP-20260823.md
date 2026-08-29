@@ -307,7 +307,21 @@ psi-rope 行 3 个种子均值±std、dense 单个种子（b64 s1337）、rope �
 枚举、可单独收紧、可机械组合（`cert_optimize` 方向，future work）。相邻对有理界极限
 n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3）——松弛链的渐近代价有闭合形式。
 
-**保守性（充分非必要）**：`frame_check_instance = true` 是框架界的充分非必要条件——floor-sqrt 有理松弛的保守因子约 1.5×，存在满足 Gershgorin 条件但因保守上界超 4/5 而被误拒的合法阶梯（假阴性）。典型真例证：[3,7,15]（起点最低的倍增三带）精确行和 0.7870 ≤ 4/5（满足框架条件），但有理保守界 1.3125 > 4/5 被误拒（可判定性溢价 ≈1.67）；而七带 E5'' 精确行和 1.2287 > 4/5，检查器判 false 是**真阴性**（真值超阈），不在误拒之列。正是这一不完备性使**复合证书成为必要**。宁可误拒、绝不放行的保守取向是可判定性的设计选择。系统扫描（114 阶梯 × 5 族）：通过 35（30.7%）、假阴性 56（全量 49.1%，占拒绝 70.9%），集中于"有用"阶梯（C=2/3-sparse 12/13、几何奇带 9/9）。
+**保守性（充分非必要）**：`frame_check_instance = true` 是框架界的充分非必要条件——floor-sqrt 有理松弛的保守因子约 1.5×，存在满足 Gershgorin 条件但因保守上界超 4/5 而被误拒的合法阶梯（假阴性）。典型真例证：[3,7,15]（起点最低的倍增三带）精确行和 0.7870 ≤ 4/5（满足框架条件），但有理保守界 1.3125 > 4/5 被误拒（可判定性溢价 ≈1.67）；而七带 E5'' 精确行和 1.2287 > 4/5，检查器判 false 是**真阴性**（真值超阈），不在误拒之列。 **充要性精确层口径**：`probe_g3_criterion.v` 的 `g3_certifiable_iff` 证明——精确有理算术层上检查器通过与否等价于 Gershgorin 行和阈值条件；假阴性全部来源于可判定松弛层的保守性，而非检查器逻辑的完备性缺口（[3,7,15] 精确行和 ≈0.787 ≤ 4/5 被误拒，`probe_g5_premium.v` 机器验证）。正是这一不完备性使**复合证书成为必要**。宁可误拒、绝不放行的保守取向是可判定性的设计选择。系统扫描（114 阶梯 × 5 族）：通过 35（30.7%）、假阴性 56（全量 49.1%，占拒绝 70.9%），集中于"有用"阶梯（C=2/3-sparse 12/13、几何奇带 9/9）。
+
+**证书覆盖地图（阶梯实例 × 认证状态 × 实证对照）**：
+
+| 阶梯实例 | 直接框架界 (μ≤4/5) | 复合证书 | 检查器状态 | 实证 8× PPL | 覆盖结论 |
+|---|---|---|---|---|---|
+| [3,13,53,213] | ✅ `certified_c4_frame_bounds` | — | true | 12.75 | 4 原子能量有界；3 原子稀疏唯一 |
+| [3,15,63,255] | ✅ `certified_t8_core_frame_bounds` | — | true | — | T8 认证核覆盖 |
+| [3,7,15,31,63,127,255] | ❌ 精确行和 1.2287 > 4/5 | ✅ `champion_e5_composite_certificate` | false（真阴性） | 12.40 | 基表示稳定性界（单边上界） |
+| [3,7,15] | ❌ 检查器 false | — | false（假阴性） | — | 精确行和 ≈0.787 ≤ 4/5，被保守界误拒 |
+| 随机 log-uniform [3,511] | ❌ | — | whp false | 6.45 | 旋转族内最优；证书仅 ℓ² 线性无关 |
+| ALiBi（非阶梯） | ❌ | ❌ | — | **4.47** | 全局最优，无证书，非周期偏置 |
+| grid [3,5,17,…] | ✅ μ=0 正交证书 | ❌ | — | 25.66 | 证书 ≠ 性能的反例锚点 |
+
+（PPL 列为配套论文 B 的实证数据；证书列为本开发形式化结果——两轨无形式化桥梁。）
 被误拒的合法阶梯仍可由复合证书（§4.3）覆盖：「检查器通过 ⟹ 框架界」成立，「检查器失败
 ⟹ 不安全」不成立。
 
@@ -494,7 +508,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   `probe_decidability_premium_cr.v` 并入合并版 25 模块 55/55，Gram 相干行和 ≤ 63/80 + 反射界 21/16
   + 溢价 5/3，核心 `m4_CRinv_le_contravar` 纯构造反变单调，`m4_decidability_premium : {w & CRle w (63/80)}` Set 层 sigT 定理，Print Assumptions 全
   Closed——相干缺口闭合的构造性收官）。
-  **意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版） + 字典最优性⟹恢复保证合成（G-8），机器检查，其中 k-原子 RIP、唯一性骨架、不确定原理与相图合成走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；全窗口 [3,13,53,213] 四原子的稀疏唯一性扩展是直截但未完成的计算（必要的逐对相干界已在 `PSA_framework.v`）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界的合成为后续工作（future work 第一项）。**数学新颖性说明**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle、CRg8_recovery_synthesis 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复、RIP、Donoho–Stark 不确定性原理与 Welch 界-恢复保证相图的机器检查，数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径、构造性轨道独立性验证与三角闭环相图合成）。本族主要探针已并入合并版 `ca_merged_full_25.v`（57 顶层 Module = 55 模块分区，MERGE_EXIT=0），
+  **意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版） + 字典最优性⟹恢复保证合成（G-8），机器检查，其中 k-原子 RIP、唯一性骨架、不确定原理与相图合成走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；全窗口 [3,13,53,213] 四原子的稀疏唯一性扩展是直截但未完成的计算（必要的逐对相干界已在 `PSA_framework.v`）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界的合成为后续工作（future work 第一项）。**4 原子障碍分析**：两两相干口径硬限制 μ·4 ≈ 1.33 > 1；出路——精确 Gram 特征值口径（G-1 闭式）、严格 3-稀疏信号由 `sparse_uniquenessM` 覆盖、Welch-窗口合成的理论极限陈述。**数学新颖性说明**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle、CRg8_recovery_synthesis 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复、RIP、Donoho–Stark 不确定性原理与 Welch 界-恢复保证相图的机器检查，数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径、构造性轨道独立性验证与三角闭环相图合成）。本族主要探针已并入合并版 `ca_merged_full_25.v`（57 顶层 Module = 55 模块分区，MERGE_EXIT=0），
 独立 + 合并双通过；G-3（probe_g3_criterion）/G-5（probe_g5_premium）未并入合并版（z 区探针待合并），probe_recovery_cr 为构造性轨道独立验证。
 
 - **τ 裁剪最优性（CS-11，经典 R 轨道，2026-08-28 新增）** `probe_taugrid.v`（17 Qed / 0 Admitted）：**覆盖债精确量化** `coverage_fraction`/`coverage_debt`（S T < n ⟹ 窗 [0,T] 内能量恰 = (T+1)/n，窗外能量 1−(T+1)/n ∈ (0,1)——**τ 负债的机器可计算量**，"剪 255/127/63 应恶化"的定理侧镜像）；**支撑完备刻画** `support_classification`（n ≤ T ⟺ ψ_n 完全支撑训练窗，iff）；**裁剪证书单调** `prune_row_le`（kept 子族行和 ≤ 全族——上界型证书不损）；**C-梯子稀疏化迁移** `thinning_preserves_ratio`；**三连合成** `tau_prune_optimality`——randmax256/384 裁剪实验的定理化。
@@ -520,7 +534,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 - **公理脚印（全部 165 项仅此）**：sig_not_dec / sig_forall_dec + functional_extensionality_dep
   ——标准 Dedekind 实数基础设施，**属可接受的 Reals 基底，非本开发应用层引入、非 `Classical_Prop.classic` 公理（显式声明）**；`Classical_Prop.classic`（排中律宏）
   **零出现（post-M1.5 复核成立）**。「classical-free」精确指排中律宏零出现，而非「无任何经典原则」——完整构造性未声称。**外部依赖说明**：mathcomp / Coquelicot 未纳入 165 项审计，"零 `Classical_Prop.classic`"仅限本开发应用层，不推广到整个开发依赖（Coquelicot 基于实数库，可能含经典公理，已明确声明）。
-**审计范围与合并版全基态的边界**：165 项审计的对象是 `PSA_framework.v` 应用层定理；合并版 `ca_merged_full_25.v` 其余模块中，`mu_adj_phase_transition`（μ 单调 ⟹ 相变存在性定理）的公理脚印含完整排中律 `classic`（CI 与本地编译日志一致确认）——"零 `Classical_Prop.classic`"结论限于 165 项审计范围，不覆盖合并版全部定理；应用层注意力证书/框架界/反射检查器定理链不受影响。
+**审计范围与合并版全基态的边界**：165 项审计的对象是 `PSA_framework.v` 应用层定理；合并版 `ca_merged_full_25.v` 其余模块中，`mu_adj_phase_transition`（μ 单调 ⟹ 相变存在性定理）的公理脚印含完整排中律 `classic`（CI 与本地编译日志一致确认）——"零 `Classical_Prop.classic`"结论限于 165 项审计范围，不覆盖合并版全部定理；应用层注意力证书/框架界/反射检查器定理链不受影响。审计分层口径：165 项输出块 = 54 项 Closed under the global context + 111 项 Dedekind 三公理脚印；构造性轨道（ca_rip_cr.v 33 定理、probe_uncertainty_cr.v 35 定理、probe_taugrid_cr.v 13 定理）各有独立 Print Assumptions 审计且全部 Closed，不在 165 项之内。
 - **M1.5 经典清零（post-M1.5 复核）**：`Module ExpSeries` 已 Qed（exp 幂级数路线），`exp_mono_le` 改走级数
   路线，语句不变、下游零改动——整个 CertifiedAttention 模块为纯构造性（不依赖实数完备性
   的排中律），据我们所知，这是第一个不依赖实数完备性排中律的深度学习注意力形式化验证。
