@@ -97,3 +97,46 @@ jobs:
         run: |
           eval "$(opam env)"
           bash scripts/ci_build.sh
+
+      # ★ 2026-08-29：GPG 签名认证（CI 流水线不会自动签名——必须显式导入私钥 + 配置 git + 用 -S 提交）
+      #   私钥存于 GitHub Secrets：GPG_PRIVATE_KEY（必填）、GPG_PASSPHRASE（可选，私钥带口令时）
+      #   公钥已存档：.github/gpg/psa-ci-public-key.asc（指纹 AE7C975FAE0BCD97）
+      #   验证：签名提交在 GitHub 上显示 Verified 认证。
+      - name: Import GPG key and enable commit signing
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |
+          set -e
+          if [ -z "$GPG_PRIVATE_KEY" ]; then
+            echo "::warning::GPG_PRIVATE_KEY secret 未配置——CI 提交将无 Verified 认证"
+            exit 0
+          fi
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          # 配置 Git：使用本仓库公钥对应的密钥并开启签名
+          git config --global user.signingkey AE7C975FAE0BCD97
+          git config --global commit.gpgsign true
+          # 签名提交需要身份（CI 环境默认无 user.name/user.email）
+          git config --global user.name "PSA CI Bot"
+          git config --global user.email "168888@live.cn"
+          echo "GPG signing configured (fingerprint AE7C975FAE0BCD97)"
+
+      # 签名提交示例：CI 产生产物变更时用 -S 提交（无变更则跳过）。
+      # push 需额外配置（contents: write 权限 + 显式 git push），默认不开启。
+      # 注意：secrets 不能在 `if:` 条件中引用——经 env 传入后在脚本内判断。
+      - name: Signed commit of CI artifacts (if any)
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+        run: |
+          set -e
+          if [ -z "$GPG_PRIVATE_KEY" ]; then
+            echo "::warning::GPG_PRIVATE_KEY secret 未配置——跳过签名提交"
+            exit 0
+          fi
+          git add -A
+          if git diff --cached --quiet; then
+            echo "no changes to commit"
+          else
+            git commit -S -m "ci: update build artifacts (signed)"
+            echo "::notice::Signed commit created (Verified)"
+          fi
