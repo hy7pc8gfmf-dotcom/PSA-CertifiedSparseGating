@@ -2,7 +2,7 @@
 ## A Coq Formalization of Representation Stability and Sparse Recovery Guarantees
 
 > 正式版。投稿方向：CPP/ITP（形式化方法）。
-> 代码基态：合并版 `ca_merged_full_25.v`（87632 行，57 顶层模块，MERGE_EXIT=0；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验）。
+> 代码基态：合并版 `ca_merged_full_25.v`（87632 行，57 顶层模块，SHA-256 基 4901f18e，MERGE_EXIT=0，公理审计 54 Closed + 111 Dedekind 三公理、`Classical_Prop.classic` 零出现（2026-08-30 重跑确认）；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验）。
 
 ---
 

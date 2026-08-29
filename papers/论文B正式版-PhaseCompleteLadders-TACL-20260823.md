@@ -405,7 +405,7 @@ KV 逐出实验（训练长度内逐出无系统代价）与论文 A 的 `kv_evi
 ## 10. 正式配置复现（tinystories200 · 27000 iters）与 τ 裁剪（τ-trimmed reallocation）
 
 > 数据可信度：batch1/2（3000 iters）与本地 RTX3070 逐位对齐（偏差 ≤0.03）；batch3/4
-> 同脚本同语料，云端 T4 与本地可互换。正式配置 = tinystories200（200MB）· block 512 /
+> 同脚本同语料；云端 T4 与本地的可互换性已在 batch1/2 逐位验证，batch3/4 的绝对数值在其原始执行环境下有效——本地三 seed 重跑实测 @512 存在约 0.12 的系统偏移，跨环境比较需谨慎。正式配置 = tinystories200（200MB）· block 512 /
 > batch 32 / 27000 iters ≈ 9.5 epoch。
 
 **batch3：四模式正式对照（s1337，27000 iters）**：
@@ -416,6 +416,8 @@ KV 逐出实验（训练长度内逐出无系统代价）与论文 A 的 `kv_evi
 | t5rel | 2.11 | 2.15 | 2.31 | **2.75** |
 | psi-rope-rand（τ 全保留） | 2.16 | 2.65 | 4.70 | **7.50** |
 | e5pp | 2.22 | 2.38 | 6.34 | **14.21** |
+
+**三 seed 独立复现（本地 RTX3070，2026-08-28，tinystories200 语料指纹 1.8e8 确认）**：ALiBi @4096 = 2.11±0.03（2.14/2.07/2.12，与 batch3 一致）、t5rel = 2.74±0.05（2.80/2.73/2.69）——两条基线的正式配置结论独立复现；rand = 5.79±2.36（9.31/4.31/3.76，变异系数 41%）——随机阶梯在深度训练下 seed 方差显著放大，单 seed 数值不具代表性；@512 三方案存在约 0.12 系统偏移（跨环境比较需谨慎）。
 
 **batch4：τ 裁剪验证（对照 rand 7.50）**：
 
@@ -547,6 +549,8 @@ LongRoPE（Ding et al., ICLR 2024）。本文以「频率阶梯相位剖面」�
 
 ## 12. Limitations & Future Work
 
+**Random-ladder deep-training variance** (added from the 2026-08-28 three-seed rerun): random ladders under 27000-iteration deep training show significantly amplified seed dispersion (5.79±2.36, CV 41%, range 3.76–9.31; cf. ALiBi σ=0.03, t5rel σ=0.05) — their formal-config figures are directional only; this stability differential between random and structured/biased schemes is itself a new empirical dimension.
+
 - **规模**：结论限于 char 级小规模（0.43M–0.63M 参数，统称 ~0.5M 级；BPE 复刻待补）；
   向 GPT-2 small 级迁移的挑战未验证（机制证明而非规模基准）。
 - **统计**：主表 3-seed 为原始口径；Welch t（psi-rope-rand vs rope-NTK）p=0.018、
@@ -630,12 +634,26 @@ LongRoPE（Ding et al., ICLR 2024）。本文以「频率阶梯相位剖面」�
 ## 附录 B 温控协议
 
 训练环境为 RTX 3070 8GB（CUDA 12.4, torch 2.6.0+cu124），训练治理如下：
-- 触发阈值 80°C，恢复阈值 70°C，0.5s 高频轮询（`--check-interval 0.5`），冷却 60s
-  （`--cooldown 60`），CPU 利用率上限 90%（`--cpu-util-max 90`）。
+- 深度训练（27000 iters 全部链）实际执行参数（v2）：触发 80°C（`--gpu-max 80`）、恢复 75°C（`--gpu-resume 75`）、轮询 0.2s（`--check-interval 0.2`）——0.05s 轮询因 `nvidia-smi` 单次 52ms、20 次/秒占满单核（探测自身成热源触发 CPU 冷却死循环）而弃用；协议演进：早期 v1（85/78）在 rt256 step 835 热过载宕机后收紧为 v2。早期 Gutenberg 快速配置采用 80/70/0.5s/60s 口径（CPU 利用率上限 90%）。
+- 冷却暂停的实现为训练循环级轮询挂起：RNG 与优化器状态驻留内存不被重置，学习率调度按已完成迭代步数推进——暂停只改变墙钟耗时，不改变计算轨迹（2026-08-25/26 两次独立复现数值一致为实证佐证）。
 - 一次只跑一件 GPU 任务（训练或 Coq 编译，不并行）；每次冷却暂停记录到日志，**暂停不
   改变计算轨迹**（确定性协议——rope 在两种温控协议下逐位复现，损失到小数点后四位；实现层面：冷却暂停为训练循环级轮询挂起，随机数生成器与优化器状态驻留内存不被重置，学习率调度按已完成迭代步数推进——暂停只改变墙钟耗时，不改变任何计算轨迹）。
 - 历史宕机教训（4 次）：空闲基线 56–58°C，死机临界 ~85°C；训练每步 `guard.check()`，
   >85°C 立即杀进程。
+
+## 附录 C′ 掩码评估完整表（k_scan_record，27000 iters）
+
+| N \ T | 512 | 1024 | 2048 | 4096 |
+|---|---|---|---|---|
+| full | 2.69 | 2.87 | 3.42 | 4.36 |
+| 224–320 | 3.33 | 4.63 | 7.48 | 11.77 |
+| 352–480 | 2.83 | 3.38 | 4.68 | 6.94 |
+| 511 | 2.69 | 2.87 | 3.42 | 4.36 |
+
+Masking monotonicity ("more bands silenced, worse extrapolation") holds at every
+evaluation length; the 352–480 window sits between full and 224–320 at all
+lengths — the complete evidence behind §10.9a point 6 (pruning gains are
+training-adaptation effects, not purely geometric ones).
 
 ## 附录 C 复现清单
 
