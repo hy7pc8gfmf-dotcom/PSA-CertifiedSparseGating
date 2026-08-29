@@ -81,7 +81,9 @@ done
 echo "  ✅ PSA 核心编译通过"
 
 echo "=== 4. 零 Admitted 检查 ==="
-if grep -rn "Admitted" coq/core/PSA_framework.v | grep -v "(\*" ; then
+# 仅匹配 Admitted 语句（带英文句点）——注释中的“零 Admitted、”（中文顿号）不误报；
+# 再排除含 "(*)" 的行做双保险（多行注释中间行不含 "(*)"，纯靠句点区分）
+if grep -rnE "Admitted\." coq/core/PSA_framework.v | grep -v "(\*" ; then
   echo "  ❌ 发现 Admitted！"
   exit 1
 else
