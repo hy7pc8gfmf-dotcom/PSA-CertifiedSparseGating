@@ -491,3 +491,4 @@ psi-rope 行 3 个种子均值±std、dense 单个种子（b64 s1337）、rope �
 - 审计证据：`AI注意力算法\审计证据\audit_run_20260826_full.txt`（**完整 165/165 项**，2026-08-26 重跑）+ 历史 `audit_run.txt`（55 块样本）；构建配置 `_CoqProject`/`Makefile`/`_merge_ca.py` 随稿。
 - 实验代码与数据：`psa_empirical/`（length_extrap.py 等，3 个种子固定 {1337,42,7}，见论文 B 附录 B）。
 - 关键定理行号：ChampionCertificate L4582–5150（定理本体 L5075）、FrameCheck2DNarrow L5166–6290。
+
