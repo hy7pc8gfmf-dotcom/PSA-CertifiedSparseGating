@@ -1,10 +1,8 @@
 ﻿# Certified Sparse Gating over Phase-Truncated Frequency Ladders
 ## A Coq Formalization of Representation Stability and Sparse Recovery Guarantees
 
-> 正式版（2026-08-30 更新，对齐母版 v2.14）。来源：论文 A 草稿清洗（删除会话/评审/版本内部注记），
-> 全部代码数字按 2026-08-30 基态核验。投稿方向：CPP/ITP（形式化方法）。
-> 代码基态：`src/`（正式模块）+ `z/`（探针）+ 合并版 `src/ca_merged_full_25.v`（**87632 行，MERGE_EXIT=0；CI 全链路绿 2026-08-30——GitHub Actions 五步全过：lib 链编译 + 合并版编译（Rocq 9.0 + mathcomp 2.6 真环境）+ PSA 核心三文件 + 零 Admitted 检查 + coqchk 内核独立复验**）+ 归档 `30模块/`。
-> v2.14 修订要点：softmax 紧度勘误（`2(e^d−1)` → `exp(2·d)−1`，对齐代码 `softmax_l1_bound_exp` 实形态）；审计口径统一为诚实表述（`Classical_Prop.classic` 排中律宏零出现 + 公理脚印披露）；τ/压缩感知族探针引用补注权威独立模块（`ca_tau.v` `tau_crop_mono`、`ca_rip_cr.v` `row_rip_bound_M`）。
+> 正式版。投稿方向：CPP/ITP（形式化方法）。
+> 代码基态：合并版 `ca_merged_full_25.v`（87632 行，57 顶层模块，MERGE_EXIT=0；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验）。
 
 ---
 
@@ -89,7 +87,7 @@ code 思想在数值框架界上的实例化；(iii) **构造性实数轨道**�
 2. **有限化守卫衰减界**（PSA_Pipeline）：全局增长前提 → 运行时可判定检查，系数 2/√C 与
    tight 1/√C 两版。
 3. **行截断能量预算**（RowTruncation）与 **softmax 稳定性**（SoftmaxStability：
-   ‖softmax z − softmax z'‖₁ ≤ exp(2·d) − 1；2026-08-30 勘误对齐代码实形态）。
+   ‖softmax z − softmax z'‖₁ ≤ exp(2·d) − 1）。
 4. **认证注意力近似**（CertifiedAttention）：谱能量 ≤ ε ⟹ 输出偏差 ≤ (e^{2√ε}−1)·V_max。
 5. **实例证书**（Gershgorin + InstanceCertificate）：对 C=4 阶梯 [3,13,53,213] 证明框架界
    [1/5, 9/5]（μ=4/5）——参数化最坏情形 1±4K(C) 在 C=4 空洞成立、需 C>25 的问题就此终结。
@@ -130,7 +128,7 @@ code 思想在数值框架界上的实例化；(iii) **构造性实数轨道**�
 ## 2. Formalization Overview
 
 - **背景定义**：ψ 基 $\psi_n(k) = (1/\sqrt{n})\cdot e^{2\pi i k/n}$，有限支撑（$k \ge n$ 时为 0）；阶梯生成器 $n_{j+1} = \max(C\cdot n_j + 1,\, n_j + 2)$（非精确几何——证书必须认证实际值，这是需要运行时检查器而非纸面公式的理由）。
-- **三处语义勘误**（线性 vs 平方门、`<=?` vs `<?`、≥2 并集）——每处附反例，体现形式化对原草案的纠错价值；**一处常数级勘误（3D 张量基，已修正）**：2D 引擎的离对角界常数 K0 = Rmax 8C³/4 在 3D 等轴退化配置（两轴索引相同、仅第三轴差 ≤6）下不可证——归一化三重内积可逼近 1，而 /4 常数只给 1/2；3D 模块改为 K0′ = Rmax 8C³/2（退化配置恰好紧，worst case = 1）。
+- **三处语义修正**（线性 vs 平方门、`<=?` vs `<?`、≥2 并集）——每处附反例，体现形式化对原草案的纠错价值；**一处常数级勘误（3D 张量基，已修正）**：2D 引擎的离对角界常数 K0 = Rmax 8C³/4 在 3D 等轴退化配置（两轴索引相同、仅第三轴差 ≤6）下不可证——归一化三重内积可逼近 1，而 /4 常数只给 1/2；3D 模块改为 K0′ = Rmax 8C³/2（退化配置恰好紧，worst case = 1）。
 - **主模块** `src/PSA_framework.v`：**6659 行 / 18 个 Module / 269 顶层 Lemma·Theorem（含 Module PhaseCoherence 12 项）/ 零 Admitted**
   （计数口径：含 PhaseCoherence 相干熵桥接；早期审计记录为 265，不含该模块）。模块链：RuntimeGuards → SeqProps → PSA_Pipeline → GreedyGate →
   RowTruncation → PipelineEndToEnd → ExpSeries → SoftmaxStability → CertifiedAttention →
@@ -148,7 +146,7 @@ code 思想在数值框架界上的实例化；(iii) **构造性实数轨道**�
   各独立编译 EXIT=0 + 合并编译双通过。
 - **审计**：PSA_audit.v **165 项** Print Assumptions，RC=0，零 Admitted；全部 165 项
   `Classical_Prop.classic` 零出现；公理脚印仅 sig_not_dec / sig_forall_dec / fext
-  （标准 Dedekind 实数基础设施，如实声明）。
+  （标准 Dedekind 实数基础设施，已明确声明）。
 - **依赖**：Rocq 9.0.1；mathcomp（ssreflect/ssrbool/ssrnat/seq/eqtype/div/prime）；
   Coquelicot。外部依赖仅此二者。
 
@@ -169,7 +167,6 @@ psi_inner_dirichlet : |⟨ψ_{n1},ψ_{n2}⟩| = |sin(πNΔ)/sin(πΔ)| / √(n1�
 psi_inner_cons_bound : |⟨ψ_{n1},ψ_{n2}⟩| ≤ 1/(2Δ√(n1n2))   (* 窗口无关保守界 *)
 
 softmax_l1_bound_exp : ‖z−z'‖∞ ≤ d → ‖softmax z − softmax z'‖₁ ≤ exp(2·d) − 1
-  (* 2026-08-30 勘误对齐代码 PSA_framework.v:2216-2220 实形态 *)
 
 certified_attention_approx : 逐行丢弃谱能量 ≤ ε →
   ‖attn_out − attn_out_approx‖ ≤ (e^{2√ε} − 1) · V_max
@@ -259,7 +256,7 @@ E5'' 七带的隔带子核 [3,15,63,255]（T8CoreCertificate，11 Qed 零 classi
 false 是**真阴性**（真值超阈），并非"0.135 实质可认证"。核-边缘分解交付
 **部分证书**：T8 核通过检查 + 边带能量预算 + 相干交叉项（21 对上三角 δ 表
 `delta_e5` 经 `term_bound_upper/lower` 加权）⟹ 七带整体对称界
-(S − coh_e5) ≤ ‖F‖²_{255} ≤ (S + coh_e5)。**紧度说明（如实）**：δ_e5 上界均为手工挑选的
+(S − coh_e5) ≤ ‖F‖²_{255} ≤ (S + coh_e5)。**紧度说明**：δ_e5 上界均为手工挑选的
 保守有理数（floor-sqrt/Jordan/Dirichlet 单侧松弛），无最优性保证；**单位系数下 S=7、
 coh_e5=14.21、下界 −7.21 空洞**——该界是宽松的基函数范数稳定性界，非框架下界，也不等于
 七带相干行和；与注意力/softmax/PPL 无关。
@@ -321,7 +318,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 - **提取链**：`PSA_extract.v` → `psa_guard.ml` → `psa_guard.exe`（DkMLNative ocamlc 字节码）
   → Python FFI（`psa_guard_ffi.py`，24/24 交叉校验）。自测 24/24（PSA_refcheck.v 20 项
   Check/Eval + 4 项整数行和验算）。
-- **运行时保证的量化范围（如实）**：int 镜像（OCaml int，63-bit）只对小整数阶梯成立；
+- **运行时保证的量化范围**：int 镜像（OCaml int，63-bit）只对小整数阶梯成立；
   浮点 `int_sqrt` 是近似（偏差 ≤ 1，仅判别阈值附近可能翻转）；累积分母 ∏ pair_den 指数增长，
   系统扫描实测末带 < 2^20 的阶梯中仍有 14/89（15.7%）exe 与 Coq 语义分歧（如 C=6-sparse
   累积分母达 10^26 ≫ 2^63）。实验实际使用（带值 ≤255、m ≤ 8）全部落在 63-bit 安全区。
@@ -335,13 +332,13 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 
 - **对象**：φ3D(a,b,c)(k) = γ⁻¹·ψ_a(k)·ψ_b(k)·ψ_c(k)，γ = √(min(a,b,c)/(abc))；同一
   `abstract_unconditional_basis` 骨架逐轴实例化到任意维。
-- **定位（如实）**：M_bound > 1 时下界 (1−M_bound)·S 恒负（如 C=4 的 3D：−3967·S ≤ ‖F‖²
+- **定位**：M_bound > 1 时下界 (1−M_bound)·S 恒负（如 C=4 的 3D：−3967·S ≤ ‖F‖²
   对非负范数恒真，**无信息量**）——证书的信息量在于**上界** (1+M_bound)·S（排除范数爆炸）
   + 组合性演示。故 3D/4D 定位为**「上界证书 + 组合性演示」**，**不称为框架界**。
 - **2D-wide（免 H_dom）**：`tensor_product_unconditional_basis_2d_wide`（宽轨口径 K0 = C³/2；
   窄轨 2D 为 K0 = C³/4），数值裁决 `M_bound_2d_wide 4 = 768`（= 32 × 24），与论文 B 的 N 维公式
   M_bound^{(N)} = (C³/2)·((1+4K_C)^N − 1) 在 N=2 完全一致。
-- **3D/4D 常数（如实）**：`M_bound_3d 4 = 3968`、`M_bound_4d 4 = 19968`——紧度在当前松弛下
+- **3D/4D 常数**：`M_bound_3d 4 = 3968`、`M_bound_4d 4 = 19968`——紧度在当前松弛下
   失效，正确归类为理论演示而非实用证书。
 - **H_dom 反射化状态**：2D 窄轨的 H_dom 判定已做成可运行时检查（FrameCheck2DNarrow，
   单轴退化 n₁=1 ∨ n₂=1 情形，带健全性证明）；3D/4D 的轴间支配条件尚未编写反射判定器
@@ -375,7 +372,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   差频 = 2π·j/N（j mod N ≠ 0）⟹ 任意窗口 W 上 ‖Σ e^{ik·t1}·conj(e^{ik·t2})‖ ≤
   N/(2·min(j mod N, N−j mod N))（`pair_dirichlet`）；推论 `mixed_grid_coherence`：嵌套网格
   N 与 a·N 两原子跨网格相干界——grid 崩塌后多尺度设计空间的定理。
-- **τ 三分**（probe_taudicho，零公理）：碰撞质量 τ 的窗内/OOD/三分刻画。权威独立模块：`ca_tau.v` `tau_crop_mono`（N1≤N2 ⟹ Στ 裁剪单调，纯 mathcomp 零公理；v2.14 对齐补注）。
+- **τ 三分**（probe_taudicho，零公理）：碰撞质量 τ 的窗内/OOD/三分刻画。权威独立模块：`ca_tau.v` `tau_crop_mono`（N1≤N2 ⟹ Στ 裁剪单调，纯 mathcomp 零公理）。。
 - **素数阶梯分辨率与最优性**（src/CRTResolve.v + probe_ladderlimit）：存在性
   `prime_ladder_8` + `prime_ladder_8_pairwise_coprime`（8 素数链 [3,7,13,29,59,127,251,503]，
   两两互素）+ 分辨率 `crt_inj`（联合模单射，lcm ≈ 7.49×10¹² ≫ 8× 视界）+ **最优性
@@ -463,7 +460,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   手工引理链无 nra/lra）：`CRsqr_lt_one`（0 ≤ z < 1 ⟹ z² < 1）→ (μT)² < 1 → Welch 两边
   乘 T² → ring 整理 → N(M−1)(μT)² < N(M−1)（乘 0 < N(M−1)）→ CRle_lt_trans 组装 → F5
   实例化。6 Qed / 0 Admitted / 0 自定义公理，**Print Assumptions 双定理 Closed under the
-  global context（零经典实数）**。**定位（如实）**：G-8 是"字典设计最优性（Welch 下界）⟹
+  global context（零经典实数）**。**定位**：G-8 是"字典设计最优性（Welch 下界）⟹
   恢复保证（F5 唯一性）"的定量桥，把压缩感知"唯一性⟺恢复⟺相干区间"的相图结构定理化；
   Welch 下界本身（G-7 构造性 Welch 完整证明）为后续工作（本条目以其平方形态为抽象前提）。
 - **加权阶梯范数精确闭式（G-1，经典 R 轨道）** G1_norm_closed（probe_g1_norm_closed.v，
@@ -497,7 +494,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   `probe_decidability_premium_cr.v` 并入合并版 25 模块 55/55，Gram 相干行和 ≤ 63/80 + 反射界 21/16
   + 溢价 5/3，核心 `m4_CRinv_le_contravar` 纯构造反变单调，`m4_decidability_premium : {w & CRle w (63/80)}` Set 层 sigT 定理，Print Assumptions 全
   Closed——相干缺口闭合的构造性收官）。
-  **意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版） + 字典最优性⟹恢复保证合成（G-8），机器检查，其中 k-原子 RIP、唯一性骨架、不确定原理与相图合成走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界的合成为后续工作（future work 第一项）。**数学新颖性（如实）**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle、CRg8_recovery_synthesis 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复、RIP、Donoho–Stark 不确定性原理与 Welch 界-恢复保证相图的机器检查，数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径、构造性轨道独立性验证与三角闭环相图合成）。本族主要探针已并入合并版 `ca_merged_full_25.v`（57 顶层 Module = 55 模块分区，MERGE_EXIT=0），
+  **意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版） + 字典最优性⟹恢复保证合成（G-8），机器检查，其中 k-原子 RIP、唯一性骨架、不确定原理与相图合成走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界的合成为后续工作（future work 第一项）。**数学新颖性说明**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle、CRg8_recovery_synthesis 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复、RIP、Donoho–Stark 不确定性原理与 Welch 界-恢复保证相图的机器检查，数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径、构造性轨道独立性验证与三角闭环相图合成）。本族主要探针已并入合并版 `ca_merged_full_25.v`（57 顶层 Module = 55 模块分区，MERGE_EXIT=0），
 独立 + 合并双通过；G-3（probe_g3_criterion）/G-5（probe_g5_premium）未并入合并版（z 区探针待合并），probe_recovery_cr 为构造性轨道独立验证。
 
 - **τ 裁剪最优性（CS-11，经典 R 轨道，2026-08-28 新增）** `probe_taugrid.v`（17 Qed / 0 Admitted）：**覆盖债精确量化** `coverage_fraction`/`coverage_debt`（S T < n ⟹ 窗 [0,T] 内能量恰 = (T+1)/n，窗外能量 1−(T+1)/n ∈ (0,1)——**τ 负债的机器可计算量**，"剪 255/127/63 应恶化"的定理侧镜像）；**支撑完备刻画** `support_classification`（n ≤ T ⟺ ψ_n 完全支撑训练窗，iff）；**裁剪证书单调** `prune_row_le`（kept 子族行和 ≤ 全族——上界型证书不损）；**C-梯子稀疏化迁移** `thinning_preserves_ratio`；**三连合成** `tau_prune_optimality`——randmax256/384 裁剪实验的定理化。
@@ -522,17 +519,17 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   `审计证据/audit_run_20260826_full.txt`（165/165 块随稿 co-locate，111 段 Axioms + 54 项 Closed，2026-08-26 重跑）+ 定理索引 `audit_index_20260826.txt`**；构建配置 `_CoqProject`/`Makefile`/`_merge_ca.py` 随稿。
 - **公理脚印（全部 165 项仅此）**：sig_not_dec / sig_forall_dec + functional_extensionality_dep
   ——标准 Dedekind 实数基础设施，**属可接受的 Reals 基底，非本开发应用层引入、非 `Classical_Prop.classic` 公理（显式声明）**；`Classical_Prop.classic`（排中律宏）
-  **零出现（post-M1.5 复核成立）**。「classical-free」精确指排中律宏零出现，而非「无任何经典原则」——完整构造性未声称。**外部依赖说明**：mathcomp / Coquelicot 未纳入 165 项审计，"零 `Classical_Prop.classic`"仅限本开发应用层，不推广到整个开发依赖（Coquelicot 基于实数库，可能含经典公理，如实声明）。
+  **零出现（post-M1.5 复核成立）**。「classical-free」精确指排中律宏零出现，而非「无任何经典原则」——完整构造性未声称。**外部依赖说明**：mathcomp / Coquelicot 未纳入 165 项审计，"零 `Classical_Prop.classic`"仅限本开发应用层，不推广到整个开发依赖（Coquelicot 基于实数库，可能含经典公理，已明确声明）。
 - **M1.5 经典清零（post-M1.5 复核）**：`Module ExpSeries` 已 Qed（exp 幂级数路线），`exp_mono_le` 改走级数
   路线，语句不变、下游零改动——整个 CertifiedAttention 模块为纯构造性（不依赖实数完备性
   的排中律），据我们所知，这是第一个不依赖实数完备性排中律的深度学习注意力形式化验证。
-  **勘误标注**：`PSA_audit.v` L108–121 记载的"4 项经 exp Rpower/MVT 继承 classic"为 pre-M1.5
+  **过时记载更正**：`PSA_audit.v` L108–121 所载"4 项经 exp Rpower/MVT 继承 classic"系 pre-M1.5
   （2026-08-19）过时记录；合并版 L63579（Module ExpSeries）/L63672（exp_mono_le_noclassic）/
   L63719（应用）已并入，4 个注意力定理位于其后，`exp_increasing` 仅存于 ca_* 基础设施（非审计目标）。
 - **提取计算性**：上述公理仅在证明层（Prop）使用，不参与提取的计算内容——提取出的判定函数
   为纯构造性计算。
 - **新定理族审计**：ParetoLaw/P1Coherence/ParetoRandom 仅 Stdlib Reals 自包含（其 165 项
-  审计范围以 PSA_audit.v 为准，P1 的经典 MVT 路线在应用层外如实声明）；z 区并入合并版的
+  审计范围以 PSA_audit.v 为准，P1 的经典 MVT 路线位于应用层之外，已明确声明）；z 区并入合并版的
   8 经典 pro 化探针 + c4_instance（共 9 个）各自 Print Assumptions 仅标准库公理。
 
 ## 12. Artifact & Reproducibility
@@ -581,14 +578,14 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   Non-Tight"按字面执行；3D/4D 的 H_dom 尚未反射化（可判定但未工程化；H_dom 经验苛刻——
   真实数据三轴频率独立增长、要求三轴同调增长很少满足），2D-wide 免 H_dom 不受此限制。
 - **运行时检查器的量化范围**：int 镜像只在有限整数范围内且与 Coq 语义一致时接近 Coq
-  soundness（§6 如实声明）。
+  soundness（§6 已明确声明）。
 - **证书边界**：不证明学习投影下的注意力 logits 有界、Q/K 投影与位置旋转对易（酉不变性
   仅覆盖基函数层）、残差/LayerNorm 数值稳定性、训练后权重保证、外推 PPL 与框架界的语义
   联系。
 - **审计范围**：165 项审计覆盖 PSA_framework 应用层；P1Coherence 的经典 MVT 路线在应用层
-  外；Dedekind 实数基础设施的非构造原则如实声明。
+  外；Dedekind 实数基础设施的非构造原则已明确声明。
 - **实证规模**：配套论文 B 为 toy-scale（~0.5M 参数、char-level），实证预览以 3-seed 为主、部分对照为单 seed；完整实证见论文 B。
-- **对论文 B 的依赖（如实）**：本工作多处引用论文 B 的实证结论（七带基线、psi-rope-rand 等）作为动机与对照——论文 B 为独立投稿的预印本，其实验结论未经本审稿流程评审；本工作的形式化贡献（框架界/衰减界/证书）不依赖论文 B 的实证有效性，两者正交。
+- **对论文 B 的依赖边界**：本工作多处引用论文 B 的实证结论（七带基线、psi-rope-rand 等）作为动机与对照——论文 B 为独立投稿的预印本，其实验结论未经本审稿流程评审；本工作的形式化贡献（框架界/衰减界/证书）不依赖论文 B 的实证有效性，两者正交。
 - **正交刻画单向**：μ=0 家族目前只证 ⟸ 方向（公共偏移 + N-网格 ⟹ 两两正交）；
   ⟹ 方向的完备化（不存在第三种正交家族）列为 future work。
 - **形式化适用域**：全部证明依赖频率阶梯（seq 存在性）；对无位置结构的编码（NoPE 类）
