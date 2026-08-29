@@ -1,9 +1,10 @@
 ﻿# Certified Sparse Gating over Phase-Truncated Frequency Ladders
 ## A Coq Formalization of Representation Stability and Sparse Recovery Guarantees
 
-> 正式版（2026-08-26，对齐母版 v2.9）。来源：论文 A 草稿清洗（删除会话/评审/版本内部注记），
-> 全部代码数字按 2026-08-26 基态核验。投稿方向：CPP/ITP（形式化方法）。
-> 代码基态：`src/`（正式模块）+ `z/`（探针）+ 合并版 `src/ca_merged_full_25.v` + 归档 `30模块/`。
+> 正式版（2026-08-30 更新，对齐母版 v2.14）。来源：论文 A 草稿清洗（删除会话/评审/版本内部注记），
+> 全部代码数字按 2026-08-30 基态核验。投稿方向：CPP/ITP（形式化方法）。
+> 代码基态：`src/`（正式模块）+ `z/`（探针）+ 合并版 `src/ca_merged_full_25.v`（**87632 行，MERGE_EXIT=0；CI 全链路绿 2026-08-30——GitHub Actions 五步全过：lib 链编译 + 合并版编译（Rocq 9.0 + mathcomp 2.6 真环境）+ PSA 核心三文件 + 零 Admitted 检查 + coqchk 内核独立复验**）+ 归档 `30模块/`。
+> v2.14 修订要点：softmax 紧度勘误（`2(e^d−1)` → `exp(2·d)−1`，对齐代码 `softmax_l1_bound_exp` 实形态）；审计口径统一为诚实表述（`Classical_Prop.classic` 排中律宏零出现 + 公理脚印披露）；τ/压缩感知族探针引用补注权威独立模块（`ca_tau.v` `tau_crop_mono`、`ca_rip_cr.v` `row_rip_bound_M`）。
 
 ---
 
@@ -136,7 +137,7 @@ code 思想在数值框架界上的实例化；(iii) **构造性实数轨道**�
   Gershgorin → InstanceCertificate → M4bLengthConsistency → T8CoreCertificate →
   FrameCheckInstance → ChampionCertificate → FrameCheck2DNarrow → UnitaryInvariance →
   PhaseCoherence。
-- **合并版** `src/ca_merged_full_25.v`：**87588 行 / 57 顶层 Module（55 模块分区 + `ca_independence` 内 `independent`/`independent′` 2 附加）**（30 个 ca_* + PSA_framework +
+- **合并版** `src/ca_merged_full_25.v`：**87632 行 / 57 顶层 Module（55 模块分区 + `ca_independence` 内 `independent`/`independent′` 2 附加）**（30 个 ca_* + PSA_framework +
   独立模块 + **20 个 z 区探针**：probe_grid_ortho/parseval/partial/pairbound/rowsum/
   pairdirichlet/incoherence/row_rip/c4_instance + welch/uncertainty_cr/g8_synthesis_cr/
   g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/
@@ -374,7 +375,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   差频 = 2π·j/N（j mod N ≠ 0）⟹ 任意窗口 W 上 ‖Σ e^{ik·t1}·conj(e^{ik·t2})‖ ≤
   N/(2·min(j mod N, N−j mod N))（`pair_dirichlet`）；推论 `mixed_grid_coherence`：嵌套网格
   N 与 a·N 两原子跨网格相干界——grid 崩塌后多尺度设计空间的定理。
-- **τ 三分**（probe_taudicho，零公理）：碰撞质量 τ 的窗内/OOD/三分刻画。
+- **τ 三分**（probe_taudicho，零公理）：碰撞质量 τ 的窗内/OOD/三分刻画。权威独立模块：`ca_tau.v` `tau_crop_mono`（N1≤N2 ⟹ Στ 裁剪单调，纯 mathcomp 零公理；v2.14 对齐补注）。
 - **素数阶梯分辨率与最优性**（src/CRTResolve.v + probe_ladderlimit）：存在性
   `prime_ladder_8` + `prime_ladder_8_pairwise_coprime`（8 素数链 [3,7,13,29,59,127,251,503]，
   两两互素）+ 分辨率 `crt_inj`（联合模单射，lcm ≈ 7.49×10¹² ≫ 8× 视界）+ **最优性
@@ -539,7 +540,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 > **代码仓库**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 + 论文 + 实证 + CI，Apache-2.0；CI 徽章见 README）。预印本 DOI：10.6084/m9.figshare.33312189。
 
 - **代码分布**：`src/`（正式模块，含 `_CoqProject`）；`z/`（探针）；合并版
-  `src/ca_merged_full_25.v`（87588 行，57 顶层 Module = 55 模块分区 + `independent`/`independent′` 2 附加，含 ca_zeta_euler / ca_rip_cr 构造性轨道 + 20 个 z 区探针）；归档基态
+  `src/ca_merged_full_25.v`（87632 行，57 顶层 Module = 55 模块分区 + `independent`/`independent′` 2 附加，含 ca_zeta_euler / ca_rip_cr 构造性轨道 + 20 个 z 区探针）；归档基态
   `D:\ComplexAnalysis\30模块\`（ca_* + 探针 pro 版 + ca_zeta_euler + ca_rip_cr + 合并版，
   SHA-256 与 src/z 一致，旧版备份 `.sync-backup-20260823/`）。
 - **依赖版本**：Rocq/Coq 9.0.1（`C:\Rocq-Platform~9.0~2025.08\bin\coqc.exe`）；mathcomp
@@ -602,7 +603,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 部署级证书族构成三角支撑；**压缩感知族（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏
 唯一性）把「无条件基 + 频率阶梯」的理论优势推进到稀疏恢复**（k-原子 RIP 走纯构造性实数
 轨道、零经典公理）。全部开发零 Admitted、零自定义公理，165 项审计
-`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（87588 行，57 顶层 Module = 55 模块分区 + 2 附加，含 20 个 z 区探针 + 构造性轨道
+`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（87632 行，57 顶层 Module = 55 模块分区 + 2 附加，含 20 个 z 区探针 + 构造性轨道
 ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实证共同构成「可证性（稀疏）—
 外推性（稠密）」双轨的机器检查 + 实证记录。
 
@@ -638,7 +639,7 @@ ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实�
 | ρ^{−3/2} 逐对紧界 | z/probe_pairbound.v（5 Qed） | ✅ **已并入合并版** |
 | 碰撞刻画 / τ 机制 | z/probe_collision.v / probe_tchar.v / probe_taudicho.v | ✅（z 区独立验证） |
 | 部署级证书族 | z/probe_kvevict.v / probe_quant.v / probe_multihead.v / probe_exprat.v | ✅（z 区独立验证） |
-| 合并版 | src/ca_merged_full_25.v（87588 行，57 顶层 Module，20 探针 + ca_zeta_euler / ca_rip_cr 并入） | ✅ **MERGE_EXIT=0** |
+| 合并版 | src/ca_merged_full_25.v（87632 行，57 顶层 Module，20 探针 + ca_zeta_euler / ca_rip_cr 并入） | ✅ **MERGE_EXIT=0** |
 | 归档基态 | D:\ComplexAnalysis\30模块\（SHA-256 与 src/z 一致） | ✅ |
 
 ---

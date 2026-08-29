@@ -1,8 +1,8 @@
 # Phase-Truncated Frequency Ladders: A Controlled Empirical Study with a Certified Basis-Stability Core
 
-> 正式版（2026-08-26，对齐母版 v2.7；对齐当前代码基态）。来源：论文 B 草稿清洗（删除会话/评审/版本内部注记），
-> 实验数据不变；配套论文 A（Coq 形式化）代码状态按 2026-08-26 基态（合并版 `ca_merged_full_25.v`，87733 行 / 57 顶层 Module = 55 模块分区，
-> 20 探针 + ca_zeta_euler/ca_rip_cr 构造性轨道并入、合并编译 MERGE_EXIT=0；165 项审计完整 165/165 日志随稿）。投稿方向：TACL/Findings（实证 + 可审计性）。
+> 正式版（2026-08-30 更新，对齐母版 v2.8；对齐当前代码基态）。来源：论文 B 草稿清洗（删除会话/评审/版本内部注记），
+> 实验数据不变；配套论文 A（Coq 形式化）代码状态按 2026-08-30 基态（合并版 `ca_merged_full_25.v`，87632 行 / 57 顶层 Module = 55 模块分区，
+> 20 探针 + ca_zeta_euler/ca_rip_cr 构造性轨道并入、合并编译 MERGE_EXIT=0；**CI 全链路绿 2026-08-30：编译 + 零 Admitted 检查 + coqchk 内核复验**；165 项审计完整 165/165 日志随稿）。投稿方向：TACL/Findings（实证 + 可审计性）。
 
 ---
 
@@ -272,7 +272,7 @@ Holm 校正（方向性观察）；**n=5 复核已完成（2026-08-24，9 方案
 - **反射检查器**：`frame_check_instance` 对任意阶梯做 μ≤4/5 的可判定有理判定（提取为
   OCaml/FFI，24/24 自测），健全性主定理 `frame_check_instance_sound` 已 Qed——「带机器
   证书」由一台自带健全性证明的运行时检查器统一保证；配套审计 165 项 RC=0、零 Admitted、
-  全部零经典排中（「classical-free」精确指排中律宏 `Classical_Prop.classic` 零出现，
+  `Classical_Prop.classic`（排中律宏）零出现（「classical-free」精确指排中律宏零出现，
   非「无任何经典原则」；公理脚印仅 sig_not_dec + sig_forall_dec + fext，Dedekind 实数
   基础设施；外部依赖 mathcomp/Coquelicot 未纳入 165 项审计）。**定位**：反射检查器是
   快速预筛器（充分非必要）；E5'' 复合证书是针对
@@ -291,7 +291,7 @@ Holm 校正（方向性观察）；**n=5 复核已完成（2026-08-24，9 方案
   classic（免 H_dom，M_bound_2d_wide 4 = 768）；3D/4D 推广已全量编译（M_bound_3d 4 =
   3968 / M_bound_4d 4 = 19968，常数较 1D 显著保守——定位为上界证书 + 组合性演示）。
 - **代码状态**：论文 A 的 z 区 20 探针（grid_ortho + parseval/partial/pairbound/rowsum/
-  pairdirichlet/incoherence/row_rip/c4_instance/welch/uncertainty_cr/g8_synthesis_cr/g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/decidability_premium_cr）已 pro 化并入合并版 `ca_merged_full_25.v`（87733 行，
+  pairdirichlet/incoherence/row_rip/c4_instance/welch/uncertainty_cr/g8_synthesis_cr/g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/decidability_premium_cr）已 pro 化并入合并版 `ca_merged_full_25.v`（87632 行，
   57 顶层 Module = 55 模块分区，合并编译 MERGE_EXIT=0）——本证书链依赖的 parseval/partial/pairbound/rowsum/
   pairdirichlet 均在合并版内全量验证，证书链验证等级从独立 .vo 升级为合并版全量验证。
 - **张力（可发表点，如实呈现）**：带证书方案中的性能领先者（七带）与直接证书（C=4）
@@ -620,7 +620,7 @@ LongRoPE（Ding et al., ICLR 2024）。本文以「频率阶梯相位剖面」�
 | 165 项审计（Classical_Prop.classic 零出现） | PSA_audit.v（M1.5 已并入） | ✅ |
 | 碰撞刻画 / τ 机制 | z\probe_collision.v（C1–C5）/ probe_tchar.v（T1–T4）/ probe_taudicho.v | ✅（论文 A §8，z 区独立验证） |
 | ρ^{−3/2} 行和紧界（C=4 框架界） | z\probe_rowsum.v（row_sum_3halfs / row_bound_C4，23 Qed） | ✅ **已并入合并版** |
-| 合并版 | src\ca_merged_full_25.v（87733 行，57 顶层 Module = 55 模块分区，20 探针并入） | ✅ MERGE_EXIT=0 |
+| 合并版 | src\ca_merged_full_25.v（87632 行，57 顶层 Module = 55 模块分区，20 探针并入） | ✅ MERGE_EXIT=0 |
 | 经验数值（主表） | psa_empirical\测试数据\multi_seed_main_table.md | ✅ |
 | 偏置对照（ALiBi/T5/grid） | psa_empirical\测试数据\baseline_*.log | ✅ |
 | 正式配置 batch3/4 | psa_empirical\测试数据\（云端 T4，与本地逐位对齐） | ✅ |
