@@ -104,7 +104,7 @@ code 思想在数值框架界上的实例化；(iii) **构造性实数轨道**�
    剪去 511 带后的版本，在配套实证中为带证书方案里的性能领先者；其隔带子核 [3,15,63,255]
    行和 ≤ 0.781 可整体认证）获得机器证明的平方范数复合界 (S−coh_e5) ≤ ‖F‖² ≤ (S+coh_e5)
    （全矩阵相干加权、对称交叉项界）。该复合界是**基函数范数稳定性保证**，不涉及注意力
-   分数/softmax/PPL；与外推 PPL 改善之间的桥梁是经验观察，未经形式化。当反射检查器返回
+   分数/softmax/PPL；与外推 PPL 改善之间的桥梁是经验观察，未经形式化。该证书与 `certified_attention_approx` 不组合——后者刻画谱能量丢弃 ⟹ 注意力输出扰动，前者刻画基表示范数稳定性，两个定理簇相互独立。当反射检查器返回
    false（健全但非完备）时，核-边缘分解交付的部分证书在此收束为七带整体完整证书——这是对
    反射器不完备性的系统性工程补丁，作为方法论贡献单列。
 10. **高维组合性演示**（2D-wide/3D/4D）：同一 `abstract_unconditional_basis` 骨架逐轴
@@ -452,7 +452,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   字典的标准常数是 **1+1/μ**（Foucart–Rauhut）。
 - **字典最优性 ⟹ 恢复保证合成（G-8）** `CRg8_recovery_synthesis`（probe_g8_synthesis_cr.v，
   构造性轨道）：**压缩感知三角闭环合成定理**——若字典相干 μ 同时满足 **Welch 下界**
-  （平方形态 `(INR M − INR N) ≤ INR N·INR(M−1)·μ²`，G-7 抽象前提）与 **F5 唯一性窗口**
+  （平方形态 `(INR M − INR N) ≤ INR N·INR(M−1)·μ²`；前提状态：G-7 的完整构造性证明为后续工作，本合成定理在 Welch 前提悬空下陈述逻辑蕴含）与 **F5 唯一性窗口**
   （`μ·(|T1|+|T2|−1) < 1`），则同一信号的两个 |T|-稀疏表示必相同（∀j: c_j == d_j，直接
   实例化 F5）；配套相图定理 `CRphase_window_nonempty`：Welch 下界 + F5 窗口 ⟹ **窗口非空
   参数条件** `(INR M − INR N)·(INR T)² < INR N·INR(M−1)`（"Welch < 1/|T| 时唯一性窗口
@@ -494,7 +494,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   `probe_decidability_premium_cr.v` 并入合并版 25 模块 55/55，Gram 相干行和 ≤ 63/80 + 反射界 21/16
   + 溢价 5/3，核心 `m4_CRinv_le_contravar` 纯构造反变单调，`m4_decidability_premium : {w & CRle w (63/80)}` Set 层 sigT 定理，Print Assumptions 全
   Closed——相干缺口闭合的构造性收官）。
-  **意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版） + 字典最优性⟹恢复保证合成（G-8），机器检查，其中 k-原子 RIP、唯一性骨架、不确定原理与相图合成走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界的合成为后续工作（future work 第一项）。**数学新颖性说明**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle、CRg8_recovery_synthesis 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复、RIP、Donoho–Stark 不确定性原理与 Welch 界-恢复保证相图的机器检查，数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径、构造性轨道独立性验证与三角闭环相图合成）。本族主要探针已并入合并版 `ca_merged_full_25.v`（57 顶层 Module = 55 模块分区，MERGE_EXIT=0），
+  **意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版） + 字典最优性⟹恢复保证合成（G-8），机器检查，其中 k-原子 RIP、唯一性骨架、不确定原理与相图合成走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；全窗口 [3,13,53,213] 四原子的稀疏唯一性扩展是直截但未完成的计算（必要的逐对相干界已在 `PSA_framework.v`）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界的合成为后续工作（future work 第一项）。**数学新颖性说明**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle、CRg8_recovery_synthesis 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复、RIP、Donoho–Stark 不确定性原理与 Welch 界-恢复保证相图的机器检查，数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径、构造性轨道独立性验证与三角闭环相图合成）。本族主要探针已并入合并版 `ca_merged_full_25.v`（57 顶层 Module = 55 模块分区，MERGE_EXIT=0），
 独立 + 合并双通过；G-3（probe_g3_criterion）/G-5（probe_g5_premium）未并入合并版（z 区探针待合并），probe_recovery_cr 为构造性轨道独立验证。
 
 - **τ 裁剪最优性（CS-11，经典 R 轨道，2026-08-28 新增）** `probe_taugrid.v`（17 Qed / 0 Admitted）：**覆盖债精确量化** `coverage_fraction`/`coverage_debt`（S T < n ⟹ 窗 [0,T] 内能量恰 = (T+1)/n，窗外能量 1−(T+1)/n ∈ (0,1)——**τ 负债的机器可计算量**，"剪 255/127/63 应恶化"的定理侧镜像）；**支撑完备刻画** `support_classification`（n ≤ T ⟺ ψ_n 完全支撑训练窗，iff）；**裁剪证书单调** `prune_row_le`（kept 子族行和 ≤ 全族——上界型证书不损）；**C-梯子稀疏化迁移** `thinning_preserves_ratio`；**三连合成** `tau_prune_optimality`——randmax256/384 裁剪实验的定理化。
@@ -520,6 +520,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 - **公理脚印（全部 165 项仅此）**：sig_not_dec / sig_forall_dec + functional_extensionality_dep
   ——标准 Dedekind 实数基础设施，**属可接受的 Reals 基底，非本开发应用层引入、非 `Classical_Prop.classic` 公理（显式声明）**；`Classical_Prop.classic`（排中律宏）
   **零出现（post-M1.5 复核成立）**。「classical-free」精确指排中律宏零出现，而非「无任何经典原则」——完整构造性未声称。**外部依赖说明**：mathcomp / Coquelicot 未纳入 165 项审计，"零 `Classical_Prop.classic`"仅限本开发应用层，不推广到整个开发依赖（Coquelicot 基于实数库，可能含经典公理，已明确声明）。
+**审计范围与合并版全基态的边界**：165 项审计的对象是 `PSA_framework.v` 应用层定理；合并版 `ca_merged_full_25.v` 其余模块中，`mu_adj_phase_transition`（μ 单调 ⟹ 相变存在性定理）的公理脚印含完整排中律 `classic`（CI 与本地编译日志一致确认）——"零 `Classical_Prop.classic`"结论限于 165 项审计范围，不覆盖合并版全部定理；应用层注意力证书/框架界/反射检查器定理链不受影响。
 - **M1.5 经典清零（post-M1.5 复核）**：`Module ExpSeries` 已 Qed（exp 幂级数路线），`exp_mono_le` 改走级数
   路线，语句不变、下游零改动——整个 CertifiedAttention 模块为纯构造性（不依赖实数完备性
   的排中律），据我们所知，这是第一个不依赖实数完备性排中律的深度学习注意力形式化验证。

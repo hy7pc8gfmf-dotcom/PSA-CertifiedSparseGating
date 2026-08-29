@@ -17,7 +17,7 @@ ladder to its *phase-complete* bands (n_j < T_train) dramatically improves extra
 three ladders; (2) RoPE-style rotation on a phase-truncated ladder extrapolates far better than
 vanilla RoPE (best geometric-mean ppl 12.40 vs vanilla RoPE 25.30 at 8×); the best within the
 rotation family is a *random dense rotation ladder*
-(psi-rope-rand, [3,511] random angles, 6.45±0.03 at 8×, 3 seeds; n=10 full replication
+(psi-rope-rand, [3,511] random angles, 6.45±0.03 at 8×, 3 seeds; n=10 full replication; certificate status: outside the frame-bound coverage of Paper A — random ladders do not pass the reflective checker; the provable content is limited to ℓ² linear independence
 4.00±0.5, ordering unchanged) — 44% below the 3-seed
 NTK number (11.54±1.18, p=0.018, d=−6.06, **directional at n=3, df=2; 5-seed replication
 completed 2026-08-24: rand vs ALiBi t=6.66, grid vs rand t=11.28, rand vs c3 t=−9.44, rand vs rope t=−6.20, all df≈4, all highly significant — the directional claims (ALiBi best / grid collapse / rand best-in-family / RoPE poor) hold at n=5**), with the 7-band geometric ladder [3,7,15,31,63,127,255]
@@ -91,7 +91,7 @@ ALiBi）全为启发式，缺一个统一变量。本文引入**频率阶梯**�
 相位截断阶梯上的 RoPE 式旋转远优于朴素 RoPE；(iii) **覆盖梯度**——剪掉覆盖恰 1.0 的
 边缘带在全部 OOD 长度、全部 seed 上严格改善（梯度而非阈值）；(iv) **τ/碰撞距离机制**——
 提出为排行榜的**候选解释**（周期带承载碰撞负债、非周期偏置近零代价逃逸；与观察一致而非
-已建立机制），获 **4 个独立实证支点（分协议：eval-only 3 + 真训练 1；方向性观察）**；
+已建立机制），获 **3 个稳健实证支点（eval-only）+ 1 个单种子候选支点（真训练，多种子未复现；方向性观察）**；
 (v) **性能-可证明性前沿**——带证书方案与无证书上限的差距被明确量化（**2.85×：C=4 12.75 vs 4.47；2.78×：复合证书七带 12.40 vs 4.47**，以比值计；30% 是 ALiBi 相对 psi-rope-rand 6.45 的领先，属另一对比），可审计性本身作为
 价值主张；(vi) **τ 裁剪（τ-trimmed reallocation）**——正式配置下保留低中频 + 温和裁剪高频端把旋转族
 外推 7.50 → 5.15（−31%）（**单种子观察 s1337，多种子未复现，列为未来工作**；裁剪语义为 64 维循环填充下的整体维度重组，非单纯高频移除）。
@@ -375,7 +375,7 @@ Holm 校正（方向性观察）；**n=5 复核已完成（2026-08-24，9 方案
 
 ### 9.2 τ/碰撞距离机制的判决实验
 
-τ 机制（周期带承载碰撞负债、非周期偏置近零代价逃逸）获 **4 个独立实证支点（分协议计数：
+τ 机制（周期带承载碰撞负债、非周期偏置近零代价逃逸）获 **3 个稳健实证支点 + 1 个单种子候选支点（分协议计数：
 eval-only 3 + 真训练 1）**——剪枝方向 1 个：O2 两点 + τ 三剪回测共享同一评估范式
 （剪 255/127/63 @8× 全恶化 +3.5–4.5×），不重复计数；网格判决 1 个（grid 8× 25.66，
 比 rand 差 3.98×）；offset-grid 1 个（ogrid ≥ grid；ogrid 16.12 比 grid 25.66 低 40%）——前三者为 eval-only；
@@ -580,7 +580,7 @@ LongRoPE（Ding et al., ICLR 2024）。本文以「频率阶梯相位剖面」�
 裁剪高频端，最优区 N* ∈ [448,480] 细扫锁定，@4096 = 5.15，491/500 无改善，随训练轮数
 右移；N* 为事后选择（非预登记）、单种子 s1337、需独立验证）把旋转族外推 7.50 → 5.15
 （−31%），过度裁剪（256）恶化、结构化频率（ogrid）否定**。NoPE 的平坦曲线揭示位置编码的本质交易（分布内质量 ↔ 外推稳健）；**τ/碰撞距离
-机制统一解释排行榜并获 4 个独立实证支点（分协议：eval-only 3 + 真训练 1；方向性观察，候选解释）**及形式化碰撞结构支撑（碰撞 ⟺ 有理、无理偏移零碰撞、ALiBi 无碰撞端点、近碰撞半径 1/(3d)，论文 A §5.6.4）及 **τ 裁剪定理侧机器检查**（覆盖债量化/裁剪证书单调/近重复对爆炸/offset 无关性——z 区 64 Qed，论文 A §5.6.6 CS-11–CS-14）——「交易是周期参数化的属性，非周期偏置近零代价
+机制统一解释排行榜并获 3 个稳健实证支点 + 1 个单种子候选支点（分协议：eval-only 3 稳健；真训练 1 系单种子观察，多种子未复现；候选解释）**及形式化碰撞结构支撑（碰撞 ⟺ 有理、无理偏移零碰撞、ALiBi 无碰撞端点、近碰撞半径 1/(3d)，论文 A §5.6.4）及 **τ 裁剪定理侧机器检查**（覆盖债量化/裁剪证书单调/近重复对爆炸/offset 无关性——z 区 64 Qed，论文 A §5.6.6 CS-11–CS-14）——「交易是周期参数化的属性，非周期偏置近零代价
 逃逸」。最强的 4 带阶梯带机器检查的有理框架证书，最强的 7 带阶梯内含可认证子核——
 表达性与可证明性在同一阶梯族内共存互补。证伪链与保留假设并报——这条律离终态还有距离，
 但变量已被命名、仪器已就位、边界已被明确指出。
@@ -633,7 +633,7 @@ LongRoPE（Ding et al., ICLR 2024）。本文以「频率阶梯相位剖面」�
 - 触发阈值 80°C，恢复阈值 70°C，0.5s 高频轮询（`--check-interval 0.5`），冷却 60s
   （`--cooldown 60`），CPU 利用率上限 90%（`--cpu-util-max 90`）。
 - 一次只跑一件 GPU 任务（训练或 Coq 编译，不并行）；每次冷却暂停记录到日志，**暂停不
-  改变计算轨迹**（确定性协议——rope 在两种温控协议下逐位复现，损失到小数点后四位）。
+  改变计算轨迹**（确定性协议——rope 在两种温控协议下逐位复现，损失到小数点后四位；实现层面：冷却暂停为训练循环级轮询挂起，随机数生成器与优化器状态驻留内存不被重置，学习率调度按已完成迭代步数推进——暂停只改变墙钟耗时，不改变任何计算轨迹）。
 - 历史宕机教训（4 次）：空闲基线 56–58°C，死机临界 ~85°C；训练每步 `guard.check()`，
   >85°C 立即杀进程。
 
