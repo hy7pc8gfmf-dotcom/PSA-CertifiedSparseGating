@@ -10,7 +10,7 @@ jobs:
     name: Rocq 9.0 build + audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -27,7 +27,7 @@ jobs:
       #   ——信任缓存：key 固定（依赖版本不变），恢复后 Install Rocq 步骤秒级跳过，
       #      消除 ~10 分钟 opam 源码编译开销（此前每次全量编译 >15 分钟）
       - name: Cache opam switch (coq+mathcomp+elpi compiled)
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.opam/default
@@ -50,14 +50,14 @@ jobs:
           ls "$COQLIB/user-contrib/mathcomp" 2>/dev/null
 
       - name: Cache vendored dependency .vo (Coquelicot only)
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             coq/deps/coquelicot/**/*.vo
           key: ${{ runner.os }}-coquelicot-${{ hashFiles('coq/deps/coquelicot/**/*.v') }}
 
       - name: Cache lib chain .vo (30 modules, mathcomp-boot CI variant)
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             coq/lib/*.vo
@@ -65,7 +65,7 @@ jobs:
           key: ${{ runner.os }}-libvo-${{ hashFiles('coq/lib/**/*.v', 'scripts/order.txt') }}
 
       - name: Cache merged .vo (E130 boot variant, sed-transformed)
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             coq/merged/.ci/*.vo
