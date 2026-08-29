@@ -102,6 +102,8 @@ jobs:
       #   私钥存于 GitHub Secrets：GPG_PRIVATE_KEY（必填）、GPG_PASSPHRASE（可选，私钥带口令时）
       #   公钥已存档：.github/gpg/psa-ci-public-key.asc（指纹 AE7C975FAE0BCD97）
       #   验证：签名提交在 GitHub 上显示 Verified 认证。
+      #   注意：要让 GitHub 显示 Verified，公钥还必须注册到 GitHub 账号
+      #         （Settings → SSH and GPG keys → New GPG key，粘贴 psa-ci-public-key.asc）。
       - name: Import GPG key and enable commit signing
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
@@ -112,14 +114,36 @@ jobs:
             echo "::warning::GPG_PRIVATE_KEY secret 未配置——CI 提交将无 Verified 认证"
             exit 0
           fi
+          # 1. 导入私钥
           echo "$GPG_PRIVATE_KEY" | gpg --batch --import
-          # 配置 Git：使用本仓库公钥对应的密钥并开启签名
-          git config --global user.signingkey AE7C975FAE0BCD97
+          # 2. 自动提取完整指纹（换钥后无需改脚本；硬编码短指纹易漂移）
+          FPR=$(gpg --batch --with-colons --list-secret-keys 2>/dev/null | awk -F: '/^fpr:/{print $10; exit}')
+          if [ -z "$FPR" ]; then
+            echo "::error::no secret key imported from GPG_PRIVATE_KEY"
+            exit 1
+          fi
+          # 3. 口令预设（私钥带口令时；gpg-agent 缓存口令，git commit -S 免交互）
+          if [ -n "$GPG_PASSPHRASE" ]; then
+            KEYGRIP=$(gpg --batch --with-colons --list-secret-keys 2>/dev/null | awk -F: '/^grp:/{print $10; exit}')
+            if [ -n "$KEYGRIP" ]; then
+              echo "allow-preset-passphrase" >> ~/.gnupg/gpg-agent.conf
+              gpg-connect-agent reloadagent /bye >/dev/null 2>&1 || true
+              PRESET=$(command -v gpg-preset-passphrase || echo /usr/lib/gnupg/gpg-preset-passphrase)
+              echo "$GPG_PASSPHRASE" | "$PRESET" --preset "$KEYGRIP" || \
+                echo "::warning::gpg-preset-passphrase 失败（私钥可能无口令，或路径不同）"
+            fi
+          fi
+          # 4. 配置 Git：使用该密钥并开启签名
+          git config --global user.signingkey "$FPR"
           git config --global commit.gpgsign true
+          git config --global tag.gpgsign true
           # 签名提交需要身份（CI 环境默认无 user.name/user.email）
           git config --global user.name "PSA CI Bot"
           git config --global user.email "168888@live.cn"
-          echo "GPG signing configured (fingerprint AE7C975FAE0BCD97)"
+          # 5. 自检：确实能签名（防"配置了但签不出"的静默失败）
+          echo "gpg test $(date -u +%s)" | gpg --batch --clearsign >/dev/null 2>&1 \
+            || echo "::warning::gpg 签名自检失败——提交签名可能无效"
+          echo "GPG signing configured (fingerprint $FPR)"
 
       # 签名提交示例：CI 产生产物变更时用 -S 提交（无变更则跳过）。
       # push 需额外配置（contents: write 权限 + 显式 git push），默认不开启。
