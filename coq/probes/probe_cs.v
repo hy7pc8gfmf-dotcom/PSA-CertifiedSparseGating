@@ -127,7 +127,8 @@ Proof.
   rewrite (l2_norm_sq_ext f (fun _ => C0) N H).
   clear H f. induction N as [| N IH].
   - unfold l2_norm_sq. simpl. apply Cnorm_sq_C0.
-  - rewrite l2_norm_sq_S, IH. unfold l2_norm_sq. simpl.
+  - rewrite l2_norm_sq_S.
+    rewrite IH. unfold l2_norm_sq. simpl.
     rewrite Rplus_0_l. apply Cnorm_sq_C0.
 Qed.
 
