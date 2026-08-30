@@ -131,7 +131,7 @@ Lemma psi_norm_sq_tail (n k : nat) : (n <= k)%nat ->
   (psi n k = ComplexNumbers.C0)%C.
 Proof.
   intros Hk. unfold psi, UnconditionalBasis.phi.
-  rewrite ltb_ge_false by exact Hk.
+  rewrite (ltb_ge_false k n Hk).
   apply Cmul_0_r.
 Qed.
 

@@ -191,7 +191,8 @@ Proof.
         - rewrite Hprod. exact Hge1.
         - apply Rmult_le_compat_l; [apply Rabs_pos | exact Hbound]. }
       apply (Rmult_le_reg_r (3 * D)); [exact H3D | ].
-      rewrite Rinv_l by lra.
+      assert (Hnz2 : (3 * D <> 0)%R) by lra.
+      rewrite (Rinv_l (3 * D) Hnz2).
       exact Hfin.
 Qed.
 
