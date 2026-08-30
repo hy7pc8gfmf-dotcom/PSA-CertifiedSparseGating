@@ -89024,8 +89024,8 @@ Theorem cs3_unique (seq : nat -> nat)
             (length I)) :
   forall i, (i < length I)%nat -> nth i coeffs C0 = nth i coeffs' C0.
 Proof.
-  assert (Hab : length coeffs = length coeffs')
-    by exact (eq_trans Hlen (eq_sym Hlen')).
+  assert (Hab : length coeffs = length coeffs').
+  { transitivity (length I). exact Hlen. symmetry. exact Hlen'. }
   assert (Hdlen : length I = length (map2_csub coeffs coeffs')).
   { rewrite (map2_csub_length coeffs coeffs' Hab). symmetry. exact Hlen. }
   assert (Hzerod :
@@ -89070,8 +89070,10 @@ Corollary cs1b_spark (seq : nat -> nat)
                     (S (seq (fold_right Init.Nat.max 0%nat I)) - 1) = 0%R) :
   forall i, (i < length I)%nat -> nth i d C0 = C0.
 Proof.
+  assert (Hdn' : length I = length d).
+  { symmetry. exact Hdn. }
   apply (cs3_energy_zero seq Hge2 Hinc C HCgt2 Hsparse I d Hdup Hsorted
-           (eq_sym Hdn) HC10 Hzerod).
+           Hdn' HC10 Hzerod).
 Qed.
 
 (* ---------- CS4c：近重复对精确相干 + RIP 证书爆炸（★"剪 503/255/127 应恶化"的定理侧镜像） ---------- *)
