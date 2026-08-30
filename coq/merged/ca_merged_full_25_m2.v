@@ -87745,8 +87745,9 @@ Proof.
     assert (Hge : (IZR k >= 0)%R) by (apply Rle_ge; apply IZR_le; exact Hlk).
     rewrite (Rabs_right (IZR k) Hge).
     reflexivity.
-  - rewrite (Z.abs_neq k) by lia.
-    rewrite Rabs_left by (apply IZR_lt; lia).
+  - rewrite (Z.abs_neq k (Z.lt_le_incl k 0 (Z.gt_lt 0 k Hlk))).
+    assert (Hlt : (IZR k < 0)%R) by (apply IZR_lt; exact (Z.gt_lt 0 k Hlk)).
+    rewrite (Rabs_left (IZR k) Hlt).
     rewrite opp_IZR. reflexivity.
 Qed.
 
@@ -87806,7 +87807,8 @@ Proof.
           - apply Rabs_triang.
           - rewrite Rabs_Ropp. apply Rle_refl. }
         assert (H2 : (Rabs (2 * D * phi + D) <= 2 * D * phi + D)%R).
-        { rewrite (Rabs_right (2 * D * phi + D)) by nra. apply Rle_refl. }
+        { assert (Hge : (2 * D * phi + D >= 0)%R) by nra.
+  rewrite (Rabs_right (2 * D * phi + D) Hge). apply Rle_refl. }
         assert (H3 : (2 * D * phi + D + Rabs e <= 9 / 4 * D + 1 / 2)%R).
         { apply Rplus_le_compat.
           - assert (HphiD : (2 * D * phi <= 2 * D * (5 / 8))%R).
