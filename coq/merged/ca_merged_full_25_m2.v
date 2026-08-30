@@ -91007,7 +91007,10 @@ Proof.
     (Cnorm (psi n k *c Cconj (psi m k))
      + Cnorm (psi n (S k) *c Cconj (psi m (S k))))%R.
   - apply Rplus_le_compat; apply Rabs_re_le_Cnorm_p.
-  - rewrite !Cnorm_mult. rewrite !Cnorm_conj_eq.
+  - rewrite (ExtendedTheorems.Cnorm_mult (psi n k) (Cconj (psi m k))).
+    rewrite (ExtendedTheorems.Cnorm_mult (psi n (S k)) (Cconj (psi m (S k)))).
+    rewrite (ExtendedTheorems.Cnorm_conj_eq (psi m k)).
+    rewrite (ExtendedTheorems.Cnorm_conj_eq (psi m (S k))).
     apply Rle_trans with
       (1 / (sqrt (INR n) * sqrt (INR m))
        + 1 / (sqrt (INR n) * sqrt (INR m)))%R.
