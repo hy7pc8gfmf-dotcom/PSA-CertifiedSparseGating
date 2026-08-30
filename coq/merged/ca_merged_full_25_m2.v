@@ -89606,7 +89606,7 @@ Lemma g5_coh_full_3_7 :
   ComplexNumbers.Cnorm (independent.Csum (fun k => psi 3 k *c ComplexNumbers.Cconj (psi 7 k)) 3)
   = Rabs (sin (PI * INR 3 * (1 / INR 3 - 1 / INR 7))) / Rabs (sin (PI * (1 / INR 3 - 1 / INR 7))) / sqrt (INR 3 * INR 7).
 Proof.
-  pose proof (ca_merged_full_24.inner_geometric_expansion_full 3 7
+  pose proof (ca_merged_full_25_m2.inner_geometric_expansion_full 3 7
                 (ltac:(lia) : (3 >= 2)%coq_nat) (ltac:(lia) : (7 >= 2)%coq_nat)
                 (ltac:(lia) : (3 <= 7)%coq_nat)) as Hge.
   cbv zeta in Hge.
@@ -89651,7 +89651,7 @@ Lemma g5_coh_full_3_15 :
   ComplexNumbers.Cnorm (independent.Csum (fun k => psi 3 k *c ComplexNumbers.Cconj (psi 15 k)) 3)
   = Rabs (sin (PI * INR 3 * (1 / INR 3 - 1 / INR 15))) / Rabs (sin (PI * (1 / INR 3 - 1 / INR 15))) / sqrt (INR 3 * INR 15).
 Proof.
-  pose proof (ca_merged_full_24.inner_geometric_expansion_full 3 15
+  pose proof (ca_merged_full_25_m2.inner_geometric_expansion_full 3 15
                 (ltac:(lia) : (3 >= 2)%coq_nat) (ltac:(lia) : (15 >= 2)%coq_nat)
                 (ltac:(lia) : (3 <= 15)%coq_nat)) as Hge.
   cbv zeta in Hge.
@@ -89696,7 +89696,7 @@ Lemma g5_coh_full_7_15 :
   ComplexNumbers.Cnorm (independent.Csum (fun k => psi 7 k *c ComplexNumbers.Cconj (psi 15 k)) 7)
   = Rabs (sin (PI * INR 7 * (1 / INR 7 - 1 / INR 15))) / Rabs (sin (PI * (1 / INR 7 - 1 / INR 15))) / sqrt (INR 7 * INR 15).
 Proof.
-  pose proof (ca_merged_full_24.inner_geometric_expansion_full 7 15
+  pose proof (ca_merged_full_25_m2.inner_geometric_expansion_full 7 15
                 (ltac:(lia) : (7 >= 2)%coq_nat) (ltac:(lia) : (15 >= 2)%coq_nat)
                 (ltac:(lia) : (7 <= 15)%coq_nat)) as Hge.
   cbv zeta in Hge.
