@@ -89238,8 +89238,9 @@ Local Open Scope complex_scope.
 Local Open Scope R_scope.
 
 (* E152：跨 flavor 桥——Stdlib ≤ → mathcomp leq bool（pair_dirichlet 的
-   mathcomp 风味前提专用；leq 展开 eq_op → Nat.eqb_eq → sub_0_le） *)
-Lemma le_Prop_to_mc (w1 w2 : nat) : (w1 <= w2)%nat -> ssrnat.leq w1 w2 = true.
+   mathcomp 风味前提专用；leq 展开 eq_op → Nat.eqb_eq → sub_0_le）。
+   命名带 _cs 后缀：与 probe_rowsum 的 le_Prop_to_mc 同形，合并防撞名（E181）。 *)
+Lemma le_Prop_to_mc_cs (w1 w2 : nat) : (w1 <= w2)%nat -> ssrnat.leq w1 w2 = true.
 Proof.
   intros H. unfold ssrnat.leq, eqtype.eq_op. simpl.
   apply Nat.eqb_eq. apply Nat.sub_0_le. exact H.
@@ -89312,7 +89313,7 @@ Close Scope Z_scope.
 Open Scope R_scope.
 Open Scope complex_scope.
 Open Scope nat_scope.
-﻿(* ============================================================
+(* ============================================================
    G-3: 可认证性充要刻画（参数化检查器健全性）
    充分方向：frame_check_instance_mu I p q = true
              ⟹ gershgorin 框架界 (1 ± p/q)
