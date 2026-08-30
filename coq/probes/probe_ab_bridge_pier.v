@@ -45,6 +45,7 @@ Require Import PSA_framework.
 Import ComplexNumbers.
 Import ExtendedTheorems.
 Import ListNotations.
+Import UnconditionalBasis.
 Open Scope nat_scope.
 Open Scope R_scope.
 
@@ -79,12 +80,12 @@ Proof.
   intros Hn.
   apply Rlt_le_trans with (2%R).
   - lra.
-  - assert (H2 : (INR 2 = 2)%R) by (rewrite S_INR, INR_1; reflexivity).
+  - assert (H2 : (INR 2 = 2)%R) by (rewrite S_INR; rewrite INR_1; reflexivity).
     rewrite <- H2. apply le_INR. lia.
 Qed.
 
 Lemma INR_2_two : (INR 2 = 2)%R.
-Proof. rewrite S_INR, INR_1. reflexivity. Qed.
+Proof. rewrite S_INR. rewrite INR_1. reflexivity. Qed.
 
 Lemma psi_frac_eq (n m : nat) : (2 <= n)%nat -> (2 <= m)%nat ->
   (1 / sqrt (INR n) * (1 / sqrt (INR m))
@@ -147,16 +148,21 @@ Proof.
           - re (psi n (S k) *c Cconj (psi m (S k))))
      with (re (psi n k *c Cconj (psi m k))
           + - re (psi n (S k) *c Cconj (psi m (S k)))) by ring.
-  rewrite Rabs_triang. rewrite Rabs_Ropp.
+  eapply Rle_trans; [ apply Rabs_triang | rewrite Rabs_Ropp ].
   apply Rle_trans with
     (Cnorm (psi n k *c Cconj (psi m k))
      + Cnorm (psi n (S k) *c Cconj (psi m (S k))))%R.
   - apply Rplus_le_compat; apply Rabs_re_le_Cnorm_p.
-  - rewrite !Cnorm_mult. rewrite !Cnorm_conj_eq.
+  - rewrite (ExtendedTheorems.Cnorm_mult (psi n k) (Cconj (psi m k))).
+    rewrite (ExtendedTheorems.Cnorm_mult (psi n (S k)) (Cconj (psi m (S k)))).
+    rewrite (ExtendedTheorems.Cnorm_conj_eq (psi m k)).
+    rewrite (ExtendedTheorems.Cnorm_conj_eq (psi m (S k))).
     apply Rle_trans with
       (1 / (sqrt (INR n) * sqrt (INR m))
        + 1 / (sqrt (INR n) * sqrt (INR m)))%R.
-    + rewrite <- !(psi_frac_eq n m Hn Hm).
+    + replace (1 / (sqrt (INR n) * sqrt (INR m)))
+        with (1 / sqrt (INR n) * (1 / sqrt (INR m)))
+        by (apply psi_frac_eq; assumption).
       apply Rplus_le_compat; apply Rmult_le_compat.
       * apply Cnorm_ge_0_cn.
       * apply Cnorm_ge_0_cn.
@@ -225,7 +231,7 @@ Proof.
   assert (Hsplit : RowTruncation.list_sum_R f (seq 0 (W1 + d))
                    = RowTruncation.list_sum_R f (seq 0 W1)
                      + RowTruncation.list_sum_R f (seq W1 d)).
-  { rewrite seq_app, list_sum_R_app. reflexivity. }
+  { rewrite seq_app. rewrite list_sum_R_app. reflexivity. }
   assert (Habs : (Rabs (RowTruncation.list_sum_R f (seq W1 d))
                   <= RowTruncation.list_sum_R (fun k => Rabs (f k)) (seq W1 d))%R)
     by apply list_sum_R_abs_bound.
@@ -251,7 +257,7 @@ Lemma sqrt_pair_ge2 (vi vj : nat) : (2 <= vi)%nat -> (2 <= vj)%nat ->
   (2 <= sqrt (INR vi) * sqrt (INR vj))%R.
 Proof.
   intros Hvi Hvj.
-  assert (H2 : (INR 2 = 2)%R) by (rewrite S_INR, INR_1; reflexivity).
+  assert (H2 : (INR 2 = 2)%R) by (rewrite S_INR; rewrite INR_1; reflexivity).
   assert (Hbi : (2 <= INR vi)%R) by (rewrite <- H2; apply le_INR; lia).
   assert (Hbj : (2 <= INR vj)%R) by (rewrite <- H2; apply le_INR; lia).
   assert (Hb0 : (0 <= INR vi * INR vj)%R) by nra.

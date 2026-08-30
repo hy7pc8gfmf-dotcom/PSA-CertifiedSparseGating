@@ -3,7 +3,7 @@
 
 > 正式版。投稿方向：CPP/ITP（形式化方法）。
 > 作者：王宝军、夏挽岚（通讯作者，xiawanlan33@163.com）、祖光照、周志农、高雪峰
-> 代码基态：合并版 `ca_merged_full_25.v`（91606 行，67 模块分区，SHA-256 基 4901f18e，MERGE_EXIT=0，公理审计 54 Closed + 111 Dedekind 三公理、`Classical_Prop.classic` 零出现（2026-08-30 重跑确认）；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验）。
+> 代码基态：合并版 `ca_merged_full_25.v`（93953 行，67 模块分区，SHA-256 基 4901f18e；G-7 批次另见合并版 `ca_merged_full_25_m2.v`（92506 行，68 模块分区，本地 2.5 全量编译 EXIT=0，2026-08-31），公理审计 54 Closed + 111 Dedekind 三公理、`Classical_Prop.classic` 零出现（2026-08-30 重跑确认）；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验）。
 
 ---
 
@@ -53,8 +53,10 @@ bridge (δ_k = (k−1)·μ_row), sparse-recovery uniqueness (μ·(M+1) < 1 ⟹ z
 all coefficients zero), a recovery-correctness skeleton, an incoherent-dictionary uncertainty
 principle (μ·(|T1|+|T2|−1) < 1 ⟹ uniqueness on actual support sizes), and a
 dictionary-optimality synthesis (Welch lower bound + uniqueness window ⟹ identical sparse
-representations), all machine-checked; on the C=4 ladder the instance μ = 11289/33920 < 1/3
-yields 3-atom sparse uniqueness for [3,13,53]. The audit comprises 165 Print
+representations) whose Welch premise is itself proved constructively
+(`g7_welch_lower`: the squared Welch bound (M − N) ≤ N·(M−1)·μ² via Frobenius norm
+and Cauchy–Schwarz, avoiding eigenvalue arguments), all machine-checked; on the C=4
+ladder the instance μ = 11289/33920 < 1/3 yields 3-atom sparse uniqueness for [3,13,53]. The audit comprises 165 Print
 Assumptions entries (PSA_audit.v) with zero `Classical_Prop.classic` at the application
 layer; the only axioms are the standard Dedekind-real infrastructure (sig_not_dec,
 sig_forall_dec, functional extensionality) — non-constructive choice-like principles
@@ -149,7 +151,7 @@ logits 不变，§5.3/§10）。证书链是**两条正交的定理簇**（表�
   Gershgorin → InstanceCertificate → M4bLengthConsistency → T8CoreCertificate →
   FrameCheckInstance → ChampionCertificate → FrameCheck2DNarrow → UnitaryInvariance →
   PhaseCoherence。
-- **合并版** `src/ca_merged_full_25.v`：**91606 行 / 67 模块分区（55 模块分区 + `ca_independence` 内 `independent`/`independent′` 2 附加）**（30 个 ca_* + PSA_framework +
+- **合并版** `src/ca_merged_full_25.v`：**93953 行 / 67 模块分区（55 模块分区 + `ca_independence` 内 `independent`/`independent′` 2 附加）**（30 个 ca_* + PSA_framework +
   独立模块 + **20 个 z 区探针**：probe_grid_ortho/parseval/partial/pairbound/rowsum/
   pairdirichlet/incoherence/row_rip/c4_instance + welch/uncertainty_cr/g8_synthesis_cr/
   g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/
@@ -249,6 +251,12 @@ CRrecovery_correct_prefix (M) (c c') (u) (mu) : 0 ≤ mu → 单位范数 → �
 CRuncertainty_principle (T1 T2) (c d) (u) (mu) : 0 ≤ mu → 单位范数（T1∪T2）→ 相干 ≤ mu（T1∪T2）→
   mu·(|T1|+|T2|−1) < 1 → Σ_{T1} c·u == Σ_{T2} d·u（支撑外零）→ ∀j: c_j == d_j
   （相干字典不确定原理，构造性轨道 probe_uncertainty_cr.v：支撑大小版 1+1/μ，35 定理零经典）
+
+g7_welch_lower (M N) (v) (mu) : 1 ≤ N → N < M → (∀i<M: Σ_{k<N} v i k² = 1) →
+  (∀i j<M: i ≠ j → |Σ_k v i k·v j k| ≤ mu) →
+  INR M − INR N ≤ INR N · INR (Nat.pred M) · mu · mu
+  （Welch 下界平方形态，构造性轨道 probe_g7_welch_cr.v：Frobenius/Cauchy–Schwarz
+  路线避特征值，14 Qed 六审计全 Closed，签名与 G-8 前提逐字一致）
 ```
 
 ## 4. Instance Certificates（C=4 / T8 / 七带复合）
@@ -486,7 +494,8 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   字典的标准常数是 **1+1/μ**（Foucart–Rauhut）。
 - **字典最优性 ⟹ 恢复保证合成（G-8）** `CRg8_recovery_synthesis`（probe_g8_synthesis_cr.v，
   构造性轨道）：**压缩感知三角闭合合成定理**——若字典相干 μ 同时满足 **Welch 下界**
-  （平方形态 `(INR M − INR N) ≤ INR N·INR(M−1)·μ²`；前提状态：G-7 的完整构造性证明为后续工作，本合成定理在 Welch 前提悬空下陈述逻辑蕴含）与 **F5 唯一性窗口**
+  （平方形态 `(INR M − INR N) ≤ INR N·INR(M−1)·μ²`；前提状态（2026-08-31 升级）：该前提已由
+  G-7 构造性证明闭合（见下条 `g7_welch_lower`，与 G-8 前提签名逐字一致））与 **F5 唯一性窗口**
   （`μ·(|T1|+|T2|−1) < 1`），则同一信号的两个 |T|-稀疏表示必相同（∀j: c_j == d_j，直接
   实例化 F5）；配套相图定理 `CRphase_window_nonempty`：Welch 下界 + F5 窗口 ⟹ **窗口非空
   参数条件** `(INR M − INR N)·(INR T)² < INR N·INR(M−1)`（"Welch < 1/|T| 时唯一性窗口
@@ -496,7 +505,21 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   实例化。6 Qed / 0 Admitted / 0 自定义公理，**Print Assumptions 双定理 Closed under the
   global context（零经典实数）**。**定位**：G-8 是"字典设计最优性（Welch 下界）⟹
   恢复保证（F5 唯一性）"的定量桥，把压缩感知"唯一性⟺恢复⟺相干区间"的相图结构定理化；
-  Welch 下界本身（G-7 构造性 Welch 完整证明）为后续工作（本条目以其平方形态为抽象前提）。
+  其 Welch 前提已由 G-7 构造性证明闭合（见下条）。
+- **Welch 下界构造性证明（G-7，纯构造性轨道，2026-08-31 新增）** `g7_welch_lower`
+  （probe_g7_welch_cr.v）：**Welch 下界平方形态的完整构造性证明**——M 个单位范数原子
+  （实向量，维度 N，N < M）两两相干 ≤ μ ⟹ `(INR M − INR N) ≤ INR N · INR (Nat.pred M)
+  · mu · mu`（与 G-8 前提签名逐字一致）。证明路线：Frobenius 范数与 Cauchy–Schwarz
+  不等式（避免特征值论证——构造性实数轨道无谱定理可用）：①迹恒等式（帧算子对角和 =
+  INR(M)，单位范数经求和换序）；② Cauchy–Schwarz（Lagrange 恒等式 `cs_core`：双和
+  平方差非负，零开方、零特征值）；③ 部分和 ≤ 全和；④ Frobenius 恒等式（帧算子与
+  Gram 矩阵的 Frobenius 范数相等，四层求和换位）；⑤ 相干聚束（对角 = 1、非对角 ≤ μ²，
+  对最大原子索引归纳，增量 1 + 2·INR(S M)·μ² 精确闭合）→ CR 代数移项（乘正消去）。
+  **验收**：828 行 14 Qed / 0 Admitted / 0 公理，六段 Print Assumptions 全 "Closed
+  under the global context"；提取物 g7_welch_cr.ml 经 DkMLNative ocamlc 编译通过；
+  已并入合并版 `ca_merged_full_25_m2.v`（92506 行，68 模块分区，本地 2.5 全量编译 EXIT=0）。
+  **范围（如实）**：实原子版（原子分量为构造性实数；G-8 的消费为抽象相干上界 μ，
+  实版直接衔接）；复原子版（复向量内积的 Welch 下界）列为后续工作。
 - **加权阶梯范数精确闭式（G-1，经典 R 轨道）** G1_norm_closed（probe_g1_norm_closed.v，
   21 Qed / 0 Admitted）：任意长度 M 组合的加权平方范数精确等式
   ‖Σ_{j≤M} c_j·ψ_{n_j}‖²_W = Σ_{j≤M} c_j²·‖ψ_{n_j}‖²_W + 2·Σ_{j<k≤M} c_j·c_k·K_W(n_j,n_k)，
@@ -528,7 +551,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   `probe_decidability_premium_cr.v` 并入合并版 25 模块 55/55，Gram 相干行和 ≤ 63/80 + 反射界 21/16
   + 溢价 5/3，核心 `m4_CRinv_le_contravar` 纯构造反变单调，`m4_decidability_premium : {w & CRle w (63/80)}` Set 层 sigT 定理，Print Assumptions 全
   Closed——相干缺口闭合的构造性完成）。
-  **意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版） + 字典最优性⟹恢复保证合成（G-8），机器检查，其中 k-原子 RIP、唯一性骨架、不确定原理与相图合成走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；全窗口 [3,13,53,213] 四原子的稀疏唯一性扩展是直截但未完成的计算（必要的逐对相干界已在 `PSA_framework.v`）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界的合成为后续工作（future work 第一项）。**4 原子障碍分析**：两两相干口径硬限制 μ·4 ≈ 1.33 > 1；出路——精确 Gram 特征值口径（G-1 闭式）、严格 3-稀疏信号由 `sparse_uniquenessM` 覆盖、Welch-窗口合成的理论极限陈述。**数学新颖性说明**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle、CRg8_recovery_synthesis 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复、RIP、Donoho–Stark 不确定性原理与 Welch 界-恢复保证相图的机器检查，数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径、构造性轨道独立性验证与三角闭合相图合成）。本族主要探针已并入合并版 `ca_merged_full_25.v`（67 模块分区，MERGE_EXIT=0），
+  **意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版） + 字典最优性⟹恢复保证合成（G-8），机器检查，其中 k-原子 RIP、唯一性骨架、不确定原理与相图合成走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；全窗口 [3,13,53,213] 四原子的稀疏唯一性扩展是直截但未完成的计算（必要的逐对相干界已在 `PSA_framework.v`）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界的合成为后续工作（future work 第一项）。**4 原子障碍分析**：两两相干口径硬限制 μ·4 ≈ 1.33 > 1；出路——精确 Gram 特征值口径（G-1 闭式）、严格 3-稀疏信号由 `sparse_uniquenessM` 覆盖、Welch-窗口合成的理论极限陈述。**数学新颖性说明**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle、CRg8_recovery_synthesis 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复、RIP、Donoho–Stark 不确定性原理与 Welch 界-恢复保证相图的机器检查（Welch 下界本身亦为经典结果的构造性机器检查），数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径、构造性轨道独立性验证与三角闭合相图合成）。本族主要探针已并入合并版 `ca_merged_full_25.v`（67 模块分区，MERGE_EXIT=0），
 独立 + 合并双通过；G-3（probe_g3_criterion）/G-5（probe_g5_premium）**已并入合并版**（2026-08-30 M2 批次），probe_recovery_cr 为构造性轨道独立验证。
 
 - **τ 裁剪最优性（CS-11，经典 R 轨道，2026-08-28 新增）** `probe_taugrid.v`（17 Qed / 0 Admitted）：**覆盖债精确量化** `coverage_fraction`/`coverage_debt`（S T < n ⟹ 窗 [0,T] 内能量恰 = (T+1)/n，窗外能量 1−(T+1)/n ∈ (0,1)——**τ 负债的机器可计算量**，"剪 255/127/63 应恶化"的定理侧镜像）；**支撑完备刻画** `support_classification`（n ≤ T ⟺ ψ_n 完全支撑训练窗，iff）；**裁剪证书单调** `prune_row_le`（kept 子族行和 ≤ 全族——上界型证书不损）；**C-梯子稀疏化迁移** `thinning_preserves_ratio`；**三连合成** `tau_prune_optimality`——randmax256/384 裁剪实验的定理化。
@@ -572,7 +595,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 > **代码仓库**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 + 论文 + 实证 + CI，Apache-2.0；CI 徽章见 README）。预印本 DOI：10.6084/m9.figshare.33312189。
 
 - **代码分布**：`src/`（正式模块，含 `_CoqProject`）；`z/`（探针）；合并版
-  `src/ca_merged_full_25.v`（91606 行，67 模块分区 + `independent`/`independent′` 2 附加，含 ca_zeta_euler / ca_rip_cr 构造性轨道 + 20 个 z 区探针）；归档基态
+  `src/ca_merged_full_25.v`（93953 行，67 模块分区 + `independent`/`independent′` 2 附加，含 ca_zeta_euler / ca_rip_cr 构造性轨道 + 20 个 z 区探针）；归档基态
   `D:\ComplexAnalysis\30模块\`（ca_* + 探针 pro 版 + ca_zeta_euler + ca_rip_cr + 合并版，
   SHA-256 与 src/z 一致，旧版备份 `.sync-backup-20260823/`）。
 - **依赖版本**：Rocq/Coq 9.0.1（`C:\Rocq-Platform~9.0~2025.08\bin\coqc.exe`）；mathcomp
@@ -726,7 +749,7 @@ and Rocq 9.0.x/9.1.x) yielded the following first-hand feedback:
 部署级证书族构成三角支撑；**压缩感知族（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏
 唯一性）把「无条件基 + 频率阶梯」的理论优势推进到稀疏恢复**（k-原子 RIP 走纯构造性实数
 轨道、零经典公理）。全部开发零 Admitted、零自定义公理，165 项审计
-`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（91606 行，67 模块分区 + 2 附加，含 20 个 z 区探针 + 构造性轨道
+`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（93953 行，67 模块分区 + 2 附加，含 20 个 z 区探针 + 构造性轨道
 ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实证共同构成「可证性（稀疏）—
 外推性（稠密）」双轨的机器检查 + 实证记录。
 
@@ -770,7 +793,7 @@ ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实�
 | ρ^{−3/2} 逐对紧界 | z/probe_pairbound.v（5 Qed） | ✅ **已并入合并版** |
 | 碰撞刻画 / τ 机制 | z/probe_collision.v / probe_tchar.v / probe_taudicho.v | ✅（z 区独立验证） |
 | 部署级证书族 | z/probe_kvevict.v / probe_quant.v / probe_multihead.v / probe_exprat.v | ✅（z 区独立验证） |
-| 合并版 | src/ca_merged_full_25.v（91606 行，67 模块分区，20 探针 + ca_zeta_euler / ca_rip_cr 并入） | ✅ **MERGE_EXIT=0** |
+| 合并版 | src/ca_merged_full_25.v（93953 行，67 模块分区，20 探针 + ca_zeta_euler / ca_rip_cr 并入） | ✅ **MERGE_EXIT=0** |
 | 归档基态 | D:\ComplexAnalysis\30模块\（SHA-256 与 src/z 一致） | ✅ |
 
 ---

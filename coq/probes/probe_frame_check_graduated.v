@@ -45,9 +45,20 @@ Require Import ca_base ca_complex_foundation ca_independence ca_basis ca_basis_l
 Require Import PSA_framework.
 Import ComplexNumbers.
 Import ExtendedTheorems.
+Import independent.
 Import ListNotations.
 Open Scope nat_scope.
 Open Scope R_scope.
+
+(* E138①：Notation 注册（8 项，恢复 Stdlib nat 记号——防 mathcomp 污染，
+   合并版双环境兼容硬规则 9） *)
+Notation "a + b" := (Nat.add a b) (at level 50, left associativity) : nat_scope.
+Notation "a - b" := (Nat.sub a b) (at level 50, left associativity) : nat_scope.
+Notation "a * b" := (Nat.mul a b) (at level 40, left associativity) : nat_scope.
+Notation "a <= b" := (Nat.le a b) (at level 70, no associativity) : nat_scope.
+Notation "a < b" := (Nat.lt a b) (at level 70, no associativity) : nat_scope.
+Notation "a >= b" := (Nat.le b a) (at level 70, no associativity) : nat_scope.
+Notation "a > b" := (Nat.lt b a) (at level 70, no associativity) : nat_scope.
 
 (* ============ GC0：分级层与决策函数（可计算层） ============ *)
 
@@ -92,10 +103,11 @@ Lemma sum_row_diag_off (f : nat -> R) (i n : nat) :
   sum_f_R0 f n = f i + sum_f_R0 (fun j => if eq_nat_dec i j then 0 else f j) n.
 Proof.
   induction n as [| n IH]; intros Hi.
-  - assert (Hi0 : (i = 0)%nat) by lia. subst i.
+  - assert (Hi0 : (i = 0)%nat) by lia.
+    subst i.
     simpl. destruct (eq_nat_dec 0 0) as [He | Hn].
     + ring.
-    + exfalso. exact (Hn eq_refl).
+    + exfalso. apply Hn. reflexivity.
   - destruct (Nat.eq_dec i (S n)) as [Hlast | Hnotlast].
     + subst i.
       assert (Hpre : sum_f_R0 (fun j => if eq_nat_dec (S n) j then 0 else f j) n = sum_f_R0 f n).
@@ -104,8 +116,8 @@ Proof.
       assert (Hlast0 : (fun j => if eq_nat_dec (S n) j then 0 else f j) (S n) = 0).
       { destruct (eq_nat_dec (S n) (S n)) as [He | Hne].
         - reflexivity.
-        - exfalso. exact (Hne eq_refl). }
-      rewrite sum_f_R0_S. rewrite sum_f_R0_S. rewrite Hpre, Hlast0. ring.
+        - exfalso. apply Hne. reflexivity. }
+      rewrite sum_f_R0_S. rewrite sum_f_R0_S. rewrite Hpre. rewrite Hlast0. ring.
     + assert (Hlastf : (fun j => if eq_nat_dec i j then 0 else f j) (S n) = f (S n)).
       { destruct (eq_nat_dec i (S n)) as [He | Hne].
         - exfalso. apply Hnotlast. exact He.
@@ -281,7 +293,7 @@ Proof.
     - rewrite sum_f_R0_add. f_equal.
       + apply sum_f_R0_ext. intros i Hi.
         unfold Frow. cbv beta.
-        destruct (eq_nat_dec i i) as [He | Hn]; [reflexivity | exfalso; exact (Hn eq_refl)].
+        destruct (eq_nat_dec i i) as [He | Hn]; [reflexivity | exfalso; apply Hn; reflexivity].
       + apply sum_f_R0_ext. intros i Hi.
         apply sum_f_R0_ext. intros j Hj.
         unfold Frow. cbv beta.
@@ -303,7 +315,7 @@ Proof.
       + rewrite (sum_f_R0_opp_l (fun i => Cnorm_sq (c i)) m).
         apply sum_f_R0_ext. intros i Hi.
         unfold Frow. cbv beta.
-        destruct (eq_nat_dec i i) as [He | Hn]; [reflexivity | exfalso; exact (Hn eq_refl)].
+        destruct (eq_nat_dec i i) as [He | Hn]; [reflexivity | exfalso; apply Hn; reflexivity].
       + apply sum_f_R0_ext. intros i Hi.
         apply sum_f_R0_ext. intros j Hj.
         unfold Frow. cbv beta.

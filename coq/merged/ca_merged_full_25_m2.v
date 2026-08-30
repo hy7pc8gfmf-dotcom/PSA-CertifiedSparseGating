@@ -91404,7 +91404,7 @@ Notation "a >= b" := (Nat.le b a) (at level 70, no associativity) : nat_scope.
 Notation "a > b" := (Nat.lt b a) (at level 70, no associativity) : nat_scope.
 
 (* Q 分母桥（定义性——Z.of_nat (S n) ≡ Zpos (Pos.of_succ_nat n)） *)
-Lemma zpos_of_succ (n : nat) :
+Lemma zpos_of_succ_c4 (n : nat) :
   Z.pos (Pos.of_succ_nat n) = Z.of_nat (S n).
 Proof. destruct n; reflexivity. Qed.
 
