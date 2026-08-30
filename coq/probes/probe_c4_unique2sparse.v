@@ -32,6 +32,7 @@ Require Import Stdlib.Lists.List.
 Require Import Stdlib.Arith.Arith.
 Require Import Stdlib.QArith.QArith.
 Require Import Stdlib.Reals.Reals.
+Require Import Stdlib.Reals.Qreals.
 Require Import Stdlib.micromega.Lia.
 Require Import Stdlib.micromega.Lra.
 Require Import ca_base ca_complex_foundation ca_independence ca_basis ca_basis_lemmas ca_decay.
