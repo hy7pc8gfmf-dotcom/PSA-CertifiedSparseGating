@@ -90442,6 +90442,7 @@ Require Import Stdlib.Bool.Bool.
 Require Import Stdlib.Reals.Reals.
 Import ComplexNumbers.
 Import ExtendedTheorems.
+Import independent.
 Import ListNotations.
 Open Scope nat_scope.
 Open Scope R_scope.
@@ -90898,6 +90899,7 @@ Require Import Stdlib.Reals.Reals.
 Import ComplexNumbers.
 Import ExtendedTheorems.
 Import ListNotations.
+Import UnconditionalBasis.
 Open Scope nat_scope.
 Open Scope R_scope.
 
