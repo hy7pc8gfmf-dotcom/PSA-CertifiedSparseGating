@@ -87830,7 +87830,8 @@ Proof.
         - rewrite Hprod. exact Hge1.
         - apply Rmult_le_compat_l; [apply Rabs_pos | exact Hbound]. }
       apply (Rmult_le_reg_r (3 * D)); [exact H3D | ].
-      rewrite Rinv_l by lra.
+      assert (Hnz2 : (3 * D <> 0)%R) by lra.
+      rewrite (Rinv_l (3 * D) Hnz2).
       exact Hfin.
 Qed.
 
@@ -88011,7 +88012,7 @@ Lemma psi_norm_sq_tail (n k : nat) : (n <= k)%nat ->
   (psi n k = ComplexNumbers.C0)%C.
 Proof.
   intros Hk. unfold psi, UnconditionalBasis.phi.
-  rewrite ltb_ge_false by exact Hk.
+  rewrite (ltb_ge_false k n Hk).
   apply Cmul_0_r.
 Qed.
 
@@ -88659,7 +88660,8 @@ Proof.
   - unfold l2_norm_sq. simpl.
     assert (H0 : f 0%nat = g 0%nat) by (apply H; lia).
     rewrite H0. reflexivity.
-  - rewrite l2_norm_sq_S, l2_norm_sq_S.
+  - rewrite l2_norm_sq_S.
+    rewrite l2_norm_sq_S.
     assert (HIH : forall k, (k <= N)%nat -> f k = g k)
       by (intros k Hk; apply H; lia).
     rewrite (IH HIH).
@@ -88675,7 +88677,8 @@ Proof.
   rewrite (l2_norm_sq_ext f (fun _ => C0) N H).
   clear H f. induction N as [| N IH].
   - unfold l2_norm_sq. simpl. apply Cnorm_sq_C0.
-  - rewrite l2_norm_sq_S, IH. unfold l2_norm_sq. simpl.
+  - rewrite l2_norm_sq_S.
+    rewrite IH. unfold l2_norm_sq. simpl.
     rewrite Rplus_0_l. apply Cnorm_sq_C0.
 Qed.
 
@@ -88718,7 +88721,8 @@ Proof.
   assert (Hprem : Rsqr (re z) = Rsqr 0%R) by (rewrite Hz0; exact Hre0).
   assert (Hqrem : Rsqr (im z) = Rsqr 0%R) by (rewrite Hz0; exact Him0).
   apply Rsqr_eq_abs_0 in Hprem. apply Rsqr_eq_abs_0 in Hqrem.
-  rewrite Rabs_R0 in Hprem, Hqrem.
+  rewrite Rabs_R0 in Hprem.
+  rewrite Rabs_R0 in Hqrem.
   apply Complex_eq.
   - apply rabs_eq0. exact Hprem.
   - apply rabs_eq0. exact Hqrem.
@@ -89128,7 +89132,10 @@ Proof.
     change (PrimeEmbedding.Csum
               (fun k : nat => psi 1 k *c Cconj (psi 2 k)) 0%nat) with C0.
     apply Cadd_0_r. }
-  rewrite Hstep, cs4c_psi10, cs4c_psi20, cconj_cof_real.
+  rewrite Hstep.
+  rewrite cs4c_psi10.
+  rewrite cs4c_psi20.
+  rewrite cconj_cof_real.
   (* C1 *c Cof_real r = Cof_real r *)
   replace (C1 *c Cof_real (1 / sqrt 2)) with (Cof_real (1 / sqrt 2))
     by (apply Complex_eq; unfold C1, Cmul, Cof_real; simpl; ring).
