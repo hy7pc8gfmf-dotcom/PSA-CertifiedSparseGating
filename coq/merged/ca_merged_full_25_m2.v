@@ -90489,7 +90489,11 @@ Lemma sum_row_diag_off (f : nat -> R) (i n : nat) :
   sum_f_R0 f n = f i + sum_f_R0 (fun j => if eq_nat_dec i j then 0 else f j) n.
 Proof.
   induction n as [| n IH]; intros Hi.
-  - assert (Hi0 : (i = 0)%nat) by lia. subst i.
+  - assert (Hi0 : (i = 0)%nat).
+    { apply Nat.le_antisym.
+      - first [ exact Hi | apply Nat.leb_le; exact Hi ].
+      - apply Nat.le_0_r. }
+    subst i.
     simpl. destruct (eq_nat_dec 0 0) as [He | Hn].
     + ring.
     + exfalso. exact (Hn eq_refl).
@@ -90508,7 +90512,11 @@ Proof.
         - exfalso. apply Hnotlast. exact He.
         - reflexivity. }
       rewrite sum_f_R0_S. rewrite sum_f_R0_S. rewrite Hlastf.
-      assert (Hin : (i <= n)%nat) by lia.
+      assert (Hin : (i <= n)%nat).
+      { apply Nat.leb_le.
+        apply Nat.le_trans with (m := S n).
+        - first [ exact Hi | apply Nat.leb_le; exact Hi ].
+        - apply Nat.le_succ_diag_r. }
       assert (IH1 := IH Hin).
       lra.
 Qed.
