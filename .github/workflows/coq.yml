@@ -139,7 +139,9 @@ jobs:
           git config --global tag.gpgsign true
           # 签名提交需要身份（CI 环境默认无 user.name/user.email）
           git config --global user.name "PSA CI Bot"
-          git config --global user.email "168888@live.cn"
+          # 提交邮箱必须是 GitHub 账号已验证邮箱，Verified 徽章才能亮起
+          # （168888@live.cn 若已在账号 Emails 列表验证，改回亦有效）
+          git config --global user.email "hy7pc8gfmf@privaterelay.appleid.com"
           # 5. 自检：确实能签名（防"配置了但签不出"的静默失败）
           echo "gpg test $(date -u +%s)" | gpg --batch --clearsign >/dev/null 2>&1 \
             || echo "::warning::gpg 签名自检失败——提交签名可能无效"
