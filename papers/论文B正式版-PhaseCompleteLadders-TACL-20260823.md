@@ -185,7 +185,7 @@ Holm 校正（方向性观察）；**n=5 复核已完成（2026-08-24，9 方案
   分布内 2× 优势换取外推脆弱性」的笼统交易：交易是周期参数化的属性，不是位置信息的
   属性**（ALiBi 分布内 4.64 仅比最优 4.48 差 0.16，且外推平坦）；NoPE 保留「位置必要性」
   的对照价值。
-- **rope-PI 无微调惨败**（37.87）——测试时修复不是免费午餐，NTK 是唯一有效形态。
+- **rope-PI 无微调惨败**（37.87）——测试时修复不是无无免费午餐定理定理，NTK 是唯一有效形态。
 
 **阶梯族内判决**：
 - **七带阶梯 [3,7,15,31,63,127,255] 全程均值最优**（2×/4×/8× 全列第一）。
@@ -219,7 +219,7 @@ Holm 校正（方向性观察）；**n=5 复核已完成（2026-08-24，9 方案
    谱能量 ε 单调，而剪掉 511 带的 ε 几乎不变（该带窗内范数→0），ppl 却 13.84→12.40 远超
    噪声——**增益机制不在形式化的谱能量通道内**（候选：绝对相位混叠、softmax 分母数值
    稳定性，均被现框架抽象掉，future work）；形式化的贡献限于稳定性检验（剪枝不破坏框架
-   界、μ 不变——排除崩溃风险）。
+   界、μ 不变——排除严重退化风险）。
 4. **长带死重**：128 带中 120 个 n_j>512 带对训练损失贡献 ≈ 0（1.4111 vs 1.4120）——
    与理论预测（窗口内范数→0）一致。
 5. **填充均匀性无关**：七带填 16 槽（16 mod 7 = 2，不均匀）仍居最优——均匀性被正反两
@@ -230,7 +230,7 @@ Holm 校正（方向性观察）；**n=5 复核已完成（2026-08-24，9 方案
 
 ## 6. 假设证伪链（方法学贡献）
 
-- ~~**「psi 天然外推」**~~ → 绝对编码崩溃（分布内 5 → 8× 34）。
+- ~~**「psi 天然外推」**~~ → 绝对编码性能严重退化（分布内 5 → 8× 34）。
 - **双覆盖律（已撤回）**：「double-coverage 律（n_max ≤ T_train/2）」被 C=2（覆盖 1.0）
   实测第二好的反例证伪。
 - ~~**「283 单带污染」**~~ → E5' 剪掉 283 后**更差**（33.20 vs 28.97），**排除**——283 带
@@ -311,7 +311,7 @@ Holm 校正（方向性观察）；**n=5 复核已完成（2026-08-24，9 方案
 |------|------------|-----------------|----------------------|
 | **psi-rope-rand** | **6.45±0.03（旋转族内最优）** | **不在**证书覆盖范围（随机阶梯无几何结构） | 负面：T2b（随机 log-uniform whp 被拒）；正面：`pairwise_inner_bound_probabilistic`（增长 ≥ c² 的结构化随机 whp 获逐对证书） |
 | **ALiBi** | **4.47±0.10（全局最优）** | **无证书**（线性偏置核与证书正交） | `linear_bias_no_collision`（非周期核零碰撞端点） |
-| **grid** | 25.66±2.22 | 可给 μ=0 精确正交证书，但外推崩溃——μ=0 正交证书以外推性能为代价 | `grid_pair_ortho`/`parseval_two` + `grid_first_collision_at_N` |
+| **grid** | 25.66±2.22 | 可给 μ=0 精确正交证书，但外推性能严重退化——μ=0 正交证书以外推性能为代价 | `grid_pair_ortho`/`parseval_two` + `grid_first_collision_at_N` |
 | **ogrid** | 16.12±1.32 | μ=0 全长度精确正交证书 + 零精确碰撞（可审计），但外推仍差 rand 2.4×——μ=0 正交证书未带来外推优势（被证伪） | `irrational_offset_no_collision` + `collides_iff_rational_witness` + `golden_near_collision`（\｜dφ−m\｜ ≥ 1/(3d)） |
 | rope-NTK | 11.54±1.18 | **无证书 / 不可审计**（纯经验修复，破坏阶梯结构） | ——（锚缺席本身即判读） |
 | E5'' 七带 | 12.40（次优） | 复合证书（复合界），可审计 | `champion_e5_composite_certificate` |
@@ -589,7 +589,7 @@ LongRoPE（Ding et al., ICLR 2024）。本文以「频率阶梯相位剖面」�
 机制统一解释排行榜并获 3 个稳健实证支点 + 1 个单种子候选支点（分协议：eval-only 3 稳健；真训练 1 系单种子观察，多种子未复现；候选解释）**及形式化碰撞结构支撑（碰撞 ⟺ 有理、无理偏移零碰撞、ALiBi 无碰撞端点、近碰撞半径 1/(3d)，论文 A §5.6.4）及 **τ 裁剪定理侧机器检查**（覆盖债量化/裁剪证书单调/近重复对爆炸/offset 无关性——z 区 64 Qed，论文 A §5.6.6 CS-11–CS-14）——「交易是周期参数化的属性，非周期偏置近零代价
 逃逸」。最强的 4 带阶梯带机器检查的有理框架证书，最强的 7 带阶梯内含可认证子核——
 表达性与可证明性在同一阶梯族内共存互补。证伪链与保留假设并报——这条律离终态还有距离，
-但变量已被命名、仪器已就位、边界已被明确指出。 **四原子分层证书定理侧（CS-15，`probe_c4_four_atom_cr.v`，2026-08-30，纯构造性轨道：ConstructiveReals 接口、Set 层组合、零经典公理、5 段审计全 Closed、提取物 `c4_four_atom_cr.ml` 经 DkMLNative ocamlc 编译通过）**："第 4 原子 213 未覆盖"由此转化为分层正面贡献——层 1（全族 4 原子）双侧能量稳定：|‖Σ_{j≤3} c_j·u_j‖² − Σc_j²| ≤ μ₄·4·Σc_j²（`c4_four_atom_energy_stability`，CRrip_bound_k M=3 实例化，能量稳定不要求 μ(M+1)<1）；层 2（Q 层窗口判定）：μ₄·4 = 45156/33920 > 1（全族唯一性窗口关闭，精确障碍）而 μ₄·3 = 33867/33920 < 1（3 原子子族窗口开启）——同一常数 μ₄ = 11289/33920 的两个方向判定（`c4_four_atom_layered_certificate` 合成）。 **安全域镜像一致性定理侧（CS-16，`probe_safe_domain.v`，2026-08-30，纯构造性轨道：nat/Z 层、Set 层可计算 Fixpoint、零经典公理、4 段审计全 Closed、提取物 `safe_domain.ml` 经 DkMLNative ocamlc 编译通过）**：反射检查器提取的 63-bit int 镜像与 Coq 语义的一致性由此从经验性 FFI 交叉校验升级为定理保证——乘积上界递推（`zprod_bounded`：全因子 0 < d ≤ D ⟹ 0 < zprod l ≤ D^length l，非平凡归纳核）判定 C=4 分母链 [400; 2080; 3500; 20800; 33920] 落在安全域内：连乘 = 2054520832000000000 < 2^63（`c4_safe_domain`），溢出自由蕴含 mod-2^63 镜像与精确语义一致（`no_overflow_consistent`：0 ≤ p < 2^63 ⟹ p mod 2^63 = p），安全域成员资格由可提取 bool 判定 `safe_domain_bool` 运行时可判定——评审 A1"运行时检查器 int 镜像信任鸿沟"在判定链输入落于安全域时闭合。 **分级证书检查器定理侧（CS-17，`probe_frame_check_graduated.v`，2026-08-30，经典 R 轨道：零 Admitted、公理依赖与主线 165 项审计一致（classic 零出现）、提取物 `frame_check_graduated.ml` 经 DkMLNative ocamlc 编译通过）**：反射检查器的方法论由此从二元判定升级为分层服务——四级证书 L1_tight（二元检查器全过 ⟹ Gershgorin 框架界 [1/5, 9/5]·S）、L2_composite（结构有效且逐对相干界 δ_ij ≤ 1 ⟹ 复合能量界 (S−coh, S+coh)，七带冠军证书由手工组装变自动输出）、L3_energy_only（黑洞对 ⟹ 仅上半能量界）、L4_rejected（结构无效），配健全性定理 `frame_check_graduated_sound`（级 ⟹ 承诺）；计算验证覆盖四级分布——[3,13]→L1、[3,7,15]→L2（评审 G-5"误拒"类近带阶梯由拒绝变降级服务）、[2,3]→L3、乱序/空→L4。 **A-B 桥梁桥墩定理侧（CS-18，`probe_ab_bridge_pier.v`，2026-08-30，经典 R 轨道：零 Admitted、公理依赖与主线 165 项审计一致、classic 零出现；R 层定理不可提取，如实注明）**：论文 A 证书（基表示层）与端到端性能（PPL 实证）的衔接由此获得第一个机器检查的中间桥墩——psi 核 `psi_kernel n m k := re (psi n k *c Cconj (psi m k))` 的相邻位漂移界 `psi_kernel_drift_bound`：|psi_kernel n m k − psi_kernel n m (S k)| ≤ 2/(√n·√m)；截断 TVD 桥 `psi_attention_tvd_trunc`：基核求和窗口从 W 截至 W' 时 |K i j − K' i j| ≤ INR(W−W')·(1/2)（带 ≥2 一致化），实例化 `kernel_drift_controls_attention`（核漂移 dc ⟹ softmax TVD ≤ exp(2·dc·dd) − 1）得 **TVD ≤ exp(2·(INR(W−W')·(1/2))·dd) − 1**（dd = Σ|c_j|）——桥墩已建、桥面（端到端 PPL 影响量化）如实仍为实证轨道。——证书与性能的张力如实记录：证书⟹̸性能（C=4 有证书 12.75 / rand 零证书实证最优 / grid 证书最干净却外推崩溃 25.66），证书的价值在可审计的表示稳定性保证，独立于性能指标的决策依据（论文 A 结论张力宣言同步）。
+但变量已被命名、仪器已就位、边界已被明确指出。 **四原子分层证书定理侧（CS-15，`probe_c4_four_atom_cr.v`，2026-08-30，纯构造性轨道：ConstructiveReals 接口、Set 层组合、零经典公理、5 段审计全 Closed、提取物 `c4_four_atom_cr.ml` 经 DkMLNative ocamlc 编译通过）**："第 4 原子 213 未覆盖"由此转化为分层正面贡献——层 1（全族 4 原子）双侧能量稳定：|‖Σ_{j≤3} c_j·u_j‖² − Σc_j²| ≤ μ₄·4·Σc_j²（`c4_four_atom_energy_stability`，CRrip_bound_k M=3 实例化，能量稳定不要求 μ(M+1)<1）；层 2（Q 层窗口判定）：μ₄·4 = 45156/33920 > 1（全族唯一性窗口关闭，精确障碍）而 μ₄·3 = 33867/33920 < 1（3 原子子族窗口开启）——同一常数 μ₄ = 11289/33920 的两个方向判定（`c4_four_atom_layered_certificate` 合成）。 **安全域镜像一致性定理侧（CS-16，`probe_safe_domain.v`，2026-08-30，纯构造性轨道：nat/Z 层、Set 层可计算 Fixpoint、零经典公理、4 段审计全 Closed、提取物 `safe_domain.ml` 经 DkMLNative ocamlc 编译通过）**：反射检查器提取的 63-bit int 镜像与 Coq 语义的一致性由此从经验性 FFI 交叉校验升级为定理保证——乘积上界递推（`zprod_bounded`：全因子 0 < d ≤ D ⟹ 0 < zprod l ≤ D^length l，非平凡归纳核）判定 C=4 分母链 [400; 2080; 3500; 20800; 33920] 落在安全域内：连乘 = 2054520832000000000 < 2^63（`c4_safe_domain`），溢出自由蕴含 mod-2^63 镜像与精确语义一致（`no_overflow_consistent`：0 ≤ p < 2^63 ⟹ p mod 2^63 = p），安全域成员资格由可提取 bool 判定 `safe_domain_bool` 运行时可判定——评审 A1"运行时检查器 int 镜像信任鸿沟"在判定链输入落于安全域时闭合。 **分级证书检查器定理侧（CS-17，`probe_frame_check_graduated.v`，2026-08-30，经典 R 轨道：零 Admitted、公理依赖与主线 165 项审计一致（classic 零出现）、提取物 `frame_check_graduated.ml` 经 DkMLNative ocamlc 编译通过）**：反射检查器的方法论由此从二元判定升级为分层服务——四级证书 L1_tight（二元检查器全过 ⟹ Gershgorin 框架界 [1/5, 9/5]·S）、L2_composite（结构有效且逐对相干界 δ_ij ≤ 1 ⟹ 复合能量界 (S−coh, S+coh)，七带冠军证书由手工组装变自动输出）、L3_energy_only（黑洞对 ⟹ 仅上半能量界）、L4_rejected（结构无效），配健全性定理 `frame_check_graduated_sound`（级 ⟹ 承诺）；计算验证覆盖四级分布——[3,13]→L1、[3,7,15]→L2（评审 G-5"误拒"类近带阶梯由拒绝变降级服务）、[2,3]→L3、乱序/空→L4。 **A-B 桥梁桥墩定理侧（CS-18，`probe_ab_bridge_pier.v`，2026-08-30，经典 R 轨道：零 Admitted、公理依赖与主线 165 项审计一致、classic 零出现；R 层定理不可提取，如实注明）**：论文 A 证书（基表示层）与端到端性能（PPL 实证）的衔接由此获得第一个机器检查的中间桥墩——psi 核 `psi_kernel n m k := re (psi n k *c Cconj (psi m k))` 的相邻位漂移界 `psi_kernel_drift_bound`：|psi_kernel n m k − psi_kernel n m (S k)| ≤ 2/(√n·√m)；截断 TVD 桥 `psi_attention_tvd_trunc`：基核求和窗口从 W 截至 W' 时 |K i j − K' i j| ≤ INR(W−W')·(1/2)（带 ≥2 一致化），实例化 `kernel_drift_controls_attention`（核漂移 dc ⟹ softmax TVD ≤ exp(2·dc·dd) − 1）得 **TVD ≤ exp(2·(INR(W−W')·(1/2))·dd) − 1**（dd = Σ|c_j|）——桥墩已建、桥面（端到端 PPL 影响量化）如实仍为实证轨道。——证书与性能的张力如实记录：证书⟹̸性能（C=4 有证书 12.75 / rand 零证书实证最优 / grid 证书最干净却外推性能严重退化 25.66），证书的价值在可审计的表示稳定性保证，独立于性能指标的决策依据（论文 A 结论张力声明同步）。
 
 ---
 
