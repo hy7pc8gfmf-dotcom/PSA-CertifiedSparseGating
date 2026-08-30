@@ -90831,6 +90831,8 @@ Proof. vm_compute. reflexivity. Qed.
 Print Assumptions composite_frame_bounds.
 Print Assumptions frame_check_graduated_sound.
 
+End FFGNotationFence.
+
 (* ============ 提取（决策函数 nat 可执行：psa_guard 侧分级入口） ============ *)
 From Stdlib Require Import Extraction.
 
