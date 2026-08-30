@@ -3,7 +3,7 @@
 
 > 正式版。投稿方向：CPP/ITP（形式化方法）。
 > 作者：王宝军、夏挽岚（通讯作者，xiawanlan33@163.com）、祖光照、周志农、高雪峰
-> 代码基态：合并版 `ca_merged_full_25.v`（87632 行，57 顶层模块，SHA-256 基 4901f18e，MERGE_EXIT=0，公理审计 54 Closed + 111 Dedekind 三公理、`Classical_Prop.classic` 零出现（2026-08-30 重跑确认）；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验）。
+> 代码基态：合并版 `ca_merged_full_25.v`（91606 行，67 模块分区，SHA-256 基 4901f18e，MERGE_EXIT=0，公理审计 54 Closed + 111 Dedekind 三公理、`Classical_Prop.classic` 零出现（2026-08-30 重跑确认）；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验）。
 
 ---
 
@@ -86,7 +86,7 @@ same ladder family; this work supplies the formal guarantees.
 把"实例证书"推广为"任意阶梯 → μ≤4/5 的带健全性证明的运行时判定"，是 proof-carrying
 code 思想在数值框架界上的实例化；(iii) **构造性实数轨道**（ca_rip_cr.v）：在纯构造性
 实数上独立验证 k-原子 RIP，与经典轨道的经典排中依赖形成对照；(iv) **零自定义公理的
-审计纪律**：165 项 Print Assumptions 全审计（完整 165/165 运行日志随稿，post-M1.5 复核零 `Classical_Prop.classic`）、合并版 57 顶层 Module 全量编译。以下贡献清单中的
+审计纪律**：165 项 Print Assumptions 全审计（完整 165/165 运行日志随稿，post-M1.5 复核零 `Classical_Prop.classic`）、合并版 67 模块分区 全量编译。以下贡献清单中的
 核心定理（Gershgorin 框架界、RIP 基元、稀疏唯一性）均为经典结果的机器化，数学新颖性有限，
 但上述工程机制使其可判定、可提取、可审计——这是与"把经典数学写进 Coq"的本质区别。
 
@@ -149,11 +149,11 @@ logits 不变，§5.3/§10）。证书链是**两条正交的定理簇**（表�
   Gershgorin → InstanceCertificate → M4bLengthConsistency → T8CoreCertificate →
   FrameCheckInstance → ChampionCertificate → FrameCheck2DNarrow → UnitaryInvariance →
   PhaseCoherence。
-- **合并版** `src/ca_merged_full_25.v`：**87632 行 / 57 顶层 Module（55 模块分区 + `ca_independence` 内 `independent`/`independent′` 2 附加）**（30 个 ca_* + PSA_framework +
+- **合并版** `src/ca_merged_full_25.v`：**91606 行 / 67 模块分区（55 模块分区 + `ca_independence` 内 `independent`/`independent′` 2 附加）**（30 个 ca_* + PSA_framework +
   独立模块 + **20 个 z 区探针**：probe_grid_ortho/parseval/partial/pairbound/rowsum/
   pairdirichlet/incoherence/row_rip/c4_instance + welch/uncertainty_cr/g8_synthesis_cr/
   g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/
-  decidability_premium_cr + **构造性轨道 ca_zeta_euler / ca_rip_cr** + **CS 定理族 taugrid/taugrid_cr/cs/cs5（2026-08-29，合计 64 Qed，未并入合并版）**），`_merge_ca.py`
+  decidability_premium_cr + **构造性轨道 ca_zeta_euler / ca_rip_cr** + **CS 定理族 taugrid/taugrid_cr/cs/cs5（2026-08-29，合计 64 Qed，已并入合并版）**），`_merge_ca.py`
   重新生成，**全量合并编译 MERGE_EXIT=0**。
 - **z 区探针（并入合并版 9 个：8 经典 pro 化 + c4_instance）**：grid_ortho 18 Qed / parseval 19 / partial 27 /
   pairbound 5 / rowsum 23 / pairdirichlet 5 / incoherence 51 / row_rip 9（行和→RIP 桥接）/ c4_instance 14（C=4 实例拼接）——
@@ -523,13 +523,13 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   M2 构造性 sin（`probe_sin_cr_m2` 39 Qed，交替幂级数）、M3 构造性 sqrt
   （`probe_sqrt_cr_m3` 59 Qed，Q 层二分，√21 ≥ 458/100、√105 ≥ 10246/1000）——
   纯 ConstructiveReals、零经典、零 Admitted、零自定义公理，Print Assumptions 全
-  Closed，已并入合并版 `ca_merged_full_25.v`（57 顶层 Module = 55 模块分区，MERGE_EXIT=0）。定位：
+  Closed，已并入合并版 `ca_merged_full_25.v`（67 模块分区，MERGE_EXIT=0）。定位：
   G-5 主定理构造化版本的三角基座；**M4 可判定性溢价主定理已构造化完成**（2026-08-26：
   `probe_decidability_premium_cr.v` 并入合并版 25 模块 55/55，Gram 相干行和 ≤ 63/80 + 反射界 21/16
   + 溢价 5/3，核心 `m4_CRinv_le_contravar` 纯构造反变单调，`m4_decidability_premium : {w & CRle w (63/80)}` Set 层 sigT 定理，Print Assumptions 全
   Closed——相干缺口闭合的构造性完成）。
-  **意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版） + 字典最优性⟹恢复保证合成（G-8），机器检查，其中 k-原子 RIP、唯一性骨架、不确定原理与相图合成走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；全窗口 [3,13,53,213] 四原子的稀疏唯一性扩展是直截但未完成的计算（必要的逐对相干界已在 `PSA_framework.v`）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界的合成为后续工作（future work 第一项）。**4 原子障碍分析**：两两相干口径硬限制 μ·4 ≈ 1.33 > 1；出路——精确 Gram 特征值口径（G-1 闭式）、严格 3-稀疏信号由 `sparse_uniquenessM` 覆盖、Welch-窗口合成的理论极限陈述。**数学新颖性说明**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle、CRg8_recovery_synthesis 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复、RIP、Donoho–Stark 不确定性原理与 Welch 界-恢复保证相图的机器检查，数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径、构造性轨道独立性验证与三角闭合相图合成）。本族主要探针已并入合并版 `ca_merged_full_25.v`（57 顶层 Module = 55 模块分区，MERGE_EXIT=0），
-独立 + 合并双通过；G-3（probe_g3_criterion）/G-5（probe_g5_premium）未并入合并版（z 区探针待合并），probe_recovery_cr 为构造性轨道独立验证。
+  **意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版） + 字典最优性⟹恢复保证合成（G-8），机器检查，其中 k-原子 RIP、唯一性骨架、不确定原理与相图合成走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接——注意仅前 3 原子 [3,13,53] 获得稀疏唯一恢复**（`C4_sparse_uniqueness_3`，3 原子唯一恢复，**非 4 原子**；第 4 原子 213 未覆盖）；全窗口 [3,13,53,213] 四原子的稀疏唯一性扩展是直截但未完成的计算（必要的逐对相干界已在 `PSA_framework.v`）；更大阶实例（如 C=9 的 s≤4 或全窗口 [3,13,53,213] 四原子）及与 ρ^{−3/2} 行和紧界的合成为后续工作（future work 第一项）。**4 原子障碍分析**：两两相干口径硬限制 μ·4 ≈ 1.33 > 1；出路——精确 Gram 特征值口径（G-1 闭式）、严格 3-稀疏信号由 `sparse_uniquenessM` 覆盖、Welch-窗口合成的理论极限陈述。**数学新颖性说明**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle、CRg8_recovery_synthesis 与 C4_sparse_uniqueness_3 是 Gershgorin/互干性唯一恢复、RIP、Donoho–Stark 不确定性原理与 Welch 界-恢复保证相图的机器检查，数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径、构造性轨道独立性验证与三角闭合相图合成）。本族主要探针已并入合并版 `ca_merged_full_25.v`（67 模块分区，MERGE_EXIT=0），
+独立 + 合并双通过；G-3（probe_g3_criterion）/G-5（probe_g5_premium）**已并入合并版**（2026-08-30 M2 批次），probe_recovery_cr 为构造性轨道独立验证。
 
 - **τ 裁剪最优性（CS-11，经典 R 轨道，2026-08-28 新增）** `probe_taugrid.v`（17 Qed / 0 Admitted）：**覆盖债精确量化** `coverage_fraction`/`coverage_debt`（S T < n ⟹ 窗 [0,T] 内能量恰 = (T+1)/n，窗外能量 1−(T+1)/n ∈ (0,1)——**τ 负债的机器可计算量**，"剪 255/127/63 应恶化"的定理侧镜像）；**支撑完备刻画** `support_classification`（n ≤ T ⟺ ψ_n 完全支撑训练窗，iff）；**裁剪证书单调** `prune_row_le`（kept 子族行和 ≤ 全族——上界型证书不损）；**C-梯子稀疏化迁移** `thinning_preserves_ratio`；**三连合成** `tau_prune_optimality`——randmax256/384 裁剪实验的定理化。
 - **构造性孪生（CS-12，纯构造性轨道，2026-08-29 新增）** `probe_taugrid_cr.v`（13 Qed / 0 Admitted，Print Assumptions **全 Closed 零公理**）：抽象接口 `{R : ConstructiveReals}` + 归一梯子 u（cos/复指数构造性未实现，接口与主线数学一致）；**严格序 CRlt 本身是 Set 值**（ConstructiveReals.v:88 库设计），覆盖债界定定理以信息性形式 **0 < debt < 1**（Set 值 prod，证明项可提取）陈述，主定理结论 prod 型（信息性分支不能进 Prop 的 /\），sigT 被类型系统强制；序判定下放 Q 层（Qlt 判定经 CR_of_Q_lt 提升为带数据 CRlt，CRlt_proper 信息性搬运）；**提取 `taugrid_cr.ml` 经 DkMLNative ocamlc 4.14.2 编译通过**（柯西实例 cRealConstructive 具象化）。
@@ -572,7 +572,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 > **代码仓库**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 + 论文 + 实证 + CI，Apache-2.0；CI 徽章见 README）。预印本 DOI：10.6084/m9.figshare.33312189。
 
 - **代码分布**：`src/`（正式模块，含 `_CoqProject`）；`z/`（探针）；合并版
-  `src/ca_merged_full_25.v`（87632 行，57 顶层 Module = 55 模块分区 + `independent`/`independent′` 2 附加，含 ca_zeta_euler / ca_rip_cr 构造性轨道 + 20 个 z 区探针）；归档基态
+  `src/ca_merged_full_25.v`（91606 行，67 模块分区 + `independent`/`independent′` 2 附加，含 ca_zeta_euler / ca_rip_cr 构造性轨道 + 20 个 z 区探针）；归档基态
   `D:\ComplexAnalysis\30模块\`（ca_* + 探针 pro 版 + ca_zeta_euler + ca_rip_cr + 合并版，
   SHA-256 与 src/z 一致，旧版备份 `.sync-backup-20260823/`）。
 - **依赖版本**：Rocq/Coq 9.0.1（`C:\Rocq-Platform~9.0~2025.08\bin\coqc.exe`）；mathcomp
@@ -726,7 +726,7 @@ and Rocq 9.0.x/9.1.x) yielded the following first-hand feedback:
 部署级证书族构成三角支撑；**压缩感知族（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏
 唯一性）把「无条件基 + 频率阶梯」的理论优势推进到稀疏恢复**（k-原子 RIP 走纯构造性实数
 轨道、零经典公理）。全部开发零 Admitted、零自定义公理，165 项审计
-`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（87632 行，57 顶层 Module = 55 模块分区 + 2 附加，含 20 个 z 区探针 + 构造性轨道
+`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（91606 行，67 模块分区 + 2 附加，含 20 个 z 区探针 + 构造性轨道
 ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实证共同构成「可证性（稀疏）—
 外推性（稠密）」双轨的机器检查 + 实证记录。
 
@@ -770,7 +770,7 @@ ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实�
 | ρ^{−3/2} 逐对紧界 | z/probe_pairbound.v（5 Qed） | ✅ **已并入合并版** |
 | 碰撞刻画 / τ 机制 | z/probe_collision.v / probe_tchar.v / probe_taudicho.v | ✅（z 区独立验证） |
 | 部署级证书族 | z/probe_kvevict.v / probe_quant.v / probe_multihead.v / probe_exprat.v | ✅（z 区独立验证） |
-| 合并版 | src/ca_merged_full_25.v（87632 行，57 顶层 Module，20 探针 + ca_zeta_euler / ca_rip_cr 并入） | ✅ **MERGE_EXIT=0** |
+| 合并版 | src/ca_merged_full_25.v（91606 行，67 模块分区，20 探针 + ca_zeta_euler / ca_rip_cr 并入） | ✅ **MERGE_EXIT=0** |
 | 归档基态 | D:\ComplexAnalysis\30模块\（SHA-256 与 src/z 一致） | ✅ |
 
 ---

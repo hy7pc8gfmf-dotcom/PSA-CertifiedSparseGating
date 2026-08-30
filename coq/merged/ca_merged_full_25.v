@@ -1,11 +1,11 @@
 (* ============================================================
-   合并文件（自包含，55 个模块，DAG 顺序拼接）——自动生成
+   合并文件（自包含，67 个模块，DAG 顺序拼接）——自动生成
    来源：src/（27 个 ca_* 系 + PSA_framework + 自包含独立模块 7 个 + z 区探针 8 个）
    规则（AGENTS.md 硬规则 3 / SKILL.md §3）：已剔除全部 ca_*/EXTRA/探针间 Require，
    分区逐字复制，LF 行尾；本地编译：coqc -Q mathcomp mathcomp -Q Coquelicot Coquelicot <本文件>
    ============================================================ *)
 
-(* ==================== 模块 01/55: ca_base ==================== *)
+(* ==================== 模块 01/67: ca_base ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_base  原文行区间: 1-292  机械拆分，未改动内容 *)
@@ -672,7 +672,7 @@ Qed.
 
 End ComplexNumbers.
 
-(* ==================== 模块 02/55: ca_algebra ==================== *)
+(* ==================== 模块 02/67: ca_algebra ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_algebra  原文行区间: 294-475  机械拆分，未改动内容 *)
@@ -1020,7 +1020,7 @@ Definition RingOfIntegers (K : Type) {F : Field K} : Type :=
 
 End AlgebraicIntegers.
 
-(* ==================== 模块 03/55: ca_primes ==================== *)
+(* ==================== 模块 03/67: ca_primes ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_primes  原文行区间: 477-572  机械拆分，未改动内容 *)
@@ -1178,7 +1178,7 @@ Qed.
 
 End ConstructivePrimes.
 
-(* ==================== 模块 04/55: ca_complex_analysis ==================== *)
+(* ==================== 模块 04/67: ca_complex_analysis ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_complex_analysis  原文行区间: 574-824  机械拆分，未改动内容 *)
@@ -2017,7 +2017,7 @@ End HolomorphicFunctions.
 
 
 
-(* ==================== 模块 05/55: ca_fourier ==================== *)
+(* ==================== 模块 05/67: ca_fourier ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_fourier  原文行区间: 826-1299  机械拆分，未改动内容 *)
@@ -8759,7 +8759,7 @@ Qed.
 
 End FourierAnalysis.
 
-(* ==================== 模块 06/55: ca_zeta_scaffold ==================== *)
+(* ==================== 模块 06/67: ca_zeta_scaffold ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_zeta_scaffold  原文行区间: 1301-2049  机械拆分，未改动内容 *)
@@ -9542,7 +9542,7 @@ Notation "ℑ( z )" := (ComplexNumbers.im z) (at level 10, format "ℑ( z )").
 
 End PrimeEmbedding.
 
-(* ==================== 模块 07/55: ca_trig ==================== *)
+(* ==================== 模块 07/67: ca_trig ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_trig  原文行区间: 2051-3231  机械拆分，未改动内容 *)
@@ -10768,7 +10768,7 @@ End TrigonometricLemmas.
 
 Export TrigonometricLemmas.
 
-(* ==================== 模块 08/55: ca_gamma ==================== *)
+(* ==================== 模块 08/67: ca_gamma ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_gamma  原文行区间: 3233-16482  机械拆分，未改动内容 *)
@@ -22886,7 +22886,7 @@ End GammaIntegrandComplex.
 
 Export GammaIntegrandComplex.
 
-(* ==================== 模块 09/55: ca_taylor ==================== *)
+(* ==================== 模块 09/67: ca_taylor ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_taylor  原文行区间: 16484-17471  机械拆分，未改动内容 *)
@@ -24505,7 +24505,7 @@ Qed.
 
 End TaylorTheorem.
 
-(* ==================== 模块 10/55: ca_zeta_axioms ==================== *)
+(* ==================== 模块 10/67: ca_zeta_axioms ==================== *)
 
 (* ============================================================
    库: ca_zeta_axioms —— 已清空（占位说明）
@@ -24531,7 +24531,7 @@ End TaylorTheorem.
    zeta_series_converges 构造，而不要恢复本库的公理。
    ============================================================ *)
 
-(* ==================== 模块 11/55: ca_complex_log ==================== *)
+(* ==================== 模块 11/67: ca_complex_log ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_complex_log  原文行区间: 17733-20320  机械拆分，未改动内容 *)
@@ -26584,7 +26584,7 @@ Qed.
 
 End ComplexLogarithm.
 
-(* ==================== 模块 12/55: ca_complex_foundation ==================== *)
+(* ==================== 模块 12/67: ca_complex_foundation ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_complex_foundation  原文行区间: 20322-21084  机械拆分，未改动内容 *)
@@ -27392,7 +27392,7 @@ Qed.
 
 End ComplexFoundation.
 
-(* ==================== 模块 13/55: ca_log_bounds ==================== *)
+(* ==================== 模块 13/67: ca_log_bounds ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_log_bounds  原文行区间: 21086-23433  机械拆分，未改动内容 *)
@@ -29797,7 +29797,7 @@ End ClogBoundModule.
 
 Export ClogBoundModule.
 
-(* ==================== 模块 14/55: ca_independence ==================== *)
+(* ==================== 模块 14/67: ca_independence ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_independence  原文行区间: 23435-25246  机械拆分，未改动内容 *)
@@ -31510,7 +31510,7 @@ End independent'.
 
 Export independent'.
 
-(* ==================== 模块 15/55: ca_prime_power ==================== *)
+(* ==================== 模块 15/67: ca_prime_power ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_prime_power  原文行区间: 25248-25793  机械拆分，未改动内容 *)
@@ -32121,7 +32121,7 @@ End PrimePowerIndependent.
 
 Export PrimePowerIndependent.
 
-(* ==================== 模块 16/55: ca_basis ==================== *)
+(* ==================== 模块 16/67: ca_basis ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_basis  原文行区间: 25795-26928  机械拆分，未改动内容 *)
@@ -33334,7 +33334,7 @@ End UnconditionalBasis.
 
 Export UnconditionalBasis.
 
-(* ==================== 模块 17/55: ca_basis_lemmas ==================== *)
+(* ==================== 模块 17/67: ca_basis_lemmas ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_basis_lemmas  原文行区间: 26930-33542  机械拆分，未改动内容 *)
@@ -40494,7 +40494,7 @@ Proof.
 Qed.
 
 
-(* ==================== 模块 18/55: ca_probabilistic ==================== *)
+(* ==================== 模块 18/67: ca_probabilistic ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_probabilistic  原文行区间: 33544-36341  机械拆分，未改动内容 *)
@@ -43395,7 +43395,7 @@ End ProbabilisticSparseBasis.
 
 Export ProbabilisticSparseBasis.
 
-(* ==================== 模块 19/55: ca_sparse_ext ==================== *)
+(* ==================== 模块 19/67: ca_sparse_ext ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_sparse_ext  原文行区间: 36343-36658  机械拆分，未改动内容 *)
@@ -43822,7 +43822,7 @@ Qed.
 
 End SparseInnerBoundExtensions.
 
-(* ==================== 模块 20/55: ca_char_ortho ==================== *)
+(* ==================== 模块 20/67: ca_char_ortho ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_char_ortho  原文行区间: 36660-37113  机械拆分，未改动内容 *)
@@ -44407,7 +44407,7 @@ Export UnconditionalBasisLemmas.
 
 Export PrimeFieldCharacterOrthogonality.
 
-(* ==================== 模块 21/55: ca_decay ==================== *)
+(* ==================== 模块 21/67: ca_decay ==================== *)
 
 (* 拆分自 Riemann_Hypothesis_Proof_Framework.v（复分析证明库 v6.0）*)
 (* 库: ca_decay  原文行区间: 37115-48942  机械拆分，未改动内容 *)
@@ -56733,7 +56733,7 @@ Qed.
 
 End ExtendedTheorems.
 
-(* ==================== 模块 22/55: ca_zeta_honest ==================== *)
+(* ==================== 模块 22/67: ca_zeta_honest ==================== *)
 
 (* ============================================================
    库: ca_zeta_honest —— Re(s) > 1 半平面上的诚实 ζ 函数（2026-08-15 新增）
@@ -56922,7 +56922,7 @@ End HonestZeta.
 
 Export HonestZeta.
 
-(* ==================== 模块 23/55: ca_basis_3d ==================== *)
+(* ==================== 模块 23/67: ca_basis_3d ==================== *)
 
 Require Import Stdlib.Reals.Reals.
 Require Import Stdlib.Lists.List.
@@ -58462,7 +58462,7 @@ Qed.
 
 
 
-(* ==================== 模块 24/55: ca_basis_4d ==================== *)
+(* ==================== 模块 24/67: ca_basis_4d ==================== *)
 
 (* ============================================================================
    ca_basis_4d —— 四维张量积无条件基
@@ -60529,7 +60529,7 @@ Qed.
    ca_* 反射层基础设施，零 classic）。
    ============================================================================ *)
 
-(* ==================== 模块 25/55: ca_2d_wide_const ==================== *)
+(* ==================== 模块 25/67: ca_2d_wide_const ==================== *)
 
 (* ============================================================
    库 ca_2d_wide_const —— 2D 宽轨（2D-wide）常数层
@@ -60767,7 +60767,7 @@ Proof.
   reflexivity.
 Qed.
 
-(* ==================== 模块 26/55: ca_2d_wide_engine ==================== *)
+(* ==================== 模块 26/67: ca_2d_wide_engine ==================== *)
 
 (* ============================================================
    库 ca_2d_wide_engine —— 2D 宽轨（2D-wide）衰减引擎
@@ -61044,7 +61044,7 @@ Proof.
   apply Rle_refl.
 Qed.
 
-(* ==================== 模块 27/55: ca_2d_wide_asm ==================== *)
+(* ==================== 模块 27/67: ca_2d_wide_asm ==================== *)
 
 (* ============================================================
    库 ca_2d_wide_asm —— 2D 宽轨（2D-wide）组装定理
@@ -61562,7 +61562,7 @@ Proof.
   field.
 Qed.
 
-(* ==================== 模块 28/55: PSA_framework ==================== *)
+(* ==================== 模块 28/67: PSA_framework ==================== *)
 
 (* ============================================================
    PSA_framework —— 可认证稀疏门控与注意力近似框架
@@ -68112,7 +68112,7 @@ Qed.
 
 End PhaseCoherence.
 
-(* ==================== 模块 29/55: P1Coherence ==================== *)
+(* ==================== 模块 29/67: P1Coherence ==================== *)
 
 (* ============================================================
    P1Coherence —— 精确窗口相干下界
@@ -68523,7 +68523,7 @@ Proof.
   exact Hfl.
 Qed.
 
-(* ==================== 模块 30/55: ParetoLaw ==================== *)
+(* ==================== 模块 30/67: ParetoLaw ==================== *)
 
 (* ============================================================
    ParetoLaw —— 帕累托律（可证明性边界）
@@ -68922,7 +68922,7 @@ Proof.
   nra.
 Qed.
 
-(* ==================== 模块 31/55: ParetoRandom ==================== *)
+(* ==================== 模块 31/67: ParetoRandom ==================== *)
 
 (* ============================================================
    ParetoRandom —— 帕累托律随机版
@@ -69191,7 +69191,7 @@ Proof. nra. Qed.
 
 
 
-(* ==================== 模块 32/55: CRTResolve ==================== *)
+(* ==================== 模块 32/67: CRTResolve ==================== *)
 
 (* ============================================================
    CRTResolve —— CRT 分辨率定理
@@ -69451,7 +69451,7 @@ Proof.
 Qed.
 
 
-(* ==================== 模块 33/55: ca_zeta_euler ==================== *)
+(* ==================== 模块 33/67: ca_zeta_euler ==================== *)
 
 Close Scope R_scope.
 Close Scope Z_scope.
@@ -73419,7 +73419,7 @@ Qed.
 
 
 
-(* ==================== 模块 34/55: ca_tau ==================== *)
+(* ==================== 模块 34/67: ca_tau ==================== *)
 
 (* ============================================================
    库: ca_tau —— τ 定理线：碰撞质量与裁剪单调性（T2a 形式化）
@@ -73507,7 +73507,7 @@ Proof.
         exact IH.
 Qed.
 
-(* ==================== 模块 35/55: ca_rip_cr ==================== *)
+(* ==================== 模块 35/67: ca_rip_cr ==================== *)
 
 Close Scope R_scope.
 Close Scope Z_scope.
@@ -74794,7 +74794,7 @@ Qed.
 
 End CRSqr.
 
-(* ==================== 模块 36/55: probe_grid_ortho ==================== *)
+(* ==================== 模块 36/67: probe_grid_ortho ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -75086,7 +75086,7 @@ Qed.
 
 End GridOrtho.
 
-(* ==================== 模块 37/55: probe_parseval ==================== *)
+(* ==================== 模块 37/67: probe_parseval ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -75348,7 +75348,7 @@ Print Assumptions TParseval.l2_pythagoras.
 Print Assumptions TParseval.parseval_pair.
 Print Assumptions TParseval.parseval_two.
 
-(* ==================== 模块 38/55: probe_partial ==================== *)
+(* ==================== 模块 38/67: probe_partial ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -75814,7 +75814,7 @@ Print Assumptions TPartial.geom_sum_identity.
 Print Assumptions TPartial.partial_bound_half.
 Print Assumptions TPartial.dirichlet_partial_bound.
 
-(* ==================== 模块 39/55: probe_pairbound ==================== *)
+(* ==================== 模块 39/67: probe_pairbound ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -76041,7 +76041,7 @@ End PairBound.
 Print Assumptions PairBound.pair_S_bound.
 Print Assumptions PairBound.pair_inner_norm.
 
-(* ==================== 模块 40/55: probe_rowsum ==================== *)
+(* ==================== 模块 40/67: probe_rowsum ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -76306,7 +76306,7 @@ Lemma chain_pow (C : nat) (v : nat -> nat) (i k : nat) :
 Proof.
   intros Hchain. induction k as [| k IH].
   - rewrite Nat.pow_0_r muln1 addn0. apply leqnn.
-  - rewrite (Nat.pow_succ_r C k (Nat.le_0_l k)).
+  - rewrite Nat.pow_succ_r.
     assert (Hs : (v (i + k) * C <= v (S (i + k)))%nat) by apply Hchain.
     assert (Hsucc : (i + S k = S (i + k))%nat) by first [rewrite (addnS i k); reflexivity | lia].
     setoid_rewrite Hsucc.
@@ -76314,6 +76314,7 @@ Proof.
     apply (leq_trans (n := v (i + k) * C)).
     + apply (leq_mul (n1 := v (i + k)) (n2 := C)). exact IH. by apply leqnn.
     + exact Hs.
+    + by apply Nat.le_0_l.
 Qed.
 
 Lemma v_incr (C : nat) (v : nat -> nat) :
@@ -76384,17 +76385,16 @@ Proof.
     rewrite Hq1 Nat.pow_1_r. exact (q_eq C HC).
   - assert (HC1 : (1 <= C)%nat) by exact (ltnW HC).
     pose proof (pow_ge1 C HC1 (S k)) as Hpp.
-    rewrite pow_S.
-    rewrite (Nat.pow_succ_r C (S k) (Nat.le_0_l (S k))).
-    rewrite (mult_INR C (Nat.pow C (S k))).
-    rewrite (sqrt_mult (INR C) (INR (Nat.pow C (S k)))
-              (pos_INR C) (pos_INR (Nat.pow C (S k)))).
+    rewrite pow_S Nat.pow_succ_r.
+    rewrite (mult_INR C (C ^ (S k))).
+    rewrite (sqrt_mult (INR C) (INR (C ^ (S k)))
+              (pos_INR C) (pos_INR (C ^ (S k)))).
     rewrite <- (q_eq C HC).
-    replace ((qval C * qval C ^ (S k))%R
-              * ((INR C * INR (C ^ (S k))) * (sqrt (INR C) * sqrt (INR (C ^ (S k)))))%R)%R
-      with ((qval C * (INR C * sqrt (INR C)))%R
-              * (qval C ^ (S k) * (INR (C ^ (S k)) * sqrt (INR (C ^ (S k)))))%R)%R by ring.
-    rewrite IH. ring.
+    transitivity ((qval C ^ (S k) * (INR (C ^ (S k)) * sqrt (INR (C ^ (S k)))))
+                  * (qval C * (INR C * sqrt (INR C))))%R.
+    + ring.
+    + rewrite IH (q_eq C HC). ring.
+    + lia.
 Qed.
 
 Lemma q_inv (C : nat) : (2 <= C)%nat -> forall k : nat,
@@ -76656,7 +76656,7 @@ Print Assumptions RowSum.pair_decay.
 Print Assumptions RowSum.pair_le_crude.
 Print Assumptions RowSum.row_bound_C4.
 
-(* ==================== 模块 41/55: probe_pairdirichlet ==================== *)
+(* ==================== 模块 41/67: probe_pairdirichlet ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -76754,7 +76754,7 @@ Proof.
                            *c Cconj (rot_atom (2 * PI * INR m2 / INR (a * N)) k)) W).
   { apply Csum_ext. intros k Hk.
     rewrite (rot_grid N m1 k HN).
-    rewrite (rot_grid (a * N) m2 k) => //; exact (leq_mul Ha HN). }
+    rewrite (rot_grid (a * N) m2 k); [reflexivity | exact (leq_mul Ha HN)]. }
   rewrite Hconv.
   assert (HNz : (0 < INR N)%R) by (apply lt_0_INR; move: HN => /ltP HNp; lia).
   assert (HANz : (0 < INR (a * N))%R)
@@ -76782,7 +76782,7 @@ End PairDirichlet.
 Print Assumptions PairDirichlet.pair_dirichlet.
 Print Assumptions PairDirichlet.mixed_grid_coherence.
 
-(* ==================== 模块 42/55: probe_incoherence ==================== *)
+(* ==================== 模块 42/67: probe_incoherence ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -76906,10 +76906,9 @@ Lemma sum_f_R0_ext_bounded : forall (f g : nat -> R) (N : nat),
 Proof.
   intros f g N H. induction N as [| N IH].
   - apply H. by apply leqnn.
-  - simpl.
-    assert (IHsc : forall k : nat, (k <= N)%nat -> (f k = g k)%R) by (intros k Hk; apply H; exact (leq_trans Hk (leqnSn N))).
-    rewrite (IH IHsc).
-    rewrite (H (S N) (leqnn (S N))). reflexivity.
+  - simpl. rewrite IH. rewrite (H (S N)). reflexivity.
+    by apply leqnn.
+    intros k Hk. apply H. exact (leq_trans Hk (leqnSn N)).
 Qed.
 
 Lemma phi_l2_norm : forall n : nat, (1 <= n)%nat ->
@@ -76920,7 +76919,7 @@ Proof.
   - apply sum_f_R0_ext_bounded. intros k Hk.
     assert (Hkn : (k < n)%nat)
       by (apply/ltP; move: Hk => /leP Hkp; move: Hn => /leP Hnp; lia).
-    rewrite phi_eq_rot => //; apply rot_norm_sq.
+    rewrite phi_eq_rot; [ apply rot_norm_sq | exact Hkn ].
   - replace (INR n)%R with (INR (S (Nat.pred n)))%R by (f_equal; move: Hn => /leP Hnp; lia).
     apply sum_ones.
 Qed.
@@ -76936,7 +76935,7 @@ Theorem psi_norm_one : forall n : nat, (1 <= n)%nat ->
   (l2_norm_sq (psi n) (Nat.pred n))%R = 1%R.
 Proof.
   intros n Hn. unfold psi.
-  rewrite l2_norm_sq_scale Cnorm_sq_Cof_real. rewrite (phi_l2_norm n Hn).
+  rewrite l2_norm_sq_scale Cnorm_sq_Cof_real. rewrite phi_l2_norm; [ | exact Hn ].
   (* 目标：(1/sqrt(INR n))·(1/sqrt(INR n))·INR n = 1。
      用 s := sqrt(INR n)，把 INR n 重写为 s·s，再 field（field 无法直接消化 sqrt）。 *)
   set (s := sqrt (INR n)).
@@ -76996,11 +76995,10 @@ Lemma ipW_CR_l (r : R) (u v : nat -> Complex) (W : nat) :
   (ipW (fun k => Cof_real r *c u k) v W)%R = (r * ipW u v W)%R.
 Proof.
   unfold ipW.
-  assert (Hext : forall k : nat, (re (Cof_real r *c u k *c Cconj (v k)) = r * re (u k *c Cconj (v k)))%R)
-    by (intro k; rewrite Cmul_assoc; apply Incoherence.Cof_real_mul_re).
-  rewrite (sum_f_R0_ext (fun k => re (Cof_real r *c u k *c Cconj (v k)))
-                        (fun k => (r * re (u k *c Cconj (v k)))%R) W Hext).
-  exact (sum_f_R0_scal r (fun k => re (u k *c Cconj (v k))) W).
+  rewrite (sum_f_R0_ext _ (fun k => (r * re (u k *c Cconj (v k)))%R) W).
+  rewrite (sum_f_R0_scal r (fun k => re (u k *c Cconj (v k))) W).
+  reflexivity.
+  intro k. rewrite Cmul_assoc. apply Incoherence.Cof_real_mul_re.
 Qed.
 
 (* 实右缩放：⟨u, r·v⟩ = r·⟨u,v⟩ *)
@@ -77018,12 +77016,11 @@ Lemma ipW_add_l (u v w : nat -> Complex) (W : nat) :
   (ipW (fun k => u k +c v k) w W)%R = ((ipW u w W) + (ipW v w W))%R.
 Proof.
   unfold ipW.
-  assert (Hext : forall k : nat, (re ((u k +c v k) *c Cconj (w k)) = re (u k *c Cconj (w k)) + re (v k *c Cconj (w k)))%R)
-    by (intro k; rewrite Cmul_add_distr_r; unfold Cadd; simpl; ring).
-  rewrite (sum_f_R0_ext _ (fun k => ((re (u k *c Cconj (w k))) + (re (v k *c Cconj (w k))))%R) W Hext).
-  unfold ipW.
-  exact (sum_f_R0_plus (fun k => re (u k *c Cconj (w k)))
-                       (fun k => re (v k *c Cconj (w k))) W).
+  rewrite (sum_f_R0_ext _ (fun k => ((re (u k *c Cconj (w k))) + (re (v k *c Cconj (w k))))%R) W).
+  rewrite (sum_f_R0_plus (fun k => re (u k *c Cconj (w k)))
+                         (fun k => re (v k *c Cconj (w k))) W).
+  reflexivity.
+  intro k. rewrite Cmul_add_distr_r. unfold Cadd. simpl. ring.
 Qed.
 
 (* 右加性：⟨u, v+w⟩ = ⟨u,v⟩ + ⟨u,w⟩ *)
@@ -77169,23 +77166,20 @@ Theorem norm_sq_combo2 (u1 u2 : nat -> Complex) (c1 c2 : R) (W : nat) :
      + 2 * (c1 * c2) * ipW u1 u2 W)%R.
 Proof.
   unfold l2_norm_sq.
-  assert (Hext : forall k : nat, (Cnorm_sq (Cof_real c1 *c u1 k +c Cof_real c2 *c u2 k)
-        = ((c1 * c1) * Cnorm_sq (u1 k) + (c2 * c2) * Cnorm_sq (u2 k)
-           + 2 * (c1 * c2) * re (u1 k *c Cconj (u2 k)))%R))
-    by (intro k; apply norm_sq_combo2_point).
   rewrite (sum_f_R0_ext _ (fun k => ((c1 * c1) * Cnorm_sq (u1 k)
                                      + (c2 * c2) * Cnorm_sq (u2 k)
-                                     + 2 * (c1 * c2) * re (u1 k *c Cconj (u2 k)))%R) W Hext).
-  unfold ipW.
-  setoid_rewrite (sum_f_R0_plus (fun k => ((c1 * c1) * Cnorm_sq (u1 k)
-                                            + (c2 * c2) * Cnorm_sq (u2 k))%R)
-                               (fun k => (2 * (c1 * c2) * re (u1 k *c Cconj (u2 k)))%R) W).
-  setoid_rewrite (sum_f_R0_plus (fun k => ((c1 * c1) * Cnorm_sq (u1 k))%R)
-                               (fun k => ((c2 * c2) * Cnorm_sq (u2 k))%R) W).
-  setoid_rewrite (sum_f_R0_scal (c1 * c1) (fun k => Cnorm_sq (u1 k)) W).
-  setoid_rewrite (sum_f_R0_scal (c2 * c2) (fun k => Cnorm_sq (u2 k)) W).
-  setoid_rewrite (sum_f_R0_scal (2 * (c1 * c2)) (fun k => re (u1 k *c Cconj (u2 k))) W).
-  ring.
+                                     + 2 * (c1 * c2) * re (u1 k *c Cconj (u2 k)))%R) W).
+  (* 目标为左结合：((c1²‖u1‖² + c2²‖u2‖²) + 2c1c2⟨⟩)。按最外层 + 拆分。 *)
+  rewrite (sum_f_R0_plus (fun k => ((c1 * c1) * Cnorm_sq (u1 k)
+                                    + (c2 * c2) * Cnorm_sq (u2 k))%R)
+                         (fun k => (2 * (c1 * c2) * re (u1 k *c Cconj (u2 k)))%R) W).
+  rewrite (sum_f_R0_plus (fun k => ((c1 * c1) * Cnorm_sq (u1 k))%R)
+                         (fun k => ((c2 * c2) * Cnorm_sq (u2 k))%R) W).
+  rewrite (sum_f_R0_scal (c1 * c1) (fun k => Cnorm_sq (u1 k)) W).
+  rewrite (sum_f_R0_scal (c2 * c2) (fun k => Cnorm_sq (u2 k)) W).
+  rewrite (sum_f_R0_scal (2 * (c1 * c2)) (fun k => re (u1 k *c Cconj (u2 k))) W).
+  unfold ipW. ring.
+  intro k. apply norm_sq_combo2_point.
 Qed.
 
 (* CS-3a 核心：2 原子词典的稀疏唯一性。
@@ -77202,15 +77196,13 @@ Proof.
   (* 0 = ‖c1u1+c2u2‖²_W（每点为零 ⟹ Cnorm_sq C0 = 0 ⟹ 和为 0） *)
   assert (Hcombo : (l2_norm_sq (fun k => Cof_real c1 *c u1 k +c Cof_real c2 *c u2 k) W)%R = 0%R).
   { unfold l2_norm_sq.
-    assert (Hext1 : forall k : nat, (k <= W)%nat -> (Cnorm_sq (Cof_real c1 *c u1 k +c Cof_real c2 *c u2 k) = Cnorm_sq C0)%R)
-      by (intro k; intro Hk; f_equal; exact (Hzero k Hk)).
-    rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => Cnorm_sq C0) W Hext1).
+    rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => Cnorm_sq C0) W).
     assert (Hzsum : (sum_f_R0 (fun _ : nat => Cnorm_sq C0) W)%R = 0%R).
-    { assert (Hext2 : forall k : nat, (k <= W)%nat -> (Cnorm_sq C0 = 0)%R)
-        by (intro k; intro Hk; exact Cnorm_sq_C0).
-      rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => 0%R) W Hext2).
-      exact (sum_f_R0_zero W). }
-    rewrite Hzsum. reflexivity. }
+    { rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => 0%R) W).
+      exact (sum_f_R0_zero W).
+      intro k. intro Hk. exact Cnorm_sq_C0. }
+    rewrite Hzsum. reflexivity.
+    intro k. intro Hk. f_equal. exact (Hzero k Hk). }
   (* 用 norm_sq_combo2 + Hu1/Hu2 归约 *)
   rewrite norm_sq_combo2 in Hcombo.
   rewrite Hu1 Hu2 in Hcombo.
@@ -77308,9 +77300,9 @@ Definition comboM (M : nat) (c : nat -> R) (u : nat -> nat -> Complex) (k : nat)
 Lemma ipW_C0 (v : nat -> Complex) (W : nat) : (ipW (fun _ => C0) v W)%R = 0%R.
 Proof.
   unfold ipW.
-  assert (Hext : forall k : nat, (re (C0 *c Cconj (v k)) = 0)%R) by (intro k; unfold Cmul, C0; simpl; ring).
-  rewrite (sum_f_R0_ext _ (fun _ => 0)%R W Hext).
+  rewrite (sum_f_R0_ext _ (fun _ => 0)%R W).
   induction W; simpl; [auto | rewrite IHW; lra].
+  intro k. unfold Cmul, C0. simpl. ring.
 Qed.
 
 (* 递归步（函数等式）：comboM (S M) = comboM M +c c_M·u_M *)
@@ -77410,10 +77402,9 @@ Proof.
   apply (Rle_trans _ (sum_f_R0 (fun j : nat => (Rabs (c j) * Rabs (ipW (u j) (u (S M)) W))%R) M)%R).
   - eapply Rle_trans.
     + apply sum_f_R0_abs.
-    + assert (Hext : forall j : nat, (Rabs (c j * ipW (u j) (u (S M)) W) = Rabs (c j) * Rabs (ipW (u j) (u (S M)) W))%R)
-        by (intro j; apply Rabs_mult).
-      rewrite (sum_f_R0_ext _ (fun j : nat => (Rabs (c j) * Rabs (ipW (u j) (u (S M)) W))%R) M Hext).
+    + rewrite (sum_f_R0_ext _ (fun j : nat => (Rabs (c j) * Rabs (ipW (u j) (u (S M)) W))%R) M).
       apply Rle_refl.
+      intro j. apply Rabs_mult.
   - apply (Rle_trans _ (sum_f_R0 (fun j : nat => (Rabs (c j) * mu)%R) M)%R).
     + apply sum_f_R0_le. intros k Hk.
       apply Rmult_le_compat_l; [apply Rabs_pos | ].
@@ -77421,10 +77412,10 @@ Proof.
       - exact (leq_trans Hk (leqnSn M)).
       - by apply leqnn.
       - move: Hk => /leP Hkp. lia.
-    + assert (Hext : forall j : nat, (Rabs (c j) * mu = mu * Rabs (c j))%R) by (intro j; ring).
-      rewrite (sum_f_R0_ext _ (fun j : nat => (mu * Rabs (c j))%R) M Hext).
-      rewrite <- (sum_f_R0_scal mu (fun j : nat => Rabs (c j)) M).
+    + rewrite (sum_f_R0_ext _ (fun j : nat => (mu * Rabs (c j))%R) M).
+      rewrite (sum_f_R0_scal mu (fun j : nat => Rabs (c j)) M).
       apply Rle_refl.
+      intro j. ring.
 Qed.
 
 (* 2|a||b| ≤ a²+b²（AM-GM，从 Rabs_prod_le_sq_sum 变形） *)
@@ -77453,12 +77444,12 @@ Proof.
     apply (Rle_trans _ (a * a + c k * c k)%R).
     + exact (abs_prod_le_sq a (c k)).
     + apply Rle_refl.
-  - setoid_rewrite (sum_f_R0_plus (fun _ : nat => (a * a)%R) (fun j : nat => (c j * c j)%R) M).
-    assert (Hext : forall k : nat, (a * a = (a * a) * 1)%R) by (intro k; ring).
-    setoid_rewrite (sum_f_R0_ext _ (fun _ : nat => ((a * a) * 1)%R) M Hext).
-    setoid_rewrite (sum_f_R0_scal (a * a) (fun _ : nat => 1%R) M).
-    setoid_rewrite (sum_f_R0_const M).
+  - rewrite (sum_f_R0_plus (fun _ : nat => (a * a)%R) (fun j : nat => (c j * c j)%R) M).
+    rewrite (sum_f_R0_ext _ (fun _ : nat => ((a * a) * 1)%R) M).
+    rewrite (sum_f_R0_scal (a * a) (fun _ : nat => 1%R) M).
+    rewrite (sum_f_R0_const M).
     lra.
+    intro k. ring.
 Qed.
 
 (* ============================================================
@@ -77572,7 +77563,7 @@ Proof.
             with (2 * Rabs (c (S M)) * Rabs (ipW (comboM (S M) c u) (u (S M)) W))%R.
           + apply Rle_refl.
           + rewrite Rabs_mult. rewrite Rabs_mult.
-            replace (Rabs 2)%R with 2%R by (rewrite (Rabs_right 2 (Rle_ge 0 2 (Rlt_le 0 2 Rlt_0_2))); ring).
+            replace (Rabs 2)%R with 2%R by (rewrite Rabs_right; [ring | lra]).
             ring. }
       assert (Hnonneg : (0 <= X + Y)%R) by lra.
       (* 目标：S ≤ L + X + Y + M1。HIH' : S ≤ L + M1。由 Hnonneg：M1 ≤ X + Y + M1。 *)
@@ -77629,7 +77620,7 @@ Proof.
               with (2 * Rabs (c (S M)) * Rabs (ipW (comboM (S M) c u) (u (S M)) W))%R.
             + apply Rle_refl.
             + rewrite Rabs_mult. rewrite Rabs_mult.
-              replace (Rabs 2)%R with 2%R by (rewrite (Rabs_right 2 (Rle_ge 0 2 (Rlt_le 0 2 Rlt_0_2))); ring).
+              replace (Rabs 2)%R with 2%R by (rewrite Rabs_right; [ring | lra]).
               ring. }
         lra. }
     (* 第二步：H2' : 2|A||IP| ≤ μ((M+1)A² + S)（H2 + H3 合成） *)
@@ -77725,13 +77716,11 @@ Proof.
   (* 0 = l2(comboM (S M))（零组合 ⟹ 能量 0） *)
   assert (Hl2 : (l2_norm_sq (comboM (S M) c u) W)%R = 0%R).
   { unfold l2_norm_sq.
-    assert (Hext1 : forall k : nat, (k <= W)%nat -> (Cnorm_sq (comboM (S M) c u k) = Cnorm_sq C0)%R)
-      by (intro k; intro Hk; f_equal; exact (Hzero k Hk)).
-    rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => Cnorm_sq C0) W Hext1).
-    assert (Hext2 : forall k : nat, (k <= W)%nat -> (Cnorm_sq C0 = 0)%R)
-      by (intro k; intro Hk; exact Cnorm_sq_C0).
-    rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => 0%R) W Hext2).
-    rewrite (sum_f_R0_zero W). reflexivity. }
+    rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => Cnorm_sq C0) W).
+    rewrite (Incoherence.sum_f_R0_ext_bounded _ (fun _ => 0%R) W).
+    rewrite (sum_f_R0_zero W). reflexivity.
+    intro k. intro Hk. exact Cnorm_sq_C0.
+    intro k. intro Hk. f_equal. exact (Hzero k Hk). }
   (* RIP 下界：Σc_j² ≤ l2 + μ(M+1)Σc_j² = μ(M+1)Σc_j²（因 l2 = 0） *)
   assert (Hrip := rip_lower_M M c u W mu Hmu0 Hunit Hcoh).
   rewrite Hl2 in Hrip.
@@ -77756,7 +77745,7 @@ Qed.
 
 End Incoherence2.
 
-(* ==================== 模块 43/55: probe_row_rip ==================== *)
+(* ==================== 模块 43/67: probe_row_rip ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -77816,10 +77805,9 @@ Lemma ipW_combo_r (M : nat) (c : nat -> R) (u : nat -> nat -> Complex)
 Proof.
   rewrite ipW_sym.
   rewrite (ipW_combo_l M c u v W).
-  assert (Hext : forall i : nat, (c i * ipW (u i) v W = c i * ipW v (u i) W)%R)
-    by (intro i; rewrite ipW_sym; ring).
-  rewrite (sum_f_R0_ext _ (fun i => (c i * ipW v (u i) W)%R) M Hext).
-  reflexivity.
+  rewrite (sum_f_R0_ext _ (fun i => (c i * ipW v (u i) W)%R) M).
+  - reflexivity.
+  - intro i. rewrite ipW_sym. ring.
 Qed.
 
 (* 行和（对角排除）：row_sum i = Σ_{j≠i, j≤M} |⟨u_i,u_j⟩| *)
@@ -77956,7 +77944,7 @@ Proof.
         with (sum_f_R0 (fun j => (Rabs (c j) * Rabs (c j) * Rabs (ipW (u j) (u (S M)) W)
                                   + c (S M) * c (S M) * Rabs (ipW (u j) (u (S M)) W))%R) M)%R
         by (apply sum_f_R0_ext; intro k; ring).
-      setoid_rewrite (sum_f_R0_plus (fun j => (Rabs (c j) * Rabs (c j) * Rabs (ipW (u j) (u (S M)) W))%R)
+      rewrite (sum_f_R0_plus (fun j => (Rabs (c j) * Rabs (c j) * Rabs (ipW (u j) (u (S M)) W))%R)
                              (fun j => (c (S M) * c (S M) * Rabs (ipW (u j) (u (S M)) W))%R) M).
       rewrite Rmult_plus_distr_l.
       apply Rplus_le_compat.
@@ -78073,7 +78061,7 @@ Proof.
         + apply Rle_abs.
         + rewrite Rabs_opp. apply Rle_refl.
       - rewrite Rabs_mult. rewrite Rabs_mult.
-        replace (Rabs 2)%R with 2%R by (rewrite (Rabs_right 2 (Rle_ge 0 2 (Rlt_le 0 2 Rlt_0_2))); ring).
+        replace (Rabs 2)%R with 2%R by (rewrite Rabs_right; [ring | lra]).
         apply Rle_refl. }
     (* 去掉 Rabs：−2c⟨⟩ ≤ μ_row(Σ_M + c_{SM}²)（Hneg2 + Hcb 组合，供 nra 使用） *)
     assert (Hcross : (- (2 * c (S M) * ipW (comboM (S M) c u) (u (S M)) W)
@@ -78161,7 +78149,7 @@ Proof.
     { apply (Rle_trans _ (Rabs (2 * c (S M) * ipW (comboM (S M) c u) (u (S M)) W))).
       - apply Rle_abs.
       - rewrite Rabs_mult. rewrite Rabs_mult.
-        replace (Rabs 2)%R with 2%R by (rewrite (Rabs_right 2 (Rle_ge 0 2 (Rlt_le 0 2 Rlt_0_2))); ring).
+        replace (Rabs 2)%R with 2%R by (rewrite Rabs_right; [ring | lra]).
         apply Rle_refl. }
     (* 去掉 Rabs：2c⟨⟩ ≤ μ_row(Σ_M + c_{SM}²)（Hpos + Hcb 组合，供 nra 使用） *)
     assert (Hcross_pos : (2 * c (S M) * ipW (comboM (S M) c u) (u (S M)) W
@@ -78203,7 +78191,7 @@ Proof.
     nra.
 Qed.
 
-(* ==================== 模块 44/55: probe_c4_instance ==================== *)
+(* ==================== 模块 44/67: probe_c4_instance ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -78448,7 +78436,7 @@ Proof.
   - exact Hj.
 Qed.
 
-(* ==================== 模块 45/55: probe_welch ==================== *)
+(* ==================== 模块 45/67: probe_welch ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -78574,7 +78562,7 @@ Proof.
   transitivity (sum_f_R0 (fun k => a k * sum_f_R0 a n) n).
   - apply wl_sum_ext. intros k Hk.
     transitivity (a k * sum_f_R0 a n).
-    + setoid_rewrite (wl_sum_scal_l (a k) a n). reflexivity.
+    + rewrite (wl_sum_scal_l (a k) a n). reflexivity.
     + reflexivity.
   - rewrite (wl_sum_scal_r (sum_f_R0 a n) (fun k => a k) n). reflexivity.
 Qed.
@@ -78587,7 +78575,7 @@ Proof.
   transitivity (sum_f_R0 (fun i => a i * sum_f_R0 b n) n).
   - apply wl_sum_ext. intros i Hi.
     transitivity (a i * sum_f_R0 b n).
-    + setoid_rewrite (wl_sum_scal_l (a i) b n). reflexivity.
+    + rewrite (wl_sum_scal_l (a i) b n). reflexivity.
     + reflexivity.
   - rewrite (wl_sum_scal_r (sum_f_R0 b n) (fun i => a i) n). reflexivity.
 Qed.
@@ -78856,7 +78844,7 @@ Proof.
                   replace (sum_f_R0 (fun i => 2 * (x i * sum_f_R0 x n)) n)
                     with (2 * (sum_f_R0 x n) * (sum_f_R0 x n)).
                   2: { symmetry.
-                       setoid_rewrite (wl_sum_scal_l 2 (fun i => x i * sum_f_R0 x n) n).
+                       rewrite (wl_sum_scal_l 2 (fun i => x i * sum_f_R0 x n) n).
                        rewrite (wl_sum_scal_r (sum_f_R0 x n) x n). ring. }
                   reflexivity. }
             rewrite HAB. reflexivity.
@@ -79126,7 +79114,7 @@ Qed.
 
 
 
-(* ==================== 模块 46/55: probe_uncertainty_cr ==================== *)
+(* ==================== 模块 46/67: probe_uncertainty_cr ==================== *)
 
 Close Scope R_scope.
 Close Scope Z_scope.
@@ -80247,7 +80235,7 @@ Qed.
 
 End F5Uncertainty.
 
-(* ==================== 模块 47/55: probe_g8_synthesis_cr ==================== *)
+(* ==================== 模块 47/67: probe_g8_synthesis_cr ==================== *)
 
 Close Scope R_scope.
 Close Scope Z_scope.
@@ -80472,7 +80460,7 @@ Qed.
 End G8Synthesis.
 
 
-(* ==================== 模块 48/55: probe_g1_norm_closed ==================== *)
+(* ==================== 模块 48/67: probe_g1_norm_closed ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -80928,7 +80916,7 @@ Qed.
 
 End G1NormClosed.
 
-(* ==================== 模块 49/55: probe_g2_mu_adj ==================== *)
+(* ==================== 模块 49/67: probe_g2_mu_adj ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -81342,7 +81330,7 @@ Proof.
     { unfold Rsqr, Rdiv.
       assert (Hnz : sqrt 2 <> 0) by (apply Rgt_not_eq; apply g2_sqrt_pos; lra).
       replace (3 * / sqrt 2 * (3 * / sqrt 2))%R with (9 * / (sqrt 2 * sqrt 2))%R by (field; exact Hnz).
-      replace (sqrt 2 * sqrt 2)%R with 2%R by (rewrite (sqrt_sqrt 2 (Rlt_le 0 2 Rlt_0_2)); ring).
+      replace (sqrt 2 * sqrt 2)%R with 2%R by (rewrite sqrt_sqrt; [reflexivity | lra]).
       field. }
     rewrite Ht1. rewrite Ht2. reflexivity.
 Qed.
@@ -81443,7 +81431,7 @@ Proof.
     replace (Rsqr (4 * sqrt 2 * PI))%R with (32 * Rsqr PI)%R in Hsqle.
     + lra.
     + rewrite Rsqr_mult. rewrite Rsqr_mult.
-      replace (Rsqr (sqrt 2))%R with 2%R by (unfold Rsqr; rewrite (sqrt_sqrt 2 (Rlt_le 0 2 Rlt_0_2)); ring).
+      replace (Rsqr (sqrt 2))%R with 2%R by (unfold Rsqr; rewrite sqrt_sqrt; [ring | lra]).
       unfold Rsqr. ring. }
   apply Rmult_lt_reg_r with (sqrt 2 * PI)%R; [apply Rmult_lt_0_compat; [apply g2_sqrt_pos; lra | apply PI_RGT_0] |].
   apply Rmult_lt_reg_r with 5%R; [lra |].
@@ -81617,7 +81605,7 @@ Qed.
 End G2MuAdj.
 
 
-(* ==================== 模块 50/55: probe_pi_cr_m1a ==================== *)
+(* ==================== 模块 50/67: probe_pi_cr_m1a ==================== *)
 
 Close Scope R_scope.
 Close Scope Z_scope.
@@ -82031,7 +82019,7 @@ Qed.
 
 End M1a.
 
-(* ==================== 模块 51/55: probe_pi_cr_m1b ==================== *)
+(* ==================== 模块 51/67: probe_pi_cr_m1b ==================== *)
 
 Close Scope R_scope.
 Close Scope Z_scope.
@@ -82688,7 +82676,7 @@ Qed.
 
 End M1b.
 
-(* ==================== 模块 52/55: probe_sin_cr_m2 ==================== *)
+(* ==================== 模块 52/67: probe_sin_cr_m2 ==================== *)
 
 Close Scope R_scope.
 Close Scope Z_scope.
@@ -84011,7 +83999,7 @@ Qed.
 
 End M2E.
 
-(* ==================== 模块 53/55: probe_sqrt_cr_m3 ==================== *)
+(* ==================== 模块 53/67: probe_sqrt_cr_m3 ==================== *)
 
 Close Scope R_scope.
 Close Scope Z_scope.
@@ -85266,7 +85254,7 @@ End M3.
 
 
 
-(* ==================== 模块 54/55: probe_s7_s9_mono ==================== *)
+(* ==================== 模块 54/67: probe_s7_s9_mono ==================== *)
 
 Close Scope R_scope.
 Close Scope Z_scope.
@@ -86788,7 +86776,7 @@ Qed.
 
 End P0mono.
 
-(* ==================== 模块 55/55: probe_decidability_premium_cr ==================== *)
+(* ==================== 模块 55/67: probe_decidability_premium_cr ==================== *)
 
 Close Scope R_scope.
 Close Scope Z_scope.
@@ -87630,3 +87618,3989 @@ Definition m4_decidability_premium :
   existT (fun w : CRcarrier R => CRle R w (CR_of_Q R (63 # 80))) m4_row_sum m4_row_sum_le.
 
 End M4.
+
+(* ==================== 模块 56/67: probe_nearcoll ==================== *)
+
+Close Scope Z_scope.
+Open Scope R_scope.
+Open Scope complex_scope.
+Open Scope nat_scope.
+(* ============================================================
+   定理：β = (√5 − 1)/2（黄金比小数部分），∀ d ≥ 1（nat）、∀ m（Z）：
+        |d·β − m| ≥ 1/(3d)
+   ——近碰撞不能快于 O(1/d) 聚集（Fibonacci 三距离的初等常数版），
+     offset-grid 的定量护城河：精确碰撞永不发生（C5/T2）之外，
+     近碰撞也被多项式下界挡住。
+
+   证明（代数数范数路线，全程初等）：
+   NC1 five_divides_square：5 | x² ⟹ 5 | x（div_mod 展开 + nia）。
+   NC2 square5_zero：x² = 5y² ⟹ x = y = 0（无穷递降，|y| 的 nat 度量：
+       解除以 5 仍是解，非零解 ⟹ |y| ≥ 5 ⟹ 度量严格下降）。
+   NC3 no_quadratic_solution：d² − dm − m² = 0 ⟹ d = 0 ∧ m = 0
+       （配方 (2d−m)² = 5m² 到 NC2）。
+   NC4 golden_near_collision（主定理）：e := dβ − m 满足
+       e·(m + d + dβ) = d² − dm − m²（用 β² = 1 − β，nra 消解）；
+       右端是非零整数 ⟹ |·| ≥ 1；|m + d + dβ| = |2dβ + d − e|
+       ≤ 2·(5/8)d + d + 1/2 ≤ 3d（β ≤ 5/8；|e| ≥ 1/2 大情形单独处理）；
+       故 |e| ≥ 1/(3d)。
+   NC5 实例化：phi_gold := (sqrt 5 − 1)/2，验证二次方程与界 7/5 ≤ √5 ≤ 9/4。
+   审计：Print Assumptions 尾部（预期 ≤ Dedekind 两件）。
+   ============================================================ *)
+Require Import Stdlib.Reals.Reals.
+Require Import Stdlib.ZArith.ZArith.
+Require Import Stdlib.Arith.Arith.
+Require Import Stdlib.micromega.Lia.
+Require Import Stdlib.micromega.Lra.
+Open Scope R_scope.
+
+Module NearColl.
+
+(* ---------- NC1：5 | x² ⟹ 5 | x ---------- *)
+
+Lemma mod5_cases : forall r : Z, (0 <= r < 5)%Z ->
+  (r = 0 \/ r = 1 \/ r = 2 \/ r = 3 \/ r = 4)%Z.
+Proof. intros r Hr. lia. Qed.
+
+Lemma five_divides_square : forall x : Z, ((5 | x * x)%Z -> (5 | x)%Z).
+Proof.
+  intros x H.
+  assert (H5 : (5 <> 0)%Z) by lia.
+  destruct (Z.eq_dec (x mod 5)%Z 0%Z) as [E | E].
+  - apply (proj1 (Z.mod_divide x 5 H5)). exact E.
+  - exfalso.
+    assert (H0 : ((x * x) mod 5 = 0)%Z)
+      by (apply (proj2 (Z.mod_divide (x * x) 5 H5)); exact H).
+    rewrite <- Z.mul_mod_idemp_l in H0 by lia.
+    rewrite <- Z.mul_mod_idemp_r in H0 by lia.
+    assert (Hr : (0 <= x mod 5 < 5)%Z) by (apply Z.mod_pos_bound; lia).
+    destruct (mod5_cases (x mod 5)%Z Hr) as [E1 | [E1 | [E1 | [E1 | E1]]]];
+      try contradiction;
+      rewrite E1 in H0; vm_compute in H0; discriminate.
+Qed.
+
+(* ---------- NC2：x² = 5y² ⟹ x = y = 0（无穷递降） ---------- *)
+
+Lemma square5_zero : forall x y : Z, (x * x = 5 * y * y)%Z -> (x = 0 /\ y = 0)%Z.
+Proof.
+  assert (Haux : forall (n : nat) (x y : Z),
+            ((Z.abs y <= Z.of_nat n)%Z) -> (x * x = 5 * y * y)%Z -> (x = 0 /\ y = 0)%Z).
+  { induction n as [| n IH]; intros x y Hn Heq.
+    - assert (Hy0 : (y = 0)%Z) by lia. subst y.
+      rewrite Z.mul_0_r in Heq. split; [nia | reflexivity].
+    - destruct (Z.eq_dec y 0) as [Hy0 | HyN].
+      + subst y. rewrite Z.mul_0_r in Heq. split; [nia | reflexivity].
+      + (* 5 | x 与 5 | y，解缩小 1/5 仍是解 *)
+        assert (Hdx : (5 | x * x)%Z).
+        { exists (y * y)%Z. rewrite (Z.mul_comm (y * y) 5%Z). nia. }
+        destruct (five_divides_square x Hdx) as [x1 Hx1].
+        assert (Hy2 : (y * y = 5 * (x1 * x1))%Z).
+        { rewrite Hx1 in Heq. nia. }
+        assert (Hdy : (5 | y * y)%Z).
+        { exists (x1 * x1)%Z. rewrite (Z.mul_comm (x1 * x1) 5%Z). nia. }
+        destruct (five_divides_square y Hdy) as [y1 Hy1].
+        assert (HyN1 : (y1 <> 0)%Z) by lia.
+        assert (Hrec : (Z.abs y1 <= Z.of_nat n)%Z).
+        { rewrite Hy1 in Hn. rewrite Z.abs_mul in Hn.
+          replace (Z.abs (5%Z)) with (5%Z) in Hn by reflexivity. nia. }
+        assert (Heq1 : (x1 * x1 = 5 * y1 * y1)%Z).
+        { rewrite Hx1 in Heq. rewrite Hy1 in Heq. nia. }
+        destruct (IH x1 y1 Hrec Heq1) as [Hx0 Hy01].
+        rewrite Hx0, !Z.mul_0_l in Hy2. nia. }
+  intros x y Heq.
+  assert (Hz : (Z.abs y <= Z.of_nat (Z.abs_nat (Z.abs y)))%Z).
+  { destruct (Z.abs y) as [|p|p]; simpl.
+    - lia.
+    - rewrite <- (Z2Nat.id (Z.pos p)) by lia. lia.
+    - pose proof (Nat2Z.is_nonneg (Pos.to_nat p)). lia. }
+  apply (Haux (Z.abs_nat (Z.abs y)) x y); [exact Hz | exact Heq].
+Qed.
+
+(* ---------- NC3：d² − dm − m² = 0 只有零解 ---------- *)
+
+Lemma no_quadratic_solution :
+  forall d m : Z, (d * d - d * m - m * m = 0)%Z -> (d = 0 /\ m = 0)%Z.
+Proof.
+  intros d m H.
+  assert (Hsq : ((2 * d - m) * (2 * d - m) = 5 * m * m)%Z) by nia.
+  destruct (square5_zero _ _ Hsq) as [H2 _].
+  nia.
+Qed.
+
+Lemma Rabs_IZR (k : Z) : (Rabs (IZR k) = IZR (Z.abs k))%R.
+Proof.
+  destruct (Z_le_gt_dec 0 k) as [Hlk | Hlk].
+  - rewrite (Z.abs_eq k Hlk).
+    rewrite Rabs_right by (apply Rle_ge; apply IZR_le; exact Hlk).
+    reflexivity.
+  - rewrite (Z.abs_neq k) by lia.
+    rewrite Rabs_left by (apply IZR_lt; lia).
+    rewrite opp_IZR. reflexivity.
+Qed.
+
+(* ---------- NC4：主定理 ---------- *)
+
+Theorem golden_near_collision (phi : R)
+        (Hphi : (phi * phi + phi - 1 = 0)%R)
+        (Hpos : (0 < phi)%R) (Hb : (phi <= 5 / 8)%R) :
+  forall (d : nat) (m : Z), (1 <= d)%nat ->
+  ((/ (3 * INR d) <= Rabs (INR d * phi - IZR m)))%R.
+Proof.
+  intros d m Hd.
+  assert (Hd1 : (1 <= INR d)%R).
+  { rewrite <- (INR_1). apply le_INR. lia. }
+  assert (H3D : (0 < 3 * INR d)%R) by lra.
+  destruct (Rle_or_lt (1 / 2) (Rabs (INR d * phi - IZR m))) as [Hbig | Hsmall].
+  - (* 大情形：|e| ≥ 1/2 ≥ 1/(3d) *)
+    apply (Rle_trans _ (1 / 2)); [ | exact Hbig].
+    replace (1 / 2) with (/ 2) by (unfold Rdiv; ring).
+    apply Rinv_le_contravar; [lra | lra].
+  - (* 小情形：范数论证 *)
+    set (D := INR d) in *.
+    set (M := IZR m) in *.
+    set (e := D * phi - M) in *.
+    assert (HD : (0 < D)%R) by lra.
+    (* 范数恒等式 *)
+    assert (Hnorm : (e * (M + D + D * phi) = D * D - D * M - M * M)%R)
+      by (unfold e; nra).
+    (* 右端是非零整数 *)
+    assert (Hk : (D * D - D * M - M * M
+                  = IZR (Z.of_nat d * Z.of_nat d - Z.of_nat d * m - m * m))%R).
+    { unfold D, M.
+      rewrite !INR_IZR_INZ, !minus_IZR, !mult_IZR. ring. }
+    destruct (Z.eq_dec (Z.of_nat d * Z.of_nat d - Z.of_nat d * m - m * m) 0%Z)
+      as [Hz | Hnz].
+    + exfalso. destruct (no_quadratic_solution _ _ Hz) as [Hd0 _].
+      assert ((1 <= Z.of_nat d)%Z) by lia. lia.
+    + assert (Hge1 : (1 <= Rabs (IZR (Z.of_nat d * Z.of_nat d
+                                      - Z.of_nat d * m - m * m)))%R).
+      { assert (Hap : (0 < Z.abs (Z.of_nat d * Z.of_nat d
+                                   - Z.of_nat d * m - m * m))%Z).
+        { apply Z.abs_pos. exact Hnz. }
+        assert (H1 : (1 <= Z.abs (Z.of_nat d * Z.of_nat d
+                                   - Z.of_nat d * m - m * m))%Z) by lia.
+        rewrite Rabs_IZR. apply IZR_le. exact H1. }
+      rewrite <- Hk in Hge1.
+      (* |e| · |m + d + dφ| = |K| ≥ 1 *)
+      assert (Hprod : ((Rabs e) * (Rabs (M + D + D * phi))
+                       = Rabs (D * D - D * M - M * M))%R).
+      { rewrite <- Rabs_mult. rewrite Hnorm. reflexivity. }
+      (* |m + d + dφ| ≤ 3D *)
+      assert (Hbound : (Rabs (M + D + D * phi) <= 3 * D)%R).
+      { replace M with (D * phi - e) by (unfold e; ring).
+        assert (H1 : (Rabs (2 * D * phi + D - e)
+                       <= Rabs (2 * D * phi + D) + Rabs e)%R).
+        { apply (Rle_trans _ (Rabs (2 * D * phi + D) + Rabs (- e))).
+          - apply Rabs_triang.
+          - rewrite Rabs_Ropp. apply Rle_refl. }
+        assert (H2 : (Rabs (2 * D * phi + D) <= 2 * D * phi + D)%R).
+        { rewrite (Rabs_right (2 * D * phi + D)) by nra. apply Rle_refl. }
+        assert (H3 : (2 * D * phi + D + Rabs e <= 9 / 4 * D + 1 / 2)%R).
+        { apply Rplus_le_compat.
+          - assert (HphiD : (2 * D * phi <= 2 * D * (5 / 8))%R).
+            { apply Rmult_le_compat_l; [nra | exact Hb]. }
+            lra.
+          - lra. }
+        assert (H4 : (9 / 4 * D + 1 / 2 <= 3 * D)%R) by nra.
+        replace ((D * phi - e) + D + D * phi) with (2 * D * phi + D - e) by ring.
+        apply (Rle_trans _ (Rabs (2 * D * phi + D) + Rabs e)).
+        { exact H1. }
+        apply (Rle_trans _ ((2 * D * phi + D) + Rabs e)).
+        { apply Rplus_le_compat; [exact H2 | apply Rle_refl]. }
+        apply (Rle_trans _ (9 / 4 * D + 1 / 2)).
+        { exact H3. }
+        exact H4. }
+      (* 收口 *)
+      assert (Hfin : (1 <= Rabs e * (3 * D))%R).
+      { apply (Rle_trans _ (Rabs e * Rabs (M + D + D * phi))).
+        - rewrite Hprod. exact Hge1.
+        - apply Rmult_le_compat_l; [apply Rabs_pos | exact Hbound]. }
+      apply (Rmult_le_reg_r (3 * D)); [exact H3D | ].
+      rewrite Rinv_l by lra.
+      exact Hfin.
+Qed.
+
+(* ---------- NC5：黄金比实例化 ---------- *)
+
+Definition phi_gold : R := (sqrt 5 - 1) / 2.
+
+Lemma sqrt5_bounds : ((7 / 5 <= sqrt 5) /\ (sqrt 5 <= 9 / 4))%R.
+Proof.
+  set (s := sqrt 5).
+  assert (Hs : (s * s = 5)%R) by (apply sqrt_sqrt; lra).
+  assert (Hn : (0 <= s)%R) by apply sqrt_pos.
+  split.
+  - destruct (Rle_or_lt (7 / 5) s) as [H | H]; [exact H | exfalso].
+    assert (Hlt : (s * s <= 7 / 5 * (7 / 5))%R).
+    { apply (Rle_trans _ (s * (7 / 5))%R).
+      - apply Rmult_le_compat_l; lra.
+      - apply Rmult_le_compat_r; lra. }
+    lra.
+  - destruct (Rle_or_lt s (9 / 4)) as [H | H]; [exact H | exfalso].
+    assert (Hlt : (9 / 4 * (9 / 4) <= s * s)%R).
+    { apply (Rle_trans _ (s * (9 / 4))%R).
+      - apply Rmult_le_compat_r; lra.
+      - apply Rmult_le_compat_l; lra. }
+    lra.
+Qed.
+
+Lemma phi_gold_spec :
+  (phi_gold * phi_gold + phi_gold - 1 = 0 /\ (0 < phi_gold /\ phi_gold <= 5 / 8)).
+Proof.
+  unfold phi_gold.
+  destruct sqrt5_bounds as [Hlo Hhi].
+  set (s := sqrt 5) in *.
+  assert (Hs : (s * s = 5)%R) by (apply sqrt_sqrt; lra).
+  assert (Hn : (0 <= s)%R) by apply sqrt_pos.
+  repeat split; nra.
+Qed.
+
+(* 主定理实例化：黄金比的近碰撞半径 *)
+Theorem golden_near_collision_gold :
+  forall (d : nat) (m : Z), (1 <= d)%nat ->
+  ((/ (3 * INR d) <= Rabs (INR d * phi_gold - IZR m)))%R.
+Proof.
+  intros d m Hd.
+  destruct phi_gold_spec as [H1 [H2 H3]].
+  apply (golden_near_collision phi_gold H1 H2 H3 d m Hd).
+Qed.
+
+End NearColl.
+
+Print Assumptions NearColl.golden_near_collision.
+Print Assumptions NearColl.golden_near_collision_gold.
+Print Assumptions NearColl.square5_zero.
+
+(* ==================== 模块 57/67: probe_taugrid ==================== *)
+
+Close Scope Z_scope.
+Open Scope R_scope.
+Open Scope complex_scope.
+Open Scope nat_scope.
+(* ============================================================
+   CS-4：τ 裁剪最优性（z 工作区，E039；双对话框 §4 z-main 认领项）
+   任务书：psi-rope-rand恶化-压缩感知理论缺口-20260822.md §四 CS-4
+   侦察：z/压缩感知定理补齐-CS侦察-20260822.md §2 CA 组
+
+   数学内容（τ 感知频率选择的定理化——randmax256/384 实验的定理侧）：
+     TA0 基础件：psi 逐点模方 = 1/n（k < n）/ filter 和单调（子族行和 ≤ 全族）。
+     TA1 `support_classification`（支撑分类 iff）：n ≤ T ⟺ psi n 完全
+         支撑在训练窗 [0,T]（∀k ≥ T, psi n k = C0）；n > T ⟹ psi n T ≠ 0。
+     TA2 `coverage_fraction`（★覆盖率定理/τ 债量化）：S T < n ⟹ 窗内能量
+         l2_norm_sq (psi n) T = (INR T + 1)/INR n < 1——**带 n 携带
+         1 − (INR T + 1)/INR n 的能量在训练窗外（不可训练 OOD 部分）**。
+     TA3 `prune_row_le`（★证书单调）：子族行和 ≤ 全族行和——
+         rand-max 裁剪不损可证性（μ ≤ μ_full 传递任何上界型证书）。
+     TA4 `thinning_preserves_ratio`（稀疏化保 C-比）：C-梯子 thinning 后
+         仍是 C-梯子（kept 连续项比率 ≥ C）——RIP 证书可迁移。
+     CA5 `tau_prune_optimality`（★主定理合成）：τ 感知裁剪 = 证书单调 +
+         kept 带完全支撑 + pruned 严格超窗带覆盖债 ∈ (0,1)。
+   依赖：ca_basis（psi/phi/l2_norm_sq/phi_ge_n_zero）+ ca_zeta_scaffold
+   （unit_root_norm/Csum）+ probe_rowsum（sqrt_posnat，经 E152 桥）。
+   审计：Print Assumptions 尾部。
+   ============================================================ *)
+Require Import Stdlib.Reals.Reals.
+Require Import Stdlib.Arith.Arith.
+Require Import Stdlib.micromega.Lia.
+Require Import Stdlib.micromega.Lra.
+Require Import Stdlib.ZArith.ZArith.
+Require Import Stdlib.Lists.List.
+Import ListNotations.
+Import UnconditionalBasis.
+Require Import Stdlib.Reals.RIneq.
+Import ComplexNumbers.
+Import PrimeEmbedding.
+Import FourierAnalysis.
+Import GridOrtho.
+Import TPartial.
+Import PairBound.
+Import RowSum.
+
+(* E138①：Notation 注册（8 项，恢复 Stdlib nat 记号——防 mathcomp 污染） *)
+Notation "a + b" := (Nat.add a b) (at level 50, left associativity) : nat_scope.
+Notation "a - b" := (Nat.sub a b) (at level 50, left associativity) : nat_scope.
+Notation "a * b" := (Nat.mul a b) (at level 40, left associativity) : nat_scope.
+Notation "a <= b" := (Nat.le a b) (at level 70, no associativity) : nat_scope.
+Notation "a < b" := (Nat.lt a b) (at level 70, no associativity) : nat_scope.
+Notation "a >= b" := (Nat.le b a) (at level 70, no associativity) : nat_scope.
+Notation "a > b" := (Nat.lt b a) (at level 70, no associativity) : nat_scope.
+
+(* E152：跨 flavor 桥——Stdlib ≤ → mathcomp leq bool（rowsum 的 mathcomp 前提专用） *)
+Lemma le_Prop_to_mc (w1 w2 : nat) : (w1 <= w2)%nat -> ssrnat.leq w1 w2 = true.
+Proof.
+  intros H. unfold ssrnat.leq, eqtype.eq_op. simpl.
+  apply Nat.eqb_eq. apply Nat.sub_0_le. exact H.
+Qed.
+
+Open Scope R_scope.
+Open Scope complex_scope.
+Open Scope nat_scope.
+
+(* Stdlib 风味的 sqrt 正性（本地版——probe_rowsum 的 sqrt_posnat 已是
+   mathcomp 风味前提，跨 flavor 桥成本高，按 E152 自包含绕开） *)
+Lemma sqrt_pos_local (n : nat) : (1 <= n)%nat -> (0 < sqrt (INR n))%R.
+Proof.
+  intros Hn. apply sqrt_posnat. apply le_Prop_to_mc. exact Hn.
+Qed.
+
+(* INR 单射（Stdlib 无现名，本地自证：le_INR + S_INR + lra） *)
+Lemma INR_eq_0 (n : nat) : (INR n = 0)%R -> (n = 0)%nat.
+Proof.
+  intro H. destruct n as [| n']; [reflexivity | ].
+  rewrite S_INR in H.
+  assert (Hge : (0 <= INR n')%R) by (apply (le_INR 0 n'); lia).
+  lra.
+Qed.
+
+Module TauGrid.
+
+(* 求和（PSA 口径：fold_right）——自包含定义，与 CA5 的行和一致 *)
+Fixpoint list_sum_R (f : nat -> R) (l : list nat) : R :=
+  match l with
+  | [] => 0%R
+  | x :: xs => f x + list_sum_R f xs
+  end.
+
+(* ---------- TA0：基础件 ---------- *)
+
+(* psi n k 的模方 = 1/n（k < n）；= 0（k ≥ n，phi 尾零） *)
+Lemma psi_norm_sq_pt (n k : nat) : (k < n)%nat ->
+  (Cnorm_sq (psi n k) = 1 / INR n)%R.
+Proof.
+  intros Hk. unfold psi.
+  rewrite Cnorm_sq_mult.
+  assert (Hcof : (Cnorm_sq (Cof_real (1 / sqrt (INR n)))
+                  = (1 / sqrt (INR n)) * (1 / sqrt (INR n)))%R).
+  { unfold Cof_real, Cnorm_sq, Rsqr; simpl; ring. }
+  rewrite Hcof.
+  unfold UnconditionalBasis.phi.
+  rewrite (proj2 (Nat.ltb_lt k n) Hk).
+  rewrite unit_root_norm.
+  assert (Hss : (sqrt (INR n) * sqrt (INR n) = INR n)%R)
+    by (apply sqrt_sqrt; apply Rlt_le, lt_0_INR; lia).
+  assert (Hrec : (1 / INR n = 1 / (sqrt (INR n) * sqrt (INR n)))%R)
+    by (unfold Rdiv; rewrite Hss; reflexivity).
+  rewrite Hrec. unfold Rdiv in *.
+  rewrite Rinv_mult_distr.
+  { ring. }
+  { intros Hs1. exfalso.
+    assert (Hpos : (0 < sqrt (INR n))%R) by (apply sqrt_pos_local; lia). lra. }
+  { intros Hs2. exfalso.
+    assert (Hpos : (0 < sqrt (INR n))%R) by (apply sqrt_pos_local; lia). nra. }
+Qed.
+
+Lemma ltb_ge_false (k n : nat) : (n <= k)%nat -> (k <? n) = false.
+Proof. intros Hk. apply Nat.ltb_ge. exact Hk. Qed.
+
+Lemma psi_norm_sq_tail (n k : nat) : (n <= k)%nat ->
+  (psi n k = ComplexNumbers.C0)%C.
+Proof.
+  intros Hk. unfold psi, UnconditionalBasis.phi.
+  rewrite ltb_ge_false by exact Hk.
+  apply Cmul_0_r.
+Qed.
+
+(* filter 和单调：非负项下，过滤子列的和 ≤ 全列的和 *)
+Lemma filter_sum_le (g : nat -> R) (P : nat -> bool) (l : list nat) :
+  (forall i, (0 <= g i))%R ->
+  (list_sum_R g (filter P l) <= list_sum_R g l)%R.
+Proof.
+  intros Hg. induction l as [| x xs IH].
+  - simpl. apply Rle_refl.
+  - simpl. destruct (P x) eqn:E.
+    + simpl. apply (Rplus_le_compat_l (g x)). exact IH.
+    + simpl. assert (Hgx : (0 <= g x)%R) by exact (Hg x).
+      lra.
+Qed.
+
+(* ---------- TA1：支撑分类 iff ---------- *)
+
+Theorem support_classification (n T : nat) :
+  (n <= T)%nat <-> (forall k, (T <= k)%nat -> (psi n k = ComplexNumbers.C0))%C.
+Proof.
+  split.
+  - intros Hn k Hk. apply psi_norm_sq_tail. lia.
+  - intros Hsup.
+    destruct (Nat.le_gt_cases n T) as [Hle | Hgt]; [ exact Hle | ].
+    exfalso.
+    assert (Hz : (psi n T = ComplexNumbers.C0)%C) by (apply Hsup; lia).
+    assert (Hn : (0 < n)%nat) by lia.
+    assert (Hpt := psi_norm_sq_pt n T Hgt).
+    rewrite Hz in Hpt.
+    rewrite Cnorm_sq_C0 in Hpt.
+    assert (Hpos : (0 < INR n)%R) by (apply lt_0_INR; lia).
+    unfold Rdiv in Hpt.
+    assert (Hinv : (0 < / INR n)%R) by (apply Rinv_0_lt_compat; exact Hpos).
+    lra.
+Qed.
+
+(* ---------- TA2：覆盖率定理（τ 债量化，★非平凡计算） ---------- *)
+
+Lemma l2_norm_sq_0 (f : nat -> Complex) :
+  (l2_norm_sq f 0%nat = Cnorm_sq (f 0%nat))%R.
+Proof. unfold l2_norm_sq. simpl. reflexivity. Qed.
+
+Lemma l2_norm_sq_S (f : nat -> Complex) (N : nat) :
+  (l2_norm_sq f (S N) = l2_norm_sq f N + Cnorm_sq (f (S N)))%R.
+Proof. unfold l2_norm_sq. simpl. reflexivity. Qed.
+
+(* 窗 [0,T]（T+1 项）内能量 = (INR T + 1)/INR n < 1——带 n 携带
+   1 − (INR T + 1)/INR n 的窗外能量（不可训练 OOD 部分） *)
+Theorem coverage_fraction (n T : nat) : (S T < n)%nat ->
+  (l2_norm_sq (psi n) T = (INR T + 1) / INR n)%R.
+Proof.
+  (* 前提先留在目标里再归纳：Htn 依赖 T，先 intros 会绊住 induction 泛化 *)
+  induction T as [| T IHT]; intro Htn.
+  - unfold l2_norm_sq. simpl.
+    assert (H0n : (0 < n)%nat) by lia.
+    rewrite (psi_norm_sq_pt n 0 H0n).
+    unfold INR. simpl. rewrite Rplus_0_l. reflexivity.
+  - (* E114：带前提引理一律显式实例化前提，禁止 rewrite 自动生成 *)
+    assert (Hpre : (S T < n)%nat) by lia.
+    rewrite l2_norm_sq_S.
+    rewrite (IHT Hpre).
+    rewrite (psi_norm_sq_pt n (S T) Hpre).
+    rewrite S_INR.
+    unfold Rdiv. ring.
+Qed.
+
+(* 覆盖债：窗 [0,T] 的覆盖 (INR T + 1)/INR n < 1 ⟹ 债 ∈ (0,1) *)
+Corollary coverage_debt (n T : nat) : (S T < n)%nat ->
+  ((0 < 1 - (INR T + 1) / INR n) /\ (1 - (INR T + 1) / INR n < 1))%R.
+Proof.
+  intros Htn.
+  assert (HnR : (0 < INR n)%R) by (apply lt_0_INR; lia).
+  assert (Hs0 : (0 <= INR T)%R) by (apply (le_INR 0 T); lia).
+  assert (Hne : (INR n <> 0)%R) by (intros Hc; apply INR_eq_0 in Hc; lia).
+  assert (Hn1 : (INR n * / INR n = 1)%R) by (apply Rmult_inv_r; exact Hne).
+  assert (Hlt : (INR T + 1 < INR n)%R).
+  { replace ((INR T + 1)%R) with (INR (S T)) by (rewrite S_INR; reflexivity).
+    apply lt_INR. exact Htn. }
+  assert (Hinv : (0 < / INR n)%R) by (apply Rinv_pos; exact HnR).
+  split; unfold Rdiv in *; nra.
+Qed.
+
+(* ---------- TA3：裁剪证书单调（★子族行和 ≤ 全族行和） ---------- *)
+
+(* 相干行 g 的 kept 子列和 ≤ 全列和（非负项下，TA0 filter_sum_le 直推） *)
+Lemma prune_row_le (g : nat -> R) (P : nat -> bool) (l : list nat) :
+  (forall i, (0 <= g i))%R ->
+  (list_sum_R g (filter P l) <= list_sum_R g l)%R.
+Proof. intros Hg. apply filter_sum_le. exact Hg. Qed.
+
+(* ---------- TA4：稀疏化保 C-比 ---------- *)
+
+(* Stdlib 风味链式单调（rowsum 的 v_incr 是 mathcomp bool 风味，
+   跨 flavor 前提失配——按 E152 本地自证绕开） *)
+Lemma chain_step_std (C : nat) (v : nat -> nat) :
+  (2 <= C)%nat -> (forall j, (v j * C <= v (S j)))%nat ->
+  (forall j, (v j <= v (S j)))%nat.
+Proof.
+  intros HC Hv j. apply Nat.le_trans with (v j * C).
+  - assert (H1 : (v j * 1 <= v j * C)%nat)
+      by (apply Nat.mul_le_mono_l; lia).
+    rewrite Nat.mul_1_r in H1. exact H1.
+  - apply Hv.
+Qed.
+
+Lemma chain_mono_std (v : nat -> nat) :
+  (forall j, (v j <= v (S j)))%nat ->
+  forall a b, (a <= b)%nat -> (v a <= v b)%nat.
+Proof.
+  intros Hv a b Hab.
+  assert (Hgen : forall d a0, (v a0 <= v (a0 + d))%nat).
+  { intro d. induction d as [| d IH]; intro a0.
+    - rewrite Nat.add_0_r. apply Nat.le_refl.
+    - rewrite Nat.add_succ_r.
+      apply Nat.le_trans with (v (a0 + d)); [ exact (IH a0) | apply Hv ]. }
+  replace b with (a + (b - a))%nat by lia.
+  apply Hgen.
+Qed.
+
+(* C-梯子（相邻比率 ≥ C）经 filter 稀疏化后仍是 C-梯子：
+   kept 连续项 a < b 之间跨 (b − a) 步，每步 ×C 累积 ⟹ v a·C ≤ v b *)
+Lemma thinning_preserves_ratio (C : nat) (v : nat -> nat) (P : nat -> bool)
+        (a b : nat) :
+  (2 <= C)%nat ->
+  (forall j, (v j * C <= v (S j)))%nat ->
+  In a (filter P (seq 0 (S b))) -> In b (filter P (seq 0 (S b))) ->
+  (a < b)%nat ->
+  (v a * C <= v b)%nat.
+Proof.
+  intros HC Hv Ha Hb Hab.
+  apply Nat.le_trans with (v (S a)).
+  - apply Hv.
+  - assert (Hsa : (S a <= b)%nat) by lia.
+    apply (chain_mono_std v (chain_step_std C v HC Hv)).
+    exact Hsa.
+Qed.
+
+(* ---------- CA5：τ-裁剪最优性合成定理（★主定理） ---------- *)
+
+(* 相干核：ψ_a 与 ψ_b 的内积模（窗取 min a b） *)
+Definition coh (a b : nat) : R :=
+  Cnorm (Csum (fun k => psi a k *c Cconj (psi b k)) (Nat.min a b)).
+
+Theorem tau_prune_optimality (C T : nat) (v : nat -> nat) (I : list nat) :
+  (2 <= C)%nat ->
+  (forall j, (v j * C <= v (S j)))%nat ->
+  ( (* (i) 证书单调：每个 kept 带的子族行和 ≤ 全族行和 *)
+    forall j0, In j0 (filter (fun i => Nat.leb (v i) T) I) ->
+      (list_sum_R (fun i => coh (v i) (v j0))
+         (filter (fun i => Nat.leb (v i) T) (filter (fun x => Nat.eqb x j0) I))
+       <= list_sum_R (fun i => coh (v i) (v j0))
+         (filter (fun x => Nat.eqb x j0) I))%R )
+  /\ ( (* (ii) kept 带完全支撑在训练窗 [0,T] *)
+      forall j0, In j0 (filter (fun i => Nat.leb (v i) T) I) ->
+        (forall k, (T <= k)%nat -> (psi (v j0) k = ComplexNumbers.C0))%C )
+  /\ ( (* (iii) pruned 且严格超窗的带携带覆盖债：1 − (INR T + 1)/INR (v i) ∈ (0,1) *)
+      forall i, In i (filter (fun i0 => negb (Nat.leb (v i0) T)) I) ->
+        (S T < v i)%nat ->
+        ((0 < 1 - (INR T + 1) / INR (v i)) /\
+         (1 - (INR T + 1) / INR (v i) < 1))%R ).
+Proof.
+  intros HC Hv.
+  split.
+  - (* (i) 行和单调：TA3 实例化（kept 子列 ⊆ 去重全列，非负项） *)
+    intros j0 Hj0.
+    apply (prune_row_le (fun i => coh (v i) (v j0))
+                        (fun i => Nat.leb (v i) T)
+                        (filter (fun x => Nat.eqb x j0) I)).
+    intros i. unfold coh. apply Cnorm_ge_0.
+  - split.
+    + (* (ii) 支撑分类：kept ⟹ v j0 ≤ T ⟹ TA1 *)
+      intros j0 Hj0 k Hk.
+      apply filter_In in Hj0. destruct Hj0 as [_ Hle].
+      exact (proj1 (support_classification (v j0) T)
+               (proj1 (Nat.leb_le (v j0) T) Hle) k Hk).
+    + (* (iii) 覆盖债：TA2 系，前提与陈述严格同形 *)
+      intros i Hi Hlt.
+      exact (coverage_debt (v i) T Hlt).
+Qed.
+
+End TauGrid.
+
+Print Assumptions TauGrid.support_classification.
+Print Assumptions TauGrid.coverage_fraction.
+Print Assumptions TauGrid.coverage_debt.
+Print Assumptions TauGrid.thinning_preserves_ratio.
+Print Assumptions TauGrid.tau_prune_optimality.
+
+(* ==================== 模块 58/67: probe_taugrid_cr ==================== *)
+
+Close Scope R_scope.
+Close Scope Z_scope.
+(* ============================================================
+   CS-4 构造性孪生：probe_taugrid_cr.v（z 区构造性轨道，2026-08-28）
+   主线：z/probe_taugrid.v（Stdlib R 版，17 Qed）——本文件为其
+   "只减经典依赖"平行实现（构造性轨道政策：不回灌主线）。
+
+   纪律（承 ca_rip_cr.v）：
+     - 数学对象在 Set 层构造（CRcarrier R：窗口和/债值/行和/kept-pruned 划分）
+     - ★严格序 CRlt 本身是 Set 值（ConstructiveReals.v:88——柯西实数在
+       CRlt 证明中存储信息，供 Set 层算法使用）：覆盖债的界定定理以
+       **信息性形式 CRlt R 0 d * CRlt R d 1**（Set 值 prod，证明项可提取）
+       陈述——这是"序尽量放 Set"的库内原生落点
+     - ≤（CRle := CRlt y x -> False）与相等（CReq := CRle /\ CRle）
+       不可判定化（bool 化 ⟹ LPO），保持 Prop——数学边界非风格选择
+     - 存在量词一律 sigT（cr_debt_witness——谓词 Set 值时 sig 非法，
+       sigT 被类型系统强制）
+     - 序判定下放 Q 层：债值经覆盖率引理 CReq 于有理数，Qlt 判定
+       （Prop 层 Z <，lia 收口）经 CR_of_Q_lt 提升为带数据的 CRlt 项，
+       沿 CReq 的搬运用 CRlt_proper（respectful CReq ==> iffT，信息性双向）
+     - 零经典实数公理；只用抽象接口 {R : ConstructiveReals}
+     - 禁 vm_compute/trivial 封口；恒等式 ring/lia 代数收口
+     - Q 分母一律 Pos.of_succ_nat（Qden 是 positive 类型，Z.of_nat 非法）；
+       Pos↔Z 桥用定义性引理 zpos_of_succ + cbn [Qnum QDen] 定向归约
+       （禁 simpl——会把 Z.of_nat (S x) 拆成不同原子破坏 ring/lia）
+
+   数学内容（与主线 TA0–TA4/CA5 对应，接口化）：
+     接口：抽象归一梯子 u（Set 层）+ Hu_norm（‖u n k‖² == 1/n，k<n）
+           + Hu_tail（u n k == 0，k≥n）——cos/复指数/√n 构造性未实现
+           （M2E 只到 sin∈[0,2]），接口与主线 psi_norm_sq_pt 数学一致，
+           trig 未来由 M2E 扩展 plug-in，接口不变。
+     C-TA1 支撑分类 / C-TA2 覆盖率（窗 [0,T] 能量 == (T+1)/n）/
+     C-TA2' ★覆盖债（信息性：0 < debt < 1 为 Set 值 CRlt 对 + sigT 见证）/
+     C-TA3 行和单调（CRle，上界证书无信息内容故留 Prop）/
+     C-TA4 稀疏化保 C-比（纯 nat，与主线同款）/ C-CA5 三连最优性合成。
+   依赖：ConstructiveReals + ca_rip_cr（CRComplex/CRnorm_sq/_nonneg，
+   已 Closed）+ ConstructiveRcomplete（CRealConstructive 柯西实例，
+   CRlt 信息性——提取目标；DRealConstructive 的 CRlt ≡ Rlt 被
+   经典公理阻断，不用于信息性提取）。
+   提取：taugrid_cr.ml（窗口和/债值/行和/划分——Set 层可执行）。
+   审计：Print Assumptions 尾部。
+   ============================================================ *)
+From Stdlib Require Import ConstructiveReals.
+From Stdlib Require Import QArith.
+From Stdlib Require Import ZArith.
+From Stdlib Require Import Lia.
+From Stdlib Require Import Arith.
+From Stdlib Require Import List.
+Import ListNotations.
+
+(* E138①：Notation 注册（8 项，恢复 Stdlib nat 记号——防 mathcomp 污染，
+   合并版双环境兼容硬规则 9） *)
+Notation "a + b" := (Nat.add a b) (at level 50, left associativity) : nat_scope.
+Notation "a - b" := (Nat.sub a b) (at level 50, left associativity) : nat_scope.
+Notation "a * b" := (Nat.mul a b) (at level 40, left associativity) : nat_scope.
+Notation "a <= b" := (Nat.le a b) (at level 70, no associativity) : nat_scope.
+Notation "a < b" := (Nat.lt a b) (at level 70, no associativity) : nat_scope.
+Notation "a >= b" := (Nat.le b a) (at level 70, no associativity) : nat_scope.
+Notation "a > b" := (Nat.lt b a) (at level 70, no associativity) : nat_scope.
+
+Unset Implicit Arguments.
+Local Open Scope ConstructiveReals.
+
+(* ---------- Q 分母桥（定义性——Z.of_nat (S n) ≡ Zpos (Pos.of_succ_nat n)） ---------- *)
+Lemma zpos_of_succ (n : nat) :
+  Z.pos (Pos.of_succ_nat n) = Z.of_nat (S n).
+Proof. destruct n; reflexivity. Qed.
+
+Section TauGridCR.
+
+Context {R : ConstructiveReals}.
+
+(* ---------- 接口：抽象归一梯子（Set 层数据 + Prop 层序/等） ---------- *)
+Variable u : nat -> nat -> @CRComplex R.
+Hypothesis Hu_norm : forall n k : nat, (k < n)%nat ->
+  CRnorm_sq (u n k) == CR_of_Q R (Qmake 1 (Pos.of_succ_nat n)).
+Hypothesis Hu_tail : forall n k : nat, (n <= k)%nat ->
+  CReq_cplx (u n k) CRzero.
+
+(* ---------- C-TA1：支撑分类 ---------- *)
+Lemma c_ta1_support (n T k : nat) :
+  (n <= T)%nat -> (T <= k)%nat -> CReq_cplx (u n k) CRzero.
+Proof.
+  intros HnT Htk. apply Hu_tail. lia.
+Qed.
+
+(* ---------- Set 层窗口和（可提取主对象） ---------- *)
+Fixpoint cr_win_sum (f : nat -> CRcarrier R) (T : nat) : CRcarrier R :=
+  match T with
+  | O => f 0%nat
+  | S i => cr_win_sum f i + f (S i)
+  end.
+
+(* Q 层关键恒等式（E114 显式化：ring 代数收口，非计算反射） *)
+Definition qwin_aux (T n : nat) : Q :=
+  Qmake (Z.of_nat (S T)) (Pos.of_succ_nat n).
+
+Lemma qwin_succ (T n : nat) :
+  Qeq (Qplus (qwin_aux T n) (Qmake 1 (Pos.of_succ_nat n)))
+      (qwin_aux (S T) n).
+Proof.
+  unfold Qeq, Qplus, qwin_aux.
+  rewrite !Nat2Z.inj_succ.
+  cbn [Qnum Qden]. nia.
+Qed.
+
+(* ---------- C-TA2：覆盖率（★窗 [0,T] 能量 == (T+1)/n） ---------- *)
+Lemma c_ta2_coverage (n T : nat) : (S T < n)%nat ->
+  cr_win_sum (fun k => CRnorm_sq (u n k)) T == CR_of_Q R (qwin_aux T n).
+Proof.
+  intros Htn.
+  induction T as [| T IHT].
+  - change (cr_win_sum (fun k => CRnorm_sq (u n k)) 0)
+      with (CRnorm_sq (u n 0%nat)).
+    unfold qwin_aux. apply Hu_norm. lia.
+  - change (cr_win_sum (fun k => CRnorm_sq (u n k)) (S T))
+      with (CRplus R (cr_win_sum (fun k => CRnorm_sq (u n k)) T)
+                     (CRnorm_sq (u n (S T)))).
+    apply CReq_trans
+      with (CRplus R (CR_of_Q R (qwin_aux T n))
+                     (CR_of_Q R (Qmake 1 (Pos.of_succ_nat n)))).
+    + apply CRplus_morph.
+      * apply IHT. lia.
+      * apply Hu_norm. lia.
+    + transitivity (CR_of_Q R (Qplus (qwin_aux T n)
+                                     (Qmake 1 (Pos.of_succ_nat n)))).
+      * apply CReq_sym. apply CR_of_Q_plus.
+      * apply CR_of_Q_morph. apply qwin_succ.
+Qed.
+
+(* ---------- C-TA2'：覆盖债（★信息性——Set 值 CRlt 对） ---------- *)
+
+(* 债值本体：Set 层可提取项 1 − 窗能量 *)
+Definition cr_debt (n T : nat) : CRcarrier R :=
+  CRplus R (CR_of_Q R (Qmake 1 1))
+           (CRopp R (cr_win_sum (fun k => CRnorm_sq (u n k)) T)).
+
+(* 债的有理化：CReq 于 CR_of_Q (1 − (T+1)/n)（Q 层判定入口） *)
+Definition qdebt (T n : nat) : Q :=
+  Qplus (Qmake 1 1) (Qopp (qwin_aux T n)).
+
+Lemma cr_debt_rational (n T : nat) : (S T < n)%nat ->
+  cr_debt n T == CR_of_Q R (qdebt T n).
+Proof.
+  intros Htn. unfold cr_debt.
+  apply CReq_trans
+    with (CRplus R (CR_of_Q R (Qmake 1 1))
+                   (CRopp R (CR_of_Q R (qwin_aux T n)))).
+  - apply CRplus_morph.
+    + apply CReq_refl.
+    + apply CRopp_morph. apply c_ta2_coverage. exact Htn.
+  - apply CReq_trans
+      with (CR_of_Q R (Qplus (Qmake 1 1) (Qopp (qwin_aux T n)))).
+    + (* y1 == y2：CR_of_Q_opp 直向 + CR_of_Q_plus 直向 *)
+      apply CReq_trans
+        with (CRplus R (CR_of_Q R (Qmake 1 1))
+                       (CR_of_Q R (Qopp (qwin_aux T n)))).
+      * apply CRplus_morph.
+        -- apply CReq_refl.
+        -- apply CReq_sym. apply CR_of_Q_opp.
+      * apply CReq_sym. apply CR_of_Q_plus.
+    + (* y2 == z：qdebt 与中点定义性同一 *)
+      apply CR_of_Q_morph. unfold qdebt, Qeq. reflexivity.
+Qed.
+
+(* Q 层判定（Prop 层 Z <，lia 代数收口）——序判定的 Set 下放落点 *)
+Lemma qdebt_bounds (n T : nat) : (S T < n)%nat ->
+  Qlt (Qmake 0 1) (qdebt T n) /\ Qlt (qdebt T n) (Qmake 1 1).
+Proof.
+  intros Htn.
+  destruct n as [| n']; [ lia | ].
+  split.
+  - unfold Qlt, qdebt, Qplus, Qopp, qwin_aux.
+    cbn [Qnum Qden].
+    rewrite (zpos_of_succ (S n')).
+    rewrite !Nat2Z.inj_succ.
+    lia.
+  - unfold Qlt, qdebt, Qplus, Qopp, qwin_aux.
+    cbn [Qnum Qden].
+    rewrite (zpos_of_succ (S n')).
+    rewrite !Nat2Z.inj_succ.
+    lia.
+Qed.
+
+(* ★信息性界定定理：CRlt 是 Set 值（ConstructiveReals.v:88），
+   本定理的证明项本身是 Set 层数据（可提取），非 Prop 压缩 *)
+Theorem cr_debt_bounds (n T : nat) : (S T < n)%nat ->
+  CR_of_Q R (Qmake 0 1) < cr_debt n T < CR_of_Q R (Qmake 1 1).
+Proof.
+  intros Htn.
+  destruct (qdebt_bounds n T Htn) as [Hq0 Hq1].
+  split.
+  - (* 0 < debt：Q 层判定经 CR_of_Q_lt 提升，CRlt_proper 沿 CReq 信息性搬运 *)
+    apply (fst (CRlt_proper R (CR_of_Q R (Qmake 0 1)) (CR_of_Q R (Qmake 0 1))
+                 (CReq_refl (CR_of_Q R (Qmake 0 1)))
+                 (CR_of_Q R (qdebt T n)) (cr_debt n T)
+                 (CReq_sym (cr_debt n T) (CR_of_Q R (qdebt T n))
+                           (cr_debt_rational n T Htn)))).
+    apply CR_of_Q_lt. exact Hq0.
+  - (* debt < 1：同路线 *)
+    apply (fst (CRlt_proper R (CR_of_Q R (qdebt T n)) (cr_debt n T)
+                 (CReq_sym (cr_debt n T) (CR_of_Q R (qdebt T n))
+                           (cr_debt_rational n T Htn))
+                 (CR_of_Q R (Qmake 1 1)) (CR_of_Q R (Qmake 1 1))
+                 (CReq_refl (CR_of_Q R (Qmake 1 1))))).
+    apply CR_of_Q_lt. exact Hq1.
+Qed.
+
+(* sigT 信息性见证：谓词为 Set 值（CRlt），sig 非法，sigT 被类型系统强制 *)
+Theorem cr_debt_witness (n T : nat) : (S T < n)%nat ->
+  { d : CRcarrier R &
+    ((CR_of_Q R (Qmake 0 1) < d < CR_of_Q R (Qmake 1 1)) *
+     (CReq R d (cr_debt n T) *
+      CRlt R d (CR_of_Q R (Qmake 1 1))))%type }.
+Proof.
+  intros Htn. exists (cr_debt n T).
+  split.
+  - exact (cr_debt_bounds n T Htn).
+  - split.
+    + apply CReq_refl.
+    + exact (snd (cr_debt_bounds n T Htn)).
+Qed.
+
+(* ---------- C-TA3：行和单调（CRle——上界证书无信息内容，留 Prop） ---------- *)
+Fixpoint cr_list_sum (g : nat -> CRcarrier R) (l : list nat) : CRcarrier R :=
+  match l with
+  | [] => CR_of_Q R (Qmake 0 1)
+  | x :: xs => CRplus R (g x) (cr_list_sum g xs)
+  end.
+
+Lemma cr_list_sum_mono (g : nat -> CRcarrier R) (P : nat -> bool)
+      (l : list nat) :
+  (forall i, CR_of_Q R (Qmake 0 1) <= g i) ->
+  cr_list_sum g (filter P l) <= cr_list_sum g l.
+Proof.
+  intros Hg. induction l as [| x xs IH].
+  - simpl. apply CRle_refl.
+  - simpl. destruct (P x); simpl.
+    + apply CRplus_le_compat_l. exact IH.
+    + apply CRle_trans
+        with (CRplus R (CR_of_Q R (Qmake 0 1)) (cr_list_sum g xs)).
+      * rewrite CRplus_0_l. exact IH.
+      * apply CRplus_le_compat_r. apply Hg.
+Qed.
+
+(* ---------- C-TA4：稀疏化保 C-比（纯 nat，与主线同款） ---------- *)
+Lemma chain_step_std (C : nat) (v : nat -> nat) :
+  (2 <= C)%nat -> (forall j, (v j * C <= v (S j)))%nat ->
+  (forall j, (v j <= v (S j)))%nat.
+Proof.
+  intros HC Hv j. apply Nat.le_trans with (v j * C)%nat.
+  - assert (H1 : (v j * 1 <= v j * C)%nat)
+      by (apply Nat.mul_le_mono_l; lia).
+    rewrite Nat.mul_1_r in H1. exact H1.
+  - apply Hv.
+Qed.
+
+Lemma chain_mono_std (v : nat -> nat) :
+  (forall j, (v j <= v (S j)))%nat ->
+  forall a b, (a <= b)%nat -> (v a <= v b)%nat.
+Proof.
+  intros Hv a b Hab.
+  assert (Hgen : forall d a0, (v a0 <= v (a0 + d))%nat).
+  { intro d. induction d as [| d IH]; intro a0.
+    - rewrite Nat.add_0_r. apply Nat.le_refl.
+    - rewrite Nat.add_succ_r.
+      apply Nat.le_trans with (v (a0 + d))%nat; [ exact (IH a0) | apply Hv ]. }
+  replace b with (a + (b - a))%nat by lia.
+  apply Hgen.
+Qed.
+
+Lemma thinning_preserves_ratio (C : nat) (v : nat -> nat) (P : nat -> bool)
+        (a b : nat) :
+  (2 <= C)%nat ->
+  (forall j, (v j * C <= v (S j)))%nat ->
+  In a (filter P (seq 0 (S b))) -> In b (filter P (seq 0 (S b))) ->
+  (a < b)%nat ->
+  (v a * C <= v b)%nat.
+Proof.
+  intros HC Hv Ha Hb Hab.
+  apply Nat.le_trans with (v (S a)).
+  - apply Hv.
+  - assert (Hsa : (S a <= b)%nat) by lia.
+    apply (chain_mono_std v (chain_step_std C v HC Hv)).
+    exact Hsa.
+Qed.
+
+(* ---------- C-CA5：τ-裁剪最优性合成（★主定理） ---------- *)
+Definition cr_kept (v : nat -> nat) (T : nat) (I : list nat) : list nat :=
+  filter (fun i => Nat.leb (v i) T) I.
+Definition cr_pruned (v : nat -> nat) (T : nat) (I : list nat) : list nat :=
+  filter (fun i => negb (Nat.leb (v i) T)) I.
+
+Theorem tau_prune_optimality_cr (C T : nat) (v : nat -> nat) (I : list nat) :
+  (2 <= C)%nat ->
+  (forall j, (v j * C <= v (S j)))%nat ->
+  ( (* 主结论为 prod（%type）：三分信息整体是 Set 值可提取项——
+       信息性 (iii) 不能进 Prop 的 /\，这是"序放 Set"的结构性后果 *)
+    ( (* (i)+(ii)：Prop 层（证书单调 + 支撑完备） *)
+      ( (* (i) 证书单调：kept 子族 ‖·‖² 行和 ≤ 全族行和（C-TA3 实例） *)
+        forall j0, In j0 (cr_kept v T I) ->
+          cr_list_sum (fun i => CRnorm_sq (u (v i) i))
+            (filter (fun i => Nat.leb (v i) T) (filter (fun x => Nat.eqb x j0) I))
+          <= cr_list_sum (fun i => CRnorm_sq (u (v i) i))
+            (filter (fun x => Nat.eqb x j0) I) )
+      /\ ( (* (ii) kept 带完全支撑在训练窗 [0,T]（C-TA1） *)
+          forall j0, In j0 (cr_kept v T I) ->
+            forall k, (T <= k)%nat -> CReq_cplx (u (v j0) k) CRzero ) )
+    * ( (* (iii) ★pruned 严格超窗带携带信息性覆盖债（Set 值 CRlt 链） *)
+        forall i, In i (cr_pruned v T I) -> (S T < v i)%nat ->
+          (CR_of_Q R (Qmake 0 1) < cr_debt (v i) T < CR_of_Q R (Qmake 1 1))%ConstructiveReals ) )%type.
+Proof.
+  intros HC Hv.
+  split.
+  - split.
+    + intros j0 Hj0.
+      apply (cr_list_sum_mono (fun i => CRnorm_sq (u (v i) i))
+                (fun i => Nat.leb (v i) T)
+                (filter (fun x => Nat.eqb x j0) I)).
+      intros i. apply CRnorm_sq_nonneg.
+    + intros j0 Hj0 k Hk.
+      apply (c_ta1_support (v j0) T k).
+      * apply (proj1 (Nat.leb_le (v j0) T)).
+        apply filter_In in Hj0. destruct Hj0 as [_ Hle]. exact Hle.
+      * exact Hk.
+  - intros i Hi Hlt.
+    exact (cr_debt_bounds (v i) T Hlt).
+Qed.
+
+End TauGridCR.
+
+(* ---------- 审计 ---------- *)
+Print Assumptions c_ta2_coverage.
+Print Assumptions cr_debt_bounds.
+Print Assumptions cr_debt_witness.
+Print Assumptions cr_list_sum_mono.
+Print Assumptions tau_prune_optimality_cr.
+
+(* ---------- 提取（Set 层可执行对象 + 柯西实例具象化） ---------- *)
+(* 信息性提取目标 = CRealConstructive（柯西实例，CRealLt 存储逼近数据；
+   DRealConstructive 的 CRlt ≡ Rlt 被经典公理阻断，不采用） *)
+From Stdlib Require Import Extraction.
+From Stdlib Require Import ConstructiveRcomplete.
+
+Definition tau_cr_ladder_zero :
+  nat -> nat -> @CRComplex CRealConstructive := fun _ _ => CRzero.
+
+(* eta 展开：常量包装会带弱类型（'_weak1），函数形式可泛化 *)
+Definition cr_win_sum_cauchy := fun f T => @cr_win_sum CRealConstructive f T.
+Definition cr_debt_cauchy := fun n T => @cr_debt CRealConstructive tau_cr_ladder_zero n T.
+Definition cr_list_sum_cauchy := fun g l => @cr_list_sum CRealConstructive g l.
+
+Extraction "taugrid_cr.ml" cr_win_sum_cauchy cr_debt_cauchy
+  cr_list_sum_cauchy cr_kept cr_pruned.
+
+(* ==================== 模块 59/67: probe_cs ==================== *)
+
+Close Scope Z_scope.
+Open Scope R_scope.
+Open Scope complex_scope.
+Open Scope nat_scope.
+(* ============================================================
+   CS 战役一体化模块：probe_cs.v（z 区，2026-08-29）
+   任务书：压缩感知定理补齐-CS侦察-20260822.md §2 CS-1/2/3/6 + §四 CS4c
+
+   数学内容（Candès–Tao 生产线定理化——"无条件基天然优势"的定理形式）：
+     CS-2 `cs2_rip_uniform`（★一致 RIP，Candès–Tao 命名）：C-梯子合成映射
+         的 restricted isometry 常数 δ = 4K(C) **不随稀疏阶 s 增长**
+         （psi_unconditional_basis 的重述打包：|‖F(c)‖² − ‖c‖²| ≤ δ·‖c‖²，∀I）。
+     CS-3 `cs3_energy_zero`（能量不丢失）+ `cs3_unique`（★s-sparse 唯一性，
+     核心非平凡）：C ≥ 10（2K(C) < 1）时合成映射在 I 支撑系数上单射——
+     测量 y = y' ⟹ 系数 c = c'。路线：下界半边 (1−2K(C))·S ≤ ‖F‖²，
+     差列表 d := c − c' 的逐点线性（Csum_sub + map2_sub_nth + Csub 分配），
+     ‖F_d‖² = 0 ⟹ S_d = 0 ⟹ d = 0。
+     CS-6 `cs6_embedding`：M < 1 ⟹ ℓ²→ℓ² embedding（下有界 ⟹ 单射）——
+     与 CS-3 合并陈述（embedding 常数命名）。
+     CS-1b `cs1b_spark`：无平凡零组合 ⟹ n 列独立 ⟹ spark(Φ_I) ≥ n+1
+         （CS-3 推论；侦察文档标注的 Gershgorin 冗余路径由此收编，
+         Elad–Bruckstein 判据）。
+     CS-1a `cs1a_pair_bound`：C-梯子逐对相干上界（PB4/Fpair 形）≤ 2πq/(1−q)
+         ——row_sum_3halfs 的单项抽取（lsum_single_le + Fpair 非负；
+         |⟨ψ_a,ψ_b⟩| ≤ Fpair a b 即 PB4 pair_inner_norm，已证）。
+     CS4c `near_dup_coherence_12` + `cs4c_explosion`（★RIP 证书爆炸）：
+         近重复对 {1,2} 的相干 = 1/√2（精确值，零相位 Cexp）⟹ 含近重复对
+         的梯子 μ ≥ 1/√2 ⟹ s ≥ 3 时 (s−1)·μ ≥ √2 > 1——Gershgorin 型
+         RIP 上界证书失效（"剪 503/255/127 应恶化"的定理侧镜像；
+         高频带的定量 cos 下界版本列为未来工作）。
+   依赖：ca_decay（ExtendedTheorems.psi_unconditional_basis[_tight]）+
+   ca_basis_lemmas（K）+ ca_sparse_ext + ca_complex_log + probe_taugrid
+   （TauGrid.l2_norm_sq_0/S）+ probe_rowsum（RowSum.row_sum_3halfs/qval/
+   Fpair）+ probe_pairdirichlet（rot_atom）+ probe_grid_ortho（Csum_ext）。
+   审计：Print Assumptions 尾部。
+   ============================================================ *)
+From Stdlib Require Import Reals.
+From Stdlib Require Import QArith.
+From Stdlib Require Import ZArith.
+Require Import Stdlib.micromega.Lia.
+Require Import Stdlib.micromega.Lra.
+From Stdlib Require Import Arith.
+From Stdlib Require Import List.
+From Stdlib Require Import Sorting.Sorted.
+Import ListNotations.
+Import UnconditionalBasis.
+Require Import Stdlib.Reals.RIneq.
+Import UnconditionalBasisLemmas.
+Import ComplexNumbers.
+Import PrimeEmbedding.
+Import independent.
+Import FourierAnalysis.
+Import GridOrtho.
+Import TPartial.
+Import TauGrid.
+Import PairBound.
+Import RowSum.
+Import PairDirichlet.
+
+(* E138①：Notation 注册（8 项，恢复 Stdlib nat 记号——防 mathcomp 污染） *)
+Notation "a + b" := (Nat.add a b) (at level 50, left associativity) : nat_scope.
+Notation "a - b" := (Nat.sub a b) (at level 50, left associativity) : nat_scope.
+Notation "a * b" := (Nat.mul a b) (at level 40, left associativity) : nat_scope.
+Notation "a <= b" := (Nat.le a b) (at level 70, no associativity) : nat_scope.
+Notation "a < b" := (Nat.lt a b) (at level 70, no associativity) : nat_scope.
+Notation "a >= b" := (Nat.le b a) (at level 70, no associativity) : nat_scope.
+Notation "a > b" := (Nat.lt b a) (at level 70, no associativity) : nat_scope.
+
+Local Open Scope nat_scope.
+Local Open Scope complex_scope.
+Local Open Scope R_scope.
+
+Locate Csum.
+Locate psi.
+Module CSBattle.
+
+(* ---------- 基础件 ---------- *)
+
+Lemma rsqr_pos (x : R) : (0 <= Rsqr x)%R.
+Proof. unfold Rsqr. nra. Qed.
+
+Lemma rabs_eq0 (x : R) : Rabs x = 0%R -> x = 0%R.
+Proof.
+  intro H. destruct (Rle_or_lt 0 x) as [Hge|Hlt].
+  - rewrite Rabs_right in H by lra. lra.
+  - rewrite Rabs_left in H by lra. lra.
+Qed.
+
+(* 逐点相等 ⟹ 能量相等 *)
+Lemma l2_norm_sq_ext (f g : nat -> Complex) (N : nat) :
+  (forall k, (k <= N)%nat -> f k = g k) ->
+  l2_norm_sq f N = l2_norm_sq g N.
+Proof.
+  intros H. induction N as [| N IH].
+  - unfold l2_norm_sq. simpl. rewrite (H 0%nat) by lia. reflexivity.
+  - rewrite l2_norm_sq_S, l2_norm_sq_S.
+    rewrite IH by (intros k Hk; apply H; lia).
+    rewrite (H (S N)) by lia. reflexivity.
+Qed.
+
+(* 零能量引理：逐点为零 ⟹ 能量为零 *)
+Lemma l2_norm_sq_zero (f : nat -> Complex) (N : nat) :
+  (forall k, (k <= N)%nat -> f k = C0) -> l2_norm_sq f N = 0%R.
+Proof.
+  intros H.
+  rewrite (l2_norm_sq_ext f (fun _ => C0) N H).
+  clear H f. induction N as [| N IH].
+  - unfold l2_norm_sq. simpl. apply Cnorm_sq_C0.
+  - rewrite l2_norm_sq_S, IH. unfold l2_norm_sq. simpl.
+    rewrite Rplus_0_l. apply Cnorm_sq_C0.
+Qed.
+
+(* 能量单项控制：|c_i|² ≤ 总能量 *)
+Lemma sum_cnormsq_pos (coeffs : list Complex) :
+  forall N, (0 <= sum_f_R0 (fun j => Cnorm_sq (nth j coeffs C0)) N)%R.
+Proof.
+  induction N as [| N IHN]; simpl.
+  - apply Cnorm_sq_ge_0.
+  - pose proof (Cnorm_sq_ge_0 (nth (S N) coeffs C0)). lra.
+Qed.
+
+Lemma norm_sq_coeff_le (coeffs : list Complex) (N i : nat) :
+  (i <= N)%nat ->
+  Cnorm_sq (nth i coeffs C0)
+  <= sum_f_R0 (fun j => Cnorm_sq (nth j coeffs C0)) N.
+Proof.
+  induction N as [| N IHn].
+  - intro Hi. assert (i = 0%nat) by lia. subst. simpl. apply Rle_refl.
+  - destruct (Nat.eq_dec i (S N)) as [->|Hne].
+    + pose proof (sum_cnormsq_pos coeffs N) as Hpos. simpl. lra.
+    + intro HiN. assert (Hle : (N >= i)%nat) by lia.
+      specialize (IHn Hle). simpl.
+      pose proof (sum_cnormsq_pos coeffs N) as Hpos.
+      apply Rle_trans with
+        (r2 := sum_f_R0 (fun j => Cnorm_sq (nth j coeffs C0)) N).
+      * exact IHn.
+      * pose proof (Cnorm_sq_ge_0 (nth (S N) coeffs C0)). lra.
+Qed.
+
+(* 模方为零 ⟹ 复数为零 *)
+Lemma cnorm_sq_eq_C0 (z : Complex) : Cnorm_sq z = 0%R -> z = C0.
+Proof.
+  intro H. unfold Cnorm_sq in H.
+  pose proof (rsqr_pos (re z)) as Hr0.
+  pose proof (rsqr_pos (im z)) as Hi0.
+  assert (Hre0 : Rsqr (re z) = 0%R) by lra.
+  assert (Him0 : Rsqr (im z) = 0%R) by lra.
+  assert (Hz0 : Rsqr 0 = 0%R) by (unfold Rsqr; ring).
+  assert (Hprem : Rsqr (re z) = Rsqr 0%R) by (rewrite Hz0; exact Hre0).
+  assert (Hqrem : Rsqr (im z) = Rsqr 0%R) by (rewrite Hz0; exact Him0).
+  apply Rsqr_eq_abs_0 in Hprem. apply Rsqr_eq_abs_0 in Hqrem.
+  rewrite Rabs_R0 in Hprem, Hqrem.
+  apply Complex_eq.
+  - apply rabs_eq0. exact Hprem.
+  - apply rabs_eq0. exact Hqrem.
+Qed.
+
+(* Csub 代数三件 *)
+Lemma csub_eq0 (a b : Complex) : a -c b = C0 -> a = b.
+Proof.
+  intros H.
+  apply Complex_eq.
+  - pose proof (f_equal (@re) H) as Hre. simpl in Hre. lra.
+  - pose proof (f_equal (@im) H) as Him. simpl in Him. lra.
+Qed.
+
+Lemma csub_distr_r (a b z : Complex) :
+  (a -c b) *c z = a *c z -c b *c z.
+Proof.
+  apply Complex_eq; unfold Csub, Cmul;
+    destruct a; destruct b; destruct z; simpl; ring.
+Qed.
+
+Lemma Csum_sub (f g : nat -> Complex) (n : nat) :
+  Csum (fun i => f i -c g i) n = Csum f n -c Csum g n.
+Proof.
+  induction n as [| n IH].
+  - apply Complex_eq; unfold Csub, C0; simpl; ring.
+  - cbn [Csum]. rewrite IH.
+    apply Complex_eq; unfold Csub, Cadd;
+      destruct (f 0%nat); destruct (g 0%nat); destruct (Csum f n);
+        destruct (Csum g n); simpl; ring.
+Qed.
+
+Fixpoint map2_csub (a b : list Complex) : list Complex :=
+  match a, b with
+  | x :: xs, y :: ys => Csub x y :: map2_csub xs ys
+  | _, _ => []
+  end.
+
+(* independent.Csum 版逐点扩展（Csum_ext 是 PrimeEmbedding.Csum 版） *)
+Lemma csum_ext_indep (f g : nat -> Complex) (n : nat) :
+  (forall i, (i < n)%nat -> f i = g i) ->
+  independent.Csum f n = independent.Csum g n.
+Proof.
+  induction n as [| n IH]; intros H.
+  - reflexivity.
+  - replace (independent.Csum f (S n))
+      with (Cadd (independent.Csum f n) (f n)) by reflexivity.
+    replace (independent.Csum g (S n))
+      with (Cadd (independent.Csum g n) (g n)) by reflexivity.
+    rewrite IH by (intros i Hi; apply H; lia).
+    rewrite (H n) by lia. reflexivity.
+Qed.
+
+Lemma map2_csub_length (a b : list Complex) :
+  length a = length b -> length (map2_csub a b) = length a.
+Proof.
+  revert a.
+  induction b as [| y ys IH]; intros a Hlen.
+  - destruct a as [| x xs]; [ reflexivity | simpl in Hlen; lia ].
+  - destruct a as [| x xs]; [ simpl in Hlen; lia | ].
+    simpl in Hlen. assert (Hxs : length xs = length ys) by lia.
+    simpl. rewrite (IH xs Hxs). reflexivity.
+Qed.
+
+Lemma map2_sub_nth (a b : list Complex) :
+  length a = length b ->
+  forall idx, nth idx (map2_csub a b) C0 = nth idx a C0 -c nth idx b C0.
+Proof.
+  revert a.
+  induction b as [| y ys IH]; intros a Hlen idx.
+  - destruct a as [| x xs].
+    + destruct idx as [| idx].
+      * apply Complex_eq; unfold Csub, C0; simpl; ring.
+      * apply Complex_eq; unfold Csub, C0; simpl; ring.
+    + simpl in Hlen. lia.
+  - destruct a as [| x xs]; [ simpl in Hlen; lia | ].
+    simpl in Hlen. assert (Hxs : length xs = length ys) by lia.
+    destruct idx as [| idx].
+    + apply Complex_eq; unfold Csub, C0; simpl;
+        match goal with |- ?g => idtac "GOAL1:" g end; ring.
+    + cbn [map2_csub nth]. exact (IH xs Hxs idx).
+Qed.
+
+Lemma lsum_pos (f : nat -> R) (m : nat) :
+  (forall k, (0 <= f k)%R) -> (0 <= lsum f m)%R.
+Proof.
+  intros Hf. induction m as [| m IHm]; cbn [lsum].
+  - apply Rle_refl.
+  - pose proof (Hf m). lra.
+Qed.
+
+Lemma lsum_single_le (f : nat -> R) (m d : nat) :
+  (forall k, (0 <= f k)%R) -> (d < m)%nat -> (f d <= lsum f m)%R.
+Proof.
+  intros Hf Hd.
+  induction m as [| m IH].
+  - lia.
+  - cbn [lsum].
+    pose proof (lsum_pos f m Hf) as Hsum.
+    destruct (Nat.eq_dec d m) as [->|Hne].
+    + lra.
+    + assert (Hdm : (d < m)%nat) by lia.
+      pose proof (Hf m) as Hfm0.
+      specialize (IH Hdm). lra.
+Qed.
+
+(* ---------- CS-1a：C-梯子逐对相干（PB4/Fpair 形）≤ 2πq/(1−q) ---------- *)
+
+Lemma fpair_pos (a b : nat) :
+  (2 <= a)%nat -> (2 <= b)%nat -> (0 <= Fpair a b)%R.
+Proof.
+  intros Ha Hb. unfold Fpair.
+  assert (Hs : (0 < sqrt (INR a * INR b))%R).
+  { apply sqrt_pos_strict.
+    assert (H1a : (1 < INR a)%R) by (apply (lt_INR 1 a); lia).
+    assert (H1b : (1 < INR b)%R) by (apply (lt_INR 1 b); lia).
+    nra. }
+  replace 0%R with (0 * / sqrt (INR a * INR b))%R by ring.
+  apply Rmult_le_compat_r.
+  - apply Rlt_le. apply Rinv_0_lt_compat. exact Hs.
+  - apply Cnorm_ge_0.
+Qed.
+
+Corollary cs1a_pair_bound (C : nat) (v : nat -> nat) (i m d : nat) :
+  (2 <= C)%nat -> (m <= i)%nat ->
+  (forall j, (2 <= v j)%nat) ->
+  (forall j, (v j * C <= v (S j)))%nat ->
+  (d < m)%nat ->
+  Fpair (v i) (v (ssrnat.addn i (S d)))
+  <= 2 * (PI * qval C / (1 - qval C))%R.
+Proof.
+  intros HC Hmi Hv2 Hchain Hd.
+  pose proof (row_sum_3halfs C v i m (le_Prop_to_mc 2 C HC)
+                (le_Prop_to_mc m i Hmi)
+                (fun j => le_Prop_to_mc 2 (v j) (Hv2 j))
+                (fun j => le_Prop_to_mc (v j * C)%nat (v (S j)) (Hchain j)))
+    as Hrow.
+  assert (Hp1 : (0 <= lsum (fun d0 => Fpair (v i) (v (ssrnat.addn i (S d0)))) m)%R).
+  { apply lsum_pos. intros k. cbv beta. apply fpair_pos.
+    - pose proof (Hv2 i); lia.
+    - pose proof (Hv2 (ssrnat.addn i (S k))); lia. }
+  assert (Hp2 : (0 <= lsum (fun d0 => Fpair (v (ssrnat.subn i (S d0))) (v i)) m)%R).
+  { apply lsum_pos. intros k. cbv beta. apply fpair_pos.
+    - pose proof (Hv2 (ssrnat.subn i (S k))); lia.
+    - pose proof (Hv2 i); lia. }
+  apply Rle_trans with
+    (r2 := lsum (fun d0 => Fpair (v i) (v (ssrnat.addn i (S d0)))) m).
+  - apply (lsum_single_le (fun d0 => Fpair (v i) (v (ssrnat.addn i (S d0)))) m d).
+    + intros k. cbv beta. apply fpair_pos.
+      * pose proof (Hv2 i); lia.
+      * pose proof (Hv2 (ssrnat.addn i (S k))); lia.
+    + exact Hd.
+  - lra.
+Qed.
+
+(* ---------- CS-2：一致 RIP（Candès–Tao 命名，∀s 一致） ---------- *)
+
+Definition rip_delta (C : nat) : R := 4 * UnconditionalBasisLemmas.K (INR C).
+
+Theorem cs2_rip_uniform (seq : nat -> nat)
+        (Hge2 : forall i, (seq i >= 2)%nat)
+        (Hinc : forall i, (seq i < seq (S i))%nat)
+        (C : nat) (HCgt2 : (C > 2)%nat)
+        (Hsparse : forall i, (INR (seq (S i)) > INR C * INR (seq i))%R)
+        (I : list nat) (coeffs : list Complex)
+        (Hdup : NoDup I) (Hsorted : Sorted Nat.lt I)
+        (Hlen : length I = length coeffs) :
+  (* Candès–Tao 双侧 RIP：(1−δ)·‖c‖² ≤ ‖Φc‖² ≤ (1+δ)·‖c‖²，δ = 4K(C)，∀s 一致 *)
+  (1 - rip_delta C) * sum_f_R0 (fun i => Cnorm_sq (nth i coeffs C0)) (length I - 1)
+  <= l2_norm_sq
+       (fun k => Csum (fun idx => nth idx coeffs C0
+                                *c psi (nth idx (map seq I) 0%nat) k)
+                (length I))
+       (S (seq (fold_right Init.Nat.max 0%nat I)) - 1)
+  <= (1 + rip_delta C) * sum_f_R0 (fun i => Cnorm_sq (nth i coeffs C0)) (length I - 1).
+Proof.
+  pose proof (ExtendedTheorems.psi_unconditional_basis
+                seq Hge2 Hinc C HCgt2 Hsparse I coeffs Hdup Hsorted Hlen) as HT.
+  cbv zeta in HT.
+  unfold rip_delta.
+  exact HT.
+Qed.
+
+Lemma twoK_lt_1 (C : nat) : (10 <= C)%nat -> (2 * K (INR C) < 1)%R.
+Proof.
+  intros HC. unfold K.
+  assert (H9 : (INR 9 < INR C)%R).
+  { apply Rlt_le_trans with (INR 10).
+    - apply (lt_INR 9 10). lia.
+    - apply (le_INR 10 C). lia. }
+  assert (Hge : (0 <= INR 9)%R) by (apply pos_INR).
+  assert (Hlt : (sqrt (INR 9) < sqrt (INR C))%R)
+    by (apply sqrt_lt_1; [ exact Hge | apply (le_INR 0 C); lia | exact H9 ]).
+  assert (Hs9 : (sqrt (INR 9) = 3)%R).
+  { replace (INR 9) with (3 * 3)%R by (unfold INR; simpl; ring).
+    apply sqrt_square. lra. }
+  rewrite Hs9 in Hlt.
+  assert (Hs : (0 < sqrt (INR C) - 1)%R) by lra.
+  assert (Hnz : (sqrt (INR C) - 1 <> 0)%R) by lra.
+  apply (Rmult_lt_reg_r (sqrt (INR C) - 1)).
+  - exact Hs.
+  - assert (Hkey : ((2 * (1 / (sqrt (INR C) - 1))) * (sqrt (INR C) - 1) = 2)%R)
+      by (field; exact Hnz).
+    rewrite Hkey. rewrite Rmult_1_l. lra.
+Qed.
+
+(* ---------- CS-6：embedding 常数（与 CS-3 合并陈述） ---------- *)
+
+Corollary cs6_embedding (C : nat) (HC10 : (10 <= C)%nat) :
+  (0 < 1 - 2 * K (INR C))%R.
+Proof. apply twoK_lt_1 in HC10. lra. Qed.
+
+(* ---------- CS-3：能量不丢失 + s-sparse 唯一性（★核心） ---------- *)
+
+(* CS-6/CS-3 核心：能量不丢失——零能量合成 ⟹ 零系数 *)
+Theorem cs3_energy_zero (seq : nat -> nat)
+        (Hge2 : forall i, (seq i >= 2)%nat)
+        (Hinc : forall i, (seq i < seq (S i))%nat)
+        (C : nat) (HCgt2 : (C > 2)%nat)
+        (Hsparse : forall i, (INR (seq (S i)) > INR C * INR (seq i))%R)
+        (I : list nat) (coeffs : list Complex)
+        (Hdup : NoDup I) (Hsorted : Sorted Nat.lt I)
+        (Hlen : length I = length coeffs)
+        (HC10 : (10 <= C)%nat)
+        (Hzero : l2_norm_sq
+                   (fun k => Csum (fun idx => nth idx coeffs C0
+                                            *c psi (nth idx (map seq I) 0%nat) k)
+                            (length I))
+                   (S (seq (fold_right Init.Nat.max 0%nat I)) - 1) = 0%R) :
+  forall i, (i < length I)%nat -> nth i coeffs C0 = C0.
+Proof.
+  intros i Hi.
+  pose proof (ExtendedTheorems.psi_unconditional_basis_tight
+                seq Hge2 Hinc C HCgt2 Hsparse I coeffs Hdup Hsorted Hlen)
+    as HT.
+  cbv zeta in HT.
+  destruct HT as [Hlo Hhi].
+  pose proof (sum_cnormsq_pos coeffs (length I - 1)) as Hpos.
+  pose proof (twoK_lt_1 C HC10) as HK.
+  (* 把 Hlo 的 l2F（ca_decay 形态）经 change（convertibility）归零——绕开
+     rewrite 的语法匹配盲区（E154） *)
+  assert (Hlo0 : ((1 - 2 * UnconditionalBasisLemmas.K (INR C)) *
+                  sum_f_R0 (fun i0 => Cnorm_sq (nth i0 coeffs C0))
+                    (length I - 1) <= 0)%R).
+  { match goal with H : ((1 - _) * _ <= ?c)%R |- _ =>
+      (assert (Hc0 : c = 0%R)
+         by (change (l2_norm_sq
+                       (fun k : nat =>
+                        Csum (fun idx : nat =>
+                                nth idx coeffs C0
+                                *c psi (nth idx (map seq I) 0%nat) k)
+                        (length I))
+                      (S (seq (fold_right Init.Nat.max 0%nat I)) - 1) = 0%R);
+              exact Hzero);
+       rewrite Hc0 in H;
+       exact H)
+    end. }
+  assert (Hge : (0 <= (1 - 2 * UnconditionalBasisLemmas.K (INR C)) *
+                       sum_f_R0 (fun i0 => Cnorm_sq (nth i0 coeffs C0))
+                         (length I - 1))%R) by nra.
+  assert (Hprod : ((1 - 2 * UnconditionalBasisLemmas.K (INR C)) *
+                   sum_f_R0 (fun i0 => Cnorm_sq (nth i0 coeffs C0))
+                     (length I - 1) = 0)%R) by lra.
+  assert (HS0 : (sum_f_R0 (fun i0 => Cnorm_sq (nth i0 coeffs C0))
+                             (length I - 1) = 0)%R).
+  { destruct (Rmult_integral (1 - 2 * UnconditionalBasisLemmas.K (INR C))
+                (sum_f_R0 (fun i0 => Cnorm_sq (nth i0 coeffs C0))
+                   (length I - 1)) Hprod) as [Hbad | Hgood].
+    - lra.
+    - exact Hgood. }
+  assert (Hzip : Cnorm_sq (nth i coeffs C0) = 0%R).
+  { apply Rle_antisym.
+    - apply Rle_trans with
+        (r2 := sum_f_R0 (fun j => Cnorm_sq (nth j coeffs C0)) (length I - 1)).
+      + apply norm_sq_coeff_le. lia.
+      + rewrite HS0. apply Rle_refl.
+    - apply Cnorm_sq_ge_0. }
+  apply (cnorm_sq_eq_C0 (nth i coeffs C0) Hzip).
+Qed.
+
+(* ★CS-3 主定理：s-sparse 唯一性——测量端信息不丢失 ⟹ 系数唯一 *)
+Theorem cs3_unique (seq : nat -> nat)
+        (Hge2 : forall i, (seq i >= 2)%nat)
+        (Hinc : forall i, (seq i < seq (S i))%nat)
+        (C : nat) (HCgt2 : (C > 2)%nat)
+        (Hsparse : forall i, (INR (seq (S i)) > INR C * INR (seq i))%R)
+        (I : list nat) (Hdup : NoDup I) (Hsorted : Sorted Nat.lt I)
+        (HC10 : (10 <= C)%nat)
+        (coeffs coeffs' : list Complex)
+        (Hlen : length coeffs = length I)
+        (Hlen' : length coeffs' = length I)
+        (Hpt : forall k, (k <= seq (fold_right Init.Nat.max 0%nat I))%nat ->
+          Csum (fun idx => nth idx coeffs C0 *c psi (nth idx (map seq I) 0%nat) k)
+            (length I)
+          = Csum (fun idx => nth idx coeffs' C0 *c psi (nth idx (map seq I) 0%nat) k)
+            (length I)) :
+  forall i, (i < length I)%nat -> nth i coeffs C0 = nth i coeffs' C0.
+Proof.
+  assert (Hab : length coeffs = length coeffs')
+    by exact (eq_trans Hlen (eq_sym Hlen')).
+  assert (Hdlen : length I = length (map2_csub coeffs coeffs')).
+  { rewrite (map2_csub_length coeffs coeffs' Hab). symmetry. exact Hlen. }
+  assert (Hzerod :
+    l2_norm_sq
+      (fun k => Csum (fun idx =>
+                nth idx (map2_csub coeffs coeffs') C0
+                *c psi (nth idx (map seq I) 0%nat) k)
+              (length I))
+      (S (seq (fold_right Init.Nat.max 0%nat I)) - 1) = 0%R).
+  { apply l2_norm_sq_zero. intros k Hk.
+    transitivity (Csum (fun idx =>
+                nth idx coeffs C0 *c psi (nth idx (map seq I) 0%nat) k
+                -c nth idx coeffs' C0 *c psi (nth idx (map seq I) 0%nat) k)
+              (length I)).
+    - apply csum_ext_indep. intros idx Hidx.
+      rewrite (map2_sub_nth coeffs coeffs' Hab idx).
+      apply csub_distr_r.
+    - rewrite Csum_sub. rewrite (Hpt k); [ | lia ].
+      apply Complex_eq; unfold Csub, C0; simpl; ring. }
+  intros idx Hidx.
+  pose proof (cs3_energy_zero seq Hge2 Hinc C HCgt2 Hsparse I
+                (map2_csub coeffs coeffs') Hdup Hsorted Hdlen HC10 Hzerod
+                idx Hidx) as Hd0.
+  rewrite (map2_sub_nth coeffs coeffs' Hab idx) in Hd0.
+  apply (csub_eq0 _ _ Hd0).
+Qed.
+
+(* ---------- CS-6/CS-1b：embedding 单射 + spark 下界（CS-3 推论） ---------- *)
+
+Corollary cs1b_spark (seq : nat -> nat)
+        (Hge2 : forall i, (seq i >= 2)%nat)
+        (Hinc : forall i, (seq i < seq (S i))%nat)
+        (C : nat) (HCgt2 : (C > 2)%nat)
+        (Hsparse : forall i, (INR (seq (S i)) > INR C * INR (seq i))%R)
+        (I : list nat) (Hdup : NoDup I) (Hsorted : Sorted Nat.lt I)
+        (HC10 : (10 <= C)%nat)
+        (d : list Complex) (Hdn : length d = length I)
+        (Hzerod : l2_norm_sq
+                    (fun k => Csum (fun idx => nth idx d C0
+                                             *c psi (nth idx (map seq I) 0%nat) k)
+                             (length I))
+                    (S (seq (fold_right Init.Nat.max 0%nat I)) - 1) = 0%R) :
+  forall i, (i < length I)%nat -> nth i d C0 = C0.
+Proof.
+  apply (cs3_energy_zero seq Hge2 Hinc C HCgt2 Hsparse I d Hdup Hsorted
+           (eq_sym Hdn) HC10 Hzerod).
+Qed.
+
+(* ---------- CS4c：近重复对精确相干 + RIP 证书爆炸（★"剪 503/255/127 应恶化"的定理侧镜像） ---------- *)
+
+(* ψ₁ 的 k=0 项 = 1（1/√1 归一 + 零相位单位根） *)
+Lemma cs4c_psi10 : psi 1 0 = C1.
+Proof.
+  unfold psi, UnconditionalBasis.phi.
+  cbn [Nat.ltb Nat.leb].
+  replace (2 * PI * INR 0 / INR 1) with 0%R
+    by (rewrite INR_0, INR_1; unfold Rdiv; rewrite Rmult_0_r, Rmult_0_l; reflexivity).
+  replace (Cexp (0 +i 0)) with C1
+    by (unfold Cexp, C1; simpl; rewrite exp_0, cos_0, sin_0; f_equal; ring).
+  replace (1 / sqrt (INR 1)) with 1%R
+    by (rewrite INR_1, sqrt_1; unfold Rdiv;
+        rewrite Rinv_1, Rmult_1_l; reflexivity).
+  apply Complex_eq; unfold Cof_real, Cmul, C1, C0; simpl; ring.
+Qed.
+
+(* ψ₂ 的 k=0 项 = 1/√2（实数归一系数） *)
+Lemma cs4c_psi20 : psi 2 0 = Cof_real (1 / sqrt 2).
+Proof.
+  unfold psi, UnconditionalBasis.phi.
+  cbn [Nat.ltb Nat.leb].
+  replace (2 * PI * INR 0 / INR 2) with 0%R
+    by (rewrite INR_0; unfold Rdiv; rewrite Rmult_0_r, Rmult_0_l; reflexivity).
+  replace (Cexp (0 +i 0)) with C1
+    by (unfold Cexp, C1; simpl; rewrite exp_0, cos_0, sin_0; f_equal; ring).
+  replace (INR 2) with 2%R by (rewrite S_INR, INR_1; ring).
+  apply Complex_eq; unfold Cof_real, Cmul, C1; simpl; ring.
+Qed.
+
+(* 实复数共轭不变 *)
+Lemma cconj_cof_real (r : R) : Cconj (Cof_real r) = Cof_real r.
+Proof. apply Complex_eq; unfold Cconj, Cof_real; simpl; ring. Qed.
+
+(* 实复数模 = 绝对值（正实数时为自身）——经 Cnorm_sq 分量计算 *)
+Lemma cnorm_cof_real (r : R) : (0 <= r)%R -> Cnorm (Cof_real r) = r.
+Proof.
+  intros Hr. unfold Cnorm, Cof_real, Cnorm_sq.
+  simpl. replace (Rsqr r + Rsqr 0) with (Rsqr r) by (unfold Rsqr; simpl; ring).
+  apply sqrt_Rsqr. exact Hr.
+Qed.
+
+(* ★近重复对 {1,2} 的相干 = 1/√2（精确值——零相位使内积为纯实正数） *)
+Theorem near_dup_coherence_12 : coh 1 2 = (1 / sqrt 2)%R.
+Proof.
+  unfold coh.
+  replace (Nat.min 1 2) with 1%nat by reflexivity.
+  assert (Hstep : PrimeEmbedding.Csum
+                    (fun k : nat => psi 1 k *c Cconj (psi 2 k)) 1%nat
+                = psi 1 0 *c Cconj (psi 2 0)).
+  { change (PrimeEmbedding.Csum
+              (fun k : nat => psi 1 k *c Cconj (psi 2 k)) 1%nat)
+      with (Cadd (psi 1 0 *c Cconj (psi 2 0))
+                 (PrimeEmbedding.Csum
+                    (fun k : nat => psi 1 k *c Cconj (psi 2 k)) 0%nat)).
+    change (PrimeEmbedding.Csum
+              (fun k : nat => psi 1 k *c Cconj (psi 2 k)) 0%nat) with C0.
+    apply Cadd_0_r. }
+  rewrite Hstep, cs4c_psi10, cs4c_psi20, cconj_cof_real.
+  (* C1 *c Cof_real r = Cof_real r *)
+  replace (C1 *c Cof_real (1 / sqrt 2)) with (Cof_real (1 / sqrt 2))
+    by (apply Complex_eq; unfold C1, Cmul, Cof_real; simpl; ring).
+  apply cnorm_cof_real.
+  assert (Hs2 : (0 < sqrt 2)%R) by (apply sqrt_pos_strict; lra).
+  unfold Rdiv. rewrite Rmult_1_l. apply Rlt_le, Rinv_0_lt_compat. exact Hs2.
+Qed.
+
+(* ★CS4c 主定理：s = 3 时 (s−1)·μ ≥ 2·(1/√2) = √2 > 1——Gershgorin 型
+   RIP 上界证书在含近重复对的梯子上必然失效（"剪 503/255/127 应恶化"的定理侧） *)
+Theorem cs4c_explosion : (1 < 2 * coh 1 2)%R.
+Proof.
+  rewrite near_dup_coherence_12.
+  assert (Hs2 : (0 < sqrt 2)%R) by (apply sqrt_pos_strict; lra).
+  assert (Hnz : (sqrt 2 <> 0)%R) by (apply Rgt_not_eq; exact Hs2).
+  assert (H1 : (1 < sqrt 2)%R).
+  { rewrite <- sqrt_1. apply sqrt_lt_1; lra. }
+  assert (Hsqrt2 : (sqrt 2 * sqrt 2 = 2)%R) by (apply sqrt_sqrt; lra).
+  assert (Ht : (2 * / sqrt 2 = sqrt 2)%R).
+  { rewrite <- Hsqrt2 at 1.
+    rewrite Rmult_assoc.
+    rewrite Rinv_r by exact Hnz.
+    rewrite Rmult_1_r. reflexivity. }
+  unfold Rdiv. rewrite Rmult_1_l.
+  rewrite Ht. exact H1.
+Qed.
+
+End CSBattle.
+
+Print Assumptions CSBattle.cs2_rip_uniform.
+Print Assumptions CSBattle.cs3_energy_zero.
+Print Assumptions CSBattle.cs3_unique.
+Print Assumptions CSBattle.cs1b_spark.
+Print Assumptions CSBattle.cs1a_pair_bound.
+Print Assumptions CSBattle.near_dup_coherence_12.
+Print Assumptions CSBattle.cs4c_explosion.
+
+(* ==================== 模块 60/67: probe_cs5 ==================== *)
+
+Close Scope Z_scope.
+Open Scope R_scope.
+Open Scope complex_scope.
+Open Scope nat_scope.
+(* ============================================================
+   CS-5：offset-grid 无关性量化（z 区，2026-08-29）
+   任务书：压缩感知定理补齐-CS侦察-20260822.md §2 CS-5
+
+   数学内容（ogrid 实验——论文 B ogrid @4096 = 19.30 恶化——的定理侧）：
+     CS5a `cs5_offset_pair`（★offset 无关性）：同族平移 t→t+δ 下任意
+         跨网格对的相干界**与 δ 无关**——偏移在同族对的差频中相消
+         （pair_eq_rotdiff + R 层消元），pair_dirichlet 直接接管：
+         |⟨ψ_{t1+δ}, ψ_{t2+δ}⟩| ≤ N/(2·min(j mod N, N−j mod N))，
+         右端不含 δ。这就是"offset-grid 无关性"的定理形式：
+         加偏移不改变跨网格对的相干证书。
+     CS5b `cs5_golden_moat`（黄金比护城河命名系）：golden 阶梯近碰撞
+         下界 1/(3d) ≤ |d·φ_gold − m|（golden_near_collision 实例化）。
+     CS5c `cs5_gold_not_grid`（★偏移真离开网格）：φ_gold ∉ ℤ——
+         若 phi_gold = IZR m 则 d=1 护城河给 1/3 ≤ 0 矛盾——黄金比
+         偏移确实不在纯网格上，offset 语义非空。
+     组合语义：跨网格对由 CS5a 的 δ-无关界控制；golden 同族对由 CS5b
+         护城河保证非碰撞（近碰分数距离 ≥ 1/(3d)，RIP 证书通道可用）。
+   依赖：probe_pairdirichlet（PairDirichlet.pair_dirichlet/pair_eq_rotdiff，
+   Dirichlet 跨网格引擎）+ probe_nearcoll（NearColl.phi_gold/
+   golden_near_collision_gold，1/(3d) 护城河）。
+   审计：Print Assumptions 尾部。
+   ============================================================ *)
+From Stdlib Require Import Reals.
+From Stdlib Require Import QArith.
+From Stdlib Require Import ZArith.
+Require Import Stdlib.micromega.Lia.
+Require Import Stdlib.micromega.Lra.
+From Stdlib Require Import Arith.
+From Stdlib Require Import List.
+Import ListNotations.
+Import UnconditionalBasis.
+Require Import Stdlib.Reals.RIneq.
+Import ComplexNumbers.
+Import FourierAnalysis.
+Import GridOrtho.
+Import TPartial.
+Import PairDirichlet.
+Import NearColl.
+
+(* E138①：Notation 注册（8 项，恢复 Stdlib nat 记号——防 mathcomp 污染） *)
+Notation "a + b" := (Nat.add a b) (at level 50, left associativity) : nat_scope.
+Notation "a - b" := (Nat.sub a b) (at level 50, left associativity) : nat_scope.
+Notation "a * b" := (Nat.mul a b) (at level 40, left associativity) : nat_scope.
+Notation "a <= b" := (Nat.le a b) (at level 70, no associativity) : nat_scope.
+Notation "a < b" := (Nat.lt a b) (at level 70, no associativity) : nat_scope.
+Notation "a >= b" := (Nat.le b a) (at level 70, no associativity) : nat_scope.
+Notation "a > b" := (Nat.lt b a) (at level 70, no associativity) : nat_scope.
+
+Local Open Scope nat_scope.
+Local Open Scope complex_scope.
+Local Open Scope R_scope.
+
+(* E152：跨 flavor 桥——Stdlib ≤ → mathcomp leq bool（pair_dirichlet 的
+   mathcomp 风味前提专用；leq 展开 eq_op → Nat.eqb_eq → sub_0_le） *)
+Lemma le_Prop_to_mc (w1 w2 : nat) : (w1 <= w2)%nat -> ssrnat.leq w1 w2 = true.
+Proof.
+  intros H. unfold ssrnat.leq, eqtype.eq_op. simpl.
+  apply Nat.eqb_eq. apply Nat.sub_0_le. exact H.
+Qed.
+
+Module CSFive.
+
+(* ---------- CS5a：offset 无关性（★同族平移下跨网格对界不变） ---------- *)
+
+Theorem cs5_offset_pair (N j W : nat) (t1 t2 delta : R) :
+  (2 <= N)%nat -> (j mod N <> 0)%nat ->
+  ((t1 - t2) = (2 * PI * INR j / INR N))%R ->
+  (Cnorm (PrimeEmbedding.Csum
+      (fun k => rot_atom (t1 + delta) k *c Cconj (rot_atom (t2 + delta) k)) W)
+    <= INR N / (2 * INR (Nat.min (j mod N) (N - j mod N))))%R.
+Proof.
+  intros HN Hneq Hdiff.
+  apply (pair_dirichlet N j W (t1 + delta) (t2 + delta));
+    [ apply (le_Prop_to_mc 2 N HN) | exact Hneq | ].
+  replace ((t1 + delta) - (t2 + delta)) with (t1 - t2) by ring.
+  exact Hdiff.
+Qed.
+
+(* 同款：差频角直接给出（delta 显式相消后的形态） *)
+Corollary cs5_offset_diff (N j W : nat) (delta d : R) :
+  (2 <= N)%nat -> (j mod N <> 0)%nat ->
+  (Cnorm (PrimeEmbedding.Csum
+      (fun k => rot_atom (2 * PI * INR j / INR N + delta) k
+                 *c Cconj (rot_atom delta k)) W)
+    <= INR N / (2 * INR (Nat.min (j mod N) (N - j mod N))))%R.
+Proof.
+  intros HN Hneq.
+  apply (pair_dirichlet N j W (2 * PI * INR j / INR N + delta) delta);
+    [ apply (le_Prop_to_mc 2 N HN) | exact Hneq | ].
+  replace ((2 * PI * INR j / INR N + delta) - delta)
+    with (2 * PI * INR j / INR N) by ring.
+  reflexivity.
+Qed.
+
+(* ---------- CS5b：黄金比护城河（命名系实例化） ---------- *)
+
+Corollary cs5_golden_moat (d : nat) (m : Z) : (1 <= d)%nat ->
+  ((/ (3 * INR d) <= Rabs (INR d * phi_gold - IZR m)))%R.
+Proof. intros Hd. apply golden_near_collision_gold. exact Hd. Qed.
+
+(* ---------- CS5c：偏移真离开网格（★offset 语义非空） ---------- *)
+
+Theorem cs5_gold_not_grid (m : Z) : (phi_gold <> IZR m)%R.
+Proof.
+  intro Heq.
+  pose proof (golden_near_collision_gold 1 m (le_n 1)) as H.
+  replace (INR 1) with 1%R in H by reflexivity.
+  rewrite Heq, Rmult_1_l in H.
+  replace (IZR m - IZR m) with 0%R in H by ring.
+  rewrite Rabs_R0 in H.
+  lra.
+Qed.
+
+End CSFive.
+
+Print Assumptions CSFive.cs5_offset_pair.
+Print Assumptions CSFive.cs5_offset_diff.
+Print Assumptions CSFive.cs5_golden_moat.
+Print Assumptions CSFive.cs5_gold_not_grid.
+
+(* ==================== 模块 61/67: probe_g3_criterion ==================== *)
+
+Close Scope Z_scope.
+Open Scope R_scope.
+Open Scope complex_scope.
+Open Scope nat_scope.
+(* ============================================================
+   G-3: 可认证性充要刻画（参数化检查器健全性）
+   充分方向：frame_check_instance_mu I p q = true
+             ⟹ gershgorin 框架界 (1 ± p/q)
+   基于合并版 ca_merged_full_24.v（FrameCheckInstance 模块）
+   Classic R track; zero Admitted; zero custom axioms.
+   ============================================================ *)
+From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
+Require Import Stdlib.Reals.Reals.
+Require Import Stdlib.Arith.Arith.
+Require Import Stdlib.micromega.Lia.
+Require Import Stdlib.micromega.Lra.
+Require Import Stdlib.ZArith.ZArith.
+Require Import Stdlib.Lists.List.
+Import FrameCheckInstance.
+Import PrimeEmbedding.
+Import ComplexNumbers.
+Import Gershgorin.
+Import UnconditionalBasisLemmas.
+Import RuntimeGuards.
+Import ExtendedTheorems.
+Open Scope R_scope.
+
+(* 与合并版 FrameCheckInstance 相同的 nth/last 用法：
+   nth : nat -> list A -> A -> A（Coq 序），last : list A -> A -> A *)
+
+Module G3Criterion.
+
+(* ============ R0. 参数化行和判定 ============ *)
+
+(* 分数 f = (num,den) ≤ p/q 的交叉相乘判定 *)
+Definition row_le_mu (f : FrameCheckInstance.nat_pair) (p q : nat) : bool :=
+  Nat.leb (q * fst f)%nat (p * snd f)%nat.
+
+(* 参数化行和列表判定：每行分数 ≤ p/q *)
+Fixpoint all_rows_le_mu (I orig : list nat) (i : nat) (p q : nat) : bool :=
+  match I with
+  | nil => true
+  | cons h tl => andb (row_le_mu (FrameCheckInstance.row_sum_frac orig i) p q)
+                       (all_rows_le_mu tl orig (S i) p q)
+  end.
+
+(* 参数化检查器 *)
+Definition frame_check_instance_mu (I : list nat) (p q : nat) : bool :=
+  andb (FrameCheckInstance.sorted_strict_aux I)
+       (andb (all_ge_2 I)
+             (andb (FrameCheckInstance.all_pairs_ok I) (all_rows_le_mu I I 0%nat p q))).
+
+(* 原 4/5 检查器是 p=4,q=5 的特例（一致性：FrameCheckInstance.row_le_4_5 f = row_le_mu f 4 5） *)
+Lemma g3_row_le_45_eq (f : FrameCheckInstance.nat_pair) :
+  FrameCheckInstance.row_le_4_5 f = row_le_mu f 4 5.
+Proof.
+  unfold FrameCheckInstance.row_le_4_5, row_le_mu. reflexivity.
+Qed.
+
+(* row_le_mu 的 R 层解释：布尔通过 ⟹ 有理分数 ≤ p/q *)
+Lemma g3_row_le_mu_R (num den p q : nat) :
+  (den <> 0%nat) -> (0 < q)%coq_nat ->
+  (q * num <= p * den)%coq_nat ->
+  (INR num / INR den <= INR p / INR q)%R.
+Proof.
+  intros Hd Hq H.
+  assert (Hden_pos : 0 < INR den) by (apply lt_0_INR; apply Nat.neq_0_lt_0; exact Hd).
+  assert (Hq_pos : 0 < INR q) by (apply lt_0_INR; exact Hq).
+  assert (HleR : (INR (q * num) <= INR (p * den))%R) by apply le_INR, H.
+  rewrite (mult_INR q num) in HleR. rewrite (mult_INR p den) in HleR.
+  apply div_le with (b := INR den) (d := INR q).
+  - exact Hden_pos.
+  - exact Hq_pos.
+  - replace (INR num * INR q) with (INR q * INR num) by ring.
+    exact HleR.
+Qed.
+
+(* all_rows_le_mu 的逐点形式 *)
+Lemma all_rows_le_mu_forall (I orig : list nat) (idx : nat) (p q : nat) :
+  all_rows_le_mu I orig idx p q = true ->
+  forall i, (i < length I)%coq_nat ->
+  row_le_mu (FrameCheckInstance.row_sum_frac orig (idx + i)) p q = true.
+Proof.
+  revert idx.
+  induction I as [| h tl IH]; intros idx Hr i Hi; simpl in Hi; [lia |].
+  simpl in Hr.
+  destruct (andb_prop _ _ Hr) as [Hh Ht].
+  destruct i as [| i'].
+  - rewrite addn0. exact Hh.
+  - rewrite addnS || rewrite Nat.add_succ_r.
+    apply (IH (S idx) Ht i').
+    simpl in Hi. lia.
+Qed.
+
+(* ============ R1. 参数化行和界（G-3 充分方向核心） ============ *)
+
+Lemma g3_row_bound_mu (I : list nat) (i : nat) (p q : nat) :
+  (0 < length I)%coq_nat ->
+  (0 < q)%coq_nat ->
+  frame_check_instance_mu I p q = true ->
+  (i < length I)%coq_nat ->
+  sum_f_R0 (fun j => if Nat.eq_dec i j then 0%R else
+     ComplexNumbers.Cnorm (independent.Csum (fun k => psi (List.nth i I 0%nat) k *c ComplexNumbers.Cconj (psi (List.nth j I 0%nat) k)) (last I 0%nat)))
+  (Nat.pred (length I)) <= INR p / INR q.
+Proof.
+  intros Hlen Hq Hfc Hi.
+  unfold frame_check_instance_mu in Hfc.
+  apply Bool.andb_true_iff in Hfc. destruct Hfc as [Hs Hfc1].
+  apply Bool.andb_true_iff in Hfc1. destruct Hfc1 as [Hg Hfc2].
+  apply Bool.andb_true_iff in Hfc2. destruct Hfc2 as [Hp Hr].
+  rewrite (sum_f_R0_ext
+           (fun j => if Nat.eq_dec i j then 0%R else
+              Cnorm (independent.Csum (fun k => psi (List.nth i I 0%nat) k *c Cconj (psi (List.nth j I 0%nat) k)) (last I 0%nat)))
+           (fun j => if Nat.eqb i j then 0%R else
+              Cnorm (independent.Csum (fun k => psi (List.nth i I 0%nat) k *c Cconj (psi (List.nth j I 0%nat) k)) (last I 0%nat)))
+           (Nat.pred (length I))).
+  - apply Rle_trans with
+      (sum_f_R0 (fun j => if Nat.eqb i j then 0%R else
+         FrameCheckInstance.pair_frac_R (List.nth i I 0%nat) (List.nth j I 0%nat)) (Nat.pred (length I))).
+    + apply sum_f_R0_le_compat.
+      * intros j Hj.
+        destruct (Nat.eqb_spec i j) as [Heq | Hne].
+        -- simpl. apply Rle_refl.
+        -- assert (Hjlt : (j < length I)%coq_nat) by (apply Nat.le_lt_trans with (Nat.pred (length I)); [exact Hj | lia]).
+           assert (Hij : List.nth i I 0%nat <> List.nth j I 0%nat).
+           { destruct (Nat.lt_ge_cases i j) as [Hilt | Hjge].
+             - intro Heq.
+               assert (Hlt0 : (List.nth i I 0%nat < List.nth j I 0%nat)%coq_nat) by (apply (FrameCheckInstance.sorted_nth_lt I Hs i j); [lia | exact Hjlt]).
+               rewrite Heq in Hlt0. lia.
+             - intro Heq.
+               assert (Hlt0 : (List.nth j I 0%nat < List.nth i I 0%nat)%coq_nat) by (apply (FrameCheckInstance.sorted_nth_lt I Hs j i); [lia | exact Hi]).
+               rewrite Heq in Hlt0. lia. }
+           apply pair_inner_frac_bound.
+           ++ apply FrameCheckInstance.all_ge_2_nth with (i := i); [exact Hg | exact Hi].
+           ++ apply FrameCheckInstance.all_ge_2_nth with (i := j); [exact Hg | exact Hjlt].
+           ++ exact Hij.
+           ++ apply Nat.le_trans with (List.nth i I 0%nat); [apply Nat.le_min_l | apply (FrameCheckInstance.nth_le_last I Hs i Hi)].
+    + rewrite (sum_f_R0_ext
+               (fun j => if Nat.eqb i j then 0%R else FrameCheckInstance.pair_frac_R (List.nth i I 0%nat) (List.nth j I 0%nat))
+               (fun j => if Nat.eqb j i then 0%R else FrameCheckInstance.pair_frac_R (List.nth i I 0%nat) (List.nth j I 0%nat))
+               (Nat.pred (length I))).
+      * rewrite (FrameCheckInstance.row_sum_frac_R_value I i Hlen (FrameCheckInstance.all_ge_2_nth I Hg) Hs Hi).
+        apply g3_row_le_mu_R; [apply FrameCheckInstance.row_sum_frac_den_neq0; [exact Hi | exact (FrameCheckInstance.all_ge_2_nth I Hg) | exact (FrameCheckInstance.sorted_nth_lt I Hs)] | exact Hq |].
+        pose proof (all_rows_le_mu_forall I I 0%nat p q Hr i Hi) as Hr4.
+        unfold row_le_mu in Hr4.
+        apply Nat.leb_le in Hr4. exact Hr4.
+      * intros j Hj. rewrite Nat.eqb_sym. reflexivity.
+  - intros j Hj.
+    destruct (Nat.eq_dec i j) as [Heq | Hne].
+    + subst. simpl. rewrite Nat.eqb_refl. reflexivity.
+    + rewrite (proj2 (Nat.eqb_neq i j) Hne).
+      destruct (Nat.eq_dec i j) as [Hcon | Hok]; [exfalso; apply Hne; exact Hcon | reflexivity].
+Qed.
+
+(* ============ R2. G-3 充分方向：参数化检查器健全性 ============ *)
+
+Theorem g3_certifiable_iff (I : list nat) (p q : nat) :
+  (0 < length I)%coq_nat -> (0 < q)%coq_nat ->
+  frame_check_instance_mu I p q = true ->
+  forall coeffs : list Complex,
+  length coeffs = length I ->
+  let n := length I in
+  let M := S (last I 0%nat) in
+  let phi := fun i k => psi (List.nth i I 0%nat) k in
+  let F := fun k => independent.Csum (fun i => List.nth i coeffs ComplexNumbers.C0 *c phi i k) n in
+  let S := sum_f_R0 (fun i => Cnorm_sq (List.nth i coeffs ComplexNumbers.C0)) (Nat.pred n) in
+  ((1 - INR p / INR q) * S <= l2_norm_sq F (Nat.pred M)
+    <= (1 + INR p / INR q) * S)%R.
+Proof.
+  intros Hlen Hq Hfc coeffs Hlencoeffs.
+  unfold frame_check_instance_mu in Hfc.
+  apply Bool.andb_true_iff in Hfc. destruct Hfc as [Hs Hfc1].
+  apply Bool.andb_true_iff in Hfc1. destruct Hfc1 as [Hg Hfc2].
+  apply Bool.andb_true_iff in Hfc2. destruct Hfc2 as [Hp Hr].
+  cbv zeta.
+  apply (Gershgorin.gershgorin_frame_mu (length I) (fun i k => psi (List.nth i I 0%nat) k) (S (last I 0%nat)) (INR p / INR q)).
+  - apply Nat.lt_0_succ.
+  - intros i k Hi Hk.
+    apply UnconditionalBasisLemmas.psi_ge_n_zero.
+    pose proof (FrameCheckInstance.nth_le_last I Hs i Hi) as Hle. lia.
+  - intros i Hi.
+    apply InstanceCertificate.psi_unit_norm.
+    + apply FrameCheckInstance.all_ge_2_nth with (i := i); [exact Hg | exact Hi].
+    + pose proof (FrameCheckInstance.nth_le_last I Hs i Hi) as Hle. lia.
+  - intros i Hi.
+    assert (Hfc_i : frame_check_instance_mu I p q = true).
+    { unfold frame_check_instance_mu.
+      apply Bool.andb_true_iff. split; [exact Hs |].
+      apply Bool.andb_true_iff. split; [exact Hg |].
+      apply Bool.andb_true_iff. split; [exact Hp | exact Hr]. }
+    (* 内联 g3_row_bound_mu 证明体（目标 = gershgorin 第4前提，与结论仅 eq_nat_dec 表示差异） *)
+    rewrite (sum_f_R0_ext
+             (fun j => match Nat.eq_dec i j with left _ => 0%R | right _ =>
+                ComplexNumbers.Cnorm (independent.Csum (fun k => psi (List.nth i I 0%nat) k *c ComplexNumbers.Cconj (psi (List.nth j I 0%nat) k)) (last I 0%nat)) end)
+             (fun j => if Nat.eqb i j then 0%R else
+                ComplexNumbers.Cnorm (independent.Csum (fun k => psi (List.nth i I 0%nat) k *c ComplexNumbers.Cconj (psi (List.nth j I 0%nat) k)) (last I 0%nat)))
+             (Nat.pred (length I))).
+    - apply Rle_trans with
+        (sum_f_R0 (fun j => if Nat.eqb i j then 0%R else
+           FrameCheckInstance.pair_frac_R (List.nth i I 0%nat) (List.nth j I 0%nat)) (Nat.pred (length I))).
+      + apply sum_f_R0_le_compat.
+        * intros j Hj.
+          destruct (Nat.eqb_spec i j) as [Heq | Hne].
+          -- simpl. apply Rle_refl.
+          -- assert (Hjlt : (j < length I)%coq_nat) by (apply Nat.le_lt_trans with (Nat.pred (length I)); [exact Hj | lia]).
+             assert (Hij : List.nth i I 0%nat <> List.nth j I 0%nat).
+             { destruct (Nat.lt_ge_cases i j) as [Hilt | Hjge].
+               - intro Heq.
+                 assert (Hlt0 : (List.nth i I 0%nat < List.nth j I 0%nat)%coq_nat) by (apply (FrameCheckInstance.sorted_nth_lt I Hs i j); [lia | exact Hjlt]).
+                 rewrite Heq in Hlt0. lia.
+               - intro Heq.
+                 assert (Hlt0 : (List.nth j I 0%nat < List.nth i I 0%nat)%coq_nat) by (apply (FrameCheckInstance.sorted_nth_lt I Hs j i); [lia | exact Hi]).
+                 rewrite Heq in Hlt0. lia. }
+             apply FrameCheckInstance.pair_inner_frac_bound.
+             ++ apply FrameCheckInstance.all_ge_2_nth with (i := i); [exact Hg | exact Hi].
+             ++ apply FrameCheckInstance.all_ge_2_nth with (i := j); [exact Hg | exact Hjlt].
+             ++ exact Hij.
+             ++ apply Nat.le_trans with (List.nth i I 0%nat); [apply Nat.le_min_l | apply (FrameCheckInstance.nth_le_last I Hs i Hi)].
+      + rewrite (sum_f_R0_ext
+                 (fun j => if Nat.eqb i j then 0%R else FrameCheckInstance.pair_frac_R (List.nth i I 0%nat) (List.nth j I 0%nat))
+                 (fun j => if Nat.eqb j i then 0%R else FrameCheckInstance.pair_frac_R (List.nth i I 0%nat) (List.nth j I 0%nat))
+                 (Nat.pred (length I))).
+        * rewrite (FrameCheckInstance.row_sum_frac_R_value I i Hlen (FrameCheckInstance.all_ge_2_nth I Hg) Hs Hi).
+          apply g3_row_le_mu_R; [apply FrameCheckInstance.row_sum_frac_den_neq0; [exact Hi | exact (FrameCheckInstance.all_ge_2_nth I Hg) | exact (FrameCheckInstance.sorted_nth_lt I Hs)] | exact Hq |].
+          pose proof (all_rows_le_mu_forall I I 0%nat p q Hr i Hi) as Hr4.
+          unfold row_le_mu in Hr4.
+          apply Nat.leb_le in Hr4. exact Hr4.
+        * intros j Hj. rewrite Nat.eqb_sym. reflexivity.
+    - intros j Hj.
+      destruct (Nat.eq_dec i j) as [Heq | Hne].
+      + subst. simpl. rewrite Nat.eqb_refl. reflexivity.
+      + rewrite (proj2 (Nat.eqb_neq i j) Hne).
+        destruct (Nat.eq_dec i j) as [Hcon | Hok]; [exfalso; apply Hne; exact Hcon | reflexivity].
+  - exact Hlencoeffs.
+Qed.
+
+End G3Criterion.
+
+Print Assumptions G3Criterion.g3_certifiable_iff.
+
+(* ==================== 模块 62/67: probe_g5_premium ==================== *)
+
+Close Scope Z_scope.
+Open Scope R_scope.
+Open Scope complex_scope.
+Open Scope nat_scope.
+(* ============================================================
+   G-5 / G-3 必要方向：可判定性溢价 [3,7,15] 反例
+   存在阶梯：精确行和 ≤ 4/5（可认证）但反射检查器拒绝
+   经典 R 轨道；零 Admitted；零自定义公理。
+
+   ★ 2026-08-25 口径修正（§45）：改用完整口径（min 项）闭式自证，
+     与评估文档 0.787043 对齐。库内 psi_inner_dirichlet 是截断口径
+     （N = n1−1，漏 k=n1−1 项），本探针不再依赖它；
+     完整闭式用 inner_geometric_expansion_full + geom_sum_norm_dirichlet 自证。
+   ============================================================ *)
+From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
+Require Import Stdlib.Reals.Reals.
+Require Import Stdlib.Arith.Arith.
+Require Import Stdlib.micromega.Lia.
+Require Import Stdlib.micromega.Lra.
+Require Import Stdlib.ZArith.ZArith.
+Require Import Stdlib.Lists.List.
+Import FrameCheckInstance.
+Import PrimeEmbedding.
+Import ComplexNumbers.
+Import Gershgorin.
+Import UnconditionalBasisLemmas.
+Import RuntimeGuards.
+Import ExtendedTheorems.
+Import InstanceCertificate.
+Import CertifiedAttention.
+Open Scope R_scope.
+
+Module G5Premium.
+
+(* [3,7,15] 反射检查器拒绝（可计算验证） *)
+Definition ladder_3_7_15 : list nat := 3%nat :: 7%nat :: 15%nat :: nil.
+
+Lemma g5_reflect_reject : frame_check_instance ladder_3_7_15 = false.
+Proof.
+  vm_compute. reflexivity.
+Qed.
+
+(* ============ 完整口径闭式（min 项，自证） ============
+   |⟨ψ_a,ψ_b⟩| = |sin(min(a,b)·π·Δ)| / (|sin(π·Δ)| · √(ab))，Δ = 1/a − 1/b
+   a < b 时 min = a，闭式 = |sin(aπΔ)| / (|sin(πΔ)| · √(ab))
+   证明：inner_geometric_expansion_full（Csum n1 = min 项）
+         → geom_sum_norm_dirichlet θ n1（Dirichlet 核）
+         → dirichlet_algebra（纯 R 消元） *)
+
+(* |<ψ3,ψ7>| = sin(4π/7) / (sin(4π/21) · √21) *)
+Lemma g5_coh_full_3_7 :
+  ComplexNumbers.Cnorm (independent.Csum (fun k => psi 3 k *c ComplexNumbers.Cconj (psi 7 k)) 3)
+  = Rabs (sin (PI * INR 3 * (1 / INR 3 - 1 / INR 7))) / Rabs (sin (PI * (1 / INR 3 - 1 / INR 7))) / sqrt (INR 3 * INR 7).
+Proof.
+  pose proof (ca_merged_full_24.inner_geometric_expansion_full 3 7
+                (ltac:(lia) : (3 >= 2)%coq_nat) (ltac:(lia) : (7 >= 2)%coq_nat)
+                (ltac:(lia) : (3 <= 7)%coq_nat)) as Hge.
+  cbv zeta in Hge.
+  rewrite Hge.
+  set (Δ := 1 / INR 3 - 1 / INR 7).
+  set (θ := 2 * PI * Δ).
+  rewrite Cnorm_mult.
+  rewrite Cnorm_mult.
+  rewrite (Cnorm_Cof_real_pos (1 / sqrt (INR 3))).
+  2: { apply Rlt_le. apply Rdiv_lt_0_compat; [lra | apply sqrt_lt_R0_c; apply lt_0_INR; lia]. }
+  rewrite (Cnorm_Cof_real_pos (1 / sqrt (INR 7))).
+  2: { apply Rlt_le. apply Rdiv_lt_0_compat; [lra | apply sqrt_lt_R0_c; apply lt_0_INR; lia]. }
+  assert (Hz : Cexp (0 +i θ) <> C1).
+  { unfold θ, Δ. apply (Cexp_diff_not_one 3 7); lia. }
+  rewrite (Csum_ext 3 (fun k => Cexp (0 +i (INR k * θ)))
+                     (fun k => (Cexp (0 +i θ) ^ k)%C)).
+  2: { intros k _. apply Cexp_pow_local. }
+  rewrite (geom_sum_norm_dirichlet θ 3 Hz).
+  assert (He1 : (INR 3 * θ / 2 = PI * INR 3 * Δ)%R).
+  { unfold θ. field. }
+  rewrite He1.
+  assert (He2 : (θ / 2 = PI * Δ)%R).
+  { unfold θ. field. }
+  rewrite He2.
+  rewrite (sqrt_mult (INR 3) (INR 7)).
+  2: { apply pos_INR. }
+  2: { apply pos_INR. }
+  apply (dirichlet_algebra (sqrt (INR 3)) (sqrt (INR 7))
+                           (Rabs (sin (PI * Δ))) (Rabs (sin (PI * INR 3 * Δ)))).
+  - apply Rgt_not_eq. apply sqrt_INR_pos_ge2. exact (ltac:(lia) : (3 >= 2)%coq_nat).
+  - apply Rgt_not_eq. apply sqrt_INR_pos_ge2. exact (ltac:(lia) : (7 >= 2)%coq_nat).
+  - apply Rgt_not_eq. apply Rabs_pos_lt. apply Rgt_not_eq.
+    apply sin_gt_0.
+    + apply Rmult_lt_0_compat; [apply PI_RGT_0 | apply (proj1 (diff_inv_INR_between_0_1 3 7 (ltac:(lia)) (ltac:(lia)) (ltac:(lia))))].
+    + apply Rlt_le_trans with (PI * 1).
+      * apply Rmult_lt_compat_l; [apply PI_RGT_0 | exact (proj2 (diff_inv_INR_between_0_1 3 7 (ltac:(lia)) (ltac:(lia)) (ltac:(lia))))].
+      * rewrite Rmult_1_r. apply Rle_refl.
+Qed.
+
+(* |<ψ3,ψ15>| = sin(4π/5) / (sin(4π/15) · √45) *)
+Lemma g5_coh_full_3_15 :
+  ComplexNumbers.Cnorm (independent.Csum (fun k => psi 3 k *c ComplexNumbers.Cconj (psi 15 k)) 3)
+  = Rabs (sin (PI * INR 3 * (1 / INR 3 - 1 / INR 15))) / Rabs (sin (PI * (1 / INR 3 - 1 / INR 15))) / sqrt (INR 3 * INR 15).
+Proof.
+  pose proof (ca_merged_full_24.inner_geometric_expansion_full 3 15
+                (ltac:(lia) : (3 >= 2)%coq_nat) (ltac:(lia) : (15 >= 2)%coq_nat)
+                (ltac:(lia) : (3 <= 15)%coq_nat)) as Hge.
+  cbv zeta in Hge.
+  rewrite Hge.
+  set (Δ := 1 / INR 3 - 1 / INR 15).
+  set (θ := 2 * PI * Δ).
+  rewrite Cnorm_mult.
+  rewrite Cnorm_mult.
+  rewrite (Cnorm_Cof_real_pos (1 / sqrt (INR 3))).
+  2: { apply Rlt_le. apply Rdiv_lt_0_compat; [lra | apply sqrt_lt_R0_c; apply lt_0_INR; lia]. }
+  rewrite (Cnorm_Cof_real_pos (1 / sqrt (INR 15))).
+  2: { apply Rlt_le. apply Rdiv_lt_0_compat; [lra | apply sqrt_lt_R0_c; apply lt_0_INR; lia]. }
+  assert (Hz : Cexp (0 +i θ) <> C1).
+  { unfold θ, Δ. apply (Cexp_diff_not_one 3 15); lia. }
+  rewrite (Csum_ext 3 (fun k => Cexp (0 +i (INR k * θ)))
+                     (fun k => (Cexp (0 +i θ) ^ k)%C)).
+  2: { intros k _. apply Cexp_pow_local. }
+  rewrite (geom_sum_norm_dirichlet θ 3 Hz).
+  assert (He1 : (INR 3 * θ / 2 = PI * INR 3 * Δ)%R).
+  { unfold θ. field. }
+  rewrite He1.
+  assert (He2 : (θ / 2 = PI * Δ)%R).
+  { unfold θ. field. }
+  rewrite He2.
+  rewrite (sqrt_mult (INR 3) (INR 15)).
+  2: { apply pos_INR. }
+  2: { apply pos_INR. }
+  apply (dirichlet_algebra (sqrt (INR 3)) (sqrt (INR 15))
+                           (Rabs (sin (PI * Δ))) (Rabs (sin (PI * INR 3 * Δ)))).
+  - apply Rgt_not_eq. apply sqrt_INR_pos_ge2. exact (ltac:(lia) : (3 >= 2)%coq_nat).
+  - apply Rgt_not_eq. apply sqrt_INR_pos_ge2. exact (ltac:(lia) : (15 >= 2)%coq_nat).
+  - apply Rgt_not_eq. apply Rabs_pos_lt. apply Rgt_not_eq.
+    apply sin_gt_0.
+    + apply Rmult_lt_0_compat; [apply PI_RGT_0 | apply (proj1 (diff_inv_INR_between_0_1 3 15 (ltac:(lia)) (ltac:(lia)) (ltac:(lia))))].
+    + apply Rlt_le_trans with (PI * 1).
+      * apply Rmult_lt_compat_l; [apply PI_RGT_0 | exact (proj2 (diff_inv_INR_between_0_1 3 15 (ltac:(lia)) (ltac:(lia)) (ltac:(lia))))].
+      * rewrite Rmult_1_r. apply Rle_refl.
+Qed.
+
+(* |<ψ7,ψ15>| = sin(8π/15) / (sin(8π/105) · √105) *)
+Lemma g5_coh_full_7_15 :
+  ComplexNumbers.Cnorm (independent.Csum (fun k => psi 7 k *c ComplexNumbers.Cconj (psi 15 k)) 7)
+  = Rabs (sin (PI * INR 7 * (1 / INR 7 - 1 / INR 15))) / Rabs (sin (PI * (1 / INR 7 - 1 / INR 15))) / sqrt (INR 7 * INR 15).
+Proof.
+  pose proof (ca_merged_full_24.inner_geometric_expansion_full 7 15
+                (ltac:(lia) : (7 >= 2)%coq_nat) (ltac:(lia) : (15 >= 2)%coq_nat)
+                (ltac:(lia) : (7 <= 15)%coq_nat)) as Hge.
+  cbv zeta in Hge.
+  rewrite Hge.
+  set (Δ := 1 / INR 7 - 1 / INR 15).
+  set (θ := 2 * PI * Δ).
+  rewrite Cnorm_mult.
+  rewrite Cnorm_mult.
+  rewrite (Cnorm_Cof_real_pos (1 / sqrt (INR 7))).
+  2: { apply Rlt_le. apply Rdiv_lt_0_compat; [lra | apply sqrt_lt_R0_c; apply lt_0_INR; lia]. }
+  rewrite (Cnorm_Cof_real_pos (1 / sqrt (INR 15))).
+  2: { apply Rlt_le. apply Rdiv_lt_0_compat; [lra | apply sqrt_lt_R0_c; apply lt_0_INR; lia]. }
+  assert (Hz : Cexp (0 +i θ) <> C1).
+  { unfold θ, Δ. apply (Cexp_diff_not_one 7 15); lia. }
+  rewrite (Csum_ext 7 (fun k => Cexp (0 +i (INR k * θ)))
+                     (fun k => (Cexp (0 +i θ) ^ k)%C)).
+  2: { intros k _. apply Cexp_pow_local. }
+  rewrite (geom_sum_norm_dirichlet θ 7 Hz).
+  assert (He1 : (INR 7 * θ / 2 = PI * INR 7 * Δ)%R).
+  { unfold θ. field. }
+  rewrite He1.
+  assert (He2 : (θ / 2 = PI * Δ)%R).
+  { unfold θ. field. }
+  rewrite He2.
+  rewrite (sqrt_mult (INR 7) (INR 15)).
+  2: { apply pos_INR. }
+  2: { apply pos_INR. }
+  apply (dirichlet_algebra (sqrt (INR 7)) (sqrt (INR 15))
+                           (Rabs (sin (PI * Δ))) (Rabs (sin (PI * INR 7 * Δ)))).
+  - apply Rgt_not_eq. apply sqrt_INR_pos_ge2. exact (ltac:(lia) : (7 >= 2)%coq_nat).
+  - apply Rgt_not_eq. apply sqrt_INR_pos_ge2. exact (ltac:(lia) : (15 >= 2)%coq_nat).
+  - apply Rgt_not_eq. apply Rabs_pos_lt. apply Rgt_not_eq.
+    apply sin_gt_0.
+    + apply Rmult_lt_0_compat; [apply PI_RGT_0 | apply (proj1 (diff_inv_INR_between_0_1 7 15 (ltac:(lia)) (ltac:(lia)) (ltac:(lia))))].
+    + apply Rlt_le_trans with (PI * 1).
+      * apply Rmult_lt_compat_l; [apply PI_RGT_0 | exact (proj2 (diff_inv_INR_between_0_1 7 15 (ltac:(lia)) (ltac:(lia)) (ltac:(lia))))].
+      * rewrite Rmult_1_r. apply Rle_refl.
+Qed.
+
+(* ============ 主定理（下一步：三行精确行和 ≤ 4/5） ============
+   行 0 (n=3): |<3,7>| + |<3,15>| = 0.3777 + 0.1179 = 0.4956 ≤ 4/5
+   行 1 (n=7): |<3,7>| + |<7,15>| = 0.3777 + 0.4094 = 0.7870 ≤ 4/5  ← 瓶颈
+   行 2 (n=15): |<3,15>| + |<7,15>| = 0.1179 + 0.4094 = 0.5273 ≤ 4/5
+   数值界：sin(4π/7) ≤ 0.97497、sin(4π/21) ≥ 0.56323、sin(8π/15) ≤ 0.99455、
+          sin(8π/105) ≥ 0.23704、√21 ≥ 4.582、√105 ≥ 10.246（框架文档 §二 修正版）
+   （用 sin_bound 高阶 + π ∈ [3.141,3.142] 自证界） *)
+
+(* ============ π 界自证（sin(π/6)=1/2 快收敛路线） ============ *)
+
+(* sin_approx 化简为显式多项式 *)
+Lemma g5_sa1 (t : R) : sin_approx t 1 = t - t^3/6.
+Proof. unfold sin_approx, sin_term. simpl. field. Qed.
+
+Lemma g5_sa2 (t : R) : sin_approx t 2 = t - t^3/6 + t^5/120.
+Proof. unfold sin_approx, sin_term. simpl. field. Qed.
+
+Lemma g5_sa3 (t : R) : sin_approx t 3 = t - t^3/6 + t^5/120 - t^7/5040.
+Proof. unfold sin_approx, sin_term. simpl. field. Qed.
+
+(* f'(t) = 1 - t^2/2 + t^4/24 > 0 在 [0, 53/100]（sin_approx 2 的导数） *)
+Lemma g5_pow2_2 (t : R) : t ^ 4 = (t ^ 2) ^ 2.
+Proof.
+  change (t ^ (2 * 2) = (t ^ 2) ^ 2).
+  rewrite <- pow_mult.
+  reflexivity.
+Qed.
+
+Lemma g5_fp_pos (t : R) : (0 <= t)%R -> (t <= 53/100)%R ->
+  (0 < 1 - t ^ 2 / 2 + t ^ 4 / 24)%R.
+Proof.
+  intros Ht0 Ht.
+  rewrite g5_pow2_2.
+  set (u := t ^ 2).
+  assert (Hlo_u : (0 <= u)%R) by (subst u; nra).
+  assert (Hhi_u : (u <= 2809 / 10000)%R).
+  { subst u. nra. }
+  replace (1 - t ^ 2 / 2 + (t ^ 2) ^ 2 / 24) with (1 - u / 2 + u ^ 2 / 24) by (subst u; ring).
+  nra.
+Qed.
+
+(* sin_approx t 2 可导：f(t) = t - t^3/6 + t^5/120 *)
+Lemma g5_dpl_f2 (x : R) :
+  derivable_pt_lim (fun t => t - t ^ 3 / 6 + t ^ 5 / 120)
+                   x (1 - INR 3 * x ^ Nat.pred 3 / 6 + INR 5 * x ^ Nat.pred 5 / 120).
+Proof.
+  assert (Hpow3 : derivable_pt_lim (fun t => t ^ 3) x (INR 3 * x ^ (Nat.pred 3))).
+  { apply (derivable_pt_lim_pow x 3). }
+  assert (Hpow5 : derivable_pt_lim (fun t => t ^ 5) x (INR 5 * x ^ (Nat.pred 5))).
+  { apply (derivable_pt_lim_pow x 5). }
+  assert (Hdiv3 : derivable_pt_lim (fun t => t ^ 3 / 6) x (INR 3 * x ^ Nat.pred 3 / 6)).
+  { apply derivable_pt_lim_div_scal. exact Hpow3. }
+  assert (Hdiv5 : derivable_pt_lim (fun t => t ^ 5 / 120) x (INR 5 * x ^ Nat.pred 5 / 120)).
+  { apply derivable_pt_lim_div_scal. exact Hpow5. }
+  assert (H1 : derivable_pt_lim (fun t => t - t ^ 3 / 6) x (1 - INR 3 * x ^ Nat.pred 3 / 6)).
+  { change (derivable_pt_lim (fun t => t + (- (t ^ 3 / 6))) x (1 + (- (INR 3 * x ^ Nat.pred 3 / 6)))).
+    apply derivable_pt_lim_plus.
+    - change (derivable_pt_lim id x 1). apply derivable_pt_lim_id.
+    - apply derivable_pt_lim_opp. exact Hdiv3. }
+  change (derivable_pt_lim (fun t => (t - t ^ 3 / 6) + t ^ 5 / 120) x
+           ((1 - INR 3 * x ^ Nat.pred 3 / 6) + INR 5 * x ^ Nat.pred 5 / 120)).
+  apply derivable_pt_lim_plus; [exact H1 | exact Hdiv5].
+Qed.
+
+(* 化简导数：1 - x^2/2 + x^4/24 *)
+Lemma g5_dpl_f2_nice (x : R) :
+  derivable_pt_lim (fun t => t - t ^ 3 / 6 + t ^ 5 / 120) x (1 - x ^ 2 / 2 + x ^ 4 / 24).
+Proof.
+  assert (H : derivable_pt_lim (fun t => t - t ^ 3 / 6 + t ^ 5 / 120)
+                   x (1 - INR 3 * x ^ Nat.pred 3 / 6 + INR 5 * x ^ Nat.pred 5 / 120)) by apply g5_dpl_f2.
+  assert (Hv : (1 - INR 3 * x ^ Nat.pred 3 / 6 + INR 5 * x ^ Nat.pred 5 / 120
+                = 1 - x ^ 2 / 2 + x ^ 4 / 24)%R).
+  { unfold Nat.pred.
+    assert (H3 : (INR 3 = 3)%R). { rewrite INR_IZR_INZ. reflexivity. }
+    assert (H5 : (INR 5 = 5)%R). { rewrite INR_IZR_INZ. reflexivity. }
+    rewrite H3. rewrite H5.
+    field. }
+  rewrite Hv in H.
+  exact H.
+Qed.
+
+(* sin_approx t 2 在 [0, 53/100] 递增（MVT + 导数正） *)
+Lemma g5_sa2_incr (x y : R) :
+  (0 <= x)%R -> (x <= y)%R -> (y <= 53/100)%R ->
+  (sin_approx x 2 <= sin_approx y 2)%R.
+Proof.
+  intros Hx0 Hxy Hy.
+  destruct (Req_dec x y) as [Heq | Hne].
+  - rewrite Heq. apply Rle_refl.
+  - assert (Hlt : (x < y)%R) by lra.
+    pose (f := fun t => t - t ^ 3 / 6 + t ^ 5 / 120).
+    pose (fp := fun t => 1 - t ^ 2 / 2 + t ^ 4 / 24).
+    destruct (MVT_cor3 f fp x y) as [c [Hc1 [Hc2 Hc3]]].
+    + exact Hlt.
+    + intros t Ht1 Ht2.
+      unfold f, fp. apply g5_dpl_f2_nice.
+    + rewrite g5_sa2. rewrite g5_sa2.
+      (* 目标：x - x^3/6 + x^5/120 <= y - y^3/6 + y^5/120
+         Hc3 : f y = f x + fp c (y-x) ⟹ y-... = (x-...) + fp c (y-x) *)
+      unfold f, fp in Hc3.
+      assert (Hfp : (0 <= (1 - c ^ 2 / 2 + c ^ 4 / 24) * (y - x))%R).
+      { apply Rmult_le_pos.
+        - apply Rlt_le. apply g5_fp_pos.
+          + eapply Rle_trans; [exact Hx0 | exact Hc1].
+          + eapply Rle_trans; [exact Hc2 | exact Hy].
+        - lra. }
+      rewrite Hc3.
+      lra.
+Qed.
+
+(* 数值：sa2(5235/10000) < 1/2（vm_compute 或 nra） *)
+Lemma g5_sa2_5235_lt_half : (sin_approx (5235/10000) 2 < 1/2)%R.
+Proof.
+  rewrite g5_sa2.
+  nra.
+Qed.
+
+(* π ≥ 3.141：反证 π/6 < 5235/10000
+   sin(π/6) = 1/2；sin_bound (π/6) 0 上界：1/2 ≤ sin_approx (π/6) 2 = f(π/6)
+   f 递增 ⟹ f(π/6) < f(5235/10000) < 1/2 矛盾 *)
+Lemma g5_pi_ge_3141 : (3141/1000 <= PI)%R.
+Proof.
+  apply Rnot_lt_le.
+  intro Hlt.
+  assert (Hpi6 : (PI / 6 < 5235/10000)%R) by lra.
+  assert (HPI : (0 < PI)%R) by apply PI_RGT_0.
+  assert (Hpi6le : (PI / 6 <= PI)%R) by lra.
+  pose proof (sin_bound (PI/6) 0 (Rlt_le _ _ (PI6_RGT_0)) Hpi6le) as Hb.
+  destruct Hb as [_ Hup].
+  rewrite sin_PI6 in Hup.
+  assert (Hle : (sin_approx (PI/6) 2 <= sin_approx (5235/10000) 2)%R).
+  { apply g5_sa2_incr.
+    - apply Rlt_le. apply PI6_RGT_0.
+    - lra.
+    - lra. }
+  (* Hup : 1/2 <= sin_approx (PI/6) 2；Hle 传递 *)
+  assert (Hc : (1/2 <= sin_approx (5235/10000) 2)%R).
+  { eapply Rle_trans; [exact Hup | exact Hle]. }
+  assert (Hlt2 : (sin_approx (5235/10000) 2 < 1/2)%R) by exact g5_sa2_5235_lt_half.
+  lra.
+Qed.
+
+(* 数值：sa3(1571/3000) > 1/2（sin_bound n=1 下界用，1571/3000 = 3.142/6） *)
+Lemma g5_sa3_1571_gt_half : (1/2 < sin_approx (1571/3000) 3)%R.
+Proof.
+  rewrite g5_sa3.
+  nra.
+Qed.
+
+(* sin_approx t 3 在 [0, 1] 递增（导数正，f3'(t) = 1 - t^2/2 + t^4/24 - t^6/720） *)
+Lemma g5_f3p_pos (t : R) : (0 <= t)%R -> (t <= 1)%R ->
+  (0 < 1 - t ^ 2 / 2 + t ^ 4 / 24 - t ^ 6 / 720)%R.
+Proof.
+  intros Ht0 Ht.
+  (* t² <= 1 *)
+  assert (Ht2 : (t ^ 2 <= 1)%R).
+  { nra. }
+  (* 0 < 1 - t²/2：t² <= 1 ⟹ 1 - t²/2 >= 1/2 > 0 *)
+  assert (Hlo : (0 < 1 - t ^ 2 / 2)%R).
+  { nra. }
+  (* 0 <= t⁴/24 - t⁶/720：t⁴(1/24 - t²/720) >= 0，1/24 - t²/720 >= 0（t² <= 1 < 30） *)
+  assert (Hq : (0 <= t ^ 4 / 24 - t ^ 6 / 720)%R).
+  { replace (t ^ 4 / 24 - t ^ 6 / 720) with (t ^ 4 * (30 - t ^ 2) * (/ 720)) by field.
+    apply Rmult_le_pos.
+    - apply Rmult_le_pos.
+      + assert (H4eq : (t ^ 4 = (t ^ 2) ^ 2)%R).
+        { change (t ^ (2 * 2) = (t ^ 2) ^ 2). rewrite <- pow_mult. reflexivity. }
+        rewrite H4eq. apply pow2_ge_0.
+      + nra.  (* 30 - t^2 >= 0：t^2 <= 1 < 30，用 Ht2 *)
+    - apply Rlt_le. apply Rinv_0_lt_compat. nra. }
+  (* 目标 = (1 - t²/2) + (t⁴/24 - t⁶/720) > 0 *)
+  apply Rlt_le_trans with (1 - t ^ 2 / 2).
+  - exact Hlo.
+  - nra.  (* 1 - t²/2 <= 1 - t²/2 + t⁴/24 - t⁶/720 ⟺ 0 <= t⁴/24-t⁶/720（Hq 线性化） *)
+Qed.
+
+(* f3 可导：多项式组合（t - t^3/6 + t^5/120 - t^7/5040） *)
+Lemma g5_dpl_f3 (x : R) :
+  derivable_pt_lim (fun t => t - t ^ 3 / 6 + t ^ 5 / 120 - t ^ 7 / 5040)
+                   x (1 - INR 3 * x ^ Nat.pred 3 / 6 + INR 5 * x ^ Nat.pred 5 / 120 - INR 7 * x ^ Nat.pred 7 / 5040).
+Proof.
+  assert (Hpow3 : derivable_pt_lim (fun t => t ^ 3) x (INR 3 * x ^ (Nat.pred 3))).
+  { apply (derivable_pt_lim_pow x 3). }
+  assert (Hpow5 : derivable_pt_lim (fun t => t ^ 5) x (INR 5 * x ^ (Nat.pred 5))).
+  { apply (derivable_pt_lim_pow x 5). }
+  assert (Hpow7 : derivable_pt_lim (fun t => t ^ 7) x (INR 7 * x ^ (Nat.pred 7))).
+  { apply (derivable_pt_lim_pow x 7). }
+  assert (Hdiv3 : derivable_pt_lim (fun t => t ^ 3 / 6) x (INR 3 * x ^ Nat.pred 3 / 6)).
+  { apply derivable_pt_lim_div_scal. exact Hpow3. }
+  assert (Hdiv5 : derivable_pt_lim (fun t => t ^ 5 / 120) x (INR 5 * x ^ Nat.pred 5 / 120)).
+  { apply derivable_pt_lim_div_scal. exact Hpow5. }
+  assert (Hdiv7 : derivable_pt_lim (fun t => t ^ 7 / 5040) x (INR 7 * x ^ Nat.pred 7 / 5040)).
+  { apply derivable_pt_lim_div_scal. exact Hpow7. }
+  assert (H1 : derivable_pt_lim (fun t => t - t ^ 3 / 6) x (1 - INR 3 * x ^ Nat.pred 3 / 6)).
+  { change (derivable_pt_lim (fun t => t + (- (t ^ 3 / 6))) x (1 + (- (INR 3 * x ^ Nat.pred 3 / 6)))).
+    apply derivable_pt_lim_plus.
+    - change (derivable_pt_lim id x 1). apply derivable_pt_lim_id.
+    - apply derivable_pt_lim_opp. exact Hdiv3. }
+  assert (H2 : derivable_pt_lim (fun t => (t - t ^ 3 / 6) + t ^ 5 / 120) x
+                ((1 - INR 3 * x ^ Nat.pred 3 / 6) + INR 5 * x ^ Nat.pred 5 / 120)).
+  { apply derivable_pt_lim_plus; [exact H1 | exact Hdiv5]. }
+  change (derivable_pt_lim (fun t => ((t - t ^ 3 / 6) + t ^ 5 / 120) - t ^ 7 / 5040) x
+           (((1 - INR 3 * x ^ Nat.pred 3 / 6) + INR 5 * x ^ Nat.pred 5 / 120) - INR 7 * x ^ Nat.pred 7 / 5040)).
+  apply derivable_pt_lim_minus; [exact H2 | exact Hdiv7].
+Qed.
+
+(* 化简导数形式：1 - x^2/2 + x^4/24 - x^6/720 *)
+Lemma g5_dpl_f3_nice (x : R) :
+  derivable_pt_lim (fun t => t - t ^ 3 / 6 + t ^ 5 / 120 - t ^ 7 / 5040) x (1 - x ^ 2 / 2 + x ^ 4 / 24 - x ^ 6 / 720).
+Proof.
+  assert (H : derivable_pt_lim (fun t => t - t ^ 3 / 6 + t ^ 5 / 120 - t ^ 7 / 5040)
+                   x (1 - INR 3 * x ^ Nat.pred 3 / 6 + INR 5 * x ^ Nat.pred 5 / 120 - INR 7 * x ^ Nat.pred 7 / 5040)) by apply g5_dpl_f3.
+  assert (Hv : (1 - INR 3 * x ^ Nat.pred 3 / 6 + INR 5 * x ^ Nat.pred 5 / 120 - INR 7 * x ^ Nat.pred 7 / 5040
+                = 1 - x ^ 2 / 2 + x ^ 4 / 24 - x ^ 6 / 720)%R).
+  { unfold Nat.pred.
+    assert (H3 : (INR 3 = 3)%R). { rewrite INR_IZR_INZ. reflexivity. }
+    assert (H5 : (INR 5 = 5)%R). { rewrite INR_IZR_INZ. reflexivity. }
+    assert (H7 : (INR 7 = 7)%R). { rewrite INR_IZR_INZ. reflexivity. }
+    rewrite H3. rewrite H5. rewrite H7.
+    field. }
+  rewrite Hv in H.
+  exact H.
+Qed.
+
+Lemma g5_sa3_incr (x y : R) :
+  (0 <= x)%R -> (x <= y)%R -> (y <= 1)%R ->
+  (sin_approx x 3 <= sin_approx y 3)%R.
+Proof.
+  intros Hx0 Hxy Hy.
+  destruct (Req_dec x y) as [Heq | Hne].
+  - rewrite Heq. apply Rle_refl.
+  - assert (Hlt : (x < y)%R) by lra.
+    pose (f := fun t => t - t ^ 3 / 6 + t ^ 5 / 120 - t ^ 7 / 5040).
+    pose (fp := fun t => 1 - t ^ 2 / 2 + t ^ 4 / 24 - t ^ 6 / 720).
+    destruct (MVT_cor3 f fp x y) as [c [Hc1 [Hc2 Hc3]]].
+    + exact Hlt.
+    + intros t Ht1 Ht2.
+      unfold f, fp. apply g5_dpl_f3_nice.
+    + rewrite g5_sa3. rewrite g5_sa3.
+      (* 目标：x-... <= y-...；Hc3 : f y = f x + fp c (y-x) *)
+      unfold f, fp in Hc3.
+      assert (Hfp : (0 <= (1 - c ^ 2 / 2 + c ^ 4 / 24 - c ^ 6 / 720) * (y - x))%R).
+      { apply Rmult_le_pos.
+        - apply Rlt_le. apply g5_f3p_pos.
+          + eapply Rle_trans; [exact Hx0 | exact Hc1].
+          + eapply Rle_trans; [exact Hc2 | exact Hy].
+        - lra. }
+      rewrite Hc3.
+      lra.
+Qed.
+
+(* π ≤ 3.142：反证 π/6 > 1571/3000（= 3.142/6）
+   sin(π/6) = 1/2；sin_bound (π/6) 1 下界：sin_approx (π/6) 3 ≤ 1/2
+   f3 递增 ⟹ sin_approx (π/6) 3 > sin_approx (1571/3000) 3 > 1/2 矛盾 *)
+Lemma g5_pi_le_3142 : (PI <= 3142/1000)%R.
+Proof.
+  apply Rnot_lt_le.
+  intro Hgt.
+  (* 反证 π/6 > 1571/3000（= 3142/1000/6） *)
+  assert (Hpi6 : (1571/3000 < PI / 6)%R) by lra.
+  assert (HPI : (0 < PI)%R) by apply PI_RGT_0.
+  assert (Hpi6le : (PI / 6 <= PI)%R) by lra.
+  pose proof (sin_bound (PI/6) 1 (Rlt_le _ _ (PI6_RGT_0)) Hpi6le) as Hb.
+  destruct Hb as [Hlo _].
+  rewrite sin_PI6 in Hlo.
+  (* 归一 Hlo 的 sin_approx 参数：(2*1)+1 = 3 *)
+  change (sin_approx (PI/6) 3 <= 1/2)%R in Hlo.
+  assert (Hle : (sin_approx (1571/3000) 3 <= sin_approx (PI/6) 3)%R).
+  { apply g5_sa3_incr.
+    - lra.
+    - lra.
+    - (* π/6 <= 1：π <= 4（PI_4）且 4/6 < 1 ⟹ π/6 < 1 *)
+      assert (Hpi6le1 : (PI / 6 <= 1)%R).
+      { apply (Rmult_le_reg_l 6 (PI / 6) 1).
+        - nra.  (* 0 < 6 *)
+        - replace (6 * (PI / 6))%R with PI%R by field.
+          replace (6 * 1)%R with 6%R by ring.
+          apply Rle_trans with 4.
+          + exact PI_4.
+          + nra. }  (* 4 <= 6 *)
+      exact Hpi6le1. }
+  assert (Hc : (1/2 < sin_approx (1571/3000) 3)%R) by exact g5_sa3_1571_gt_half.
+  assert (Hc2 : (1/2 < sin_approx (PI/6) 3)%R).
+  { apply (Rlt_le_trans (1/2) (sin_approx (1571/3000) 3) (sin_approx (PI/6) 3)).
+    - exact Hc.
+    - exact Hle. }
+  (* Hlo : sin_approx (PI/6) 3 <= 1/2 与 Hc2 : 1/2 < sin_approx (PI/6) 3 矛盾
+     Rlt_not_le r1 r2 : r2 < r1 -> ~ r1 <= r2；取 r1=sa, r2=1/2 *)
+  exact (Rlt_not_le (sin_approx (PI/6) 3) (1/2) Hc2 Hlo).
+Qed.
+
+(* ============ 主定理：三行精确行和 ≤ 4/5 但检查器拒 ============
+   数值界（sin_bound n=0 + π ∈ [3.141, 3.142] + 递增性）：
+   行 0 (n=3): |<3,7>| + |<3,15>| ≤ 4/5
+   行 1 (n=7): |<3,7>| + |<7,15>| ≤ 4/5  ← 瓶颈（真实 0.7870）
+   行 2 (n=15): |<3,15>| + |<7,15>| ≤ 4/5
+   方案：s2 递增在 [0, 3/2]（3π/7≈1.35, 7π/15≈1.47 ≤ 1.5） *)
+
+(* s2 递增在 [0, 3/2]：f2'(t) = 1 - t^2/2 + t^4/24 > 0 *)
+Lemma g5_fp_pos_15 (t : R) : (0 <= t)%R -> (t <= 3/2)%R ->
+  (0 < 1 - t ^ 2 / 2 + t ^ 4 / 24)%R.
+Proof.
+  intros Ht0 Ht.
+  rewrite g5_pow2_2.
+  set (u := t ^ 2).
+  assert (Hhi_u : (u <= 9/4)%R) by (subst u; nra).
+  replace (1 - t ^ 2 / 2 + (t ^ 2) ^ 2 / 24) with (1 - u / 2 + u ^ 2 / 24) by (subst u; ring).
+  nra.
+Qed.
+
+(* sa2 递增在 [0, 3/2]（同 sa2_incr 模式，区间放宽） *)
+Lemma g5_sa2_incr_15 (x y : R) :
+  (0 <= x)%R -> (x <= y)%R -> (y <= 3/2)%R ->
+  (sin_approx x 2 <= sin_approx y 2)%R.
+Proof.
+  intros Hx0 Hxy Hy.
+  destruct (Req_dec x y) as [Heq | Hne].
+  - rewrite Heq. apply Rle_refl.
+  - assert (Hlt : (x < y)%R) by lra.
+    pose (f := fun t => t - t ^ 3 / 6 + t ^ 5 / 120).
+    pose (fp := fun t => 1 - t ^ 2 / 2 + t ^ 4 / 24).
+    destruct (MVT_cor3 f fp x y) as [c [Hc1 [Hc2 Hc3]]].
+    + exact Hlt.
+    + intros t Ht1 Ht2.
+      unfold f, fp. apply g5_dpl_f2_nice.
+    + rewrite g5_sa2. rewrite g5_sa2.
+      unfold f, fp in Hc3.
+      assert (Hfp : (0 <= (1 - c ^ 2 / 2 + c ^ 4 / 24) * (y - x))%R).
+      { apply Rmult_le_pos.
+        - apply Rlt_le. apply g5_fp_pos_15.
+          + eapply Rle_trans; [exact Hx0 | exact Hc1].
+          + eapply Rle_trans; [exact Hc2 | exact Hy].
+        - lra. }
+      rewrite Hc3.
+      lra.
+Qed.
+
+(* s1 递增（trivial：s1'(t) = 1 - t^2/2 > 0 在 [0,1]） *)
+(* f1(t) = t - t^3/6 可导，导数 1 - x^2/2 *)
+Lemma g5_dpl_f1 (x : R) :
+  derivable_pt_lim (fun t => t - t ^ 3 / 6) x (1 - x ^ 2 / 2).
+Proof.
+  assert (Hpow3 : derivable_pt_lim (fun t => t ^ 3) x (INR 3 * x ^ (Nat.pred 3))).
+  { apply (derivable_pt_lim_pow x 3). }
+  assert (Hdiv3 : derivable_pt_lim (fun t => t ^ 3 / 6) x (INR 3 * x ^ Nat.pred 3 / 6)).
+  { apply derivable_pt_lim_div_scal. exact Hpow3. }
+  assert (H3 : (INR 3 = 3)%R) by (rewrite INR_IZR_INZ; reflexivity).
+  assert (Hred : (INR 3 * x ^ Nat.pred 3 / 6 = x ^ 2 / 2)%R).
+  { unfold Nat.pred. rewrite H3. field. }
+  change (derivable_pt_lim (fun t => t + (- (t ^ 3 / 6))) x (1 + (- (x ^ 2 / 2)))).
+  apply derivable_pt_lim_plus.
+  - change (derivable_pt_lim id x 1). apply derivable_pt_lim_id.
+  - apply derivable_pt_lim_opp.
+    rewrite <- Hred. exact Hdiv3.
+Qed.
+
+Lemma g5_sa1_incr (x y : R) :
+  (0 <= x)%R -> (x <= y)%R -> (y <= 1)%R ->
+  (sin_approx x 1 <= sin_approx y 1)%R.
+Proof.
+  intros Hx0 Hxy Hy.
+  destruct (Req_dec x y) as [Heq | Hne].
+  - rewrite Heq. apply Rle_refl.
+  - assert (Hlt : (x < y)%R) by lra.
+    pose (f := fun t => t - t ^ 3 / 6).
+    pose (fp := fun t => 1 - t ^ 2 / 2).
+    destruct (MVT_cor3 f fp x y) as [c [Hc1 [Hc2 Hc3]]].
+    + exact Hlt.
+    + intros t Ht1 Ht2.
+      unfold f, fp. apply g5_dpl_f1.
+    + rewrite g5_sa1. rewrite g5_sa1.
+      unfold f, fp in Hc3.
+      assert (Hfp : (0 <= (1 - c ^ 2 / 2) * (y - x))%R).
+      { apply Rmult_le_pos.
+        - apply Rlt_le. nra.  (* 0 <= 1 - c^2/2：c <= 1 *)
+        - lra. }
+      rewrite Hc3.
+      lra.
+Qed.
+
+(* ============ 数值界（sin_bound n=0 + π 界 + 递增性） ============ *)
+
+(* sin(3π/7) ≤ 9774/10000：sin_bound (3PI/7) 0 上界 + 3PI/7 ≤ 27/20 + s2 递增 *)
+Lemma g5_sin_3pi7_le : (sin (3 * PI / 7) <= 9774/10000)%R.
+Proof.
+  (* sin_bound (3PI/7) 0 上界：sin(3PI/7) <= sin_approx (3PI/7) 2 *)
+  assert (HPI : (0 < PI)%R) by apply PI_RGT_0.
+  assert (Hp0 : (0 <= 3 * PI / 7)%R).
+  { nra. }
+  assert (Hple : (3 * PI / 7 <= PI)%R).
+  { nra. }
+  pose proof (sin_bound (3 * PI / 7) 0 Hp0 Hple) as Hb.
+  destruct Hb as [_ Hup].  (* Hup : sin(3PI/7) <= sin_approx (3PI/7) 2 *)
+  (* 3PI/7 <= 27/20（π <= 3.142 < 3.15）；s2 递增 ⟹ sa2(3PI/7) <= sa2(27/20) *)
+  assert (Hle_incr : (sin_approx (3 * PI / 7) 2 <= sin_approx (27/20) 2)%R).
+  { apply g5_sa2_incr_15.
+    - nra.  (* 0 <= 3PI/7，用 HPI *)
+    - assert (Hpimax : (PI <= 3142/1000)%R) by exact g5_pi_le_3142.
+      nra.  (* 3PI/7 <= 27/20：需 PI <= 63/20 = 3.15 *)
+    - nra. }  (* 27/20 <= 3/2 *)
+  (* sin_approx (27/20) 2 <= 9774/10000（纯数值） *)
+  assert (Hnum : (sin_approx (27/20) 2 <= 9774/10000)%R).
+  { rewrite g5_sa2. nra. }
+  (* sin(3PI/7) <= sa2(3PI/7) <= sa2(27/20) <= 9774/10000 *)
+  eapply Rle_trans; [exact Hup |].
+  eapply Rle_trans; [exact Hle_incr |].
+  exact Hnum.
+Qed.
+
+(* sin(4π/21) ≥ 5625/10000：sin_bound (4PI/21) 0 下界 + 4PI/21 ≥ 4·3.141/21 + s1 递增 *)
+Lemma g5_sin_4pi21_ge : (5625/10000 <= sin (4 * PI / 21))%R.
+Proof.
+  assert (HPI : (0 < PI)%R) by apply PI_RGT_0.
+  assert (Hp0 : (0 <= 4 * PI / 21)%R).
+  { nra. }
+  assert (Hple : (4 * PI / 21 <= PI)%R).
+  { nra. }
+  pose proof (sin_bound (4 * PI / 21) 0 Hp0 Hple) as Hb.
+  destruct Hb as [Hlo _].  (* Hlo : sin_approx (4PI/21) 1 <= sin(4PI/21) *)
+  (* 4PI/21 >= 4·(3141/1000)/21 = 12564/21000；s1 递增 ⟹ sin_approx (12564/21000) 1 <= sin_approx (4PI/21) 1 *)
+  assert (Hle_incr : (sin_approx (12564/21000) 1 <= sin_approx (4 * PI / 21) 1)%R).
+  { apply g5_sa1_incr.
+    - nra.
+    - assert (Hpimin : (3141/1000 <= PI)%R) by exact g5_pi_ge_3141.
+      nra.  (* 12564/21000 <= 4PI/21：需 PI >= 3141/1000 *)
+    - assert (Hpimax : (PI <= 3142/1000)%R) by exact g5_pi_le_3142.
+      nra. }  (* 4PI/21 <= 1，用 π <= 3.142 < 5.25 *)
+  (* sin_approx (12564/21000) 1 >= 5625/10000（纯数值） *)
+  assert (Hnum : (5625/10000 <= sin_approx (12564/21000) 1)%R).
+  { rewrite g5_sa1. nra. }
+  (* 5626/10000 <= sin_approx (12564/21000) 1 <= sin_approx (4PI/21) 1 <= sin(4PI/21) *)
+  eapply Rle_trans; [exact Hnum |].
+  eapply Rle_trans; [exact Hle_incr |].
+  exact Hlo.
+Qed.
+
+(* sin(7π/15) ≤ 9975/10000：7PI/15 <= 22/15（π <= 22/7） *)
+Lemma g5_sin_7pi15_le : (sin (7 * PI / 15) <= 9975/10000)%R.
+Proof.
+  assert (HPI : (0 < PI)%R) by apply PI_RGT_0.
+  assert (Hp0 : (0 <= 7 * PI / 15)%R).
+  { nra. }
+  assert (Hple : (7 * PI / 15 <= PI)%R).
+  { nra. }
+  pose proof (sin_bound (7 * PI / 15) 0 Hp0 Hple) as Hb.
+  destruct Hb as [_ Hup].
+  assert (Hle_incr : (sin_approx (7 * PI / 15) 2 <= sin_approx (22/15) 2)%R).
+  { apply g5_sa2_incr_15.
+    - nra.
+    - assert (Hpimax : (PI <= 3142/1000)%R) by exact g5_pi_le_3142.
+      nra.  (* 7PI/15 <= 22/15：需 PI <= 22/7 ≈ 3.1429 *)
+    - nra. }  (* 22/15 <= 3/2 *)
+  assert (Hnum : (sin_approx (22/15) 2 <= 9975/10000)%R).
+  { rewrite g5_sa2. nra. }
+  (* sin(7PI/15) <= sa(7PI/15) 2 <= sa(22/15) 2 <= 9975/10000 *)
+  eapply Rle_trans; [exact Hup |].
+  eapply Rle_trans; [exact Hle_incr |].
+  exact Hnum.
+Qed.
+
+(* sin(8π/105) ≥ 2370/10000：8PI/105 >= 8·3.141/105 = 25128/105000 *)
+Lemma g5_sin_8pi105_ge : (2370/10000 <= sin (8 * PI / 105))%R.
+Proof.
+  assert (HPI : (0 < PI)%R) by apply PI_RGT_0.
+  assert (Hp0 : (0 <= 8 * PI / 105)%R).
+  { nra. }
+  assert (Hple : (8 * PI / 105 <= PI)%R).
+  { nra. }
+  pose proof (sin_bound (8 * PI / 105) 0 Hp0 Hple) as Hb.
+  destruct Hb as [Hlo _].
+  assert (Hle_incr : (sin_approx (25128/105000) 1 <= sin_approx (8 * PI / 105) 1)%R).
+  { apply g5_sa1_incr.
+    - nra.
+    - assert (Hpimin : (3141/1000 <= PI)%R) by exact g5_pi_ge_3141.
+      nra.  (* 25128/105000 <= 8PI/105：需 PI >= 3141/1000 *)
+    - assert (Hpimax : (PI <= 3142/1000)%R) by exact g5_pi_le_3142.
+      nra. }  (* 8PI/105 <= 1，用 π <= 3.142 < 13.125 *)
+  assert (Hnum : (2370/10000 <= sin_approx (25128/105000) 1)%R).
+  { rewrite g5_sa1. nra. }
+  (* 2370/10000 <= sa(25128/105000) 1 <= sa(8PI/105) 1 <= sin(8PI/105) *)
+  eapply Rle_trans; [exact Hnum |].
+  eapply Rle_trans; [exact Hle_incr |].
+  exact Hlo.
+Qed.
+
+(* √21 ≥ 4582/1000、√105 ≥ 10246/1000 *)
+Lemma g5_sqrt21_ge : (4582/1000 <= sqrt 21)%R.
+Proof.
+  (* 4582/1000 = sqrt((4582/1000)^2)（非负）≤ sqrt 21（因 (4582/1000)^2 <= 21） *)
+  apply Rle_trans with (sqrt ((4582/1000)^2)).
+  - rewrite sqrt_pow2.
+    + apply Rle_refl.
+    + nra.  (* 4582/1000 >= 0 *)
+  - apply sqrt_le_1.
+    + nra.
+    + nra.
+    + nra.  (* (4582/1000)^2 = 20.9947 <= 21 *)
+Qed.
+
+Lemma g5_sqrt105_ge : (10246/1000 <= sqrt 105)%R.
+Proof.
+  apply Rle_trans with (sqrt ((10246/1000)^2)).
+  - rewrite sqrt_pow2.
+    + apply Rle_refl.
+    + nra.
+  - apply sqrt_le_1.
+    + nra.
+    + nra.
+    + nra.  (* (10246/1000)^2 = 104.98 <= 105 *)
+Qed.
+
+(* ============ 主定理：行 1 ≤ 4/5（瓶颈行） ============ *)
+
+(* sin(4π/7) = sin(3π/7)（sin_PI_x 对称） *)
+Lemma g5_sin_4pi7_eq : (sin (4 * PI / 7) = sin (3 * PI / 7))%R.
+Proof.
+  replace (4 * PI / 7)%R with (PI - 3 * PI / 7)%R by field.
+  apply sin_PI_x.
+Qed.
+
+(* sin(8π/15) = sin(7π/15) *)
+Lemma g5_sin_8pi15_eq : (sin (8 * PI / 15) = sin (7 * PI / 15))%R.
+Proof.
+  replace (8 * PI / 15)%R with (PI - 7 * PI / 15)%R by field.
+  apply sin_PI_x.
+Qed.
+
+(* 通用倒数单调：u <= v ⟹ 1/v <= 1/u（u,v > 0） *)
+Lemma g5_inv_le (u v : R) :
+  (0 < u)%R -> (0 < v)%R -> (u <= v)%R -> (1 / v <= 1 / u)%R.
+Proof.
+  intros Hu0 Hv0 Huv.
+  apply Rmult_le_reg_r with (v * u).
+  - apply Rmult_lt_0_compat; [exact Hv0 | exact Hu0].
+  - replace ((1 / v) * (v * u))%R with u%R.
+    + replace ((1 / u) * (v * u))%R with v%R.
+      * exact Huv.
+      * field. apply Rgt_not_eq. exact Hu0.
+    + field. apply Rgt_not_eq. exact Hv0.
+Qed.
+
+(* 通用分数比较：0 <= a <= a'、0 < c <= b ⟹ a/b <= a'/c *)
+Lemma g5_frac_le (a b a' c : R) :
+  (0 <= a)%R -> (a <= a')%R -> (0 < b)%R -> (0 < c)%R -> (Rle c b) ->
+  (a / b <= a' / c)%R.
+Proof.
+  intros Ha0 Haa' Hb0 Hc0.
+  intros Hcb.
+  (* a/b = a·(1/b)，a'/c = a'·(1/c)；Rmult_le_compat *)
+  unfold Rdiv.
+  apply Rmult_le_compat.
+  - exact Ha0.      (* 0 <= a *)
+  - apply Rlt_le. apply Rinv_0_lt_compat. exact Hb0.  (* 0 <= /b *)
+  - assumption.     (* a <= a' *)
+  - (* /b <= /c：Rinv_le_contravar c b（0<c, c<=b） *)
+    apply (Rinv_le_contravar c b Hc0 Hcb).
+Qed.
+
+(* |<3,7>| ≤ 9774/(5625·4.582)：a=Rabs(sin 4π/7), b=Rabs(sin 4π/21)·√21 *)
+Lemma g5_c37_le : 
+  (Rabs (sin (4 * PI / 7)) / (Rabs (sin (4 * PI / 21)) * sqrt 21) <= 9774/10000 / ((5625/10000) * (4582/1000)))%R.
+Proof.
+  assert (HPI : (0 < PI)%R) by apply PI_RGT_0.
+  (* 分子上界：|sin(4π/7)| = sin(3π/7) ≤ 9774/10000 *)
+  assert (Hnum : (Rabs (sin (4 * PI / 7)) <= 9774/10000)%R).
+  { rewrite g5_sin_4pi7_eq. rewrite Rabs_right.
+    - exact g5_sin_3pi7_le.
+    - apply Rle_ge. apply Rlt_le. apply sin_gt_0.
+      + nra.  (* 0 < 3PI/7 *)
+      + nra. }  (* 3PI/7 < PI：3/7 < 1，用 HPI *)
+  (* 分母下界：sin(4π/21) ≥ 5625/10000，√21 ≥ 4582/1000 ⟹ 分母 ≥ 5625·4.582 *)
+  assert (Hden : ((5625/10000) * (4582/1000) <= Rabs (sin (4 * PI / 21)) * sqrt 21)%R).
+  { apply (Rmult_le_compat (5625/10000) (Rabs (sin (4 * PI / 21))) (4582/1000) (sqrt 21)).
+    - lra.  (* 0 <= 5625/10000 *)
+    - lra.  (* 0 <= 4582/1000 *)
+    - apply Rle_trans with (sin (4 * PI / 21)).
+      + exact g5_sin_4pi21_ge.
+      + apply Rle_abs.  (* sin <= Rabs sin *)
+    - exact g5_sqrt21_ge. }  (* 4582/1000 <= sqrt 21 *)
+  (* 分母正：Rabs(sin 4π/21)·√21 > 0；b'=5625·4.582 > 0 *)
+  apply g5_frac_le.
+  - apply Rabs_pos.
+  - exact Hnum.
+  - apply Rmult_lt_0_compat.
+    + apply Rabs_pos_lt. apply Rgt_not_eq. apply sin_gt_0.
+      * nra.
+      * nra.
+    + apply sqrt_lt_R0. lra.
+  - nra.
+  - exact Hden.
+Qed.
+
+(* |<7,15>| ≤ 9975/(2370·10.246) *)
+Lemma g5_c715_le : 
+  (Rabs (sin (8 * PI / 15)) / (Rabs (sin (8 * PI / 105)) * sqrt 105) <= 9975/10000 / ((2370/10000) * (10246/1000)))%R.
+Proof.
+  assert (HPI : (0 < PI)%R) by apply PI_RGT_0.
+  assert (Hnum : (Rabs (sin (8 * PI / 15)) <= 9975/10000)%R).
+  { rewrite g5_sin_8pi15_eq. rewrite Rabs_right.
+    - exact g5_sin_7pi15_le.
+    - apply Rle_ge. apply Rlt_le. apply sin_gt_0.
+      + nra.
+      + nra. }  (* 7PI/15 < PI：7/15 < 1，用 HPI *)
+  assert (Hden : ((2370/10000) * (10246/1000) <= Rabs (sin (8 * PI / 105)) * sqrt 105)%R).
+  { apply (Rmult_le_compat (2370/10000) (Rabs (sin (8 * PI / 105))) (10246/1000) (sqrt 105)).
+    - lra.  (* 0 <= 2370/10000 *)
+    - lra.  (* 0 <= 10246/1000 *)
+    - apply Rle_trans with (sin (8 * PI / 105)).
+      + exact g5_sin_8pi105_ge.
+      + apply Rle_abs.  (* sin <= Rabs sin *)
+    - exact g5_sqrt105_ge. }  (* 10246/1000 <= sqrt 105 *)
+  apply g5_frac_le.
+  - apply Rabs_pos.
+  - exact Hnum.
+  - apply Rmult_lt_0_compat.
+    + apply Rabs_pos_lt. apply Rgt_not_eq. apply sin_gt_0.
+      * nra.
+      * nra.
+    + apply sqrt_lt_R0. lra.
+  - nra.
+  - exact Hden.
+Qed.
+
+(* ============ 主定理：行 1 ≤ 4/5 ============ *)
+Lemma g5_row1_le :
+  (Rabs (sin (4 * PI / 7)) / (Rabs (sin (4 * PI / 21)) * sqrt 21)
+   + Rabs (sin (8 * PI / 15)) / (Rabs (sin (8 * PI / 105)) * sqrt 105) <= 4/5)%R.
+Proof.
+  (* 行1 <= 9774/(5625·4.582) + 9975/(2370·10.246) <= 4/5 *)
+  apply (Rle_trans _ (9774/10000 / ((5625/10000) * (4582/1000)) + 9975/10000 / ((2370/10000) * (10246/1000))) _).
+  - apply Rplus_le_compat.
+    + exact g5_c37_le.
+    + exact g5_c715_le.
+  - nra.
+Qed.
+
+(* ============ G-5 主定理：检查器拒但精确行和 ≤ 4/5 ============ *)
+Theorem g5_premium :
+  frame_check_instance ladder_3_7_15 = false /\
+  (Rabs (sin (4 * PI / 7)) / (Rabs (sin (4 * PI / 21)) * sqrt 21)
+   + Rabs (sin (8 * PI / 15)) / (Rabs (sin (8 * PI / 105)) * sqrt 105) <= 4/5)%R.
+Proof.
+  split.
+  - exact g5_reflect_reject.
+  - exact g5_row1_le.
+Qed.
+
+End G5Premium.
+
+Print Assumptions G5Premium.g5_reflect_reject.
+Print Assumptions G5Premium.g5_coh_full_3_7.
+Print Assumptions G5Premium.g5_coh_full_3_15.
+Print Assumptions G5Premium.g5_coh_full_7_15.
+
+(* ==================== 模块 63/67: probe_frame_check_graduated ==================== *)
+
+Close Scope Z_scope.
+Open Scope R_scope.
+Open Scope complex_scope.
+Open Scope nat_scope.
+(* ============================================================
+   CS-17 分级证书检查器：probe_frame_check_graduated.v
+   （M2 venue 对齐扩展 T2——检查器方法论从二元升级为分层服务）
+
+   背景：反射检查器 frame_check_instance 是二元判定——好族全过、
+   坏族全拒。四轮评审共同攻击点：二元判定的假阴性（[3,7,15] 类
+   近带阶梯被整族拒绝，尽管其稀疏恢复语义仍然成立）。本模块给出
+   四级分级检查器 cert_level + 健全性定理——每级承诺不同强度的
+   证书，假阴性从"拒绝"变"降级服务"：
+     L1_tight        二元检查器全过 ⟹ Gershgorin 框架界 [1/5, 9/5]·S
+                     （frame_check_instance_sound 原样通道）
+     L2_composite    结构有效且逐对相干界非空洞（δ_ij ≤ 1，逐对优于
+                     C-S 平凡界）⟹ 复合能量界 (S−coh, S+coh)——七带
+                     冠军证书 champion_e5_composite_certificate 的
+                     自动化（不再手工组装）
+     L3_energy_only  结构有效但存在黑洞对（δ > 1，如 [2,3]）⟹ 仅上
+                     半能量界 ‖F‖² ≤ S + coh
+     L4_rejected     结构无效（乱序/含 <2/空）⟹ 无承诺
+
+   数学内容：
+     GC1 ★ 行对角拆分引理 sum_row_diag_off（sum_f_R0 头递归归纳）
+     GC2 逐项界 term_bound_grad_upper/lower（对角 = Cnorm_sq 精确；
+         非对角 = |c_i||c_j|·pair_frac_R，经 pair_inner_frac_bound）
+     GC3 ★★ 复合界 composite_frame_bounds（L2/L3 数学核）：
+         任意结构有效阶梯的 (S−coh, S+coh) 双侧界——champion_e5
+         骨架的泛化（具体 n=7 simpl+ring 拆分 → 通用索引拆分引理）
+     GC4 分级健全性 frame_check_graduated_sound（最终定理）
+
+   纪律（承 probe_robust / probe_c4_instance 经典 R 轨道先例）：
+     - 经典 R 层（T2 依赖既有 R 层检查器，不属构造性轨道）
+     - 零 Admitted / 零自定义 Axiom（审计 ≤ Dedekind 三公理）
+     - 决策函数 nat/bool 层可计算可提取；非平凡核 = GC1+GC3
+   依赖：ca_base/ca_complex_foundation/ca_independence/ca_basis/
+         ca_basis_lemmas/ca_decay + PSA_framework（FrameCheckInstance/
+         ChampionCertificate 模块）。
+   提取：frame_check_graduated.ml（cert_level + 分级决策——nat 可执行）
+   ============================================================ *)
+Require Import Stdlib.Lists.List.
+Require Import Stdlib.Arith.Arith.
+Require Import Stdlib.micromega.Lia.
+Require Import Stdlib.micromega.Lra.
+Require Import Stdlib.Bool.Bool.
+Require Import Stdlib.Reals.Reals.
+Import ComplexNumbers.
+Import ExtendedTheorems.
+Import ListNotations.
+Open Scope nat_scope.
+Open Scope R_scope.
+
+(* ============ GC0：分级层与决策函数（可计算层） ============ *)
+
+Inductive cert_level : Set :=
+  | L1_tight
+  | L2_composite
+  | L3_energy_only
+  | L4_rejected.
+
+(* 逐对相干界非空洞：δ_ij ≤ 1（pair_frac = num/den，den > 0）。
+   注意 pair_ok 的 sqrt 往返检查对 ≥2 带恒真——真正区分 L2/L3 的是
+   逐对界是否打败 C-S 平凡界 |⟨u_i,u_j⟩| ≤ 1。 *)
+Definition pair_le_1 (n1 n2 : nat) : bool :=
+  Nat.leb (FrameCheckInstance.pair_num (Nat.min n1 n2) (Nat.max n1 n2))
+          (FrameCheckInstance.pair_den (Nat.min n1 n2) (Nat.max n1 n2)).
+
+Fixpoint all_pairs_le_1 (I : list nat) : bool :=
+  match I with
+  | nil => true
+  | cons h tl => andb (forallb (fun m => pair_le_1 h m) tl) (all_pairs_le_1 tl)
+  end.
+
+(* 分级检查器（主入口）：
+   空表 / 结构无效 → L4；二元检查器全过 → L1；
+   结构有效（严格升序 + 全 ≥2）→ 逐对 δ≤1 ? L2 : L3 *)
+Definition frame_check_graduated (I : list nat) : cert_level :=
+  match I with
+  | nil => L4_rejected
+  | _ :: _ =>
+      if FrameCheckInstance.frame_check_instance I then L1_tight
+      else if andb (FrameCheckInstance.sorted_strict_aux I)
+                    (FrameCheckInstance.all_ge_2 I) then
+        (if all_pairs_le_1 I then L2_composite else L3_energy_only)
+      else L4_rejected
+  end.
+
+(* ============ GC1：行对角拆分引理 ============ *)
+
+(* 固定 i 的行拆分：第 i 项从和中提出，其余以 if-零形式保留 *)
+Lemma sum_row_diag_off (f : nat -> R) (i n : nat) :
+  (i <= n)%nat ->
+  sum_f_R0 f n = f i + sum_f_R0 (fun j => if eq_nat_dec i j then 0 else f j) n.
+Proof.
+  induction n as [| n IH]; intros Hi.
+  - assert (Hi0 : (i = 0)%nat) by lia. subst i.
+    simpl. destruct (eq_nat_dec 0 0) as [He | Hn].
+    + ring.
+    + exfalso. exact (Hn eq_refl).
+  - destruct (Nat.eq_dec i (S n)) as [Hlast | Hnotlast].
+    + subst i.
+      assert (Hpre : sum_f_R0 (fun j => if eq_nat_dec (S n) j then 0 else f j) n = sum_f_R0 f n).
+      { apply sum_f_R0_ext. intros k Hk.
+        destruct (eq_nat_dec (S n) k) as [He | Hne]; [exfalso; lia | reflexivity]. }
+      assert (Hlast0 : (fun j => if eq_nat_dec (S n) j then 0 else f j) (S n) = 0).
+      { destruct (eq_nat_dec (S n) (S n)) as [He | Hne].
+        - reflexivity.
+        - exfalso. exact (Hne eq_refl). }
+      rewrite sum_f_R0_S. rewrite sum_f_R0_S. rewrite Hpre, Hlast0. ring.
+    + assert (Hlastf : (fun j => if eq_nat_dec i j then 0 else f j) (S n) = f (S n)).
+      { destruct (eq_nat_dec i (S n)) as [He | Hne].
+        - exfalso. apply Hnotlast. exact He.
+        - reflexivity. }
+      rewrite sum_f_R0_S. rewrite sum_f_R0_S. rewrite Hlastf.
+      assert (Hin : (i <= n)%nat) by lia.
+      assert (IH' := IH Hin).
+      lra.
+Qed.
+
+(* 负号进出有限和 *)
+Lemma sum_f_R0_opp_l (f : nat -> R) (n : nat) :
+  - sum_f_R0 f n = sum_f_R0 (fun i => - f i) n.
+Proof.
+  revert f. induction n as [| n IH]; intros f.
+  - simpl. lra.
+  - rewrite FrameCheckInstance.sum_f_R0_shift.
+    rewrite FrameCheckInstance.sum_f_R0_shift.
+    cbv beta.
+    rewrite <- (IH (fun k => f (S k))).
+    ring.
+Qed.
+
+(* ============ GC2：逐项界（对角精确 / 非对角逐对相干） ============ *)
+
+Lemma term_bound_grad_upper (c : nat -> Complex) (v : nat -> nat) (M i j : nat) :
+  (2 <= v i)%nat -> (2 <= v j)%nat ->
+  (v i <= M)%nat -> (v j <= M)%nat ->
+  (i <> j -> v i <> v j) ->
+  re (c i *c Cconj (c j) *c
+      Csum (fun k => psi (v i) k *c Cconj (psi (v j) k)) M)
+  <= if eq_nat_dec i j then Cnorm_sq (c i)
+     else Cnorm (c i) * Cnorm (c j) * FrameCheckInstance.pair_frac_R (v i) (v j).
+Proof.
+  intros H2i H2j HMi HMj Hdist.
+  destruct (eq_nat_dec i j) as [Heq | Hne].
+  - subst j.
+    rewrite (ChampionCertificate.inner_diag_one (v i) M H2i HMi).
+    change (Cof_real 1) with C1.
+    rewrite Cmul_1_r.
+    rewrite Cnorm_sq_eq_re_mul.
+    apply Rle_refl.
+  - eapply Rle_trans; [apply ChampionCertificate.re_le_cnorm |].
+    rewrite (Cnorm_mult (c i *c Cconj (c j))
+              (Csum (fun k => psi (v i) k *c Cconj (psi (v j) k)) M)).
+    rewrite (Cnorm_mult (c i) (Cconj (c j))).
+    rewrite Cnorm_conj_eq.
+    apply Rmult_le_compat_l.
+    + apply Rmult_le_pos; apply ChampionCertificate.cnorm_ge0.
+    + apply FrameCheckInstance.pair_inner_frac_bound; [exact H2i | exact H2j | apply Hdist; exact Hne |].
+      pose proof (Nat.le_min_l (v i) (v j)). lia.
+Qed.
+
+Lemma term_bound_grad_lower (c : nat -> Complex) (v : nat -> nat) (M i j : nat) :
+  (2 <= v i)%nat -> (2 <= v j)%nat ->
+  (v i <= M)%nat -> (v j <= M)%nat ->
+  (i <> j -> v i <> v j) ->
+  - re (c i *c Cconj (c j) *c
+        Csum (fun k => psi (v i) k *c Cconj (psi (v j) k)) M)
+    <= if eq_nat_dec i j then - Cnorm_sq (c i)
+       else Cnorm (c i) * Cnorm (c j) * FrameCheckInstance.pair_frac_R (v i) (v j).
+Proof.
+  intros H2i H2j HMi HMj Hdist.
+  destruct (eq_nat_dec i j) as [Heq | Hne].
+  - subst j.
+    rewrite (ChampionCertificate.inner_diag_one (v i) M H2i HMi).
+    change (Cof_real 1) with C1.
+    rewrite Cmul_1_r.
+    rewrite Cnorm_sq_eq_re_mul.
+    apply Rle_refl.
+  - eapply Rle_trans; [apply ChampionCertificate.neg_re_le_cnorm |].
+    rewrite (Cnorm_mult (c i *c Cconj (c j))
+              (Csum (fun k => psi (v i) k *c Cconj (psi (v j) k)) M)).
+    rewrite (Cnorm_mult (c i) (Cconj (c j))).
+    rewrite Cnorm_conj_eq.
+    apply Rmult_le_compat_l.
+    + apply Rmult_le_pos; apply ChampionCertificate.cnorm_ge0.
+    + apply FrameCheckInstance.pair_inner_frac_bound; [exact H2i | exact H2j | apply Hdist; exact Hne |].
+      pose proof (Nat.le_min_l (v i) (v j)). lia.
+Qed.
+
+(* ============ GC3：复合界（L2/L3 数学核——champion 骨架的泛化） ============ *)
+
+(* 分级相干量：Σ_{i≠j} |c_i||c_j|·δ_ij（δ = pair_frac_R，天然对称取 min/max） *)
+Definition coh_ladder (I : list nat) (c : nat -> Complex) : R :=
+  sum_f_R0 (fun i => sum_f_R0 (fun j =>
+    if eq_nat_dec i j then 0
+    else Cnorm (c i) * Cnorm (c j) * FrameCheckInstance.pair_frac_R (nth i I 0%nat) (nth j I 0%nat))
+    (Nat.pred (length I))) (Nat.pred (length I)).
+
+Theorem composite_frame_bounds (I : list nat) (coeffs : list Complex) :
+  FrameCheckInstance.sorted_strict_aux I = true ->
+  FrameCheckInstance.all_ge_2 I = true ->
+  (0 < length I)%nat ->
+  length coeffs = length I ->
+  let n := length I in
+  let c := fun i => nth i coeffs C0 in
+  let F := fun k => Csum (fun i => c i *c psi (nth i I 0%nat) k) n in
+  ((sum_f_R0 (fun i => Cnorm_sq (c i)) (Nat.pred n) - coh_ladder I c
+    <= l2_norm_sq F (S (last I 0%nat) - 1)
+    <= sum_f_R0 (fun i => Cnorm_sq (c i)) (Nat.pred n) + coh_ladder I c)%R).
+Proof.
+  intros Hs Hg Hne Hlc n c F.
+  assert (Hnp : (Nat.pred n < n)%nat) by lia.
+  assert (Hin : forall k, (k <= Nat.pred n)%nat -> (k < n)%nat) by (intros k Hk; lia).
+  assert (HlenI : length I = n) by reflexivity.
+  (* 带内事实 *)
+  assert (Hge2 : forall i, (i <= Nat.pred n)%nat -> (2 <= nth i I 0%nat)%nat).
+  { intros i Hi. apply (FrameCheckInstance.all_ge_2_nth I Hg i). lia. }
+  assert (Hlelast : forall i, (i <= Nat.pred n)%nat -> (nth i I 0%nat <= last I 0%nat)%nat).
+  { intros i Hi. apply (FrameCheckInstance.nth_le_last I Hs i). lia. }
+  assert (Hvne : forall i j, (i < n)%nat -> (j < n)%nat -> i <> j -> nth i I 0%nat <> nth j I 0%nat).
+  { intros i j Hi Hj Hij.
+    destruct (Nat.lt_trichotomy i j) as [Hlt | [Heq | Hgt]].
+    - intro Hz. pose proof (FrameCheckInstance.sorted_nth_lt I Hs i j Hlt Hj). lia.
+    - exfalso. exact (Hij Heq).
+    - intro Hz. pose proof (FrameCheckInstance.sorted_nth_lt I Hs j i Hgt Hi). lia. }
+  assert (HMi : forall i, (i <= Nat.pred n)%nat -> (nth i I 0%nat <= S (last I 0%nat))%nat).
+  { intros i Hi. pose proof (Hlelast i Hi). lia. }
+  (* 双和展开（l2_expand_double_sum，vals := I，窗口 M = S (last I 0%nat)） *)
+  pose proof (l2_expand_double_sum coeffs I n (S (last I 0%nat))
+                Hlc HlenI (Nat.lt_0_succ (last I 0%nat))) as H0.
+  cbv zeta in H0.
+  assert (Hpm : forall k : nat, (k - 1)%nat = Nat.pred k) by (intros k; lia).
+  rewrite (Hpm n) in H0.
+  assert (Hnorm : l2_norm_sq F (S (last I 0%nat) - 1)
+      = sum_f_R0 (fun i => sum_f_R0 (fun j =>
+          re (c i *c Cconj (c j) *c
+              Csum (fun k => psi (nth i I 0%nat) k *c Cconj (psi (nth j I 0%nat) k)) (S (last I 0%nat))))
+          (Nat.pred n)) (Nat.pred n)).
+  { exact H0. }
+  rewrite Hnorm.
+  set (m := Nat.pred n).
+  (* 逐项上界 / 下界 *)
+  assert (Hup1 : sum_f_R0 (fun i => sum_f_R0 (fun j =>
+            re (c i *c Cconj (c j) *c
+                Csum (fun k => psi (nth i I 0%nat) k *c Cconj (psi (nth j I 0%nat) k)) (S (last I 0%nat)))) m) m
+          <= sum_f_R0 (fun i => sum_f_R0 (fun j =>
+            if eq_nat_dec i j then Cnorm_sq (c i)
+            else Cnorm (c i) * Cnorm (c j)
+                 * FrameCheckInstance.pair_frac_R (nth i I 0%nat) (nth j I 0%nat)) m) m).
+  { apply sum_f_R0_le_compat; intros i Hi.
+    apply sum_f_R0_le_compat; intros j Hj.
+    apply (term_bound_grad_upper c (fun x => nth x I 0%nat) (S (last I 0%nat)) i j
+             (Hge2 i Hi) (Hge2 j Hj) (HMi i Hi) (HMi j Hj)
+             (fun Hij => Hvne i j (Hin i Hi) (Hin j Hj) Hij)). }
+  assert (Hlo1 : sum_f_R0 (fun i => sum_f_R0 (fun j =>
+            - re (c i *c Cconj (c j) *c
+                  Csum (fun k => psi (nth i I 0%nat) k *c Cconj (psi (nth j I 0%nat) k)) (S (last I 0%nat)))) m) m
+          <= sum_f_R0 (fun i => sum_f_R0 (fun j =>
+            if eq_nat_dec i j then - Cnorm_sq (c i)
+            else Cnorm (c i) * Cnorm (c j)
+                 * FrameCheckInstance.pair_frac_R (nth i I 0%nat) (nth j I 0%nat)) m) m).
+  { apply sum_f_R0_le_compat; intros i Hi.
+    apply sum_f_R0_le_compat; intros j Hj.
+    apply (term_bound_grad_lower c (fun x => nth x I 0%nat) (S (last I 0%nat)) i j
+             (Hge2 i Hi) (Hge2 j Hj) (HMi i Hi) (HMi j Hj)
+             (fun Hij => Hvne i j (Hin i Hi) (Hin j Hj) Hij)). }
+  (* 拆分：if-对角/非对角双和 = 对角和 + coh_ladder *)
+  assert (Hsplit : sum_f_R0 (fun i => sum_f_R0 (fun j =>
+            if eq_nat_dec i j then Cnorm_sq (c i)
+            else Cnorm (c i) * Cnorm (c j)
+                 * FrameCheckInstance.pair_frac_R (nth i I 0%nat) (nth j I 0%nat)) m) m
+          = sum_f_R0 (fun i => Cnorm_sq (c i)) m + coh_ladder I c).
+{ unfold coh_ladder.
+    set (Frow := fun i j => if eq_nat_dec i j then Cnorm_sq (c i)
+                            else Cnorm (c i) * Cnorm (c j)
+                            * FrameCheckInstance.pair_frac_R (nth i I 0%nat) (nth j I 0%nat)).
+    transitivity (sum_f_R0 (fun i =>
+        Frow i i + sum_f_R0 (fun j => if eq_nat_dec i j then 0 else Frow i j) m) m).
+    - apply sum_f_R0_ext. intros i Hi.
+      apply sum_row_diag_off. exact Hi.
+    - rewrite sum_f_R0_add. f_equal.
+      + apply sum_f_R0_ext. intros i Hi.
+        unfold Frow. cbv beta.
+        destruct (eq_nat_dec i i) as [He | Hn]; [reflexivity | exfalso; exact (Hn eq_refl)].
+      + apply sum_f_R0_ext. intros i Hi.
+        apply sum_f_R0_ext. intros j Hj.
+        unfold Frow. cbv beta.
+        destruct (eq_nat_dec i j) as [He | Hn]; [reflexivity | reflexivity]. }
+  assert (Hsplit' : sum_f_R0 (fun i => sum_f_R0 (fun j =>
+            if eq_nat_dec i j then - Cnorm_sq (c i)
+            else Cnorm (c i) * Cnorm (c j)
+                 * FrameCheckInstance.pair_frac_R (nth i I 0%nat) (nth j I 0%nat)) m) m
+          = - sum_f_R0 (fun i => Cnorm_sq (c i)) m + coh_ladder I c).
+{ unfold coh_ladder.
+    set (Frow := fun i j => if eq_nat_dec i j then - Cnorm_sq (c i)
+                            else Cnorm (c i) * Cnorm (c j)
+                            * FrameCheckInstance.pair_frac_R (nth i I 0%nat) (nth j I 0%nat)).
+    transitivity (sum_f_R0 (fun i =>
+        Frow i i + sum_f_R0 (fun j => if eq_nat_dec i j then 0 else Frow i j) m) m).
+    - apply sum_f_R0_ext. intros i Hi.
+      apply sum_row_diag_off. exact Hi.
+    - rewrite sum_f_R0_add. f_equal.
+      + rewrite (sum_f_R0_opp_l (fun i => Cnorm_sq (c i)) m).
+        apply sum_f_R0_ext. intros i Hi.
+        unfold Frow. cbv beta.
+        destruct (eq_nat_dec i i) as [He | Hn]; [reflexivity | exfalso; exact (Hn eq_refl)].
+      + apply sum_f_R0_ext. intros i Hi.
+        apply sum_f_R0_ext. intros j Hj.
+        unfold Frow. cbv beta.
+        destruct (eq_nat_dec i j) as [He | Hn]; [reflexivity | reflexivity]. }
+  (* 汇编：上界直接；下界经取负链（ΣΣ(-re) = -ΣΣ(re) 桥） *)
+  assert (Hneg : sum_f_R0 (fun i => sum_f_R0 (fun j =>
+            - re (c i *c Cconj (c j) *c
+                  Csum (fun k => psi (nth i I 0%nat) k *c Cconj (psi (nth j I 0%nat) k)) (S (last I 0%nat)))) m) m
+         
+      = - sum_f_R0 (fun i => sum_f_R0 (fun j =>
+            re (c i *c Cconj (c j) *c
+                  Csum (fun k => psi (nth i I 0%nat) k *c Cconj (psi (nth j I 0%nat) k)) (S (last I 0%nat)))) m) m
+         ).
+  { rewrite (sum_f_R0_opp_l (fun i => sum_f_R0 (fun j =>
+            re (c i *c Cconj (c j) *c
+                  Csum (fun k => psi (nth i I 0%nat) k *c Cconj (psi (nth j I 0%nat) k)) (S (last I 0%nat)))) m) m).
+    apply sum_f_R0_ext. intros i Hi.
+    symmetry. apply sum_f_R0_opp_l. }
+  rewrite Hneg in Hlo1.
+  split; lra.
+Qed.
+
+Lemma sub1_pred (k : nat) : (k - 1)%nat = Nat.pred k.
+Proof. lia. Qed.
+
+(* ============ GC4：分级健全性（最终定理） ============ *)
+
+Theorem frame_check_graduated_sound (I : list nat) (lvl : cert_level)
+        (coeffs : list Complex) (Hlc : length coeffs = length I)
+        (Hg : frame_check_graduated I = lvl) :
+  match lvl with
+  | L1_tight =>
+      let n := length I in
+      let F := fun k => Csum (fun i => nth i coeffs C0 *c psi (nth i I 0%nat) k) n in
+      ((1 - 4 / 5) * sum_f_R0 (fun i => Cnorm_sq (nth i coeffs C0)) (Nat.pred n)
+       <= l2_norm_sq F (S (last I 0%nat) - 1)
+       <= (1 + 4 / 5) * sum_f_R0 (fun i => Cnorm_sq (nth i coeffs C0)) (Nat.pred n))%R
+  | L2_composite =>
+      let n := length I in
+      let c := fun i => nth i coeffs C0 in
+      let F := fun k => Csum (fun i => c i *c psi (nth i I 0%nat) k) n in
+      ((sum_f_R0 (fun i => Cnorm_sq (c i)) (Nat.pred n) - coh_ladder I c
+        <= l2_norm_sq F (S (last I 0%nat) - 1)
+        <= sum_f_R0 (fun i => Cnorm_sq (c i)) (Nat.pred n) + coh_ladder I c)%R)
+  | L3_energy_only =>
+      let n := length I in
+      let c := fun i => nth i coeffs C0 in
+      let F := fun k => Csum (fun i => c i *c psi (nth i I 0%nat) k) n in
+      (l2_norm_sq F (S (last I 0%nat) - 1)
+       <= sum_f_R0 (fun i => Cnorm_sq (c i)) (Nat.pred n) + coh_ladder I c)%R
+  | L4_rejected => True
+  end.
+Proof.
+  destruct lvl.
+  - (* L1_tight *)
+    destruct I as [| h t].
+    + compute in Hg. discriminate Hg.
+    + assert (Hne : (0 < length (h :: t))%nat) by (simpl; lia).
+      unfold frame_check_graduated in Hg.
+      destruct (FrameCheckInstance.frame_check_instance (h :: t)) eqn:Hfc.
+      * cbv zeta. rewrite sub1_pred.
+        exact (FrameCheckInstance.frame_check_instance_sound (h :: t)
+                 Hne Hfc coeffs Hlc).
+      * destruct (andb (FrameCheckInstance.sorted_strict_aux (h :: t))
+                       (FrameCheckInstance.all_ge_2 (h :: t))) eqn:Hst.
+        -- destruct (all_pairs_le_1 (h :: t)) eqn:Hp1.
+          ++ discriminate Hg.
+          ++ discriminate Hg.
+        -- discriminate Hg.
+  - (* L2_composite *)
+    destruct I as [| h t].
+    + compute in Hg. discriminate Hg.
+    + assert (Hne : (0 < length (h :: t))%nat) by (simpl; lia).
+      unfold frame_check_graduated in Hg.
+      destruct (FrameCheckInstance.frame_check_instance (h :: t)) eqn:Hfc.
+      * discriminate Hg.
+      * destruct (andb (FrameCheckInstance.sorted_strict_aux (h :: t))
+                       (FrameCheckInstance.all_ge_2 (h :: t))) eqn:Hst.
+        -- apply andb_true_iff in Hst. destruct Hst as [Hs Hg2].
+           destruct (all_pairs_le_1 (h :: t)) eqn:Hp1.
+          ++ cbv zeta.
+             exact (composite_frame_bounds (h :: t) coeffs Hs Hg2 Hne Hlc).
+          ++ discriminate Hg.
+        -- discriminate Hg.
+  - (* L3_energy_only *)
+    destruct I as [| h t].
+    + compute in Hg. discriminate Hg.
+    + assert (Hne : (0 < length (h :: t))%nat) by (simpl; lia).
+      unfold frame_check_graduated in Hg.
+      destruct (FrameCheckInstance.frame_check_instance (h :: t)) eqn:Hfc.
+      * discriminate Hg.
+      * destruct (andb (FrameCheckInstance.sorted_strict_aux (h :: t))
+                       (FrameCheckInstance.all_ge_2 (h :: t))) eqn:Hst.
+        -- apply andb_true_iff in Hst. destruct Hst as [Hs Hg2].
+           destruct (all_pairs_le_1 (h :: t)) eqn:Hp1.
+          ++ discriminate Hg.
+          ++ cbv zeta.
+             exact (proj2 (composite_frame_bounds (h :: t) coeffs Hs Hg2 Hne Hlc)).
+        -- discriminate Hg.
+  - (* L4_rejected *)
+    trivial.
+Qed.
+
+(* ============ 计算验证（分级分布示例——覆盖四级） ============ *)
+
+(* [3,13]：二元检查器全过 → L1_tight（C4 类） *)
+Example grad_3_13 : frame_check_graduated [3; 13]%nat = L1_tight.
+Proof. vm_compute. reflexivity. Qed.
+
+(* [3,7,15]：行和 22320/18432 > 4/5 被二元检查器拒绝，但逐对 δ≤1
+   → L2_composite——评审 G-5"误拒"类阶梯获得降级服务（本战役主卖点） *)
+Example grad_3_7_15 : frame_check_graduated [3; 7; 15]%nat = L2_composite.
+Proof. vm_compute. reflexivity. Qed.
+
+(* [2,3]：黑洞对 δ = 6/4 > 1 → L3_energy_only（仅上半能量界） *)
+Example grad_2_3 : frame_check_graduated [2; 3]%nat = L3_energy_only.
+Proof. vm_compute. reflexivity. Qed.
+
+(* 乱序 → L4_rejected；空表 → L4_rejected *)
+Example grad_unsorted : frame_check_graduated [7; 3]%nat = L4_rejected.
+Proof. vm_compute. reflexivity. Qed.
+
+Example grad_nil : frame_check_graduated []%nat = L4_rejected.
+Proof. vm_compute. reflexivity. Qed.
+
+(* ============ 审计 ============ *)
+Print Assumptions composite_frame_bounds.
+Print Assumptions frame_check_graduated_sound.
+
+(* ============ 提取（决策函数 nat 可执行：psa_guard 侧分级入口） ============ *)
+From Stdlib Require Import Extraction.
+
+Extraction "frame_check_graduated.ml" cert_level frame_check_graduated pair_le_1.
+
+(* ==================== 模块 64/67: probe_ab_bridge_pier ==================== *)
+
+Close Scope Z_scope.
+Open Scope R_scope.
+Open Scope complex_scope.
+Open Scope nat_scope.
+(* ============================================================
+   CS-18 A-B 桥梁桥墩：psi 核漂移界与截断 TVD（probe_ab_bridge_pier.v）
+   （M2 venue 对齐扩展 T4——"无形式化桥梁"负面声明升级为
+   "中间桥墩已机器检查"；桥面（端到端 PPL）仍为实证轨道）
+
+   背景：论文 A 证书覆盖基表示层能量稳定（psi 原子系），论文 B 的
+   端到端外推性能（PPL）是实证轨道——两者的衔接此前只有负面声明。
+   本模块给出中间桥墩：psi 核（逐位内积被加项）的漂移有显式界，
+   经 PhaseCoherence 的 kernel_drift_controls_attention（核漂移 dc ⟹
+   softmax TVD ≤ exp(2·dc·dd) − 1）组装出"基核窗口截断 ⟹ 注意力
+   输出 TVD 界"的机器检查链节。
+
+   数学内容：
+     PB0 复数-R 基础件：Rabs_re_le_Cnorm_p（库内同名件为
+         Local/inline，自包含复制）+ INR 基础件
+     PB1 psi 逐位模长上界：Cnorm (psi n k) ≤ 1/√n（k<n 等号成立、
+         k≥n 归零——phi_ge_n_zero）
+     PB2 ★ psi 核逐位界与相邻位漂移（venue 原型）：
+         psi_kernel n m k := re (psi n k *c Cconj (psi m k))
+         psi_kernel_abs_le      : |psi_kernel n m k| ≤ 1/(√n·√m)
+         psi_kernel_drift_bound : |psi_kernel n m k − psi_kernel n m (S k)|
+                                  ≤ 2/(√n·√m)（三角不等式路线）
+     PB3 ★★ 截断 TVD 桥（最终合成）：
+         全窗核 K i j = Σ_{k<W} psi_kernel (v_i)(v_j) k、截断核 K' 截至W'，
+         |K i j − K' i j| ≤ INR(W−W')·(1/(√v_i·√v_j)) ≤ INR(W−W')·(1/2)
+         （带 ≥2）⟹ kernel_drift_controls_attention 实例化：
+         TVD(softmax(K·c), softmax(K'·c)) ≤ exp(2·(INR(W−W')·(1/2))·dd) − 1，
+         dd = Σ|c_j|——"桥墩已建、桥面（PPL）待铺"。
+
+   纪律（承 probe_robust / probe_c4_instance 经典 R 轨道）：
+     - 零 Admitted / 零自定义 Axiom（审计 ≤ Dedekind 脚印）
+     - R 层定理（sqrt/softmax——不可提取；提取不适用，如实注明）
+   依赖：ca_base/ca_complex_foundation/ca_independence/ca_basis/
+         ca_basis_lemmas/ca_decay + PSA_framework（RowTruncation 的
+         list_sum_R、SoftmaxStability 的 softmax_l、PhaseCoherence 的
+         kernel_drift_controls_attention、InstanceCertificate 的 psi 系）。
+   ============================================================ *)
+Require Import Stdlib.Lists.List.
+Require Import Stdlib.Arith.Arith.
+Require Import Stdlib.micromega.Lia.
+Require Import Stdlib.micromega.Lra.
+Require Import Stdlib.Reals.Reals.
+Import ComplexNumbers.
+Import ExtendedTheorems.
+Import ListNotations.
+Open Scope nat_scope.
+Open Scope R_scope.
+
+(* ============ PB0：复数-R 基础件 ============ *)
+
+Lemma Rabs_re_le_Cnorm_p (z : Complex) : Rabs (re z) <= Cnorm z.
+Proof.
+  unfold Cnorm, Cnorm_sq, re; simpl.
+  rewrite <- sqrt_Rsqr_abs.
+  apply sqrt_le_1_c.
+  - apply Rle_0_sqr.
+  - apply Rplus_le_le_0_compat; apply Rle_0_sqr.
+  - unfold Rsqr; nra.
+Qed.
+
+Lemma Cnorm_ge_0_cn (z : Complex) : 0 <= Cnorm z.
+Proof.
+  unfold Cnorm, Cnorm_sq.
+  apply sqrt_positivity.
+  apply Rplus_le_le_0_compat; apply Rle_0_sqr.
+Qed.
+
+Lemma INR_pos_le (n : nat) : (0 <= INR n)%R.
+Proof.
+  apply Rle_trans with (INR 0)%R.
+  - apply Rle_refl.
+  - apply le_INR. lia.
+Qed.
+
+Lemma INR_1_lt_ge2 (n : nat) : (2 <= n)%nat -> (1 < INR n)%R.
+Proof.
+  intros Hn.
+  apply Rlt_le_trans with (2%R).
+  - lra.
+  - assert (H2 : (INR 2 = 2)%R) by (rewrite S_INR, INR_1; reflexivity).
+    rewrite <- H2. apply le_INR. lia.
+Qed.
+
+Lemma INR_2_two : (INR 2 = 2)%R.
+Proof. rewrite S_INR, INR_1. reflexivity. Qed.
+
+Lemma psi_frac_eq (n m : nat) : (2 <= n)%nat -> (2 <= m)%nat ->
+  (1 / sqrt (INR n) * (1 / sqrt (INR m))
+   = 1 / (sqrt (INR n) * sqrt (INR m)))%R.
+Proof.
+  intros Hn Hm. field.
+  split; apply Rgt_not_eq; apply sqrt_lt_R0; apply lt_0_INR; lia.
+Qed.
+
+(* ============ PB1：psi 逐位模长上界 ============ *)
+
+Lemma psi_cnorm_le (n k : nat) : (2 <= n)%nat ->
+  Cnorm (psi n k) <= 1 / sqrt (INR n).
+Proof.
+  intros Hn. unfold psi. rewrite Cnorm_mult.
+  destruct (Nat.lt_ge_cases k n) as [Hk | Hk].
+  - (* k < n：phi 单位模长 *)
+    assert (HC : Cnorm (phi n k) = 1).
+    { unfold Cnorm. rewrite (Cnorm_sq_phi n k Hk). apply sqrt_1. }
+    rewrite HC. rewrite Rmult_1_r.
+    rewrite (Cnorm_Cof_real_pos (1 / sqrt (INR n))).
+    + apply Rle_refl.
+    + apply Rlt_le. apply Rdiv_lt_0_compat.
+      * apply Rlt_0_1.
+      * apply sqrt_lt_R0. apply lt_0_INR. lia.
+  - (* k ≥ n：phi 归零 *)
+    rewrite (phi_ge_n_zero n k Hk).
+    assert (HC0 : Cnorm C0 = 0) by (unfold Cnorm; rewrite Cnorm_sq_zero; apply sqrt_0).
+    rewrite HC0. rewrite Rmult_0_r.
+    apply Rlt_le. apply Rdiv_lt_0_compat.
+    * apply Rlt_0_1.
+    * apply sqrt_lt_R0. apply lt_0_INR. lia.
+Qed.
+
+(* ============ PB2：psi 核逐位界与相邻位漂移（venue 原型） ============ *)
+
+Definition psi_kernel (n m k : nat) : R := re (psi n k *c Cconj (psi m k)).
+
+Lemma psi_kernel_abs_le (n m k : nat) : (2 <= n)%nat -> (2 <= m)%nat ->
+  (Rabs (psi_kernel n m k) <= 1 / (sqrt (INR n) * sqrt (INR m)))%R.
+Proof.
+  intros Hn Hm. unfold psi_kernel.
+  eapply Rle_trans; [apply Rabs_re_le_Cnorm_p |].
+  rewrite Cnorm_mult. rewrite Cnorm_conj_eq.
+  rewrite <- (psi_frac_eq n m Hn Hm).
+  apply Rmult_le_compat.
+  - apply Cnorm_ge_0_cn.
+  - apply Cnorm_ge_0_cn.
+  - apply psi_cnorm_le; exact Hn.
+  - apply psi_cnorm_le; exact Hm.
+Qed.
+
+Theorem psi_kernel_drift_bound (n m k : nat) :
+  (2 <= n)%nat -> (2 <= m)%nat ->
+  (Rabs (psi_kernel n m k - psi_kernel n m (S k))
+   <= 2 / (sqrt (INR n) * sqrt (INR m)))%R.
+Proof.
+  intros Hn Hm. unfold psi_kernel.
+  replace (re (psi n k *c Cconj (psi m k))
+          - re (psi n (S k) *c Cconj (psi m (S k))))
+     with (re (psi n k *c Cconj (psi m k))
+          + - re (psi n (S k) *c Cconj (psi m (S k)))) by ring.
+  rewrite Rabs_triang. rewrite Rabs_Ropp.
+  apply Rle_trans with
+    (Cnorm (psi n k *c Cconj (psi m k))
+     + Cnorm (psi n (S k) *c Cconj (psi m (S k))))%R.
+  - apply Rplus_le_compat; apply Rabs_re_le_Cnorm_p.
+  - rewrite !Cnorm_mult. rewrite !Cnorm_conj_eq.
+    apply Rle_trans with
+      (1 / (sqrt (INR n) * sqrt (INR m))
+       + 1 / (sqrt (INR n) * sqrt (INR m)))%R.
+    + rewrite <- !psi_frac_eq by lia.
+      apply Rplus_le_compat; apply Rmult_le_compat.
+      * apply Cnorm_ge_0_cn.
+      * apply Cnorm_ge_0_cn.
+      * apply psi_cnorm_le; exact Hn.
+      * apply psi_cnorm_le; exact Hm.
+      * apply Cnorm_ge_0_cn.
+      * apply Cnorm_ge_0_cn.
+      * apply psi_cnorm_le; exact Hn.
+      * apply psi_cnorm_le; exact Hm.
+    + unfold Rdiv. nra.
+Qed.
+
+(* ============ PB3：截断漂移与 TVD 桥 ============ *)
+
+(* --- 基础件：list_sum_R 三件（RowTruncation.list_sum_R 上自包含） --- *)
+
+Lemma list_sum_R_app (f : nat -> R) (l1 l2 : list nat) :
+  RowTruncation.list_sum_R f (l1 ++ l2)
+  = RowTruncation.list_sum_R f l1 + RowTruncation.list_sum_R f l2.
+Proof.
+  induction l1 as [| a t IH].
+  - simpl. rewrite Rplus_0_l. reflexivity.
+  - rewrite <- app_comm_cons. simpl. rewrite IH. ring.
+Qed.
+
+Lemma list_sum_R_abs_bound (f : nat -> R) (l : list nat) :
+  (Rabs (RowTruncation.list_sum_R f l)
+   <= RowTruncation.list_sum_R (fun k => Rabs (f k)) l)%R.
+Proof.
+  induction l as [| a t IH].
+  - simpl. rewrite Rabs_R0. apply Rle_refl.
+  - simpl. eapply Rle_trans; [apply Rabs_triang |].
+    apply Rplus_le_compat.
+    + apply Rle_refl.
+    + exact IH.
+Qed.
+
+Lemma list_sum_R_const_le (f : nat -> R) (c : R) (l : list nat) :
+  (forall k, In k l -> (f k <= c)%R) ->
+  (RowTruncation.list_sum_R f l <= INR (length l) * c)%R.
+Proof.
+  induction l as [| a t IH]; intro Hpt.
+  - cbn [RowTruncation.list_sum_R fold_right]. rewrite <- INR_0. rewrite Rmult_0_l. apply Rle_refl.
+  - assert (Ha : (f a <= c)%R) by (apply Hpt; left; reflexivity).
+    assert (Ht : (RowTruncation.list_sum_R f t <= INR (length t) * c)%R)
+      by (apply IH; intros k Hk; apply Hpt; right; exact Hk).
+  - assert (Hlen : (INR (length (a :: t)) = INR (length t) + 1)%R).
+    { cbn [length]. rewrite S_INR. reflexivity. }
+    replace (RowTruncation.list_sum_R f (a :: t))
+      with (f a + RowTruncation.list_sum_R f t) by reflexivity.
+    rewrite Hlen. lra.
+Qed.
+
+(* --- 截断漂移：全窗和与截断和之差的绝对值界 --- *)
+
+Lemma psi_kernel_trunc_dc (n m W W' : nat) :
+  (2 <= n)%nat -> (2 <= m)%nat -> (W' <= W)%nat ->
+  (Rabs (RowTruncation.list_sum_R (psi_kernel n m) (seq 0 W)
+         - RowTruncation.list_sum_R (psi_kernel n m) (seq 0 W'))
+   <= INR (W - W')%nat * (1 / (sqrt (INR n) * sqrt (INR m))))%R.
+Proof.
+  intros Hn Hm Hle.
+  set (f := psi_kernel n m).
+  set (d := (W - W')%nat).
+  assert (HW : (W = W' + d)%nat) by (unfold d; lia).
+  assert (Hsplit : RowTruncation.list_sum_R f (seq 0 (W' + d))
+                   = RowTruncation.list_sum_R f (seq 0 W')
+                     + RowTruncation.list_sum_R f (seq W' d)).
+  { rewrite seq_app, list_sum_R_app. reflexivity. }
+  assert (Habs : (Rabs (RowTruncation.list_sum_R f (seq W' d))
+                  <= RowTruncation.list_sum_R (fun k => Rabs (f k)) (seq W' d))%R)
+    by apply list_sum_R_abs_bound.
+  assert (Hpt : forall k, In k (seq W' d) ->
+            (Rabs (f k) <= 1 / (sqrt (INR n) * sqrt (INR m)))%R).
+  { intros k _. unfold f. apply psi_kernel_abs_le; assumption. }
+  assert (Hconst : (RowTruncation.list_sum_R (fun k => Rabs (f k)) (seq W' d)
+                    <= INR (length (seq W' d))
+                       * (1 / (sqrt (INR n) * sqrt (INR m))))%R)
+    by (apply list_sum_R_const_le; exact Hpt).
+  rewrite length_seq in Hconst.
+  assert (HK : RowTruncation.list_sum_R f (seq 0 W)
+               - RowTruncation.list_sum_R f (seq 0 W')
+               = RowTruncation.list_sum_R f (seq W' d)).
+  { rewrite HW. rewrite Hsplit. ring. }
+  rewrite HK.
+  eapply Rle_trans; [exact Habs | exact Hconst].
+Qed.
+
+(* --- 带下界：两带 ≥2 ⟹ 模长乘积 ≥ 2 --- *)
+
+Lemma sqrt_pair_ge2 (vi vj : nat) : (2 <= vi)%nat -> (2 <= vj)%nat ->
+  (2 <= sqrt (INR vi) * sqrt (INR vj))%R.
+Proof.
+  intros Hvi Hvj.
+  assert (H2 : (INR 2 = 2)%R) by (rewrite S_INR, INR_1; reflexivity).
+  assert (Hbi : (2 <= INR vi)%R) by (rewrite <- H2; apply le_INR; lia).
+  assert (Hbj : (2 <= INR vj)%R) by (rewrite <- H2; apply le_INR; lia).
+  assert (Hb0 : (0 <= INR vi * INR vj)%R) by nra.
+  assert (Hb4 : (2 * 2 <= INR vi * INR vj)%R) by nra.
+  apply Rle_trans with (sqrt (INR vi * INR vj)).
+  - replace 2 with (sqrt (2 * 2)) by (apply sqrt_square; lra).
+    apply sqrt_le_1_c.
+    + lra.
+    + exact Hb0.
+    + exact Hb4.
+  - rewrite sqrt_mult by apply INR_pos_le. apply Rle_refl.
+Qed.
+
+(* --- PB3 ★★ 截断 TVD 桥（最终合成） --- *)
+
+Theorem psi_attention_tvd_trunc (vals : list nat) (coeffs : list R) (W W' : nat) (dd : R) :
+  (0 < length vals)%nat ->
+  length coeffs = length vals ->
+  (forall j, (j < length vals)%nat -> (2 <= nth j vals 0%nat)%nat) ->
+  (W' <= W)%nat ->
+  (RowTruncation.list_sum_R (fun j => Rabs (nth j coeffs 0%R)) (seq 0 (length vals)) <= dd)%R ->
+  let K := fun i j => RowTruncation.list_sum_R
+            (fun k => psi_kernel (nth i vals 0%nat) (nth j vals 0%nat) k) (seq 0 W) in
+  let K' := fun i j => RowTruncation.list_sum_R
+            (fun k => psi_kernel (nth i vals 0%nat) (nth j vals 0%nat) k) (seq 0 W') in
+  (RowTruncation.list_sum_R
+     (fun i => Rabs
+        (SoftmaxStability.softmax_l (fun i0 => RowTruncation.list_sum_R (fun j => nth j coeffs 0%R * K i0 j) (seq 0 (length vals))) (length vals) i
+         - SoftmaxStability.softmax_l (fun i0 => RowTruncation.list_sum_R (fun j => nth j coeffs 0%R * K' i0 j) (seq 0 (length vals))) (length vals) i))
+     (seq 0 (length vals))
+   <= exp (2 * (INR (W - W')%nat * (1 / 2) * dd)) - 1)%R.
+Proof.
+  intros Hlen0 Hlc Hge2 Hle Hdd K K'.
+  cbv zeta.
+  apply (PhaseCoherence.kernel_drift_controls_attention K K' (fun j => nth j coeffs 0%R)
+           (length vals) (INR (W - W')%nat * (1 / 2)) dd).
+  - exact Hlen0.
+  - (* 0 ≤ dc *)
+    apply Rle_trans with (INR (W - W')%nat * 0)%R.
+    + rewrite Rmult_0_r. apply Rle_refl.
+    + apply Rmult_le_compat_l.
+      * apply INR_pos_le.
+      * lra.
+  - (* 一致漂移界：dc = INR (W - W')%nat * (1/2) *)
+    intros i j Hi Hj.
+    assert (H2i : (2 <= nth i vals 0%nat)%nat) by (apply Hge2; exact Hi).
+    assert (H2j : (2 <= nth j vals 0%nat)%nat) by (apply Hge2; exact Hj).
+    eapply Rle_trans;
+      [apply (psi_kernel_trunc_dc (nth i vals 0%nat) (nth j vals 0%nat) W W' H2i H2j Hle) |].
+    assert (Hden : (2 <= sqrt (INR (nth i vals 0%nat)) * sqrt (INR (nth j vals 0%nat)))%R)
+      by (apply sqrt_pair_ge2; assumption).
+    assert (Hinv : (1 / (sqrt (INR (nth i vals 0%nat)) * sqrt (INR (nth j vals 0%nat)))
+                    <= 1 / 2)%R).
+    { unfold Rdiv. rewrite !Rmult_1_l.
+      apply Rinv_le_contravar.
+      - lra.
+      - exact Hden. }
+    apply Rmult_le_compat_l.
+    + apply INR_pos_le.
+    + exact Hinv.
+  - exact Hdd.
+Qed.
+
+(* ============ 审计 ============ *)
+Print Assumptions psi_kernel_drift_bound.
+Print Assumptions psi_attention_tvd_trunc.
+
+(* ==================== 模块 65/67: probe_relaxation_meta ==================== *)
+
+Close Scope Z_scope.
+Open Scope R_scope.
+Open Scope complex_scope.
+Open Scope nat_scope.
+(* ============================================================
+   CS-19 松弛链元理论：单调性与组合性（probe_relaxation_meta.v）
+   （外部评审建议-05 Should-Fix #4：可判定性松弛链是本文核心方法论，
+   需为该链补证——单调性（更紧的超越数界 ⟹ 更紧的有理数界）与
+   组合性（各层独立收紧的兼容性），即使作为引理/附录）
+
+   背景：反射检查器的有理证书由逐层松弛合成——
+     层 A（分子上界）：Dirichlet 核分子 |sin(πNΔ)| ≤ m（理想 m = 1）
+     层 B（分母下界）：sin(πΔ) ≥ sb（Jordan / π 上界改进处）
+     层 C（√ 下界）：√(n1·n2) ≥ sq（floor-sqrt 层）
+   合成逐对界 relax m sb sq := m·(1/(sb·sq))；行和累加后与 4/5 比较。
+   本模块在抽象参数层证明该合成的元理论性质：
+
+     M1 逐层单调：relax 对 m 单调增、对 sb / sq 单调减
+        （更紧的层界 ⟹ 更紧的合成界——单调性）
+     M2 组合性：三层同时收紧 ⟹ 合成界 ≤ 原界，且可分解为逐层收紧
+        的传递链（各层独立收紧互不破坏——组合性）
+     M3 行和提升：逐对单调 ⟹ 行和单调（sum_f_R0 上的逐点提升）
+     M4 判定保持（主定理）：任一层收紧后，若旧合成界下检查器通过
+        （行和 ≤ 4/5），则新合成界下仍通过——松弛链的收紧是
+        「只强化不破坏」的单侧操作
+     M5 形态实例化：框架反射层 pair_frac_R 恰为 relax 族的一个实例
+        （m := INR(n1·n2)、sb := INR(2·(n2−n1))、sq := INR(√(n1·n2))
+        的 nat floor 形态），即元理论直接覆盖现有检查器管线；
+        又因 nat 分数累加（frac_add）为精确有理加法，R 层行和与
+        nat 层行和在值上逐点相等，元理论对 nat 检查器逐字适用
+
+   纪律：零 Admitted / 零自定义 Axiom；纯 R 层（与主线同公理依赖）。
+   依赖：Stdlib + ca_* 六库（sum_f_R0 及其归纳引理）+ PSA_framework
+   （仅 M5 的 pair_frac_R 形态实例）。
+   ============================================================ *)
+Require Import Stdlib.Lists.List.
+Require Import Stdlib.Arith.Arith.
+Require Import Stdlib.micromega.Lia.
+Require Import Stdlib.micromega.Lra.
+Require Import Stdlib.Reals.Reals.
+Import ComplexNumbers.
+Import ExtendedTheorems.
+Open Scope nat_scope.
+Open Scope R_scope.
+
+(* ============ M1：合成界的逐层单调性 ============ *)
+
+Definition relax (m sb sq : R) : R := m * (1 / (sb * sq)).
+
+Lemma relax_pos_den (sb sq : R) : 0 < sb -> 0 < sq -> 0 < sb * sq.
+Proof. intros Hsb Hsq. nra. Qed.
+
+Lemma relax_den_pos_inv (sb sq : R) : 0 < sb -> 0 < sq -> 0 <= 1 / (sb * sq).
+Proof.
+  intros Hsb Hsq.
+  apply Rlt_le. apply Rdiv_lt_0_compat.
+  - apply Rlt_0_1.
+  - apply relax_pos_den; assumption.
+Qed.
+
+(* M1a：分子层（上界参数）单调 *)
+Lemma relax_mono_m (m1 m2 sb sq : R) :
+  0 < sb -> 0 < sq -> m1 <= m2 -> relax m1 sb sq <= relax m2 sb sq.
+Proof.
+  intros Hsb Hsq Hm. unfold relax.
+  apply Rmult_le_compat_r.
+  - apply relax_den_pos_inv; assumption.
+  - exact Hm.
+Qed.
+
+(* M1b：分母下界层单调（sb 越大合成界越小） *)
+Lemma relax_mono_sb (m sb1 sb2 sq : R) :
+  0 <= m -> 0 < sb1 -> sb1 <= sb2 -> 0 < sq ->
+  relax m sb2 sq <= relax m sb1 sq.
+Proof.
+  intros Hm Hsb1 Hle Hsq. unfold relax.
+  apply Rmult_le_compat_l.
+  - exact Hm.
+  - unfold Rdiv. rewrite !Rmult_1_l.
+    apply Rinv_le_contravar.
+    + apply relax_pos_den; assumption.
+    + apply Rmult_le_compat.
+      * lra.
+      * lra.
+      * exact Hle.
+      * apply Rle_refl.
+Qed.
+
+(* M1c：√ 下界层单调（sq 越大合成界越小） *)
+Lemma relax_mono_sq (m sb sq1 sq2 : R) :
+  0 <= m -> 0 < sb -> 0 < sq1 -> sq1 <= sq2 ->
+  relax m sb sq2 <= relax m sb sq1.
+Proof.
+  intros Hm Hsb Hsq1 Hle. unfold relax.
+  apply Rmult_le_compat_l.
+  - exact Hm.
+  - unfold Rdiv. rewrite !Rmult_1_l.
+    apply Rinv_le_contravar.
+    + apply relax_pos_den; assumption.
+    + apply Rmult_le_compat.
+      * lra.
+      * lra.
+      * apply Rle_refl.
+      * exact Hle.
+Qed.
+
+(* ============ M2：组合性（多层独立收紧的兼容性） ============ *)
+
+Lemma relax_refine (m m' sb sb' sq sq' : R) :
+  0 <= m' -> 0 < sb -> 0 < sb' -> 0 < sq -> 0 < sq' ->
+  m' <= m -> sb <= sb' -> sq <= sq' ->
+  relax m' sb' sq' <= relax m sb sq.
+Proof.
+  intros Hm' Hsb Hsb' Hsq Hsq' Hm Hle_sb Hle_sq.
+  eapply Rle_trans; [apply (relax_mono_sq m' sb' sq sq'); assumption |].
+  eapply Rle_trans; [apply (relax_mono_sb m' sb sb' sq); assumption |].
+  apply relax_mono_m; assumption.
+Qed.
+
+(* ============ M3：行和提升（逐对单调 ⟹ 行和单调） ============ *)
+
+Definition rowR (g : nat -> nat -> R) (n i : nat) : R :=
+  sum_f_R0 (fun j => if Nat.eqb i j then 0 else g i j) (Nat.pred n).
+
+Lemma rowR_mono (g h : nat -> nat -> R) (n : nat) :
+  (forall i j, i <> j -> g i j <= h i j) ->
+  forall i, rowR g n i <= rowR h n i.
+Proof.
+  intros Hle i. unfold rowR. apply sum_f_R0_le_compat. intros j Hj.
+  destruct (Nat.eqb_spec i j) as [E | E].
+  - apply Rle_refl.
+  - apply Hle. exact E.
+Qed.
+
+(* ============ M4：判定保持（主定理） ============ *)
+
+Theorem checker_preserved_under_refinement (g h : nat -> nat -> R) (n : nat) :
+  (forall i j, i <> j -> h i j <= g i j) ->
+  (forall i : nat, (i < n)%nat -> rowR g n i <= 4 / 5) ->
+  forall i : nat, (i < n)%nat -> rowR h n i <= 4 / 5.
+Proof.
+  intros Htight Hpass i Hi.
+  eapply Rle_trans; [apply (rowR_mono h g n Htight) | apply Hpass; exact Hi].
+Qed.
+
+(* ============ M5：形态实例化（元理论覆盖现有检查器管线） ============ *)
+
+Corollary pair_frac_relax_form (a b : nat) :
+  FrameCheckInstance.pair_frac_R a b
+  = relax (INR (Nat.min a b * Nat.max a b))
+          (INR (2 * (Nat.max a b - Nat.min a b)))
+          (INR (Nat.sqrt (Nat.min a b * Nat.max a b))).
+Proof.
+  unfold FrameCheckInstance.pair_frac_R, relax,
+         FrameCheckInstance.pair_num, FrameCheckInstance.pair_den, Rdiv.
+  rewrite Rmult_1_l.
+  rewrite <- (mult_INR (2 * (Nat.max a b - Nat.min a b))
+                       (Nat.sqrt (Nat.min a b * Nat.max a b))).
+  reflexivity.
+Qed.
+
+(* ============ 审计 ============ *)
+Print Assumptions checker_preserved_under_refinement.
+Print Assumptions pair_frac_relax_form.
+
+(* ==================== 模块 66/67: probe_c4_four_atom_cr ==================== *)
+
+Close Scope R_scope.
+Close Scope Z_scope.
+(* ============================================================
+   CS-15 构造性四原子分层证书：probe_c4_four_atom_cr.v
+   （z 区构造性轨道，2026-08-30，M2 venue 对齐扩展——评审 4.1/主题四
+   "C=4 第 4 原子 213 未覆盖"的正面回应）
+
+   目标：把"3 原子唯一、第 4 原子未覆盖"转化为分层正面贡献：
+     层 1（全族 4 原子 [3,13,53,213]）：双侧能量稳定
+        |‖Σ_{j≤3} c_j·u_j‖² − Σ c_j²| ≤ μ₄·4·Σ c_j²
+        （CRrip_bound_k M=3 实例化——能量稳定不要求 μ(M+1)<1）
+     层 2（Q 层窗口判定，可计算）：
+        μ₄·4 > 1 —— 全族唯一性窗口**关闭**（精确障碍刻画）
+        μ₄·3 < 1 —— 3 原子子族 [3,13,53] 唯一性窗口**开启**
+     —— 同一常数 μ₄ = 11289/33920（六对公共相干上界，主线
+        pair_53_213 / c4_coherence_3 背书）的两个方向判定。
+
+   纪律（承 probe_taugrid_cr.v / probe_recovery_cr.v）：
+     - 纯构造性：零经典实数（不用 Stdlib.Reals）、零 Admitted、
+       零自定义公理；只用抽象接口 {R : ConstructiveReals}
+     - Set 层 CRcarrier 组合；Prop 层 CRle（上界证书无信息内容故
+       留 Prop，同 taugrid C-TA3 口径）；Q 层窗口判定（Prop 层 Z，
+       lia 收口——序判定下放 Q 层）
+     - Q 分母 Pos.of_succ_nat；zpos_of_succ + cbn [Qnum QDen] 定向
+       归约（禁 simpl）
+     - 可提取：μ₄ 常数与 CR 组合（Set 层对象）
+   依赖：ca_rip_cr（CRrip_bound_k/CRcombo/CRnorm_sq/CRsum/CRip/INR/
+         CR0_le_INR，均 Closed）。
+   审计：Print Assumptions 尾部。
+   提取：c4_four_atom_cr.ml。
+   ============================================================ *)
+Require Import ConstructiveReals.
+From Stdlib Require Import ConstructiveRealsMorphisms.
+From Stdlib Require Import ConstructiveAbs.
+From Stdlib Require Import ConstructiveSum.
+Require Import Stdlib.QArith.QArith.
+Require Import Stdlib.ZArith.ZArith.
+Require Import Stdlib.micromega.Lia.
+From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div prime.
+
+Local Open Scope ConstructiveReals.
+
+(* E138①：Notation 注册（8 项，恢复 Stdlib nat 记号——防 mathcomp 污染，
+   合并版双环境兼容硬规则 9） *)
+Notation "a + b" := (Nat.add a b) (at level 50, left associativity) : nat_scope.
+Notation "a - b" := (Nat.sub a b) (at level 50, left associativity) : nat_scope.
+Notation "a * b" := (Nat.mul a b) (at level 40, left associativity) : nat_scope.
+Notation "a <= b" := (Nat.le a b) (at level 70, no associativity) : nat_scope.
+Notation "a < b" := (Nat.lt a b) (at level 70, no associativity) : nat_scope.
+Notation "a >= b" := (Nat.le b a) (at level 70, no associativity) : nat_scope.
+Notation "a > b" := (Nat.lt b a) (at level 70, no associativity) : nat_scope.
+
+(* Q 分母桥（定义性——Z.of_nat (S n) ≡ Zpos (Pos.of_succ_nat n)） *)
+Lemma zpos_of_succ (n : nat) :
+  Z.pos (Pos.of_succ_nat n) = Z.of_nat (S n).
+Proof. destruct n; reflexivity. Qed.
+
+(* 字面量钉值（cbn 对字面量 den 会 iota 展开 of_succ_nat 为 of_num_uint，
+   zpos_of_succ 的通用形态无法归约 lia——故用 reflexivity 钉值引理） *)
+Lemma zpos_33919 : Z.pos (Pos.of_succ_nat 33919) = 33920%Z.
+Proof. reflexivity. Qed.
+
+(* μ₄：C=4 六对公共相干的有理上界 11289/33920
+   （主线 pair_53_213 与 c4_coherence_3 同值背书） *)
+Definition mu_c4 : Q := Qmake 11289 (Pos.of_succ_nat 33919).
+
+Section C4FourAtomCR.
+
+Context {R : ConstructiveReals}.
+Add Ring CR_ring : (CRisRing R).
+
+(* 四原子注入：u 0 ↔ ψ_3，u 1 ↔ ψ_13，u 2 ↔ ψ_53，u 3 ↔ ψ_213
+   （抽象梯子——CR 构造性 cos/复指数由 M2E 扩展 plug-in，接口不变） *)
+Variable u : nat -> @CRComplex R.
+
+Hypothesis Hu_unit : forall j, le j 3 -> CReq R (CRnorm_sq (u j)) (CR_of_Q R (Qmake 1 1)).
+Hypothesis Hu_coh : forall i j, le i 3 -> le j 3 -> i <> j ->
+  CRle R (CRabs R (CRip (u i) (u j))) (CR_of_Q R mu_c4).
+
+(* ---------- C4-0 μ₄ ≥ 0 ---------- *)
+
+Lemma c4_mu_c4_nonneg :
+  CRle R (CR_of_Q R (Qmake 0 1)) (CR_of_Q R mu_c4).
+Proof.
+  apply CR_of_Q_le.
+  unfold Qle, mu_c4. cbn [Qnum Qden].
+  rewrite zpos_33919. lia.
+Qed.
+
+(* ---------- C4-1 ★ 核心：四原子双侧能量稳定 ---------- *)
+
+Theorem c4_four_atom_energy_stability :
+  forall c : nat -> CRcarrier R,
+  CRle R (CRabs R (CRminus R (CRnorm_sq (CRcombo 3 c u))
+                             (CRsum (fun j => c j * c j) 3)))
+         ((CR_of_Q R mu_c4 * INR 4)%ConstructiveReals
+          * CRsum (fun j => c j * c j) 3).
+Proof.
+  intros c.
+  exact (CRrip_bound_k (R := R) 3 c u (CR_of_Q R mu_c4)
+                       c4_mu_c4_nonneg Hu_unit Hu_coh).
+Qed.
+
+(* ---------- C4-2 Q 层窗口判定（可计算） ---------- *)
+
+(* 全族（4 原子）唯一性窗口**关闭**：μ₄·4 = 45156/33920 > 1 *)
+Lemma c4_mu4_times4_gt_one : Qlt (Qmake 1 1) (mu_c4 * Qmake 4 1).
+Proof.
+  unfold Qlt, Qmult, mu_c4. cbn [Qnum Qden].
+  rewrite zpos_33919. lia.
+Qed.
+
+(* 子族（3 原子 [3,13,53]）唯一性窗口**开启**：μ₄·3 = 33867/33920 < 1 *)
+Lemma c4_mu4_times3_lt_one : Qlt (mu_c4 * Qmake 3 1) (Qmake 1 1).
+Proof.
+  unfold Qlt, Qmult, mu_c4. cbn [Qnum Qden].
+  rewrite zpos_33919. lia.
+Qed.
+
+(* ---------- C4-3 ★★ 最终合成：分层证书 ---------- *)
+
+Theorem c4_four_atom_layered_certificate :
+  (forall c : nat -> CRcarrier R,
+     CRle R (CRabs R (CRminus R (CRnorm_sq (CRcombo 3 c u))
+                                (CRsum (fun j => c j * c j) 3)))
+            ((CR_of_Q R mu_c4 * INR 4)%ConstructiveReals
+             * CRsum (fun j => c j * c j) 3))
+  /\ Qlt (Qmake 1 1) (mu_c4 * Qmake 4 1)
+  /\ Qlt (mu_c4 * Qmake 3 1) (Qmake 1 1).
+Proof.
+  split; [exact c4_four_atom_energy_stability
+         | split; [exact c4_mu4_times4_gt_one | exact c4_mu4_times3_lt_one]].
+Qed.
+
+End C4FourAtomCR.
+
+(* ---------- 审计 ---------- *)
+Print Assumptions c4_mu_c4_nonneg.
+Print Assumptions c4_four_atom_energy_stability.
+Print Assumptions c4_mu4_times4_gt_one.
+Print Assumptions c4_mu4_times3_lt_one.
+Print Assumptions c4_four_atom_layered_certificate.
+
+(* ---------- 提取（Set 层可执行对象 + 柯西实例具象化） ---------- *)
+From Stdlib Require Import Extraction.
+From Stdlib Require Import ConstructiveRcomplete.
+
+Definition c4_ladder_zero :
+  nat -> @CRComplex CRealConstructive := fun _ => CRzero.
+
+(* eta 展开：常量包装会带弱类型（'_weak1），函数形式可泛化 *)
+Definition c4_mu_cauchy : Q -> @CRcarrier CRealConstructive :=
+  fun _ => @CR_of_Q CRealConstructive mu_c4.
+Definition c4_combo_cauchy :
+  (nat -> @CRcarrier CRealConstructive) -> @CRComplex CRealConstructive :=
+  fun c => @CRcombo CRealConstructive 3 c c4_ladder_zero.
+Definition c4_norm_sq_cauchy :
+  (nat -> @CRcarrier CRealConstructive) -> @CRcarrier CRealConstructive :=
+  fun c => @CRnorm_sq CRealConstructive (c4_combo_cauchy c).
+Definition c4_mu4_window : Z * positive :=
+  (Qnum (mu_c4 * Qmake 4 1), Qden (mu_c4 * Qmake 4 1)).
+
+Extraction "c4_four_atom_cr.ml" c4_mu_cauchy c4_combo_cauchy
+  c4_norm_sq_cauchy c4_mu4_window.
+
+(* ==================== 模块 67/67: probe_safe_domain ==================== *)
+
+Close Scope R_scope.
+Close Scope Z_scope.
+(* ============================================================
+   CS-16 安全域谓词与溢出自由一致性：probe_safe_domain.v
+   （z 区构造性轨道，2026-08-30，M2 venue 对齐扩展——评审 A1/主题
+   "运行时检查器 int 镜像信任鸿沟"的正面回应）
+
+   背景：反射检查器 `frame_check_instance`（PSA_framework）为 nat 判定器；
+   提取的 OCaml int（63-bit）镜像与 Coq 语义的一致性此前仅为 FFI 24/24
+   交叉校验（经验性）。本模块给出**构造性的安全域谓词**：满足该谓词的
+   输入下，连乘链不溢出 ⟹ mod-2^63 镜像与精确语义一致（可判定成员资格）。
+
+   数学内容：
+     S1 ★ 乘积上界递推（非平凡归纳）：若全部因子 0 < d ≤ D，则
+        0 < zprod l ≤ D^length l——安全域"成员判定"的数学核。
+     S2 溢出自由一致性：0 ≤ p < 2^63 ⟹ p mod 2^63 == p
+        （溢出自由 ⟹ mod-2^63 镜像与精确语义一致）。
+     S3 ★★ 最终合成（安全域定理）：C=4 判定链
+        dens = [400;2080;3500;20800;33920]（行和有理界的分母）满足
+        全因子 0 < d < 2^63 且 zprod < 2^63 —— 判定链落在安全域内，
+        镜像一致 + 成员资格可判定（bool 函数，可提取）。
+
+   纪律（承 probe_taugrid_cr.v / probe_c4_four_atom_cr.v）：
+     - 纯构造性：nat/Z 层（零实数、零经典公理、零 Admitted）
+     - Set 层 Fixpoint（zprod——可计算、可提取）；Prop 层结论
+     - 审计：Print Assumptions 尾部
+   依赖：Stdlib（List/ZArith/Lia）。
+   提取：safe_domain.ml（zprod/判定 bool 函数——Set 层可执行）。
+   ============================================================ *)
+Require Import Stdlib.QArith.QArith.
+Require Import Stdlib.ZArith.ZArith.
+Require Import Stdlib.micromega.Lia.
+Require Import Stdlib.Lists.List.
+Import ListNotations.
+
+Local Open Scope Z_scope.   (* QArith 会 Open Q_scope——裸 * / <= 需回 Z；Q 全部走 Qmake 显式构造 *)
+
+(* ---------- 63-bit 界 ---------- *)
+Definition W63 : Z := 9223372036854775808.   (* 2^63 *)
+Definition W53 : Z := 9007199254740992.      (* 2^53 *)
+
+(* ---------- Set 层连乘（可计算、可提取） ---------- *)
+Fixpoint zprod (l : list Z) : Z :=
+  match l with
+  | [] => 1
+  | d :: r => d * zprod r
+  end.
+
+(* ---------- S1 ★ 乘积上界递推（非平凡归纳核） ---------- *)
+
+Lemma zprod_pos : forall l : list Z, Forall (fun d : Z => (0 < d)%Z) l -> (0 < zprod l)%Z.
+Proof.
+  induction l as [| d r IH]; intros H.
+  - simpl. lia.
+  - inversion H as [| ? ? Hd Hr]; subst.
+    simpl. assert (Hrp : (0 < zprod r)%Z) by (apply IH; exact Hr).
+    nia.
+Qed.
+
+(* nat 指数幂（自定义——避免 ^ 记号在 QArith 下的解析歧义；可提取） *)
+Fixpoint zpowN (d : Z) (n : nat) : Z :=
+  match n with
+  | O => 1
+  | S k => d * zpowN d k
+  end.
+
+Lemma zpowN_pos : forall (d : Z) (n : nat), (0 < d)%Z -> (0 < zpowN d n)%Z.
+Proof.
+  intros d n Hd. induction n as [| k IHn].
+  - simpl. lia.
+  - simpl. nia.
+Qed.
+
+Lemma zpowN_mono : forall (d : Z) (n : nat), (1 <= d)%Z ->
+  (zpowN d n <= zpowN d (S n))%Z.
+Proof.
+  intros d n Hd.
+  assert (Hpos : (0 < zpowN d n)%Z) by (apply zpowN_pos; lia).
+  simpl. nia.
+Qed.
+
+
+
+Theorem zprod_bounded : forall (l : list Z) (dmax : Z),
+  Forall (fun d : Z => (0 < d <= dmax)%Z) l ->
+  (0 < zprod l <= zpowN dmax (length l))%Z.
+Proof.
+  intros l dmax H.
+  induction l as [| d r IH].
+  - simpl. lia.
+  - simpl zprod. simpl zpowN. simpl length.
+    inversion H as [| ? ? Hd0 Hr]; subst.
+    specialize (IH Hr). destruct IH as [IHpos IHle].
+    destruct Hd0 as [Hdpos Hdle].
+    split.
+    + apply Z.mul_pos_pos.
+      * exact Hdpos.
+      * exact IHpos.
+    + nia.
+Qed.
+
+(* ---------- S2 溢出自由一致性 ---------- *)
+
+Theorem no_overflow_consistent : forall p : Z,
+  (0 <= p < W63)%Z -> p mod W63 = p.
+Proof.
+  intros p Hp. apply Zmod_small. lia.
+Qed.
+
+(* ---------- S3 ★★ C=4 判定链安全域（最终合成） ---------- *)
+
+(* C=4 反射检查器的分母链：3 原子行和界（53/400、689/2080、11289/33920）
+   与 213 边带界（213/3500、2769/20800 等）的分母——
+   具体值取自 PSA_framework pair_*/c4_coherence_3 常数 *)
+Definition c4_dens : list Z := [400; 2080; 3500; 20800; 33920].
+Definition c4_bands : list nat := [3%nat; 13%nat; 53%nat; 213%nat].
+
+(* 安全域成员的 bool 判定（可提取——运行时可判定成员资格） *)
+Definition in_w63 (p : Z) : bool := Z.eqb (p mod W63) p.
+Definition safe_domain_bool (dens : list Z) : bool :=
+  forallb (fun d => andb (in_w63 d) (in_w63 (zprod dens))) dens.
+
+(* ★ 安全域定理：C=4 判定链全因子在界内 ⟹ 连乘 < 2^63（溢出自由）
+   ⟹ 镜像一致（mod-2^63 == 精确） *)
+Theorem c4_safe_domain :
+  Forall (fun d : Z => (0 < d < W63)%Z) c4_dens
+  /\ (zprod c4_dens < W63)%Z
+  /\ (zprod c4_dens mod W63 = zprod c4_dens)%Z.
+Proof.
+  assert (Hzv : (zprod c4_dens = 2054520832000000000)%Z) by reflexivity.
+  assert (Hbounds : Forall (fun d : Z => (0 < d < W63)%Z) c4_dens).
+  { apply Forall_forall. intros a Ha. unfold c4_dens in Ha. unfold W63.
+    destruct Ha as [H | [H | [H | [H | [H | H]]]]]; subst.
+    * lia. * lia. * lia. * lia. * lia. * destruct H. }
+  split; [| split].
+  - exact Hbounds.
+  - unfold W63. rewrite Hzv. lia.
+  - apply no_overflow_consistent. unfold W63. rewrite Hzv. lia.
+Qed.
+
+(* ---------- 审计 ---------- *)
+Print Assumptions zprod_pos.
+Print Assumptions zprod_bounded.
+Print Assumptions no_overflow_consistent.
+Print Assumptions c4_safe_domain.
+
+(* ---------- 提取（Set 层可执行：运行时可判定成员资格） ---------- *)
+From Stdlib Require Import Extraction.
+
+Extraction "safe_domain.ml" zprod in_w63 safe_domain_bool c4_dens.
