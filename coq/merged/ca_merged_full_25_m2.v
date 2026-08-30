@@ -91011,7 +91011,9 @@ Proof.
     apply Rle_trans with
       (1 / (sqrt (INR n) * sqrt (INR m))
        + 1 / (sqrt (INR n) * sqrt (INR m)))%R.
-    + rewrite <- !(psi_frac_eq n m Hn Hm).
+    + replace (1 / (sqrt (INR n) * sqrt (INR m)))
+        with (1 / sqrt (INR n) * (1 / sqrt (INR m)))
+        by (apply psi_frac_eq; assumption).
       apply Rplus_le_compat; apply Rmult_le_compat.
       * apply Cnorm_ge_0_cn.
       * apply Cnorm_ge_0_cn.
