@@ -89087,7 +89087,7 @@ Proof.
   cbn [Nat.ltb Nat.leb].
   replace (2 * PI * INR 0 / INR 1) with 0%R
     by (rewrite INR_0, INR_1; unfold Rdiv; rewrite Rmult_0_r, Rmult_0_l; reflexivity).
-  replace (Cexp (0 +i 0)) with C1
+  replace (Cexp (0%R +i 0%R)) with C1
     by (unfold Cexp, C1; simpl; rewrite exp_0, cos_0, sin_0; f_equal; ring).
   replace (1 / sqrt (INR 1)) with 1%R
     by (rewrite INR_1, sqrt_1; unfold Rdiv;
@@ -89102,7 +89102,7 @@ Proof.
   cbn [Nat.ltb Nat.leb].
   replace (2 * PI * INR 0 / INR 2) with 0%R
     by (rewrite INR_0; unfold Rdiv; rewrite Rmult_0_r, Rmult_0_l; reflexivity).
-  replace (Cexp (0 +i 0)) with C1
+  replace (Cexp (0%R +i 0%R)) with C1
     by (unfold Cexp, C1; simpl; rewrite exp_0, cos_0, sin_0; f_equal; ring).
   replace (INR 2) with 2%R by (rewrite S_INR, INR_1; ring).
   apply Complex_eq; unfold Cof_real, Cmul, C1; simpl; ring.
