@@ -91002,7 +91002,7 @@ Proof.
           - re (psi n (S k) *c Cconj (psi m (S k))))
      with (re (psi n k *c Cconj (psi m k))
           + - re (psi n (S k) *c Cconj (psi m (S k)))) by ring.
-  rewrite Rabs_triang. rewrite Rabs_Ropp.
+  eapply Rle_trans; [ apply Rabs_triang | rewrite Rabs_Ropp ].
   apply Rle_trans with
     (Cnorm (psi n k *c Cconj (psi m k))
      + Cnorm (psi n (S k) *c Cconj (psi m (S k))))%R.
