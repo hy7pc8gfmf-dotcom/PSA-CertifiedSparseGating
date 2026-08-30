@@ -87742,7 +87742,8 @@ Lemma Rabs_IZR (k : Z) : (Rabs (IZR k) = IZR (Z.abs k))%R.
 Proof.
   destruct (Z_le_gt_dec 0 k) as [Hlk | Hlk].
   - rewrite (Z.abs_eq k Hlk).
-    rewrite Rabs_right by (apply Rle_ge; apply IZR_le; exact Hlk).
+    assert (Hge : (IZR k >= 0)%R) by (apply Rle_ge; apply IZR_le; exact Hlk).
+    rewrite (Rabs_right (IZR k) Hge).
     reflexivity.
   - rewrite (Z.abs_neq k) by lia.
     rewrite Rabs_left by (apply IZR_lt; lia).
@@ -87885,7 +87886,6 @@ Print Assumptions NearColl.square5_zero.
 
 (* ==================== 模块 57/67: probe_taugrid ==================== *)
 
-(* ==================== 模块 57/67: probe_taugrid ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -88202,7 +88202,6 @@ Print Assumptions TauGrid.tau_prune_optimality.
 
 (* ==================== 模块 58/67: probe_taugrid_cr ==================== *)
 
-(* ==================== 模块 58/67: probe_taugrid_cr ==================== *)
 
 Close Scope R_scope.
 Close Scope Z_scope.
@@ -88561,7 +88560,6 @@ Extraction "taugrid_cr.ml" cr_win_sum_cauchy cr_debt_cauchy
 
 (* ==================== 模块 59/67: probe_cs ==================== *)
 
-(* ==================== 模块 59/67: probe_cs ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -89161,7 +89159,6 @@ Print Assumptions CSBattle.cs4c_explosion.
 
 (* ==================== 模块 60/67: probe_cs5 ==================== *)
 
-(* ==================== 模块 60/67: probe_cs5 ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
