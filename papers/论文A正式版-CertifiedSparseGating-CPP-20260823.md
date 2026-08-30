@@ -129,7 +129,8 @@ code 思想在数值框架界上的实例化；(iii) **构造性实数轨道**�
 
 **覆盖边界（What is not certified）**：学习到的权重（W_Q/W_K/W_V/W_O）、Q/K/V 投影与多头
 拼接、LayerNorm/激活的数值稳定性、残差累积误差、外推 PPL 与框架界之间的语义联系——均在
-「learn the rest」一侧。证书链是**两条正交的定理簇**（表示稳定性轨 / 注意力扰动轨），
+「learn the rest」一侧。**酉不变性仅覆盖基函数表示层**（不保证学习到的 Q/K 投影下注意力
+logits 不变，§5.3/§10）。证书链是**两条正交的定理簇**（表示稳定性轨 / 注意力扰动轨），
 无依赖桥接；「certified」精确指解析核层，不构成模型/外推性能证书。
 
 ## 2. Formalization Overview
@@ -290,7 +291,7 @@ Dirichlet 分子 |sin(πNΔ)| ≤ 1）给出相干上界 |⟨u_i,u_j⟩| ≤ pai
 - **直接证书**（C=4）：`certified_c4_frame_bounds` 直接覆盖；
 - **T8 复合证书**（E5''）：隔带子核 [3,15,63,255] 的 `certified_t8_core_frame_bounds`（μ=4/5）覆盖最优阶梯的认证核；
 - **酉不变性（已机器检查，A2）**：旋转是酉变换，对任意酉算子 U 与系数向量 c，‖Σ c_i Uψ_i‖² = ‖Σ c_i ψ_i‖²——框架界/衰减界/证书自动覆盖旋转版本（论文 B 的"旋转组"）。Module UnitaryInvariance：`unitary_invariance_point`（U 保内积 ⟹ 范数不变）+ 位置索引 psi-rope 实例 + 显式 RoPE 实例 `unitary_invariance_psi_rope_theta`（u k := Cexp (0+i·INR k·θ k)，`Cexp_unit_mod` 证单位模）。实验的 2×2 块旋转矩阵（`apply_rope_theta`）与复数乘法 e^{iθ} 是同一酉群的同构表示（SO(2)≅U(1)），实/虚部逐行对应已显式机器检查（`rope_matrix_real/imag/eq`，零 classic）。注：原"每带乘 u_i"逐点版本为假命题（交叉项要 u_i = u_j；反例 u0=1, u1=−1, g0=g1=1），未并入。范围限定：酉不变性适用于特征表示的范数层；不保证学习到的 Q/K 投影下注意力 logits 不变。
-- **相干熵桥接**（PhaseCoherence，`coherence_controls_attention`，Qed，零 classic）：对任意相干核 K（|K_ij| ≤ coh）与系数差 ℓ₁ ≤ δ，logit 扰动 |z_i − z'_i| ≤ coh·δ，组合 softmax 稳定性得 ‖softmax z − softmax z'‖₁ ≤ e^{2·coh·δ} − 1——相干上界 ⟹ softmax 输出 TVD 界的抽象桥梁。当前为已证抽象桥梁 + 未实例化状态；实证支撑：ΔCoh 仅在稀疏几何族内排序（4 点 R²=0.982），13 点扩充后跨族崩溃（max 型 R²=0.101）——相干性定性结论保留、定量预测收缩为族内指标。
+- **相干熵桥接**（PhaseCoherence，`coherence_controls_attention`，Qed，零 classic）：对任意相干核 K（|K_ij| ≤ coh）与系数差 ℓ₁ ≤ δ，logit 扰动 |z_i − z'_i| ≤ coh·δ，组合 softmax 稳定性得 ‖softmax z − softmax z'‖₁ ≤ e^{2·coh·δ} − 1——相干上界 ⟹ softmax 输出 TVD 界的抽象桥梁。已获首个实例（CS-18，`psi_attention_tvd_trunc`，probe_ab_bridge_pier.v：psi 核窗口截断通道，dc = INR(W−W')·(1/2)）——状态从「未实例化」升级为「截断通道已实例化」；实证支撑：ΔCoh 仅在稀疏几何族内排序（4 点 R²=0.982），13 点扩充后跨族崩溃（max 型 R²=0.101）——相干性定性结论保留、定量预测收缩为族内指标。
 - **核漂移口径（已机器检查，2026-08-22）**：`kernel_drift_controls_attention`（PhaseCoherence，coqchk 独立复核）——核逐点漂移 |K_ij−K'_ij| ≤ dc（全 i,j）且系数 ℓ₁ ≤ dd ⟹ softmax 输出 ℓ₁ 距离 ≤ e^{2·dc·dd} − 1（与上条互补：系数漂移×固定核 vs 固定系数×核漂移，覆盖长度外推/蒸馏/量化场景）；对窗口无关核族（网格/偏移网格在任意 a·N 长度核相同）Δ=0 退化为 TVD 界 0（`kernel_identical_tvd_zero`）。**常数演进线**：4K → 2K（`psi_unconditional_basis_tight`）→ μ=0（网格端点）；`abstract_unconditional_basis` 可用 Riesz 序列稳定性语言重述（张成族系数 ℓ² 范数的 (1±M_bound) 等价）——文本级重述，不改变机器检查内容。
 
 **实证预览（teaser，完整实证与机制分析见配套论文 B）**：char 级 0.5M 参数（0.43M–0.63M 视模式）、T_train=512、种子 {1337,42,7}、确定性协议：
@@ -344,7 +345,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   系统扫描实测末带 < 2^20 的阶梯中仍有 14/89（15.7%）exe 与 Coq 语义分歧（如 C=6-sparse
   累积分母达 10^26 ≫ 2^63）。实验实际使用（带值 ≤255、m ≤ 8）全部落在 63-bit 安全区。
   **因此**：运行时检查器**不自动携带** Coq soundness——它只在有限整数范围内、且与 Coq
-  语义一致时接近。彻底消除：Zarith（任意精度）提取（future work）。**安全域谓词（评审建议，future work）**：当前"安全区"确认为实验性（扫描核算），未被形式化——未来工作在 Coq 中证明可验证的安全域谓词（输入在该谓词范围内 ⟹ OCaml int 镜像与 Coq 语义一致），或完成 Zarith 任意精度提取。
+  语义一致时接近。彻底消除：Zarith（任意精度）提取（future work）。**安全域谓词（已形式化，CS-16，`probe_safe_domain.v`，2026-08-30）**：安全域从经验确认升级为机器检查定理——`zprod_bounded`（乘积上界递推，非平凡归纳核：全因子 0 < d ≤ D ⟹ 0 < ∏ ≤ D^length）、`no_overflow_consistent`（0 ≤ p < 2^63 ⟹ p mod 2^63 = p，63-bit int 镜像与精确语义一致）、`c4_safe_domain`（C=4 判定链分母连乘 = 2054520832000000000 < 2^63，落于安全域）、`safe_domain_bool`/`in_w63`（可提取 bool 函数，运行时可判定成员资格）；4 段 Print Assumptions 全 Closed（零公理）。全窗口任意阶梯的运行时安全检查与 Zarith 任意精度提取仍为后续工作。
 - **逐行同构原则**（方法论）：提取代码应尽可能镜像 Coq Fixpoint 的结构（而非依赖高阶重写
   得到的"语义等价"的另一份代码）——本开发在 FFI 回归（24/24）中持续检查，并据此发现并
   修复了反射层 `row_sum_frac_aux` 的真 bug（收缩列表重算 nth 致 Coq 与原生不一致）。
@@ -407,7 +408,12 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 - **核漂移（T4 完全体，已并入 PSA_framework PhaseCoherence）**：`kernel_drift_controls_attention`
   ——核逐点漂移 ≤ dc、系数 ℓ1 ≤ dd ⟹ **softmax ℓ1 TVD ≤ e^{2·dc·dd} − 1**
   （`coherence_controls_attention` 的核漂移姊妹定理）；`kernel_identical_tvd_zero`：K=K' ⟹
-  界=0——网格族（任意 a·N 窗口核相同）"注意力核表示级不变性"的证书 0 端点。
+  界=0——网格族（任意 a·N 窗口核相同）"注意力核表示级不变性"的证书 0 端点。**首个实例
+  （CS-18，`probe_ab_bridge_pier.v`，2026-08-30）**：`psi_attention_tvd_trunc`——psi 核相邻位
+  漂移界 `psi_kernel_drift_bound`（|psi_kernel n m k − psi_kernel n m (S k)| ≤ 2/(√n·√m)，三角
+  不等式路线）+ 窗口截断一致化 dc = INR(W−W')·(1/2)（带 ≥2：√v_i·√v_j ≥ 2）⟹ softmax TVD ≤
+  exp(2·dc·dd) − 1（dd = Σ|c_j|）——「无形式化桥梁」负面声明升级为「中间桥墩已机器检查」
+  （桥面：端到端 PPL 影响量化仍为实证轨道）。
 - **ρ^{−3/2} 紧界三件套**（probe_pairbound ① + probe_rowsum ② + probe_witness ③，
   2026-08-22 全部 Qed）：逐对界 ‖⟨ψ_a,ψ_b⟩‖ ≤ sin(πa/b)·√(ab)/(2(b−a))（`pair_inner_norm`，
   Jordan 分母，逐对 Θ(ρ^{−3/2})）；行和重组 **`row_sum_3halfs`**：C-稀疏梯子任意行 ≤
@@ -584,7 +590,12 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   **反射检查器自带健全性证明**这一层。
 - **Proof-carrying code（Necula）**：反射检查器是 PCC 思想的现代实例——运行时布尔判定 +
   机器检查的健全性定理，等价于「证书随代码传输、接收端可验证」；差异是证书内容为**有理
-  常数界**而非类型/内存安全证明。
+  常数界**而非类型/内存安全证明。与 **VST/Iris** 等分离逻辑框架的方法论类比：同为「证明
+  随组件携带」，但证书对象不同——VST/Iris 面向内存安全与并发正确性，本工作面向数值界
+  （有理常数证书），领域正交、思想同源。
+- **Lean/mathlib 的数值分析形式化**：mathlib 的经典实数与分析学体系与本开发 Dedekind 主轨
+  哲学一致；本开发构造性轨道的 ConstructiveReals（柯西序列、CRlt 为 Set 值）与 Lean 经典
+  Real 在「序是否携带信息」上的哲学差异，构成构造性/经典双轨对照的第三参照系。
 - **稀疏注意力无证书方法**：top-k、KV 逐出、低秩投影均无误差证书——本工作覆盖的解析核层
   是上述方法的形式化对照面。
 - **压缩感知（RIP/稀疏恢复）**：Candes–Tao 的 RIP 与稀疏唯一恢复理论是本工作 §9 的数学
@@ -635,6 +646,19 @@ conservatively sound (false-negative rate 49.1% quantified; exact-layer
 iff-criterion proven as G-3; false negatives attributed to the decidability
 slack layer, not to checker logic), trading generality for decidability and
 runtime lightness (typical ladders < 1 ms).
+
+**Graduated upgrade (CS-17, `frame_check_graduated`, probe_frame_check_graduated.v,
+2026-08-30)**: the checker is upgraded from a binary verdict to a four-tier
+graduated service — L1_tight (binary checker passes ⟹ Gershgorin frame bounds
+[1/5, 9/5]·S), L2_composite (structure valid and per-pair coherence δ_ij ≤ 1 ⟹
+composite energy bounds (S−coh, S+coh), automating the seven-band champion
+certificate `champion_e5_composite_certificate`), L3_energy_only (black-hole
+pair ⟹ upper half only), L4_rejected (structure invalid) — with soundness
+theorem `frame_check_graduated_sound` discharging each tier's promise.
+Computed distribution covers all four tiers ([3,13]→L1; [3,7,15]→L2, the
+G-5 false-negative class demoted from rejection to degraded service; [2,3]→L3;
+unsorted/empty→L4); the decision function is nat-extractable (graded entry
+point for psa_guard).
 
 ### 13.2 Feedback on Rocq / mathcomp
 
@@ -705,6 +729,14 @@ ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实�
 全部定理级成立，且组合指数增长部分已升为 ∀N 定理，§8）；客观地讲，3D/4D 证书当前是非紧的
 存在性结果，其价值在架构可组合性与维度推广的定位，而非常数本身；1D 证书（μ=4/5）保持紧且
 不受影响。
+
+**跨 A/B 张力宣言（证书 ⟹̸ 性能）**：本工作不构成「证书 ⟹ 性能」的虚假承诺。形式化与实证
+的双轨记录表明：可证性（稀疏性/结构性）与外推性（稠密覆盖/随机性）在频率阶梯语境下呈温和
+负相关——三角关系如实记录：随机阶梯在定理侧高概率被拒绝（T2b 负定律）却是实证侧旋转族内
+最优（psi-rope-rand 6.45）；μ=0 网格拥有最干净的精确正交证书却外推崩溃（25.66）；ALiBi 无
+碰撞端点定理侧成立且实证全局最优（4.47）却零证书。证书的价值不在预测 PPL，而在提供**可
+审计的表示稳定性保证**——这是高风险部署场景中独立于性能指标的决策依据（论文 B §13 同步
+此宣言）。
 
 ---
 
