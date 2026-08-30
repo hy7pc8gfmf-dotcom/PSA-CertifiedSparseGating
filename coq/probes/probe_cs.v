@@ -111,7 +111,7 @@ Proof.
     assert (H0 : f 0%nat = g 0%nat) by (apply H; lia).
     rewrite H0. reflexivity.
   - rewrite l2_norm_sq_S.
-  - rewrite l2_norm_sq_S.
+    rewrite l2_norm_sq_S.
     assert (HIH : forall k, (k <= N)%nat -> f k = g k)
       by (intros k Hk; apply H; lia).
     rewrite (IH HIH).
@@ -171,7 +171,7 @@ Proof.
   assert (Hqrem : Rsqr (im z) = Rsqr 0%R) by (rewrite Hz0; exact Him0).
   apply Rsqr_eq_abs_0 in Hprem. apply Rsqr_eq_abs_0 in Hqrem.
   rewrite Rabs_R0 in Hprem.
-  rewrite Hqrem.
+  rewrite Rabs_R0 in Hqrem.
   apply Complex_eq.
   - apply rabs_eq0. exact Hprem.
   - apply rabs_eq0. exact Hqrem.
@@ -536,8 +536,7 @@ Proof.
     by (unfold Cexp, C1; simpl; rewrite exp_0, cos_0, sin_0; f_equal; ring).
   replace (1 / sqrt (INR 1)) with 1%R
     by (rewrite INR_1, sqrt_1; unfold Rdiv;
-        rewrite Rinv_1.
-        rewrite Rmult_1_l; reflexivity).
+        rewrite Rinv_1, Rmult_1_l; reflexivity).
   apply Complex_eq; unfold Cof_real, Cmul, C1, C0; simpl; ring.
 Qed.
 
