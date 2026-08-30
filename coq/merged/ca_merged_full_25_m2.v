@@ -87888,7 +87888,6 @@ Print Assumptions NearColl.square5_zero.
 
 (* ==================== 模块 57/67: probe_taugrid ==================== *)
 
-
 Close Scope Z_scope.
 Open Scope R_scope.
 Open Scope complex_scope.
@@ -88202,8 +88201,8 @@ Print Assumptions TauGrid.coverage_debt.
 Print Assumptions TauGrid.thinning_preserves_ratio.
 Print Assumptions TauGrid.tau_prune_optimality.
 
-(* ==================== 模块 58/67: probe_taugrid_cr ==================== *)
 
+(* ==================== 模块 58/67: probe_taugrid_cr ==================== *)
 
 Close Scope R_scope.
 Close Scope Z_scope.
@@ -88560,8 +88559,8 @@ Definition cr_list_sum_cauchy := fun g l => @cr_list_sum CRealConstructive g l.
 Extraction "taugrid_cr.ml" cr_win_sum_cauchy cr_debt_cauchy
   cr_list_sum_cauchy cr_kept cr_pruned.
 
-(* ==================== 模块 59/67: probe_cs ==================== *)
 
+(* ==================== 模块 59/67: probe_cs ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -88647,8 +88646,8 @@ Proof. unfold Rsqr. nra. Qed.
 Lemma rabs_eq0 (x : R) : Rabs x = 0%R -> x = 0%R.
 Proof.
   intro H. destruct (Rle_or_lt 0 x) as [Hge|Hlt].
-  - rewrite Rabs_right in H by lra. lra.
-  - rewrite Rabs_left in H by lra. lra.
+  - rewrite (Rabs_right x (Rle_ge 0 x Hge)) in H. lra.
+  - rewrite (Rabs_left x Hlt) in H. lra.
 Qed.
 
 (* 逐点相等 ⟹ 能量相等 *)
@@ -88657,10 +88656,15 @@ Lemma l2_norm_sq_ext (f g : nat -> Complex) (N : nat) :
   l2_norm_sq f N = l2_norm_sq g N.
 Proof.
   intros H. induction N as [| N IH].
-  - unfold l2_norm_sq. simpl. rewrite (H 0%nat) by lia. reflexivity.
+  - unfold l2_norm_sq. simpl.
+    assert (H0 : f 0%nat = g 0%nat) by (apply H; lia).
+    rewrite H0. reflexivity.
   - rewrite l2_norm_sq_S, l2_norm_sq_S.
-    rewrite IH by (intros k Hk; apply H; lia).
-    rewrite (H (S N)) by lia. reflexivity.
+    assert (HIH : forall k, (k <= N)%nat -> f k = g k)
+      by (intros k Hk; apply H; lia).
+    rewrite (IH HIH).
+    assert (Hsn : f (S N) = g (S N)) by (apply H; lia).
+    rewrite Hsn. reflexivity.
 Qed.
 
 (* 零能量引理：逐点为零 ⟹ 能量为零 *)
@@ -88764,8 +88768,11 @@ Proof.
       with (Cadd (independent.Csum f n) (f n)) by reflexivity.
     replace (independent.Csum g (S n))
       with (Cadd (independent.Csum g n) (g n)) by reflexivity.
-    rewrite IH by (intros i Hi; apply H; lia).
-    rewrite (H n) by lia. reflexivity.
+    assert (HIH : forall i, (n > i)%nat -> f i = g i)
+      by (intros i Hi; apply H; lia).
+    rewrite (IH HIH).
+    assert (Hn2 : f n = g n) by (apply H; lia).
+    rewrite Hn2. reflexivity.
 Qed.
 
 Lemma map2_csub_length (a b : list Complex) :
@@ -89159,8 +89166,8 @@ Print Assumptions CSBattle.cs1a_pair_bound.
 Print Assumptions CSBattle.near_dup_coherence_12.
 Print Assumptions CSBattle.cs4c_explosion.
 
-(* ==================== 模块 60/67: probe_cs5 ==================== *)
 
+(* ==================== 模块 60/67: probe_cs5 ==================== *)
 
 Close Scope Z_scope.
 Open Scope R_scope.
@@ -89274,7 +89281,7 @@ Proof.
   intro Heq.
   pose proof (golden_near_collision_gold 1 m (le_n 1)) as H.
   replace (INR 1) with 1%R in H by reflexivity.
-  rewrite Heq, Rmult_1_l in H.
+  rewrite Heq in H. rewrite Rmult_1_l in H.
   replace (IZR m - IZR m) with 0%R in H by ring.
   rewrite Rabs_R0 in H.
   lra.
@@ -89286,6 +89293,7 @@ Print Assumptions CSFive.cs5_offset_pair.
 Print Assumptions CSFive.cs5_offset_diff.
 Print Assumptions CSFive.cs5_golden_moat.
 Print Assumptions CSFive.cs5_gold_not_grid.
+
 
 (* ==================== 模块 61/67: probe_g3_criterion ==================== *)
 
@@ -90978,7 +90986,7 @@ Proof.
     apply Rle_trans with
       (1 / (sqrt (INR n) * sqrt (INR m))
        + 1 / (sqrt (INR n) * sqrt (INR m)))%R.
-    + rewrite <- !psi_frac_eq by lia.
+    + rewrite <- !(psi_frac_eq n m Hn Hm).
       apply Rplus_le_compat; apply Rmult_le_compat.
       * apply Cnorm_ge_0_cn.
       * apply Cnorm_ge_0_cn.
@@ -91084,7 +91092,8 @@ Proof.
     + lra.
     + exact Hb0.
     + exact Hb4.
-  - rewrite sqrt_mult by apply INR_pos_le. apply Rle_refl.
+  - rewrite (sqrt_mult (INR vi) (INR vj) (INR_pos_le vi) (INR_pos_le vj)).
+    apply Rle_refl.
 Qed.
 
 (* --- PB3 ★★ 截断 TVD 桥（最终合成） --- *)

@@ -112,7 +112,7 @@ Proof.
         - reflexivity. }
       rewrite sum_f_R0_S. rewrite sum_f_R0_S. rewrite Hlastf.
       assert (Hin : (i <= n)%nat) by lia.
-      assert (IH' := IH Hin).
+      assert (IH1 := IH Hin).
       lra.
 Qed.
 
@@ -286,7 +286,7 @@ Proof.
         apply sum_f_R0_ext. intros j Hj.
         unfold Frow. cbv beta.
         destruct (eq_nat_dec i j) as [He | Hn]; [reflexivity | reflexivity]. }
-  assert (Hsplit' : sum_f_R0 (fun i => sum_f_R0 (fun j =>
+  assert (Hsplit1 : sum_f_R0 (fun i => sum_f_R0 (fun j =>
             if eq_nat_dec i j then - Cnorm_sq (c i)
             else Cnorm (c i) * Cnorm (c j)
                  * FrameCheckInstance.pair_frac_R (nth i I 0%nat) (nth j I 0%nat)) m) m

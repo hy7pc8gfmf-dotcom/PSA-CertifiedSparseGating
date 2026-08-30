@@ -46,9 +46,9 @@ Proof.
     rewrite <- Z.mul_mod_idemp_l in H0 by lia.
     rewrite <- Z.mul_mod_idemp_r in H0 by lia.
     assert (Hr : (0 <= x mod 5 < 5)%Z) by (apply Z.mod_pos_bound; lia).
-    destruct (mod5_cases (x mod 5)%Z Hr) as [E' | [E' | [E' | [E' | E']]]];
+    destruct (mod5_cases (x mod 5)%Z Hr) as [E1 | [E1 | [E1 | [E1 | E1]]]];
       try contradiction;
-      rewrite E' in H0; vm_compute in H0; discriminate.
+      rewrite E1 in H0; vm_compute in H0; discriminate.
 Qed.
 
 (* ---------- NC2：x² = 5y² ⟹ x = y = 0（无穷递降） ---------- *)
@@ -65,20 +65,20 @@ Proof.
       + (* 5 | x 与 5 | y，解缩小 1/5 仍是解 *)
         assert (Hdx : (5 | x * x)%Z).
         { exists (y * y)%Z. rewrite (Z.mul_comm (y * y) 5%Z). nia. }
-        destruct (five_divides_square x Hdx) as [x' Hx'].
-        assert (Hy2 : (y * y = 5 * (x' * x'))%Z).
-        { rewrite Hx' in Heq. nia. }
+        destruct (five_divides_square x Hdx) as [x1 Hx1].
+        assert (Hy2 : (y * y = 5 * (x1 * x1))%Z).
+        { rewrite Hx1 in Heq. nia. }
         assert (Hdy : (5 | y * y)%Z).
-        { exists (x' * x')%Z. rewrite (Z.mul_comm (x' * x') 5%Z). nia. }
-        destruct (five_divides_square y Hdy) as [y' Hy'].
-        assert (HyN' : (y' <> 0)%Z) by lia.
-        assert (Hrec : (Z.abs y' <= Z.of_nat n)%Z).
-        { rewrite Hy' in Hn. rewrite Z.abs_mul in Hn.
+        { exists (x1 * x1)%Z. rewrite (Z.mul_comm (x1 * x1) 5%Z). nia. }
+        destruct (five_divides_square y Hdy) as [y1 Hy1].
+        assert (HyN1 : (y1 <> 0)%Z) by lia.
+        assert (Hrec : (Z.abs y1 <= Z.of_nat n)%Z).
+        { rewrite Hy1 in Hn. rewrite Z.abs_mul in Hn.
           replace (Z.abs (5%Z)) with (5%Z) in Hn by reflexivity. nia. }
-        assert (Heq' : (x' * x' = 5 * y' * y')%Z).
-        { rewrite Hx', Hy' in Heq. nia. }
-        destruct (IH x' y' Hrec Heq') as [Hx0 Hy0'].
-        rewrite Hx0, !Z.mul_0_l in Hy2. nia. }
+        assert (Heq1 : (x1 * x1 = 5 * y1 * y1)%Z).
+        { rewrite Hx1 in Heq. rewrite Hy1 in Heq. nia. }
+        destruct (IH x1 y1 Hrec Heq1) as [Hx0 Hy01].
+        rewrite Hx0 in Hy2. rewrite !Z.mul_0_l in Hy2. nia. }
   intros x y Heq.
   assert (Hz : (Z.abs y <= Z.of_nat (Z.abs_nat (Z.abs y)))%Z).
   { destruct (Z.abs y) as [|p|p]; simpl.
@@ -103,10 +103,12 @@ Lemma Rabs_IZR (k : Z) : (Rabs (IZR k) = IZR (Z.abs k))%R.
 Proof.
   destruct (Z_le_gt_dec 0 k) as [Hlk | Hlk].
   - rewrite (Z.abs_eq k Hlk).
-    rewrite Rabs_right by (apply Rle_ge; apply IZR_le; exact Hlk).
+    assert (Hge : (IZR k >= 0)%R) by (apply Rle_ge; apply IZR_le; exact Hlk).
+    rewrite (Rabs_right (IZR k) Hge).
     reflexivity.
-  - rewrite (Z.abs_neq k) by lia.
-    rewrite Rabs_left by (apply IZR_lt; lia).
+  - rewrite (Z.abs_neq k (Z.lt_le_incl k 0 (Z.gt_lt 0 k Hlk))).
+    assert (Hlt : (IZR k < 0)%R) by (apply IZR_lt; exact (Z.gt_lt 0 k Hlk)).
+    rewrite (Rabs_left (IZR k) Hlt).
     rewrite opp_IZR. reflexivity.
 Qed.
 
@@ -139,7 +141,7 @@ Proof.
     assert (Hk : (D * D - D * M - M * M
                   = IZR (Z.of_nat d * Z.of_nat d - Z.of_nat d * m - m * m))%R).
     { unfold D, M.
-      rewrite !INR_IZR_INZ, !minus_IZR, !mult_IZR. ring. }
+      rewrite !INR_IZR_INZ. rewrite !minus_IZR. rewrite !mult_IZR. ring. }
     destruct (Z.eq_dec (Z.of_nat d * Z.of_nat d - Z.of_nat d * m - m * m) 0%Z)
       as [Hz | Hnz].
     + exfalso. destruct (no_quadratic_solution _ _ Hz) as [Hd0 _].
@@ -166,7 +168,8 @@ Proof.
           - apply Rabs_triang.
           - rewrite Rabs_Ropp. apply Rle_refl. }
         assert (H2 : (Rabs (2 * D * phi + D) <= 2 * D * phi + D)%R).
-        { rewrite (Rabs_right (2 * D * phi + D)) by nra. apply Rle_refl. }
+        { assert (Hge : (2 * D * phi + D >= 0)%R) by nra.
+  rewrite (Rabs_right (2 * D * phi + D) Hge). apply Rle_refl. }
         assert (H3 : (2 * D * phi + D + Rabs e <= 9 / 4 * D + 1 / 2)%R).
         { apply Rplus_le_compat.
           - assert (HphiD : (2 * D * phi <= 2 * D * (5 / 8))%R).

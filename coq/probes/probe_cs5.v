@@ -120,7 +120,7 @@ Proof.
   intro Heq.
   pose proof (golden_near_collision_gold 1 m (le_n 1)) as H.
   replace (INR 1) with 1%R in H by reflexivity.
-  rewrite Heq, Rmult_1_l in H.
+  rewrite Heq in H. rewrite Rmult_1_l in H.
   replace (IZR m - IZR m) with 0%R in H by ring.
   rewrite Rabs_R0 in H.
   lra.

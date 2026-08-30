@@ -104,14 +104,14 @@ Qed.
 
 (* ============ M2：组合性（多层独立收紧的兼容性） ============ *)
 
-Lemma relax_refine (m m' sb sb' sq sq' : R) :
-  0 <= m' -> 0 < sb -> 0 < sb' -> 0 < sq -> 0 < sq' ->
-  m' <= m -> sb <= sb' -> sq <= sq' ->
-  relax m' sb' sq' <= relax m sb sq.
+Lemma relax_refine (m m1 sb sb1 sq sq1 : R) :
+  0 <= m1 -> 0 < sb -> 0 < sb1 -> 0 < sq -> 0 < sq1 ->
+  m1 <= m -> sb <= sb1 -> sq <= sq1 ->
+  relax m1 sb1 sq1 <= relax m sb sq.
 Proof.
-  intros Hm' Hsb Hsb' Hsq Hsq' Hm Hle_sb Hle_sq.
-  eapply Rle_trans; [apply (relax_mono_sq m' sb' sq sq'); assumption |].
-  eapply Rle_trans; [apply (relax_mono_sb m' sb sb' sq); assumption |].
+  intros Hm1 Hsb Hsb1 Hsq Hsq1 Hm Hle_sb Hle_sq.
+  eapply Rle_trans; [apply (relax_mono_sq m1 sb1 sq sq1); assumption |].
+  eapply Rle_trans; [apply (relax_mono_sb m1 sb sb1 sq); assumption |].
   apply relax_mono_m; assumption.
 Qed.
 

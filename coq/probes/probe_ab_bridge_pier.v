@@ -21,10 +21,10 @@
          psi_kernel_drift_bound : |psi_kernel n m k − psi_kernel n m (S k)|
                                   ≤ 2/(√n·√m)（三角不等式路线）
      PB3 ★★ 截断 TVD 桥（最终合成）：
-         全窗核 K i j = Σ_{k<W} psi_kernel (v_i)(v_j) k、截断核 K' 截至W'，
-         |K i j − K' i j| ≤ INR(W−W')·(1/(√v_i·√v_j)) ≤ INR(W−W')·(1/2)
+         全窗核 K i j = Σ_{k<W} psi_kernel (v_i)(v_j) k、截断核 K1 截至W1，
+         |K i j − K1 i j| ≤ INR(W−W1)·(1/(√v_i·√v_j)) ≤ INR(W−W1)·(1/2)
          （带 ≥2）⟹ kernel_drift_controls_attention 实例化：
-         TVD(softmax(K·c), softmax(K'·c)) ≤ exp(2·(INR(W−W')·(1/2))·dd) − 1，
+         TVD(softmax(K·c), softmax(K1·c)) ≤ exp(2·(INR(W−W1)·(1/2))·dd) − 1，
          dd = Σ|c_j|——"桥墩已建、桥面（PPL）待铺"。
 
    纪律（承 probe_robust / probe_c4_instance 经典 R 轨道）：
@@ -156,7 +156,7 @@ Proof.
     apply Rle_trans with
       (1 / (sqrt (INR n) * sqrt (INR m))
        + 1 / (sqrt (INR n) * sqrt (INR m)))%R.
-    + rewrite <- !psi_frac_eq by lia.
+    + rewrite <- !(psi_frac_eq n m Hn Hm).
       apply Rplus_le_compat; apply Rmult_le_compat.
       * apply Cnorm_ge_0_cn.
       * apply Cnorm_ge_0_cn.
@@ -212,34 +212,34 @@ Qed.
 
 (* --- 截断漂移：全窗和与截断和之差的绝对值界 --- *)
 
-Lemma psi_kernel_trunc_dc (n m W W' : nat) :
-  (2 <= n)%nat -> (2 <= m)%nat -> (W' <= W)%nat ->
+Lemma psi_kernel_trunc_dc (n m W W1 : nat) :
+  (2 <= n)%nat -> (2 <= m)%nat -> (W1 <= W)%nat ->
   (Rabs (RowTruncation.list_sum_R (psi_kernel n m) (seq 0 W)
-         - RowTruncation.list_sum_R (psi_kernel n m) (seq 0 W'))
-   <= INR (W - W')%nat * (1 / (sqrt (INR n) * sqrt (INR m))))%R.
+         - RowTruncation.list_sum_R (psi_kernel n m) (seq 0 W1))
+   <= INR (W - W1)%nat * (1 / (sqrt (INR n) * sqrt (INR m))))%R.
 Proof.
   intros Hn Hm Hle.
   set (f := psi_kernel n m).
-  set (d := (W - W')%nat).
-  assert (HW : (W = W' + d)%nat) by (unfold d; lia).
-  assert (Hsplit : RowTruncation.list_sum_R f (seq 0 (W' + d))
-                   = RowTruncation.list_sum_R f (seq 0 W')
-                     + RowTruncation.list_sum_R f (seq W' d)).
+  set (d := (W - W1)%nat).
+  assert (HW : (W = W1 + d)%nat) by (unfold d; lia).
+  assert (Hsplit : RowTruncation.list_sum_R f (seq 0 (W1 + d))
+                   = RowTruncation.list_sum_R f (seq 0 W1)
+                     + RowTruncation.list_sum_R f (seq W1 d)).
   { rewrite seq_app, list_sum_R_app. reflexivity. }
-  assert (Habs : (Rabs (RowTruncation.list_sum_R f (seq W' d))
-                  <= RowTruncation.list_sum_R (fun k => Rabs (f k)) (seq W' d))%R)
+  assert (Habs : (Rabs (RowTruncation.list_sum_R f (seq W1 d))
+                  <= RowTruncation.list_sum_R (fun k => Rabs (f k)) (seq W1 d))%R)
     by apply list_sum_R_abs_bound.
-  assert (Hpt : forall k, In k (seq W' d) ->
+  assert (Hpt : forall k, In k (seq W1 d) ->
             (Rabs (f k) <= 1 / (sqrt (INR n) * sqrt (INR m)))%R).
   { intros k _. unfold f. apply psi_kernel_abs_le; assumption. }
-  assert (Hconst : (RowTruncation.list_sum_R (fun k => Rabs (f k)) (seq W' d)
-                    <= INR (length (seq W' d))
+  assert (Hconst : (RowTruncation.list_sum_R (fun k => Rabs (f k)) (seq W1 d)
+                    <= INR (length (seq W1 d))
                        * (1 / (sqrt (INR n) * sqrt (INR m))))%R)
     by (apply list_sum_R_const_le; exact Hpt).
   rewrite length_seq in Hconst.
   assert (HK : RowTruncation.list_sum_R f (seq 0 W)
-               - RowTruncation.list_sum_R f (seq 0 W')
-               = RowTruncation.list_sum_R f (seq W' d)).
+               - RowTruncation.list_sum_R f (seq 0 W1)
+               = RowTruncation.list_sum_R f (seq W1 d)).
   { rewrite HW. rewrite Hsplit. ring. }
   rewrite HK.
   eapply Rle_trans; [exact Habs | exact Hconst].
@@ -262,45 +262,46 @@ Proof.
     + lra.
     + exact Hb0.
     + exact Hb4.
-  - rewrite sqrt_mult by apply INR_pos_le. apply Rle_refl.
+  - rewrite (sqrt_mult (INR vi) (INR vj) (INR_pos_le vi) (INR_pos_le vj)).
+    apply Rle_refl.
 Qed.
 
 (* --- PB3 ★★ 截断 TVD 桥（最终合成） --- *)
 
-Theorem psi_attention_tvd_trunc (vals : list nat) (coeffs : list R) (W W' : nat) (dd : R) :
+Theorem psi_attention_tvd_trunc (vals : list nat) (coeffs : list R) (W W1 : nat) (dd : R) :
   (0 < length vals)%nat ->
   length coeffs = length vals ->
   (forall j, (j < length vals)%nat -> (2 <= nth j vals 0%nat)%nat) ->
-  (W' <= W)%nat ->
+  (W1 <= W)%nat ->
   (RowTruncation.list_sum_R (fun j => Rabs (nth j coeffs 0%R)) (seq 0 (length vals)) <= dd)%R ->
   let K := fun i j => RowTruncation.list_sum_R
             (fun k => psi_kernel (nth i vals 0%nat) (nth j vals 0%nat) k) (seq 0 W) in
-  let K' := fun i j => RowTruncation.list_sum_R
-            (fun k => psi_kernel (nth i vals 0%nat) (nth j vals 0%nat) k) (seq 0 W') in
+  let K1 := fun i j => RowTruncation.list_sum_R
+            (fun k => psi_kernel (nth i vals 0%nat) (nth j vals 0%nat) k) (seq 0 W1) in
   (RowTruncation.list_sum_R
      (fun i => Rabs
         (SoftmaxStability.softmax_l (fun i0 => RowTruncation.list_sum_R (fun j => nth j coeffs 0%R * K i0 j) (seq 0 (length vals))) (length vals) i
-         - SoftmaxStability.softmax_l (fun i0 => RowTruncation.list_sum_R (fun j => nth j coeffs 0%R * K' i0 j) (seq 0 (length vals))) (length vals) i))
+         - SoftmaxStability.softmax_l (fun i0 => RowTruncation.list_sum_R (fun j => nth j coeffs 0%R * K1 i0 j) (seq 0 (length vals))) (length vals) i))
      (seq 0 (length vals))
-   <= exp (2 * (INR (W - W')%nat * (1 / 2) * dd)) - 1)%R.
+   <= exp (2 * (INR (W - W1)%nat * (1 / 2) * dd)) - 1)%R.
 Proof.
-  intros Hlen0 Hlc Hge2 Hle Hdd K K'.
+  intros Hlen0 Hlc Hge2 Hle Hdd K K1.
   cbv zeta.
-  apply (PhaseCoherence.kernel_drift_controls_attention K K' (fun j => nth j coeffs 0%R)
-           (length vals) (INR (W - W')%nat * (1 / 2)) dd).
+  apply (PhaseCoherence.kernel_drift_controls_attention K K1 (fun j => nth j coeffs 0%R)
+           (length vals) (INR (W - W1)%nat * (1 / 2)) dd).
   - exact Hlen0.
   - (* 0 ≤ dc *)
-    apply Rle_trans with (INR (W - W')%nat * 0)%R.
+    apply Rle_trans with (INR (W - W1)%nat * 0)%R.
     + rewrite Rmult_0_r. apply Rle_refl.
     + apply Rmult_le_compat_l.
       * apply INR_pos_le.
       * lra.
-  - (* 一致漂移界：dc = INR (W - W')%nat * (1/2) *)
+  - (* 一致漂移界：dc = INR (W - W1)%nat * (1/2) *)
     intros i j Hi Hj.
     assert (H2i : (2 <= nth i vals 0%nat)%nat) by (apply Hge2; exact Hi).
     assert (H2j : (2 <= nth j vals 0%nat)%nat) by (apply Hge2; exact Hj).
     eapply Rle_trans;
-      [apply (psi_kernel_trunc_dc (nth i vals 0%nat) (nth j vals 0%nat) W W' H2i H2j Hle) |].
+      [apply (psi_kernel_trunc_dc (nth i vals 0%nat) (nth j vals 0%nat) W W1 H2i H2j Hle) |].
     assert (Hden : (2 <= sqrt (INR (nth i vals 0%nat)) * sqrt (INR (nth j vals 0%nat)))%R)
       by (apply sqrt_pair_ge2; assumption).
     assert (Hinv : (1 / (sqrt (INR (nth i vals 0%nat)) * sqrt (INR (nth j vals 0%nat)))

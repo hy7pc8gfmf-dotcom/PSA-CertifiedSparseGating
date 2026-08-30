@@ -97,8 +97,8 @@ Proof. unfold Rsqr. nra. Qed.
 Lemma rabs_eq0 (x : R) : Rabs x = 0%R -> x = 0%R.
 Proof.
   intro H. destruct (Rle_or_lt 0 x) as [Hge|Hlt].
-  - rewrite Rabs_right in H by lra. lra.
-  - rewrite Rabs_left in H by lra. lra.
+  - rewrite (Rabs_right x (Rle_ge 0 x Hge)) in H. lra.
+  - rewrite (Rabs_left x Hlt) in H. lra.
 Qed.
 
 (* 逐点相等 ⟹ 能量相等 *)
@@ -107,10 +107,15 @@ Lemma l2_norm_sq_ext (f g : nat -> Complex) (N : nat) :
   l2_norm_sq f N = l2_norm_sq g N.
 Proof.
   intros H. induction N as [| N IH].
-  - unfold l2_norm_sq. simpl. rewrite (H 0%nat) by lia. reflexivity.
+  - unfold l2_norm_sq. simpl.
+    assert (H0 : f 0%nat = g 0%nat) by (apply H; lia).
+    rewrite H0. reflexivity.
   - rewrite l2_norm_sq_S, l2_norm_sq_S.
-    rewrite IH by (intros k Hk; apply H; lia).
-    rewrite (H (S N)) by lia. reflexivity.
+    assert (HIH : forall k, (k <= N)%nat -> f k = g k)
+      by (intros k Hk; apply H; lia).
+    rewrite (IH HIH).
+    assert (Hsn : f (S N) = g (S N)) by (apply H; lia).
+    rewrite Hsn. reflexivity.
 Qed.
 
 (* 零能量引理：逐点为零 ⟹ 能量为零 *)
@@ -214,8 +219,11 @@ Proof.
       with (Cadd (independent.Csum f n) (f n)) by reflexivity.
     replace (independent.Csum g (S n))
       with (Cadd (independent.Csum g n) (g n)) by reflexivity.
-    rewrite IH by (intros i Hi; apply H; lia).
-    rewrite (H n) by lia. reflexivity.
+    assert (HIH : forall i, (n > i)%nat -> f i = g i)
+      by (intros i Hi; apply H; lia).
+    rewrite (IH HIH).
+    assert (Hn2 : f n = g n) by (apply H; lia).
+    rewrite Hn2. reflexivity.
 Qed.
 
 Lemma map2_csub_length (a b : list Complex) :

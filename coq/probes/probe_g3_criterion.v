@@ -82,10 +82,10 @@ Proof.
   induction I as [| h tl IH]; intros idx Hr i Hi; simpl in Hi; [lia |].
   simpl in Hr.
   destruct (andb_prop _ _ Hr) as [Hh Ht].
-  destruct i as [| i'].
+  destruct i as [| i1].
   - rewrite addn0. exact Hh.
   - rewrite addnS || rewrite Nat.add_succ_r.
-    apply (IH (S idx) Ht i').
+    apply (IH (S idx) Ht i1).
     simpl in Hi. lia.
 Qed.
 
