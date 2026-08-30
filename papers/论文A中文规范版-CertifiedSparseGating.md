@@ -46,7 +46,7 @@
 3. **行截断能量预算**（RowTruncation）与 **softmax 稳定性**（SoftmaxStability，$\|\mathrm{softmax}\,z - \mathrm{softmax}\,z'\|_1 \le \exp(2d) - 1$；v2.14 勘误对齐代码 `softmax_l1_bound_exp` 实形态，旧稿 2(e^d−1) 高估紧度）；
 4. **认证注意力近似**（CertifiedAttention）：谱能量 ≤ ε ⟹ 输出偏差 ≤ $(e^{2\sqrt{\varepsilon}}-1)\cdot V_{\max}$；
 5. **实例证书**（Gershgorin + InstanceCertificate）：对 C=4 阶梯 [3,13,53,213] 证明框架界 [1/5, 9/5]（μ=4/5）——参数化最坏情形 1±4K(C) 在 C=4 空洞成立、需 C>25 的问题就此终结；
-6. **有理支配方法论**（实现贡献）：证书全部常数经 floor-sqrt / Jordan / Dirichlet 单侧松弛化为有理数，`compute; field` 完成证明——零数值策略、零区间算术、可判定、可提取；
+6. **有理支配方法论**（实现贡献）：证书全部常数经 floor-sqrt / Jordan / Dirichlet 单侧松弛化为有理数，`compute; field` 完成证明——零数值策略、零区间算术、可判定、可提取。**松弛链元理论（CS-19，`probe_relaxation_meta.v`，2026-08-30）**：该链的单调性与组合性已定理化——参数化合成界 `relax m sb sq := m·(1/(sb·sq))`（m = 分子上界、sb = sin 下界、sq = √ 下界三层参数）满足逐层单调（M1：对 m 增、对 sb/sq 减）、多层组合性（M2 `relax_refine`：三层同时收紧 ≤ 逐层收紧链 ≤ 原界）、行和提升（M3 `rowR_mono`：逐对单调 ⟹ 行和单调）与**判定保持**（M4 `checker_preserved_under_refinement`：任一层收紧后检查器通过性不变——松弛链的收紧是「只强化不破坏」的单侧操作）；M5 证明框架反射层 `pair_frac_R` 恰为该参数化族的实例（nat floor 形态），元理论逐字覆盖现有检查器管线；
 7. **可执行提取**：门控/检查器 → OCaml（psa_guard.exe）→ Python FFI，24/24 参考值对齐；
 8. **反射检查器及其健全性**（FrameCheckInstance）：`frame_check_instance` 把"任意阶梯 → μ≤4/5"做成可判定**充分**判定（保守健全，系统扫描假阴性 49.1%），提取为原生整数镜像（与 Coq 定义逐行同构）；健全性定理 `frame_check_instance_sound`（Qed）证明**Coq 内**判定通过 ⟹ Gershgorin 框架界——检查器带 Coq 内健全性证明，运行时 int 镜像为交叉验证（未形式化验证，§6）；
 9. **基表示稳定性复合证书**（ChampionCertificate，核心展示定理）：论文 B 的七带基线阶梯获得机器证明的平方范数复合界 $(S-\mathrm{coh}_{e5}) \le \|F\|^2_{255} \le (S+\mathrm{coh}_{e5})$——当反射检查器返回 false（健全但非完备）时，核-边缘分解交付的部分证书在此收束为七带整体完整证书；这是对反射器不完备性的系统性工程补丁，作为方法论贡献单列；

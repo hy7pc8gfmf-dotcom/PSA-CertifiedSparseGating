@@ -101,6 +101,11 @@ code 思想在数值框架界上的实例化；(iii) **构造性实数轨道**�
    [1/5, 9/5]（μ=4/5）——参数化最坏情形 1±4K(C) 在 C=4 空洞成立、需 C>25 的问题就此终结。
 6. **有理支配方法论**（可判定性溢价）：证书全部常数经 floor-sqrt / Jordan / Dirichlet
    的单侧松弛化为有理数，`compute; field` 完成证明——零数值策略、零区间算术、可判定、可提取。
+   **松弛链元理论（CS-19，`probe_relaxation_meta.v`，2026-08-30）**：单调性与组合性已定理化——
+   参数化合成界 relax m sb sq := m·(1/(sb·sq))（分子上界 / sin 下界 / √ 下界三层参数）逐层单调
+   （M1）、多层组合收紧（M2 relax_refine）、行和提升（M3 rowR_mono）与判定保持（M4
+   `checker_preserved_under_refinement`：任一层收紧后检查器通过性不变——「只强化不破坏」）；
+   M5 证明反射层 pair_frac_R 恰为该参数化族实例，元理论覆盖现有检查器管线。
 7. **可执行提取**：门控/检查器 → OCaml（psa_guard.exe）→ Python FFI，24/24 参考值对齐。
 8. **反射检查器及其健全性**（FrameCheckInstance）：`frame_check_instance` 把「任意阶梯 →
    μ≤4/5」做成可判定**充分**判定（保守健全，系统扫描假阴性 49.1%），提取为原生 int 镜像（**注：健全性定理针对 Coq 内 nat 版判定函数；
