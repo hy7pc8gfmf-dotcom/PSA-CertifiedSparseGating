@@ -2,6 +2,7 @@
 ## A Coq Formalization of Representation Stability and Sparse Recovery Guarantees
 
 > 正式版。投稿方向：CPP/ITP（形式化方法）。
+> 作者：王宝军、夏挽岚（通讯作者，xiawanlan33@163.com）、祖光照、周志农、高雪峰
 > 代码基态：合并版 `ca_merged_full_25.v`（87632 行，57 顶层模块，SHA-256 基 4901f18e，MERGE_EXIT=0，公理审计 54 Closed + 111 Dedekind 三公理、`Classical_Prop.classic` 零出现（2026-08-30 重跑确认）；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验）。
 
 ---
@@ -153,7 +154,7 @@ logits 不变，§5.3/§10）。证书链是**两条正交的定理簇**（表�
   pairbound 5 / rowsum 23 / pairdirichlet 5 / incoherence 51 / row_rip 9（行和→RIP 桥接）/ c4_instance 14（C=4 实例拼接）——
   各独立编译 EXIT=0 + 合并编译双通过。
 - **审计**：PSA_audit.v **165 项** Print Assumptions，RC=0，零 Admitted；全部 165 项
-  `Classical_Prop.classic` 零出现；公理脚印仅 sig_not_dec / sig_forall_dec / fext
+  `Classical_Prop.classic` 零出现；公理依赖仅 sig_not_dec / sig_forall_dec / fext
   （标准 Dedekind 实数基础设施，已明确声明）。
 - **依赖**：Rocq 9.0.1；mathcomp（ssreflect/ssrbool/ssrnat/seq/eqtype/div/prime）；
   Coquelicot。外部依赖仅此二者。
@@ -544,10 +545,10 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 
 - **审计总量**：PSA_audit.v **165 项** Print Assumptions，RC=0，零 Admitted；**完整运行日志
   `审计证据/audit_run_20260826_full.txt`（165/165 块随稿 co-locate，111 段 Axioms + 54 项 Closed，2026-08-26 重跑）+ 定理索引 `audit_index_20260826.txt`**；构建配置 `_CoqProject`/`Makefile`/`_merge_ca.py` 随稿。
-- **公理脚印（全部 165 项仅此）**：sig_not_dec / sig_forall_dec + functional_extensionality_dep
+- **公理依赖（全部 165 项仅此）**：sig_not_dec / sig_forall_dec + functional_extensionality_dep
   ——标准 Dedekind 实数基础设施，**属可接受的 Reals 基底，非本开发应用层引入、非 `Classical_Prop.classic` 公理（显式声明）**；`Classical_Prop.classic`（排中律宏）
   **零出现（post-M1.5 复核成立）**。「classical-free」精确指排中律宏零出现，而非「无任何经典原则」——完整构造性未声称。**外部依赖说明**：mathcomp / Coquelicot 未纳入 165 项审计，"零 `Classical_Prop.classic`"仅限本开发应用层，不推广到整个开发依赖（Coquelicot 基于实数库，可能含经典公理，已明确声明）。
-**审计范围与合并版全基态的边界**：165 项审计的对象是 `PSA_framework.v` 应用层定理；合并版 `ca_merged_full_25.v` 其余模块中，`mu_adj_phase_transition`（μ 单调 ⟹ 相变存在性定理）的公理脚印含完整排中律 `classic`（CI 与本地编译日志一致确认）——"零 `Classical_Prop.classic`"结论限于 165 项审计范围，不覆盖合并版全部定理；应用层注意力证书/框架界/反射检查器定理链不受影响。审计分层口径：165 项输出块 = 54 项 Closed under the global context + 111 项 Dedekind 三公理脚印；构造性轨道（ca_rip_cr.v 33 定理、probe_uncertainty_cr.v 35 定理、probe_taugrid_cr.v 13 定理）各有独立 Print Assumptions 审计且全部 Closed，不在 165 项之内。
+**审计范围与合并版全基态的边界**：165 项审计的对象是 `PSA_framework.v` 应用层定理；合并版 `ca_merged_full_25.v` 其余模块中，`mu_adj_phase_transition`（μ 单调 ⟹ 相变存在性定理）的公理依赖含完整排中律 `classic`（CI 与本地编译日志一致确认）——"零 `Classical_Prop.classic`"结论限于 165 项审计范围，不覆盖合并版全部定理；应用层注意力证书/框架界/反射检查器定理链不受影响。审计分层口径：165 项输出块 = 54 项 Closed under the global context + 111 项 Dedekind 公理依赖（80 项三公理依赖 + 29 项 sig_forall_dec+fext + 2 项仅 sig_forall_dec，机器可读索引 `audit_index_20260830.json`）；构造性轨道（ca_rip_cr.v 33 定理、probe_uncertainty_cr.v 35 定理、probe_taugrid_cr.v 13 定理）各有独立 Print Assumptions 审计且全部 Closed，不在 165 项之内。**构造性轨道公理依赖（单独列出，2026-08-30）**：Stdlib `ConstructiveRcomplete.v`（ConstructiveReals 接口与柯西实例）自身 Axiom/Parameter 计数 = **0**（源文件直接核验——接口不依赖 funext、不依赖排中律）；构造性轨道各模块 Print Assumptions 全部 "Closed under the global context"（零公理，含 funext/classic 均零依赖），机器可读清单 `constructive_track_audit_20260830.json`。**审计计数勘误（166/165 差异关闭）**：PSA_audit.v 头注释提及 "Print Assumptions" 字样致子串计数 +1——语句实为 165 条，与日志 165 块一一对齐。
 - **M1.5 经典清零（post-M1.5 复核）**：`Module ExpSeries` 已 Qed（exp 幂级数路线），`exp_mono_le` 改走级数
   路线，语句不变、下游零改动——整个 CertifiedAttention 模块为纯构造性（不依赖实数完备性
   的排中律），据我们所知，这是第一个不依赖实数完备性排中律的深度学习注意力形式化验证。
