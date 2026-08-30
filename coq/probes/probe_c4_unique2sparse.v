@@ -26,6 +26,10 @@
      I4 占优反证：|c_{i₀}| ≤ Σ_{j≠i₀}|c_j|·pf_ij ≤ |c_{i₀}|·row(i₀) < |c_{i₀}|
         ⟹ 矛盾 ⟹ 合成零 ⟹ 系数全零（任意系数单射，含 2-sparse 唯一）
      预计体量 ~300 行；全部依赖已在本文件 D 层与框架引理中就位。
+   ▶ I 注入性核已于 2026-08-30 以纯构造性轨道落地为孪生探针
+     probe_c4_unique2sparse_cr.v（CS-21，c4u_synthesis_injective +
+     c4u_2sparse_unique，六审计全 Closed，提取 ocamlc ✓）——按 M2 红线
+     新生成证明一律走 CR 轨道，本文件终态保持 D 层数值认证。
    纪律：经典 R 轨道；零 Admitted / 零自定义 Axiom。
    ============================================================ *)
 Require Import Stdlib.Lists.List.
