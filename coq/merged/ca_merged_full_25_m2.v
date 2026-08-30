@@ -90503,7 +90503,7 @@ Proof.
     subst i.
     simpl. destruct (eq_nat_dec 0 0) as [He | Hn].
     + ring.
-    + exfalso. exact (Hn eq_refl).
+    + exfalso. apply Hn. reflexivity.
   - destruct (Nat.eq_dec i (S n)) as [Hlast | Hnotlast].
     + subst i.
       assert (Hpre : sum_f_R0 (fun j => if eq_nat_dec (S n) j then 0 else f j) n = sum_f_R0 f n).
@@ -90512,7 +90512,7 @@ Proof.
       assert (Hlast0 : (fun j => if eq_nat_dec (S n) j then 0 else f j) (S n) = 0).
       { destruct (eq_nat_dec (S n) (S n)) as [He | Hne].
         - reflexivity.
-        - exfalso. exact (Hne eq_refl). }
+        - exfalso. apply Hne. reflexivity. }
       rewrite sum_f_R0_S. rewrite sum_f_R0_S. rewrite Hpre. rewrite Hlast0. ring.
     + assert (Hlastf : (fun j => if eq_nat_dec i j then 0 else f j) (S n) = f (S n)).
       { destruct (eq_nat_dec i (S n)) as [He | Hne].
@@ -90689,7 +90689,7 @@ Proof.
     - rewrite sum_f_R0_add. f_equal.
       + apply sum_f_R0_ext. intros i Hi.
         unfold Frow. cbv beta.
-        destruct (eq_nat_dec i i) as [He | Hn]; [reflexivity | exfalso; exact (Hn eq_refl)].
+        destruct (eq_nat_dec i i) as [He | Hn]; [reflexivity | exfalso; apply Hn; reflexivity].
       + apply sum_f_R0_ext. intros i Hi.
         apply sum_f_R0_ext. intros j Hj.
         unfold Frow. cbv beta.
@@ -90711,7 +90711,7 @@ Proof.
       + rewrite (sum_f_R0_opp_l (fun i => Cnorm_sq (c i)) m).
         apply sum_f_R0_ext. intros i Hi.
         unfold Frow. cbv beta.
-        destruct (eq_nat_dec i i) as [He | Hn]; [reflexivity | exfalso; exact (Hn eq_refl)].
+        destruct (eq_nat_dec i i) as [He | Hn]; [reflexivity | exfalso; apply Hn; reflexivity].
       + apply sum_f_R0_ext. intros i Hi.
         apply sum_f_R0_ext. intros j Hj.
         unfold Frow. cbv beta.
