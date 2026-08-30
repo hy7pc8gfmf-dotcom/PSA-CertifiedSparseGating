@@ -89159,9 +89159,9 @@ Proof.
   { rewrite <- sqrt_1. apply sqrt_lt_1; lra. }
   assert (Hsqrt2 : (sqrt 2 * sqrt 2 = 2)%R) by (apply sqrt_sqrt; lra).
   assert (Ht : (2 * / sqrt 2 = sqrt 2)%R).
-  { rewrite <- Hsqrt2 at 1.
+  { setoid_rewrite <- Hsqrt2 at 1.
     rewrite Rmult_assoc.
-    rewrite Rinv_r by exact Hnz.
+    rewrite (Rinv_r (sqrt 2) Hnz).
     rewrite Rmult_1_r. reflexivity. }
   unfold Rdiv. rewrite Rmult_1_l.
   rewrite Ht. exact H1.
@@ -90501,7 +90501,7 @@ Proof.
       { destruct (eq_nat_dec (S n) (S n)) as [He | Hne].
         - reflexivity.
         - exfalso. exact (Hne eq_refl). }
-      rewrite sum_f_R0_S. rewrite sum_f_R0_S. rewrite Hpre, Hlast0. ring.
+      rewrite sum_f_R0_S. rewrite sum_f_R0_S. rewrite Hpre. rewrite Hlast0. ring.
     + assert (Hlastf : (fun j => if eq_nat_dec i j then 0 else f j) (S n) = f (S n)).
       { destruct (eq_nat_dec i (S n)) as [He | Hne].
         - exfalso. apply Hnotlast. exact He.
@@ -90920,12 +90920,12 @@ Proof.
   intros Hn.
   apply Rlt_le_trans with (2%R).
   - lra.
-  - assert (H2 : (INR 2 = 2)%R) by (rewrite S_INR, INR_1; reflexivity).
+  - assert (H2 : (INR 2 = 2)%R) by (rewrite S_INR; rewrite INR_1; reflexivity).
     rewrite <- H2. apply le_INR. lia.
 Qed.
 
 Lemma INR_2_two : (INR 2 = 2)%R.
-Proof. rewrite S_INR, INR_1. reflexivity. Qed.
+Proof. rewrite S_INR. rewrite INR_1. reflexivity. Qed.
 
 Lemma psi_frac_eq (n m : nat) : (2 <= n)%nat -> (2 <= m)%nat ->
   (1 / sqrt (INR n) * (1 / sqrt (INR m))
@@ -91066,7 +91066,7 @@ Proof.
   assert (Hsplit : RowTruncation.list_sum_R f (seq 0 (W1 + d))
                    = RowTruncation.list_sum_R f (seq 0 W1)
                      + RowTruncation.list_sum_R f (seq W1 d)).
-  { rewrite seq_app, list_sum_R_app. reflexivity. }
+  { rewrite seq_app. rewrite list_sum_R_app. reflexivity. }
   assert (Habs : (Rabs (RowTruncation.list_sum_R f (seq W1 d))
                   <= RowTruncation.list_sum_R (fun k => Rabs (f k)) (seq W1 d))%R)
     by apply list_sum_R_abs_bound.
@@ -91092,7 +91092,7 @@ Lemma sqrt_pair_ge2 (vi vj : nat) : (2 <= vi)%nat -> (2 <= vj)%nat ->
   (2 <= sqrt (INR vi) * sqrt (INR vj))%R.
 Proof.
   intros Hvi Hvj.
-  assert (H2 : (INR 2 = 2)%R) by (rewrite S_INR, INR_1; reflexivity).
+  assert (H2 : (INR 2 = 2)%R) by (rewrite S_INR; rewrite INR_1; reflexivity).
   assert (Hbi : (2 <= INR vi)%R) by (rewrite <- H2; apply le_INR; lia).
   assert (Hbj : (2 <= INR vj)%R) by (rewrite <- H2; apply le_INR; lia).
   assert (Hb0 : (0 <= INR vi * INR vj)%R) by nra.
