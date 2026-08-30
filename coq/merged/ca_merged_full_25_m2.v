@@ -90446,6 +90446,16 @@ Import ListNotations.
 Open Scope nat_scope.
 Open Scope R_scope.
 
+(* E138①：Notation 注册（8 项，恢复 Stdlib nat 记号——防 mathcomp 污染，
+   合并版双环境兼容硬规则 9） *)
+Notation "a + b" := (Nat.add a b) (at level 50, left associativity) : nat_scope.
+Notation "a - b" := (Nat.sub a b) (at level 50, left associativity) : nat_scope.
+Notation "a * b" := (Nat.mul a b) (at level 40, left associativity) : nat_scope.
+Notation "a <= b" := (Nat.le a b) (at level 70, no associativity) : nat_scope.
+Notation "a < b" := (Nat.lt a b) (at level 70, no associativity) : nat_scope.
+Notation "a >= b" := (Nat.le b a) (at level 70, no associativity) : nat_scope.
+Notation "a > b" := (Nat.lt b a) (at level 70, no associativity) : nat_scope.
+
 (* ============ GC0：分级层与决策函数（可计算层） ============ *)
 
 Inductive cert_level : Set :=
@@ -90830,8 +90840,6 @@ Proof. vm_compute. reflexivity. Qed.
 (* ============ 审计 ============ *)
 Print Assumptions composite_frame_bounds.
 Print Assumptions frame_check_graduated_sound.
-
-End FFGNotationFence.
 
 (* ============ 提取（决策函数 nat 可执行：psa_guard 侧分级入口） ============ *)
 From Stdlib Require Import Extraction.
