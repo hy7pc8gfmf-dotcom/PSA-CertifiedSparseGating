@@ -92707,7 +92707,7 @@ Lemma g9_closed_2_13 : Qeq (g9_closed 2) (Qmake 1 3).
 Proof.
   unfold Qeq, g9_closed; cbn [Qnum Qden].
   rewrite g9_pos_succ.
-  replace (S (2 * (2 * 2 - 1) - 1))%nat with 6 by lia. lia.
+  replace (S (2 * (2 * 2 - 1) - 1))%nat with (6)%nat by lia. lia.
 Qed.
 
 Lemma g9_pf_C4_13 : forall a : nat, (1 <= a)%nat ->
