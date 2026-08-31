@@ -56,7 +56,12 @@ dictionary-optimality synthesis (Welch lower bound + uniqueness window ⟹ ident
 representations) whose Welch premise is itself proved constructively
 (`g7_welch_lower`: the squared Welch bound (M − N) ≤ N·(M−1)·μ² via Frobenius norm
 and Cauchy–Schwarz, avoiding eigenvalue arguments), all machine-checked; on the C=4
-ladder the instance μ = 11289/33920 < 1/3 yields 3-atom sparse uniqueness for [3,13,53]. The audit comprises 165 Print
+ladder the instance μ = 11289/33920 < 1/3 yields 3-atom sparse uniqueness for [3,13,53]. The asymptotic cost of the
+relaxation chain itself admits a machine-checked closed form (G-9: the exact form
+c/(2(c²−1)) for square C and a two-sided rational sandwich for general C), and the
+reflective checker admits a true iff characterization at the exact rational layer
+(G-11: pass ⟺ every row within threshold, reject ⟺ an over-threshold row exists,
+plus a quantitative false-negative criterion in terms of relaxation slack). The audit comprises 165 Print
 Assumptions entries (PSA_audit.v) with zero `Classical_Prop.classic` at the application
 layer; the only axioms are the standard Dedekind-real infrastructure (sig_not_dec,
 sig_forall_dec, functional extensionality) — non-constructive choice-like principles
@@ -151,12 +156,11 @@ logits 不变，§5.3/§10）。证书链是**两条正交的定理簇**（表�
   Gershgorin → InstanceCertificate → M4bLengthConsistency → T8CoreCertificate →
   FrameCheckInstance → ChampionCertificate → FrameCheck2DNarrow → UnitaryInvariance →
   PhaseCoherence。
-- **合并版** `src/ca_merged_full_25.v`：**93953 行 / 67 模块分区（55 模块分区 + `ca_independence` 内 `independent`/`independent′` 2 附加）**（30 个 ca_* + PSA_framework +
-  独立模块 + **20 个 z 区探针**：probe_grid_ortho/parseval/partial/pairbound/rowsum/
+- **合并版** `src/ca_merged_full_25_m2.v`：**92743 行 / 69 模块分区**（30 个 ca_* + PSA_framework +
+  独立模块 + z 区探针族与构造性轨道全量并入至 G-9：probe_grid_ortho/parseval/partial/pairbound/rowsum/
   pairdirichlet/incoherence/row_rip/c4_instance + welch/uncertainty_cr/g8_synthesis_cr/
   g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/
-  decidability_premium_cr + **构造性轨道 ca_zeta_euler / ca_rip_cr** + **CS 定理族 taugrid/taugrid_cr/cs/cs5（2026-08-29，合计 64 Qed，已并入合并版）**），`_merge_ca.py`
-  重新生成，**全量合并编译 MERGE_EXIT=0**。
+  decidability_premium_cr + **构造性轨道 ca_zeta_euler / ca_rip_cr** + **CS 定理族 taugrid/taugrid_cr/cs/cs5** + **M2 批次 c4_four_atom_cr/safe_domain/frame_check_graduated/ab_bridge_pier/relaxation_meta/g3_criterion/g5_premium** + **g7_welch_cr + g9_pairfrac_cr（G-9）**），追加式并入，**本地 2.5 全量编译 EXIT=0（run20，2026-08-31）**。
 - **z 区探针（并入合并版 9 个：8 经典 pro 化 + c4_instance）**：grid_ortho 18 Qed / parseval 19 / partial 27 /
   pairbound 5 / rowsum 23 / pairdirichlet 5 / incoherence 51 / row_rip 9（行和→RIP 桥接）/ c4_instance 14（C=4 实例拼接）——
   各独立编译 EXIT=0 + 合并编译双通过。
@@ -356,7 +360,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   Check/Eval + 4 项整数行和验算）。
 - **运行时保证的量化范围**：int 镜像（OCaml int，63-bit）只对小整数阶梯成立；
   浮点 `int_sqrt` 是近似（偏差 ≤ 1，仅判别阈值附近可能翻转）；累积分母 ∏ pair_den 指数增长，
-- **提取物运行时基准（2026-08-30，回应评审 §3.3）**：`frame_check_graduated` 四级判定（[3,13]→L1、[3,7,15]→L2、[2,3]→L3、结构败→L4）与 `safe_domain_bool`（C=4 分母链 → 安全）全部 **< 1 ms**（DkMLNative ocamlc 字节码 + ocamlrun）；构造性轨道 `c4_four_atom_cr` 的 Q 层窗口判定 `mu4_window = (45156, 33920)` 运行输出 < 1 ms，与正文引用的 μ₄·4 判定逐字一致——「构造性轨道是否可计算」由运行时证据直接消解（基准文档 `extraction_benchmark_20260830.md` 随稿）。
+- **提取物运行时基准（2026-08-30，回应评审 §3.3）**：`frame_check_graduated` 四级判定（[3,13]→L1、[3,7,15]→L2、[2,3]→L3、结构败→L4）与 `safe_domain_bool`（C=4 分母链 → 安全）全部 **< 1 ms**（DkMLNative ocamlc 字节码 + ocamlrun）；构造性轨道 `c4_four_atom_cr` 的 Q 层窗口判定 `mu4_window = (45156, 33920)` 运行输出 < 1 ms，与正文引用的 μ₄·4 判定逐字一致——「构造性轨道是否可计算」由运行时证据直接消解（基准文档 `extraction_benchmark_20260830.md` 随稿）；基准覆盖反射分级检查器/安全域/窗口判定，部署族（§10）提取物的同类基准为后续工作。
   系统扫描实测末带 < 2^20 的阶梯中仍有 14/89（15.7%）exe 与 Coq 语义分歧（如 C=6-sparse
   累积分母达 10^26 ≫ 2^63）。实验实际使用（带值 ≤255、m ≤ 8）全部落在 63-bit 安全区。
   **因此**：运行时检查器**不自动携带** Coq soundness——它只在有限整数范围内、且与 Coq
@@ -518,7 +522,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   对最大原子索引归纳，增量 1 + 2·INR(S M)·μ² 精确闭合）→ CR 代数移项（乘正消去）。
   **验收**：828 行 14 Qed / 0 Admitted / 0 公理，六段 Print Assumptions 全 "Closed
   under the global context"；提取物 g7_welch_cr.ml 经 DkMLNative ocamlc 编译通过；
-  已并入合并版 `ca_merged_full_25_m2.v`（92506 行，68 模块分区，本地 2.5 全量编译 EXIT=0）。
+  已并入合并版 `ca_merged_full_25_m2.v`（现 92743 行，69 模块分区，本地 2.5 全量编译 EXIT=0）。
   **范围（如实）**：实原子版（原子分量为构造性实数；G-8 的消费为抽象相干上界 μ，
   实版直接衔接）；复原子版（复向量内积的 Welch 下界）列为后续工作。
 - **加权阶梯范数精确闭式（G-1，经典 R 轨道）** G1_norm_closed（probe_g1_norm_closed.v，
@@ -533,10 +537,12 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   r≥r* ⟹ 渐进可认证，r→1⁺ ⟹ μ_adj→1 不可认证。三定理覆盖：递减（两段式交叉夹逼）、
   相变存在（π<17/5 上界 + IVT 夹逼）、渐近（序列极限复合）——0.4502 相邻带下界 →
   2·0.4502 = 0.9003 > 4/5 的 G-4 前置。
-- **检查器充要刻画（G-3，经典 R 轨道）** `g3_certifiable_iff` + `g3_row_bound_mu`
-  （probe_g3_criterion.v，5 Qed / 0 Admitted）：**反射检查器通过 ⟺ 每行精确相干
-  行和 ≤ p/q**（框架界 (1±p/q) 的充要条件）——把"检查器通过 ⟹ 框架界"从单向
-  充分升级为 iff，与 G-5 反例构成可判定性边界的完整刻画。
+- **检查器充分方向（G-3，经典 R 轨道）** `g3_certifiable_iff` + `g3_row_bound_mu`
+  （probe_g3_criterion.v，5 Qed / 0 Admitted）：**反射检查器通过 ⟹ 每行精确相干
+  行和 ≤ p/q**（框架界 (1±p/q) 的充分条件；名字沿自早期草稿，实为单向蕴含——
+  D7 审查点如实降格）。真 iff 见 G-11（`probe_g11_checkiff_cr.v`：通过 ⟺ 逐行 ≤ 阈、
+  拒绝 ⟺ 存在超阈行、假阴性量化 iff，行级精确有理层）。与 G-5 反例共同构成
+  可判定性边界的完整刻画。
 - **可判定性溢价反例（G-5，经典 R 轨道）** `g5_premium`（probe_g5_premium.v，
   35 Qed / 0 Admitted）：**存在具体阶梯 [3,7,15]：反射检查器拒但精确 Gram 相干
   行和 ≤ 4/5**（完整口径闭式，|⟨ψ_3,ψ_7⟩|≈0.3777、|⟨ψ_7,ψ_15⟩|≈0.4094，
@@ -559,6 +565,11 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 - **构造性孪生（CS-12，纯构造性轨道，2026-08-29 新增）** `probe_taugrid_cr.v`（13 Qed / 0 Admitted，Print Assumptions **全 Closed 零公理**）：抽象接口 `{R : ConstructiveReals}` + 归一梯子 u（cos/复指数构造性未实现，接口与主线数学一致）；**严格序 CRlt 本身是 Set 值**（ConstructiveReals.v:88 库设计），覆盖债界定定理以信息性形式 **0 < debt < 1**（Set 值 prod，证明项可提取）陈述，主定理结论 prod 型（信息性分支不能进 Prop 的 /\），sigT 被类型系统强制；序判定下放 Q 层（Qlt 判定经 CR_of_Q_lt 提升为带数据 CRlt，CRlt_proper 信息性搬运）；**提取 `taugrid_cr.ml` 经 DkMLNative ocamlc 4.14.2 编译通过**（柯西实例 cRealConstructive 具象化）。
 - **CS 生产线（CS-13，经典 R 轨道，2026-08-29 新增）** `probe_cs.v`（29 Qed / 0 Admitted，审计仅 Dedekind 三允许公理）：**一致 RIP** `cs2_rip_uniform`（(1−δ)‖c‖² ≤ ‖Φc‖² ≤ (1+δ)‖c‖²，δ = 4K(C) **∀s 一致**）；**★s-sparse 唯一性** `cs3_energy_zero`/`cs3_unique`（C ≥ 10：测量 y = y' ⟹ 系数 c = c'——测量端信息不丢失）；**embedding** `cs6_embedding`（1−2K(C) > 0）；**spark 下界** `cs1b_spark`（spark ≥ n+1，Elad–Bruckstein 判据）；**逐对相干** `cs1a_pair_bound`（≤ 2πq/(1−q)）；**★近重复对爆炸** `near_dup_coherence_12`（coh 1 2 = **1/√2 精确值**）+ `cs4c_explosion`（**2μ = √2 > 1**——s ≥ 3 时 Gershgorin 型 RIP 证书在含近重复对梯子上必然失效，"剪 503/255/127 应恶化"完整定理链）。
 - **offset 无关性（CS-14，经典 R 轨道，2026-08-29 新增）** `probe_cs5.v`（5 Qed / 0 Admitted）：**同族平移 t→t+δ 下跨网格对相干界不变**（≤ N/(2·min(j mod N, N−j mod N))，**右端不含 δ**——偏移在差频中相消，pair_dirichlet 接管）；**黄金比隔离界** `cs5_golden_moat`（1/(3d) ≤ |d·φ_gold − m|）；**offset 语义非空** `cs5_gold_not_grid`（φ_gold ∉ ℤ）——ogrid 实验的定理侧。
+
+- **正向随机侧（CS-20，经典 R 轨道沉没资产入文，2026-08-31）** `pairwise_inner_bound_probabilistic`
+  （src/ca_sparse_ext.v，已 Qed）：超线性增长阶梯（f(S i) ≥ c²·f i，c ≥ 2）的 p-偏置随机子阶梯，
+  满足逐对内积条件的概率权重 ≥ 1 − N²p²（`sum_over_subsets_weight` 归一化测度，ca_probabilistic）
+  ——与 T2b 构成随机侧完整对偶：log-uniform 无增长约束 ⟹ whp 拒绝；增长受控 ⟹ whp 逐对可控。
 
 ## 10. 部署级证书族（KV 逐出 / 量化 / 多头）
 
@@ -596,15 +607,15 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 > **代码仓库**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 + 论文 + 实证 + CI，Apache-2.0；CI 徽章见 README）。预印本 DOI：10.6084/m9.figshare.33312189。
 
 - **代码分布**：`src/`（正式模块，含 `_CoqProject`）；`z/`（探针）；合并版
-  `src/ca_merged_full_25.v`（93953 行，67 模块分区 + `independent`/`independent′` 2 附加，含 ca_zeta_euler / ca_rip_cr 构造性轨道 + 20 个 z 区探针）；归档基态
+  `src/ca_merged_full_25_m2.v`（92743 行，69 模块分区，探针族与构造性轨道全量并入至 G-9）；归档基态
   `D:\ComplexAnalysis\30模块\`（ca_* + 探针 pro 版 + ca_zeta_euler + ca_rip_cr + 合并版，
   SHA-256 与 src/z 一致，旧版备份 `.sync-backup-20260823/`）。
 - **依赖版本**：Rocq/Coq 9.0.1（`C:\Rocq-Platform~9.0~2025.08\bin\coqc.exe`）；mathcomp
   （本地 vendored `lib\mathcomp`）；Coquelicot（`lib\Coquelicot`）；Windows 10+ / PowerShell 7。
 - **构建命令**：各模块独立编译 `coqc -Q <src> "" -Q <z> "" -Q <mathcomp> mathcomp
   -Q <Coquelicot> Coquelicot <file>.v`；合并版重新生成 `python src/_merge_ca.py`，合并编译
-  `coqc -Q <mathcomp> mathcomp -Q <Coquelicot> Coquelicot src/ca_merged_full_25.v`
-  （MERGE_EXIT=0）。**CI 可复现性**：GitHub Actions 缓存 lib 链与合并版 .vo（按源 hash 失效），
+  `coqc -Q <mathcomp> mathcomp -Q <Coquelicot> Coquelicot src/ca_merged_full_25_m2.v`
+  （本地 2.5 全量 EXIT=0）。**CI 可复现性**：GitHub Actions 缓存 lib 链与合并版 .vo（按源 hash 失效），
   编译命令 `scripts/ci_build.sh`（mathcomp 2.6 前缀经 sed 适配 boot.*）。
 - **审计脚本**：PSA_audit.v（165 项，输出 `audit_run_20260826_full.txt`）；PSA_3D_audit.v（10 项）；
   FFI 自测 `python psa_guard_ffi.py`（24/24）。
@@ -750,7 +761,7 @@ and Rocq 9.0.x/9.1.x) yielded the following first-hand feedback:
 部署级证书族构成三角支撑；**压缩感知族（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏
 唯一性）把「无条件基 + 频率阶梯」的理论优势推进到稀疏恢复**（k-原子 RIP 走纯构造性实数
 轨道、零经典公理）。全部开发零 Admitted、零自定义公理，165 项审计
-`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（93953 行，67 模块分区 + 2 附加，含 20 个 z 区探针 + 构造性轨道
+`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（92743 行，69 模块分区，探针族与构造性轨道全量至 G-9
 ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实证共同构成「可证性（稀疏）—
 外推性（稠密）」双轨的机器检查 + 实证记录。
 
@@ -794,7 +805,12 @@ ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实�
 | ρ^{−3/2} 逐对紧界 | z/probe_pairbound.v（5 Qed） | ✅ **已并入合并版** |
 | 碰撞刻画 / τ 机制 | z/probe_collision.v / probe_tchar.v / probe_taudicho.v | ✅（z 区独立验证） |
 | 部署级证书族 | z/probe_kvevict.v / probe_quant.v / probe_multihead.v / probe_exprat.v | ✅（z 区独立验证） |
-| 合并版 | src/ca_merged_full_25.v（93953 行，67 模块分区，20 探针 + ca_zeta_euler / ca_rip_cr 并入） | ✅ **MERGE_EXIT=0** |
+| Welch 下界构造性证明（G-7） | z/probe_g7_welch_cr.v（g7_welch_lower，14 Qed 6×Closed） | ✅ **已并入 m2 分区 68** |
+| 渐近闭合式双带夹逼（G-9） | z/probe_g9_pairfrac_cr.v（10 项 4×Closed） | ✅ **已并入 m2 分区 69** |
+| i01 区间构造性代数 + noisy-OR 组合证书（G-10） | z/probe_itv_noisyor_cr.v（iq sigT 接口，6×Closed） | ✅（z 区独立验证） |
+| 检查器真 iff（G-11，D7 修复） | z/probe_g11_checkiff_cr.v（check_iff/reject_iff/fn_iff/decision_cert，6×Closed） | ✅（z 区独立验证） |
+| 概率逐对界正向随机侧（CS-20） | src/ca_sparse_ext.v（pairwise_inner_bound_probabilistic） | ✅（库内已 Qed，本轮入文） |
+| 合并版 | src/ca_merged_full_25_m2.v（92743 行，69 模块分区，探针族全量至 G-9） | ✅ **本地 2.5 全量 EXIT=0（run20）** |
 | 归档基态 | D:\ComplexAnalysis\30模块\（SHA-256 与 src/z 一致） | ✅ |
 
 ---
