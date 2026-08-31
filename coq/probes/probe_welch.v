@@ -671,3 +671,6 @@ Qed.
 
 
 
+
+(* ---------- 审计 ---------- *)
+Print Assumptions wl_welch_bound.

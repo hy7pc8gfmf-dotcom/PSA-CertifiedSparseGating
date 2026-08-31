@@ -191,3 +191,6 @@ Proof.
 Qed.
 
 End F7Recovery.
+
+(* ---------- 审计 ---------- *)
+Print Assumptions CRrecovery_correct_prefix.

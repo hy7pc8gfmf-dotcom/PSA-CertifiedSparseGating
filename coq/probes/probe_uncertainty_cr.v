@@ -1115,3 +1115,6 @@ Proof.
 Qed.
 
 End F5Uncertainty.
+
+(* ---------- 审计 ---------- *)
+Print Assumptions CRuncertainty_principle.
