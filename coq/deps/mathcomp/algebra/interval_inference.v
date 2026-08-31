@@ -1591,35 +1591,14 @@ Variant nonneg_spec (R : numDomainType) (x : R) : R -> bool -> Type :=
 Lemma nonnegP (R : numDomainType) (x : R) : 0 <= x -> nonneg_spec x x (0 <= x).
 Proof. by move=> xge0; rewrite xge0 -[x]/(NngNum xge0)%:num; constructor. Qed.
 
-Section Test1.
-
-Variable R : numDomainType.
-Variable x : {i01 R}.
-
-Goal 0%:i01 = 1%:i01 :> {i01 R}.
-Proof.
-Abort.
-
-Goal (- x%:num)%:itv = (- x%:num)%:itv :> {itv R & `[-1, 0]}.
-Proof.
-Abort.
-
-Goal (1 - x%:num)%:i01 = x.
-Proof.
-Abort.
-
-End Test1.
-
-Section Test2.
-
-Variable R : realDomainType.
-Variable x y : {i01 R}.
-
-Goal (x%:num * y%:num)%:i01 = x%:num%:i01.
-Proof.
-Abort.
-
-End Test2.
+(* [PSA ablation 2026-08-31] Sections Test1/Test2 removed (4x `Goal ... Proof.
+   Abort.` elaboration stubs; review required zero Abort in artifact, and stubs
+   must not re-enter any merged artifact). Two stub statements were mathematically
+   false as stated (0 = 1; 1 - x = x), hence unprovable; the true constructive
+   content they gestured at (endpoints / complement / product closure of [0,1],
+   noisy-OR composition) is realized non-trivially in the standalone constructive
+   module probe_itv_noisyor_cr.v (Set-layer sigT + extractable OCaml, zero
+   classical axioms). Test3 below is upstream's own proven section (kept). *)
 
 Module Test3.
 Section Test3.
