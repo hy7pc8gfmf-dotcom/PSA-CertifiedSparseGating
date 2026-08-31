@@ -176,7 +176,8 @@ Print Assumptions T8CoreCertificate.t8_row3.
 Print Assumptions T8CoreCertificate.certified_t8_core_frame_bounds.
 
 (* M4 收尾②：反射框架检查器 soundness（会话 9）——pair_sound 等零 classic
-   （反射有理界 = psi 内积保守界的上界；未证毕部分见 frame_check_instance_sound TODO） *)
+   （反射有理界 = psi 内积保守界的上界；soundness 主定理 frame_check_instance_sound
+   已 Qed——零 Admitted，见 PSA_framework.v 装配段 banner） *)
 Print Assumptions FrameCheckInstance.pair_sound.
 Print Assumptions FrameCheckInstance.div_le.
 Print Assumptions FrameCheckInstance.frac_add_R.
