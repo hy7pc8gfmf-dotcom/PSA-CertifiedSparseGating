@@ -3,7 +3,7 @@
 
 > 正式版。投稿方向：CPP/ITP（形式化方法）。
 > 作者：王宝军、夏挽岚（通讯作者，xiawanlan33@163.com）、祖光照、周志农、高雪峰
-> 代码基态：合并版 `ca_merged_full_25_m2.v`（95810 行，76 模块分区，绿产物追加路线：E153 绿基线 87632 + M2/G-7/G-9 批次 + G-10/G-11/G-13/CS-21/CS-23/CS-22/Z2b 批次（2026-09-01 追加批次，七分区独立编译 EXIT=0；基线 run20 2.5 全量 EXIT=0）），公理审计 54 Closed + 111 Dedekind 三公理、`Classical_Prop.classic` 零出现（2026-08-30 重跑确认）；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验。
+> 代码基态：合并版 `ca_merged_full_25_m2.v`（95848 行，76 模块分区，绿产物追加路线：E153 绿基线 87632 + M2/G-7/G-9 批次 + G-10/G-11/G-13/CS-21/CS-23/CS-22/Z2b 批次（2026-09-01 追加批次，合并全量编译 EXIT=0（9.1，run6）；基线 run20 2.5 全量 EXIT=0）），公理审计 54 Closed + 111 Dedekind 三公理、`Classical_Prop.classic` 零出现（2026-08-30 重跑确认）；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验。
 
 ---
 
@@ -161,7 +161,7 @@ logits 不变，§5.3/§10）。证书链是**两条正交的定理簇**（表�
   Gershgorin → InstanceCertificate → M4bLengthConsistency → T8CoreCertificate →
   FrameCheckInstance → ChampionCertificate → FrameCheck2DNarrow → UnitaryInvariance →
   PhaseCoherence。
-- **合并版** `src/ca_merged_full_25_m2.v`：**95810 行 / 76 模块分区**（30 个 ca_* + PSA_framework +
+- **合并版** `src/ca_merged_full_25_m2.v`：**95848 行 / 76 模块分区**（30 个 ca_* + PSA_framework +
   独立模块 + z 区探针族与构造性轨道全量并入至 G-9：probe_grid_ortho/parseval/partial/pairbound/rowsum/
   pairdirichlet/incoherence/row_rip/c4_instance + welch/uncertainty_cr/g8_synthesis_cr/
   g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/
@@ -527,7 +527,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   对最大原子索引归纳，增量 1 + 2·INR(S M)·μ² 精确闭合）→ CR 代数移项（乘正消去）。
   **验收**：831 行 14 Qed / 0 Admitted / 0 公理，六段 Print Assumptions 全 "Closed
   under the global context"；提取物 g7_welch_cr.ml 经 DkMLNative ocamlc 编译通过；
-  已并入合并版 `ca_merged_full_25_m2.v`（现 95810 行，76 模块分区，全量编译 EXIT=0）。
+  已并入合并版 `ca_merged_full_25_m2.v`（现 95848 行，76 模块分区，全量编译 EXIT=0）。
   **范围（如实）**：实原子版（原子分量为构造性实数；G-8 的消费为抽象相干上界 μ，
   实版直接衔接）；复原子版（复向量内积的 Welch 下界）列为后续工作。
 - **加权阶梯范数精确闭式（G-1，经典 R 轨道）** G1_norm_closed（probe_g1_norm_closed.v，
@@ -615,7 +615,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 > **代码仓库**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 + 论文 + 实证 + CI，Apache-2.0；CI 徽章见 README）。预印本 DOI：10.6084/m9.figshare.33312189。
 
 - **代码分布**：`src/`（正式模块，含 `_CoqProject`）；`z/`（探针）；合并版
-  `src/ca_merged_full_25_m2.v`（95810 行，76 模块分区，探针族与构造性轨道全量并入至 Z2b）；归档基态
+  `src/ca_merged_full_25_m2.v`（95848 行，76 模块分区，探针族与构造性轨道全量并入至 Z2b）；归档基态
   `D:\ComplexAnalysis\30模块\`（ca_* + 探针 pro 版 + ca_zeta_euler + ca_rip_cr + 合并版，
   SHA-256 与 src/z 一致，旧版备份 `.sync-backup-20260823/`）。
 - **依赖版本**：Rocq/Coq 9.0.1（`C:\Rocq-Platform~9.0~2025.08\bin\coqc.exe`）；mathcomp
@@ -769,7 +769,7 @@ and Rocq 9.0.x/9.1.x) yielded the following first-hand feedback:
 部署级证书族构成三角支撑；**压缩感知族（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏
 唯一性）把「无条件基 + 频率阶梯」的理论优势推进到稀疏恢复**（k-原子 RIP 走纯构造性实数
 轨道、零经典公理）。全部开发零 Admitted、零自定义公理，165 项审计
-`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（95810 行，76 模块分区，探针族与构造性轨道全量至 Z2b
+`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（95848 行，76 模块分区，探针族与构造性轨道全量至 Z2b
 ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实证共同构成「可证性（稀疏）—
 外推性（稠密）」双轨的机器检查 + 实证记录。
 
@@ -823,7 +823,7 @@ ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实�
 | Z 版整数检查器健全完备 iff（CS-22） | z/probe_z_frame_check.v（zfc_check_spec：Qle qsum 4/5 ↔ Z.leb (5·acc)(4·P)，5×Closed，Zarith 路线提取） | ✅ **已并入 m2 分区 70** |
 | 镜像一致性组合定理（Z2b，CS-16×CS-22） | z/probe_z2b_int63mirror.v（z2b_check63_eq / end_to_end_sound / decision_cert / [2^63;4] 溢出发散反例，8×Closed，提取 bench） | ✅ **已并入 m2 分区 76** |
 | 概率逐对界正向随机侧（CS-20） | src/ca_sparse_ext.v（pairwise_inner_bound_probabilistic） | ✅（库内已 Qed，本轮入文） |
-| 合并版 | src/ca_merged_full_25_m2.v（95810 行，76 模块分区，探针族全量至 Z2b） | ✅ **全量编译 EXIT=0（run20 基线；追加批次七分区独立 EXIT=0）** |
+| 合并版 | src/ca_merged_full_25_m2.v（95848 行，76 模块分区，探针族全量至 Z2b） | ✅ **全量编译 EXIT=0（run20 2.5 基线 + run6 9.1 追加批次）** |
 | 归档基态 | D:\ComplexAnalysis\30模块\（SHA-256 与 src/z 一致） | ✅ |
 
 ---

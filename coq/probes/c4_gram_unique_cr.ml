@@ -72,16 +72,6 @@ let rec max n m =
              | O -> n
              | S m' -> S (max n' m'))
 
-type positive =
-| XI of positive
-| XO of positive
-| XH
-
-type z =
-| Z0
-| Zpos of positive
-| Zneg of positive
-
 type 'a unconvertible = unit0
 
 type 'a crelation = __
@@ -129,6 +119,16 @@ let iffT_flip_arrow_subrelation x x0 =
 
 let reflexive_partial_app_morphism _ h x h0 =
   h x x h0
+
+type positive =
+| XI of positive
+| XO of positive
+| XH
+
+type z =
+| Z0
+| Zpos of positive
+| Zneg of positive
 
 module Pos =
  struct
@@ -780,61 +780,6 @@ let qabs x =
 let qfloor x =
   let { qnum = n; qden = d } = x in Z.div n (Zpos d)
 
-type ('x, 'xlt) isLinearOrder =
-  ((__, 'x -> 'x -> 'x -> 'xlt -> 'xlt -> 'xlt) prod, 'x -> 'x -> 'x -> 'xlt
-  -> ('xlt, 'xlt) sum) prod
-
-type constructiveReals = { cRltLinear : (__, __) isLinearOrder;
-                           cRltEpsilon : (__ -> __ -> __ -> __);
-                           cRltDisjunctEpsilon : (__ -> __ -> __ -> __ -> __
-                                                 -> (__, __) sum);
-                           cR_of_Q : (q -> __);
-                           cR_of_Q_lt : (q -> q -> __ -> __);
-                           cRplus : (__ -> __ -> __); cRopp : (__ -> __);
-                           cRmult : (__ -> __ -> __); cRzero_lt_one : 
-                           __;
-                           cRplus_lt_compat_l : (__ -> __ -> __ -> __ -> __);
-                           cRplus_lt_reg_l : (__ -> __ -> __ -> __ -> __);
-                           cRmult_lt_0_compat : (__ -> __ -> __ -> __ -> __);
-                           cRinv : (__ -> (__, __) sum -> __);
-                           cRinv_0_lt_compat : (__ -> (__, __) sum -> __ ->
-                                               __);
-                           cR_Q_dense : (__ -> __ -> __ -> (q, (__, __) prod)
-                                        sigT);
-                           cR_archimedean : (__ -> (positive, __) sigT);
-                           cRabs : (__ -> __);
-                           cR_complete : ((nat -> __) -> (positive -> nat) ->
-                                         (__, positive -> nat) sigT) }
-
-type cRcarrier = __
-
-type cRComplex = { cre : cRcarrier; cim : cRcarrier }
-
-(** val cRnorm_sq : constructiveReals -> cRComplex -> cRcarrier **)
-
-let cRnorm_sq r z0 =
-  r.cRplus (r.cRmult z0.cre z0.cre) (r.cRmult z0.cim z0.cim)
-
-(** val cRzero : constructiveReals -> cRComplex **)
-
-let cRzero r =
-  { cre = (r.cR_of_Q { qnum = Z0; qden = XH }); cim =
-    (r.cR_of_Q { qnum = Z0; qden = XH }) }
-
-(** val cRcombo :
-    constructiveReals -> nat -> (nat -> cRcarrier) -> (nat -> cRComplex) ->
-    cRComplex **)
-
-let rec cRcombo r m c u =
-  match m with
-  | O ->
-    { cre = (r.cRmult (c O) (u O).cre); cim = (r.cRmult (c O) (u O).cim) }
-  | S m' ->
-    { cre =
-      (r.cRplus (cRcombo r m' c u).cre (r.cRmult (c (S m')) (u (S m')).cre));
-      cim =
-      (r.cRplus (cRcombo r m' c u).cim (r.cRmult (c (S m')) (u (S m')).cim)) }
-
 (** val linear_search_conform : (nat -> sumbool) -> nat -> nat **)
 
 let rec linear_search_conform p_dec start =
@@ -1343,6 +1288,34 @@ let cRealQ_dense a b h =
                           (qmult (qplus (a.seq h) (b.seq h)) { qnum = (Zpos
                             XH); qden = (XO XH) })))))))))))))))
 
+type ('x, 'xlt) isLinearOrder =
+  ((__, 'x -> 'x -> 'x -> 'xlt -> 'xlt -> 'xlt) prod, 'x -> 'x -> 'x -> 'xlt
+  -> ('xlt, 'xlt) sum) prod
+
+type constructiveReals = { cRltLinear : (__, __) isLinearOrder;
+                           cRltEpsilon : (__ -> __ -> __ -> __);
+                           cRltDisjunctEpsilon : (__ -> __ -> __ -> __ -> __
+                                                 -> (__, __) sum);
+                           cR_of_Q : (q -> __);
+                           cR_of_Q_lt : (q -> q -> __ -> __);
+                           cRplus : (__ -> __ -> __); cRopp : (__ -> __);
+                           cRmult : (__ -> __ -> __); cRzero_lt_one : 
+                           __;
+                           cRplus_lt_compat_l : (__ -> __ -> __ -> __ -> __);
+                           cRplus_lt_reg_l : (__ -> __ -> __ -> __ -> __);
+                           cRmult_lt_0_compat : (__ -> __ -> __ -> __ -> __);
+                           cRinv : (__ -> (__, __) sum -> __);
+                           cRinv_0_lt_compat : (__ -> (__, __) sum -> __ ->
+                                               __);
+                           cR_Q_dense : (__ -> __ -> __ -> (q, (__, __) prod)
+                                        sigT);
+                           cR_archimedean : (__ -> (positive, __) sigT);
+                           cRabs : (__ -> __);
+                           cR_complete : ((nat -> __) -> (positive -> nat) ->
+                                         (__, positive -> nat) sigT) }
+
+type cRcarrier = __
+
 (** val cReal_abs_seq : cReal -> z -> q **)
 
 let cReal_abs_seq x n =
@@ -1479,9 +1452,36 @@ let cRealConstructive =
     (Obj.magic cRealQ_dense); cR_archimedean = (Obj.magic rup_pos); cRabs =
     (Obj.magic cReal_abs); cR_complete = (Obj.magic cRealComplete) }
 
-(** val pfb4 : nat -> nat -> q **)
+type cRComplex = { cre : cRcarrier; cim : cRcarrier }
 
-let pfb4 i j =
+(** val cRnorm_sq : constructiveReals -> cRComplex -> cRcarrier **)
+
+let cRnorm_sq r z0 =
+  r.cRplus (r.cRmult z0.cre z0.cre) (r.cRmult z0.cim z0.cim)
+
+(** val cRzero : constructiveReals -> cRComplex **)
+
+let cRzero r =
+  { cre = (r.cR_of_Q { qnum = Z0; qden = XH }); cim =
+    (r.cR_of_Q { qnum = Z0; qden = XH }) }
+
+(** val cRcombo :
+    constructiveReals -> nat -> (nat -> cRcarrier) -> (nat -> cRComplex) ->
+    cRComplex **)
+
+let rec cRcombo r m c u =
+  match m with
+  | O ->
+    { cre = (r.cRmult (c O) (u O).cre); cim = (r.cRmult (c O) (u O).cim) }
+  | S m' ->
+    { cre =
+      (r.cRplus (cRcombo r m' c u).cre (r.cRmult (c (S m')) (u (S m')).cre));
+      cim =
+      (r.cRplus (cRcombo r m' c u).cim (r.cRmult (c (S m')) (u (S m')).cim)) }
+
+(** val c4g_pfb4 : nat -> nat -> q **)
+
+let c4g_pfb4 i j =
   match i with
   | O ->
     (match j with
@@ -1570,26 +1570,27 @@ let pfb4 i j =
                      (XO (XI (XO (XO (XI (XO (XO (XO (XO XH))))))))))))))) }
                  | S _ -> { qnum = Z0; qden = XH })))))
 
-(** val col4 : nat -> q **)
+(** val c4g_col4 : nat -> q **)
 
-let col4 j =
-  qplus (qplus (qplus (pfb4 O j) (pfb4 (S O) j)) (pfb4 (S (S O)) j))
-    (pfb4 (S (S (S O))) j)
+let c4g_col4 j =
+  qplus
+    (qplus (qplus (c4g_pfb4 O j) (c4g_pfb4 (S O) j)) (c4g_pfb4 (S (S O)) j))
+    (c4g_pfb4 (S (S (S O))) j)
 
-(** val rho4 : q **)
+(** val c4g_rho4 : q **)
 
-let rho4 =
-  col4 (S (S O))
+let c4g_rho4 =
+  c4g_col4 (S (S O))
 
 (** val lam4 : q **)
 
 let lam4 =
-  qminus { qnum = (Zpos XH); qden = XH } rho4
+  qminus { qnum = (Zpos XH); qden = XH } c4g_rho4
 
 (** val c4g_rho4_window : (z, positive) prod **)
 
 let c4g_rho4_window =
-  Pair (rho4.qnum, rho4.qden)
+  Pair (c4g_rho4.qnum, c4g_rho4.qden)
 
 (** val c4g_lam4_window : (z, positive) prod **)
 
@@ -1599,22 +1600,22 @@ let c4g_lam4_window =
 (** val c4g_pfb4_table : nat -> nat -> q **)
 
 let c4g_pfb4_table =
-  pfb4
+  c4g_pfb4
 
 (** val c4g_col_window : nat -> (z, positive) prod **)
 
 let c4g_col_window j =
-  Pair ((col4 j).qnum, (col4 j).qden)
+  Pair ((c4g_col4 j).qnum, (c4g_col4 j).qden)
 
 (** val c4g_col_ok : nat -> bool **)
 
 let c4g_col_ok j =
-  qle_bool (col4 j) rho4
+  qle_bool (c4g_col4 j) c4g_rho4
 
 (** val c4g_rho_ok : bool **)
 
 let c4g_rho_ok =
-  negb (qle_bool { qnum = (Zpos XH); qden = XH } rho4)
+  negb (qle_bool { qnum = (Zpos XH); qden = XH } c4g_rho4)
 
 (** val c4g_lam_ok : bool **)
 

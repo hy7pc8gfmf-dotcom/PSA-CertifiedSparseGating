@@ -130,7 +130,8 @@ Proof.
   unfold Qeq. cbn [Qnum Qden].
   rewrite <- Hmul.
   rewrite (Z.mul_comm (Z.pos pd) kd).
-  rewrite Z.div_mul by (intro Hz; discriminate Hz).
+  assert (Hzp : (Z.pos pd <> 0)%Z) by (intro Hz; discriminate Hz).
+  rewrite (Z.div_mul _ (Z.pos pd) Hzp).
   ring.
 Qed.
 
@@ -146,6 +147,28 @@ Qed.
    Z2 ★ 表示定理：qsum ≡ qmk acc P
    （填充 1：nil/退化分支 + cons 主线）
    ============================================================ *)
+
+(* E190/E229：Q setoid_rewrite 在合并环境失效（Q setoid 实例被前序分区污染）——
+   Qeq 的加法同态在此自备（Z 层 nia 闭合，双环境稳定），配合显式 Qeq_trans 链 *)
+Lemma zfc_qplus_congr_r : forall (a x y : Q),
+  Qeq x y -> Qeq (Qplus a x) (Qplus a y).
+Proof.
+  intros a x y H.
+  unfold Qeq in H |- *.
+  destruct a as [an ad], x as [xn xd], y as [yn yd].
+  cbn [Qnum Qden Qplus] in *.
+  nia.
+Qed.
+
+Lemma zfc_qplus_congr_l : forall (x y a : Q),
+  Qeq x y -> Qeq (Qplus x a) (Qplus y a).
+Proof.
+  intros x y a H.
+  unfold Qeq in H |- *.
+  destruct x as [xn xd], y as [yn yd], a as [an ad].
+  cbn [Qnum Qden Qplus] in *.
+  nia.
+Qed.
 
 Theorem zfc_qsum_spec : forall (nums dens : list Z) (P : Z),
   Forall (fun d : Z => (0 < d)%Z) dens ->
@@ -172,11 +195,29 @@ Proof.
       destruct d as [| pd | pd] eqn:HdE; try (exfalso; lia).
       destruct Hdd as [kd Hkd].
       cbn [zfc_qsum zfc_zdots zfc_zprod].
-      setoid_rewrite (IH ns (Z.pos pP) Hr Hrd Hpos).
+      (* E190：setoid_rewrite 失效——显式 Qeq 链（右同态接 IH，左同态接 qsplit） *)
+      assert (Hstep1 : Qeq (Qplus (zfc_qmk n (Z.pos pd)) (zfc_qsum ns r))
+                           (Qplus (zfc_qmk n (Z.pos pd))
+                                  (zfc_qmk (zfc_zdots (Z.pos pP) ns r) (Z.pos pP))))
+        by (apply (zfc_qplus_congr_r (zfc_qmk n (Z.pos pd))
+                                     (zfc_qsum ns r)
+                                     (zfc_qmk (zfc_zdots (Z.pos pP) ns r) (Z.pos pP))
+                                     (IH ns (Z.pos pP) Hr Hrd Hpos))).
       cbn [zfc_qmk].
-      setoid_rewrite (zfc_qsplit_pos n kd pd pP (eq_sym Hkd)).
-      cbn [zfc_qmk].
-      apply zfc_qplus_same.
+      (* E190：裸 eq_sym 在合并环境被 setoid 理论遮蔽（Equality.sort 报错）——tactic 化 *)
+      assert (Hkd' : (Z.pos pd * kd = Z.pos pP)%Z) by (symmetry; exact Hkd).
+      assert (Hstep2 : Qeq (Qplus (Qmake n pd)
+                                  (Qmake (zfc_zdots (Z.pos pP) ns r) pP))
+                           (Qplus (Qmake (n * (Z.pos pP / Z.pos pd)) pP)
+                                  (Qmake (zfc_zdots (Z.pos pP) ns r) pP)))
+        by (apply (zfc_qplus_congr_l (Qmake n pd)
+                                     (Qmake (n * (Z.pos pP / Z.pos pd)) pP)
+                                     (Qmake (zfc_zdots (Z.pos pP) ns r) pP)
+                                     (zfc_qsplit_pos n kd pd pP Hkd'))).
+      exact (Qeq_trans _ _ _ Hstep1
+                        (Qeq_trans _ _ _ Hstep2
+                                   (zfc_qplus_same (n * (Z.pos pP / Z.pos pd))
+                                                   (zfc_zdots (Z.pos pP) ns r) pP))).
 Qed.
 
 (* ============================================================

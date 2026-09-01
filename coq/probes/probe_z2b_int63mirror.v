@@ -167,7 +167,8 @@ Proof.
         by (apply IH; [exact HP | exact Hshift]).
       cbn [z2b_dots63]. rewrite Hnw. rewrite Hdw. rewrite Htw. rewrite HIH.
       cbn [zfc_zdots] in Ht.
-      rewrite (z2b_wrap_id (n * (P / d) + zfc_zdots P ns ds)) by lia.
+      assert (Hzw : (0 <= n * (P / d) + zfc_zdots P ns ds < W63)%Z) by lia.
+      rewrite (z2b_wrap_id (n * (P / d) + zfc_zdots P ns ds) Hzw).
       reflexivity.
 Qed.
 

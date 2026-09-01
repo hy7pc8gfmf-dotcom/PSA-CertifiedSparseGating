@@ -92893,6 +92893,28 @@ Qed.
    （填充 1：nil/退化分支 + cons 主线）
    ============================================================ *)
 
+(* E190/E229：Q setoid_rewrite 在合并环境失效（Q setoid 实例被前序分区污染）——
+   Qeq 的加法同态在此自备（Z 层 nia 闭合，双环境稳定），配合显式 Qeq_trans 链 *)
+Lemma zfc_qplus_congr_r : forall (a x y : Q),
+  Qeq x y -> Qeq (Qplus a x) (Qplus a y).
+Proof.
+  intros a x y H.
+  unfold Qeq in H |- *.
+  destruct a as [an ad], x as [xn xd], y as [yn yd].
+  cbn [Qnum Qden Qplus] in *.
+  nia.
+Qed.
+
+Lemma zfc_qplus_congr_l : forall (x y a : Q),
+  Qeq x y -> Qeq (Qplus x a) (Qplus y a).
+Proof.
+  intros x y a H.
+  unfold Qeq in H |- *.
+  destruct x as [xn xd], y as [yn yd], a as [an ad].
+  cbn [Qnum Qden Qplus] in *.
+  nia.
+Qed.
+
 Theorem zfc_qsum_spec : forall (nums dens : list Z) (P : Z),
   Forall (fun d : Z => (0 < d)%Z) dens ->
   (forall e, In e dens -> exists k, P = e * k) ->
@@ -92918,11 +92940,29 @@ Proof.
       destruct d as [| pd | pd] eqn:HdE; try (exfalso; lia).
       destruct Hdd as [kd Hkd].
       cbn [zfc_qsum zfc_zdots zfc_zprod].
-      setoid_rewrite (IH ns (Z.pos pP) Hr Hrd Hpos).
+      (* E190：setoid_rewrite 失效——显式 Qeq 链（右同态接 IH，左同态接 qsplit） *)
+      assert (Hstep1 : Qeq (Qplus (zfc_qmk n (Z.pos pd)) (zfc_qsum ns r))
+                           (Qplus (zfc_qmk n (Z.pos pd))
+                                  (zfc_qmk (zfc_zdots (Z.pos pP) ns r) (Z.pos pP))))
+        by (apply (zfc_qplus_congr_r (zfc_qmk n (Z.pos pd))
+                                     (zfc_qsum ns r)
+                                     (zfc_qmk (zfc_zdots (Z.pos pP) ns r) (Z.pos pP))
+                                     (IH ns (Z.pos pP) Hr Hrd Hpos))).
       cbn [zfc_qmk].
-      setoid_rewrite (zfc_qsplit_pos n kd pd pP (eq_sym Hkd)).
-      cbn [zfc_qmk].
-      apply zfc_qplus_same.
+      (* E190：裸 eq_sym 在合并环境被 setoid 理论遮蔽（Equality.sort 报错）——tactic 化 *)
+      assert (Hkd' : (Z.pos pd * kd = Z.pos pP)%Z) by (symmetry; exact Hkd).
+      assert (Hstep2 : Qeq (Qplus (Qmake n pd)
+                                  (Qmake (zfc_zdots (Z.pos pP) ns r) pP))
+                           (Qplus (Qmake (n * (Z.pos pP / Z.pos pd)) pP)
+                                  (Qmake (zfc_zdots (Z.pos pP) ns r) pP)))
+        by (apply (zfc_qplus_congr_l (Qmake n pd)
+                                     (Qmake (n * (Z.pos pP / Z.pos pd)) pP)
+                                     (Qmake (zfc_zdots (Z.pos pP) ns r) pP)
+                                     (zfc_qsplit_pos n kd pd pP Hkd'))).
+      exact (Qeq_trans _ _ _ Hstep1
+                        (Qeq_trans _ _ _ Hstep2
+                                   (zfc_qplus_same (n * (Z.pos pP / Z.pos pd))
+                                                   (zfc_zdots (Z.pos pP) ns r) pP))).
 Qed.
 
 (* ============================================================
@@ -93761,7 +93801,6 @@ Require Import Stdlib.QArith.QArith.
 Require Import Stdlib.ZArith.ZArith.
 Require Import Stdlib.micromega.Lia.
 From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div.
-Require Import ca_rip_cr.
 
 Unset Implicit Arguments.
 
@@ -94507,13 +94546,13 @@ Extraction "c4_unique2sparse_cr.ml"
      CS-15 判定"全族唯一性窗口关闭"用的是公共相干 μ₄ 均匀化：
        ‖Σc_j u_j‖² ≥ (1 − 4μ₄)Σc_j²，而 4μ₄ = 45156/33920 > 1。
      本文件换 Gram 特征值（Gershgorin 行和 / 二次型）口径：
-       Gram 矩阵 G_ij = ⟨u_i,u_j⟩，对角 1，|G_ij| ≤ pfb4 i j
+       Gram 矩阵 G_ij = ⟨u_i,u_j⟩，对角 1，|G_ij| ≤ c4g_pfb4 i j
        （六对有理逐对上界表，与经典 D 层同数值）。
        ★ 核心定理一（二次型展开=能量恒等式）：
           ‖Σc_j u_j‖² ≡ Σ_j c_j·Σ_i c_i·G_ij（Gram 双线性）
        ★ 核心定理二（Gershgorin 型谱下界，AM-GM 逐对收口）：
           |Σ_{i≠j} c_i c_j G_ij| ≤ ρ₄·Σc_j²，
-          ρ₄ = 最大行和 = col4 2 = 159/1200+689/2080+11289/33920
+          ρ₄ = 最大行和 = c4g_col4 2 = 159/1200+689/2080+11289/33920
              ≈ 0.797（逐对表信息量 > 公共 μ₄：0.797 < 4μ₄ ≈ 1.331）
        ⟹ Σc² ≤ ‖combo‖² + ρ₄·Σc²，且 ρ₄ < 1（Q 层精确判定）
        ⟹（CRle_scaled_le_zero 收缩）combo = 0 ⟹ Σc² ≡ 0
@@ -94532,7 +94571,7 @@ Extraction "c4_unique2sparse_cr.ml"
    CRle/CRlt/CReq 界与相等（无信息内容，同 taugrid C-TA3 口径）；
    接口化 {R : ConstructiveReals}；Q 层字面量判定 lia 收口；
    sigT 见证（λ* 特征值下界以 Set 层数据给出）；
-   可提取（ρ₄/λ* 窗口 + pfb4 表 + bool 证书链）。
+   可提取（ρ₄/λ* 窗口 + c4g_pfb4 表 + bool 证书链）。
    非平凡核心定理 = c4g_E_abs_bound（Gershgorin 二次型谱下界，
    AM-GM 逐对）+ c4g_lam_lower（λ*·‖c‖² ≤ ‖combo‖²）；
    最终定理 = c4g_synthesis_injective（含 c4g_2sparse_unique 推论）。
@@ -94548,7 +94587,6 @@ Require Import Stdlib.ZArith.ZArith.
 Require Import Stdlib.micromega.Lia.
 From mathcomp Require Import ssreflect ssrbool ssrnat seq eqtype div.
 From Stdlib Require Import Ring.
-Require Import ca_rip_cr.
 
 Unset Implicit Arguments.
 
@@ -94567,9 +94605,9 @@ Notation "a > b" := (Nat.lt b a) (at level 70, no associativity) : nat_scope.
 
 (* ============ Q 层：逐对有理上界表（与经典 D 层同数值） ============ *)
 
-(* pfb4 i j：|⟨u_i,u_j⟩| 的有理上界（六对，对称填充；对角支置 0）。
+(* c4g_pfb4 i j：|⟨u_i,u_j⟩| 的有理上界（六对，对称填充；对角支置 0）。
    u 0 ↔ ψ_3，u 1 ↔ ψ_13，u 2 ↔ ψ_53，u 3 ↔ ψ_213。 *)
-Definition pfb4 (i j : nat) : Q :=
+Definition c4g_pfb4 (i j : nat) : Q :=
   match i with
   | 0%nat =>
       match j with
@@ -94601,16 +94639,16 @@ Definition pfb4 (i j : nat) : Q :=
       end
   end.
 
-(* 列和 C_j = Σ_i pfb4 i j（对角为 0，表对称故=行和）与最大行 ρ₄ = C_2 *)
-Definition col4 (j : nat) : Q := pfb4 0 j + pfb4 1 j + pfb4 2 j + pfb4 3 j.
-Definition rho4 : Q := col4 2.
+(* 列和 C_j = Σ_i c4g_pfb4 i j（对角为 0，表对称故=行和）与最大行 ρ₄ = C_2 *)
+Definition c4g_col4 (j : nat) : Q := c4g_pfb4 0 j + c4g_pfb4 1 j + c4g_pfb4 2 j + c4g_pfb4 3 j.
+Definition c4g_rho4 : Q := c4g_col4 2.
 (* 谱下界 λ* = 1 − ρ₄ = 651/3200（★ 可提取常数） *)
-Definition lam4 : Q := Qminus (Qmake 1 1) rho4.
+Definition lam4 : Q := Qminus (Qmake 1 1) c4g_rho4.
 
 (* 表对称（值域内成立——外层 `_` default 支给出第 3 行内容，
    与行内 `_` 的 Qmake 0 1 在越界下标上不对称，故必须带 le 前提；
    0..3 的 16 例为具体构造子，reflexivity 直算） *)
-Lemma pfb4_sym : forall i j, le i 3 -> le j 3 -> pfb4 i j = pfb4 j i.
+Lemma pfb4_sym : forall i j, le i 3 -> le j 3 -> c4g_pfb4 i j = c4g_pfb4 j i.
 Proof.
   intros i j Hi Hj.
   destruct i as [|[|[|[|i4]]]]; destruct j as [|[|[|[|j4]]]];
@@ -94619,55 +94657,55 @@ Qed.
 
 (* ρ₄ < 1：0.797... < 1（Q 层精确判定）
    unfold 顺序：定义先行，谓词在后（后展开的节点才能被覆盖） *)
-Lemma rho4_lt_one : Qlt rho4 (Qmake 1 1).
+Lemma c4g_rho4_lt_one : Qlt c4g_rho4 (Qmake 1 1).
 Proof.
-  unfold rho4, col4, pfb4, Qlt, Qplus. cbn [Qnum Qden]. lia.
+  unfold c4g_rho4, c4g_col4, c4g_pfb4, Qlt, Qplus. cbn [Qnum Qden]. lia.
 Qed.
 
 (* 各行 ≤ ρ₄（ρ₄ 即最大行） *)
-Lemma col4_le_rho4 : forall j, le j 3 -> Qle (col4 j) rho4.
+Lemma c4g_col4_le_rho4 : forall j, le j 3 -> Qle (c4g_col4 j) c4g_rho4.
 Proof.
   intros j Hj.
   destruct j as [|[|[|[|j4]]]].
-  - unfold rho4, col4, pfb4, Qle, Qplus. cbn [Qnum Qden]. lia.
-  - unfold rho4, col4, pfb4, Qle, Qplus. cbn [Qnum Qden]. lia.
-  - unfold rho4, col4, pfb4, Qle, Qplus. cbn [Qnum Qden]. lia.
-  - unfold rho4, col4, pfb4, Qle, Qplus. cbn [Qnum Qden]. lia.
+  - unfold c4g_rho4, c4g_col4, c4g_pfb4, Qle, Qplus. cbn [Qnum Qden]. lia.
+  - unfold c4g_rho4, c4g_col4, c4g_pfb4, Qle, Qplus. cbn [Qnum Qden]. lia.
+  - unfold c4g_rho4, c4g_col4, c4g_pfb4, Qle, Qplus. cbn [Qnum Qden]. lia.
+  - unfold c4g_rho4, c4g_col4, c4g_pfb4, Qle, Qplus. cbn [Qnum Qden]. lia.
   - exfalso. lia.
 Qed.
 
 (* λ* > 0 与 λ* = 651/3200（谱下界常数的精确值） *)
 Lemma lam4_pos : Qlt (Qmake 0 1) lam4.
 Proof.
-  unfold lam4, rho4, col4, pfb4, Qlt, Qminus, Qplus, Qopp.
+  unfold lam4, c4g_rho4, c4g_col4, c4g_pfb4, Qlt, Qminus, Qplus, Qopp.
   cbn [Qnum Qden]. lia.
 Qed.
 
 Lemma lam4_val : Qeq lam4 (Qmake 651 3200).
 Proof.
-  unfold lam4, rho4, col4, pfb4, Qeq, Qminus, Qplus, Qopp, Qmult.
+  unfold lam4, c4g_rho4, c4g_col4, c4g_pfb4, Qeq, Qminus, Qplus, Qopp, Qmult.
   cbn [Qnum Qden]. lia.
 Qed.
 
 (* 表非负（AM-GM 乘子合法性）——同对称性：值域内才可归约判定。
-   注意：cbn 必须带 pfb4（否则 Qnum (pfb4 i j) 的 delta 不展开，
+   注意：cbn 必须带 c4g_pfb4（否则 Qnum (c4g_pfb4 i j) 的 delta 不展开，
    iota 无法点火，Qmake 挡在常量应用之下——E-本卡） *)
-Lemma pfb4_nonneg : forall i j, le i 3 -> le j 3 -> Qle (Qmake 0 1) (pfb4 i j).
+Lemma pfb4_nonneg : forall i j, le i 3 -> le j 3 -> Qle (Qmake 0 1) (c4g_pfb4 i j).
 Proof.
   intros i j Hi Hj.
   destruct i as [|[|[|[|i4]]]]; destruct j as [|[|[|[|j4]]]];
-    unfold Qle, Qplus; cbn [pfb4 Qnum Qden]; lia.
+    unfold Qle, Qplus; cbn [c4g_pfb4 Qnum Qden]; lia.
 Qed.
 
 (* PFLAT 系数三和 ≤ ρ₄（c_k² 系数组：{01,02,03},{01,12,13},{02,12,23},{03,13,23}） *)
-Lemma qsum0_le_rho4 : Qle (pfb4 0 1 + (pfb4 0 2 + pfb4 0 3)) rho4.
-Proof. unfold rho4, col4, pfb4, Qle, Qplus. cbn [Qnum Qden]. lia. Qed.
-Lemma qsum1_le_rho4 : Qle (pfb4 0 1 + (pfb4 1 2 + pfb4 1 3)) rho4.
-Proof. unfold rho4, col4, pfb4, Qle, Qplus. cbn [Qnum Qden]. lia. Qed.
-Lemma qsum2_le_rho4 : Qle (pfb4 0 2 + (pfb4 1 2 + pfb4 2 3)) rho4.
-Proof. unfold rho4, col4, pfb4, Qle, Qplus. cbn [Qnum Qden]. lia. Qed.
-Lemma qsum3_le_rho4 : Qle (pfb4 0 3 + (pfb4 1 3 + pfb4 2 3)) rho4.
-Proof. unfold rho4, col4, pfb4, Qle, Qplus. cbn [Qnum Qden]. lia. Qed.
+Lemma qsum0_le_rho4 : Qle (c4g_pfb4 0 1 + (c4g_pfb4 0 2 + c4g_pfb4 0 3)) c4g_rho4.
+Proof. unfold c4g_rho4, c4g_col4, c4g_pfb4, Qle, Qplus. cbn [Qnum Qden]. lia. Qed.
+Lemma qsum1_le_rho4 : Qle (c4g_pfb4 0 1 + (c4g_pfb4 1 2 + c4g_pfb4 1 3)) c4g_rho4.
+Proof. unfold c4g_rho4, c4g_col4, c4g_pfb4, Qle, Qplus. cbn [Qnum Qden]. lia. Qed.
+Lemma qsum2_le_rho4 : Qle (c4g_pfb4 0 2 + (c4g_pfb4 1 2 + c4g_pfb4 2 3)) c4g_rho4.
+Proof. unfold c4g_rho4, c4g_col4, c4g_pfb4, Qle, Qplus. cbn [Qnum Qden]. lia. Qed.
+Lemma qsum3_le_rho4 : Qle (c4g_pfb4 0 3 + (c4g_pfb4 1 3 + c4g_pfb4 2 3)) c4g_rho4.
+Proof. unfold c4g_rho4, c4g_col4, c4g_pfb4, Qle, Qplus. cbn [Qnum Qden]. lia. Qed.
 
 (* ============ CR 层：四原子 Gram 特征值口径注入性 ============ *)
 
@@ -94682,14 +94720,14 @@ Variable u : nat -> @CRComplex R.
 Hypothesis Hu_unit : forall j, le j 3 ->
   CReq R (CRnorm_sq (u j)) (CR_of_Q R (Qmake 1 1)).
 
-(* 逐对相干上界：|⟨u_i,u_j⟩| ≤ pfb4 i j（i ≠ j） *)
+(* 逐对相干上界：|⟨u_i,u_j⟩| ≤ c4g_pfb4 i j（i ≠ j） *)
 Hypothesis Hu_pf : forall i j, le i 3 -> le j 3 -> i <> j ->
-  CRle R (CRabs R (CRip (u i) (u j))) (CR_of_Q R (pfb4 i j)).
+  CRle R (CRabs R (CRip (u i) (u j))) (CR_of_Q R (c4g_pfb4 i j)).
 
 (* ---------- CR 层 Q-常数桥 ---------- *)
 
-Definition pfb4c (i j : nat) : CRcarrier R := CR_of_Q R (pfb4 i j).
-Definition rho4c : CRcarrier R := CR_of_Q R rho4.
+Definition pfb4c (i j : nat) : CRcarrier R := CR_of_Q R (c4g_pfb4 i j).
+Definition rho4c : CRcarrier R := CR_of_Q R c4g_rho4.
 Definition lam4c : CRcarrier R := CR_of_Q R lam4.
 
 Lemma pfb4c_pos : forall i j, le i 3 -> le j 3 ->
@@ -94699,12 +94737,12 @@ Proof. intros i j Hi Hj. apply CR_of_Q_le. apply pfb4_nonneg; assumption. Qed.
 Lemma pfb4c_sym : forall i j, le i 3 -> le j 3 ->
   CReq R (pfb4c i j) (pfb4c j i).
 Proof.
-  intros i j Hi Hj. apply (CR_of_Q_morph R (pfb4 i j) (pfb4 j i)).
+  intros i j Hi Hj. apply (CR_of_Q_morph R (c4g_pfb4 i j) (c4g_pfb4 j i)).
   rewrite (pfb4_sym i j Hi Hj). apply Qeq_refl.
 Qed.
 
 Lemma rho4c_lt_one : CRlt R rho4c (CR_of_Q R (Qmake 1 1)).
-Proof. exact (CR_of_Q_lt R rho4 (Qmake 1 1) rho4_lt_one). Qed.
+Proof. exact (CR_of_Q_lt R c4g_rho4 (Qmake 1 1) c4g_rho4_lt_one). Qed.
 
 Lemma lam4c_pos : CRlt R (CR_of_Q R (Qmake 0 1)) lam4c.
 Proof. exact (CR_of_Q_lt R (Qmake 0 1) lam4 lam4_pos). Qed.
@@ -94808,7 +94846,7 @@ Definition Egrp (c : nat -> CRcarrier R) : CRcarrier R :=
 (* ---------- 能量恒等式：⟨combo,combo⟩ ≡ Σ_j c_j·colg c j ---------- *)
 
 (* ⟨combo 3, v⟩ ≡ Σ_j c_j·⟨u_j,v⟩（CRcombo_ip_rec 三步 + ring） *)
-Lemma combo3_ip_expand (c : nat -> CRcarrier R) (v : @CRComplex R) :
+Lemma c4g_combo3_ip_expand (c : nat -> CRcarrier R) (v : @CRComplex R) :
   CReq R (CRip (CRcombo 3 c u) v)
     (c 0%nat * CRip (u 0%nat) v
      + (c 1%nat * CRip (u 1%nat) v
@@ -94832,7 +94870,7 @@ Proof.
   apply (CReq_trans (CRip (u j) (CRcombo 3 c u))
            (CRip (CRcombo 3 c u) (u j)) (colg c j)).
   - exact (c4g_ip_sym (u j) (CRcombo 3 c u)).
-  - exact (combo3_ip_expand c (u j)).
+  - exact (c4g_combo3_ip_expand c (u j)).
 Qed.
 
 (* ★ 核心恒等式一（Gram 二次型展开 = 能量恒等式）：
@@ -94851,7 +94889,7 @@ Proof.
             + (c 2%nat * colg c 2%nat
             +  c 3%nat * colg c 3%nat)))).
   - unfold CRnorm_sq. split; apply CRle_refl.
-  - setoid_rewrite (combo3_ip_expand c (CRcombo 3 c u)).
+  - setoid_rewrite (c4g_combo3_ip_expand c (CRcombo 3 c u)).
     setoid_rewrite (col_ip c 0%nat).
     setoid_rewrite (col_ip c 1%nat).
     setoid_rewrite (col_ip c 2%nat).
@@ -94915,7 +94953,7 @@ Qed.
 
 (* ---------- 逐对绝对值 / AM-GM 工具 ---------- *)
 
-(* |c_i·c_j·G_ij| ≤ |c_i|·|c_j|·pfb4 i j *)
+(* |c_i·c_j·G_ij| ≤ |c_i|·|c_j|·c4g_pfb4 i j *)
 Lemma term2_abs (c : nat -> CRcarrier R) (i j : nat)
   (Hi : le i 3) (Hj : le j 3) (Hij : i <> j) :
   CRle R (CRabs R (c i * c j * g4 i j))
@@ -94984,7 +95022,7 @@ Qed.
 
 Lemma qsum0_cr :
   CReq R (pfb4c 0%nat 1%nat + (pfb4c 0%nat 2%nat + pfb4c 0%nat 3%nat))
-         (CR_of_Q R (pfb4 0 1 + (pfb4 0 2 + pfb4 0 3))).
+         (CR_of_Q R (c4g_pfb4 0 1 + (c4g_pfb4 0 2 + c4g_pfb4 0 3))).
 Proof.
   apply CReq_sym. unfold pfb4c.
   repeat setoid_rewrite (CR_of_Q_plus R). ring.
@@ -94992,7 +95030,7 @@ Qed.
 
 Lemma qsum1_cr :
   CReq R (pfb4c 0%nat 1%nat + (pfb4c 1%nat 2%nat + pfb4c 1%nat 3%nat))
-         (CR_of_Q R (pfb4 0 1 + (pfb4 1 2 + pfb4 1 3))).
+         (CR_of_Q R (c4g_pfb4 0 1 + (c4g_pfb4 1 2 + c4g_pfb4 1 3))).
 Proof.
   apply CReq_sym. unfold pfb4c.
   repeat setoid_rewrite (CR_of_Q_plus R). ring.
@@ -95000,7 +95038,7 @@ Qed.
 
 Lemma qsum2_cr :
   CReq R (pfb4c 0%nat 2%nat + (pfb4c 1%nat 2%nat + pfb4c 2%nat 3%nat))
-         (CR_of_Q R (pfb4 0 2 + (pfb4 1 2 + pfb4 2 3))).
+         (CR_of_Q R (c4g_pfb4 0 2 + (c4g_pfb4 1 2 + c4g_pfb4 2 3))).
 Proof.
   apply CReq_sym. unfold pfb4c.
   repeat setoid_rewrite (CR_of_Q_plus R). ring.
@@ -95008,7 +95046,7 @@ Qed.
 
 Lemma qsum3_cr :
   CReq R (pfb4c 0%nat 3%nat + (pfb4c 1%nat 3%nat + pfb4c 2%nat 3%nat))
-         (CR_of_Q R (pfb4 0 3 + (pfb4 1 3 + pfb4 2 3))).
+         (CR_of_Q R (c4g_pfb4 0 3 + (c4g_pfb4 1 3 + c4g_pfb4 2 3))).
 Proof.
   apply CReq_sym. unfold pfb4c.
   repeat setoid_rewrite (CR_of_Q_plus R). ring.
@@ -95049,39 +95087,39 @@ Proof.
   setoid_rewrite qsum2_cr.
   setoid_rewrite qsum3_cr.
   apply (CRle_trans (R:=R)
-           (CR_of_Q R (pfb4 0 1 + (pfb4 0 2 + pfb4 0 3)) * (c 0%nat * c 0%nat)
-            + (CR_of_Q R (pfb4 0 1 + (pfb4 1 2 + pfb4 1 3)) * (c 1%nat * c 1%nat)
-            + (CR_of_Q R (pfb4 0 2 + (pfb4 1 2 + pfb4 2 3)) * (c 2%nat * c 2%nat)
-            +  CR_of_Q R (pfb4 0 3 + (pfb4 1 3 + pfb4 2 3)) * (c 3%nat * c 3%nat))))
+           (CR_of_Q R (c4g_pfb4 0 1 + (c4g_pfb4 0 2 + c4g_pfb4 0 3)) * (c 0%nat * c 0%nat)
+            + (CR_of_Q R (c4g_pfb4 0 1 + (c4g_pfb4 1 2 + c4g_pfb4 1 3)) * (c 1%nat * c 1%nat)
+            + (CR_of_Q R (c4g_pfb4 0 2 + (c4g_pfb4 1 2 + c4g_pfb4 2 3)) * (c 2%nat * c 2%nat)
+            +  CR_of_Q R (c4g_pfb4 0 3 + (c4g_pfb4 1 3 + c4g_pfb4 2 3)) * (c 3%nat * c 3%nat))))
            (rho4c * (c 0%nat * c 0%nat)
             + (rho4c * (c 1%nat * c 1%nat)
             + (rho4c * (c 2%nat * c 2%nat) + rho4c * (c 3%nat * c 3%nat))))
            (rho4c * (((c 0%nat * c 0%nat) + (c 1%nat * c 1%nat))
                      + (c 2%nat * c 2%nat) + c 3%nat * c 3%nat))).
   - apply (CRplus_le_compat (R:=R)
-        (CR_of_Q R (pfb4 0 1 + (pfb4 0 2 + pfb4 0 3)) * (c 0%nat * c 0%nat))
+        (CR_of_Q R (c4g_pfb4 0 1 + (c4g_pfb4 0 2 + c4g_pfb4 0 3)) * (c 0%nat * c 0%nat))
         (rho4c * (c 0%nat * c 0%nat))
-        (CR_of_Q R (pfb4 0 1 + (pfb4 1 2 + pfb4 1 3)) * (c 1%nat * c 1%nat)
-         + (CR_of_Q R (pfb4 0 2 + (pfb4 1 2 + pfb4 2 3)) * (c 2%nat * c 2%nat)
-         +  CR_of_Q R (pfb4 0 3 + (pfb4 1 3 + pfb4 2 3)) * (c 3%nat * c 3%nat)))
+        (CR_of_Q R (c4g_pfb4 0 1 + (c4g_pfb4 1 2 + c4g_pfb4 1 3)) * (c 1%nat * c 1%nat)
+         + (CR_of_Q R (c4g_pfb4 0 2 + (c4g_pfb4 1 2 + c4g_pfb4 2 3)) * (c 2%nat * c 2%nat)
+         +  CR_of_Q R (c4g_pfb4 0 3 + (c4g_pfb4 1 3 + c4g_pfb4 2 3)) * (c 3%nat * c 3%nat)))
         (rho4c * (c 1%nat * c 1%nat)
          + (rho4c * (c 2%nat * c 2%nat) + rho4c * (c 3%nat * c 3%nat)))).
     + apply (CRmult_le_compat_r (R:=R) (c 0%nat * c 0%nat)).
       * exact (CRsqr_nonneg (c 0%nat)).
       * apply CR_of_Q_le. exact qsum0_le_rho4.
     + apply (CRplus_le_compat (R:=R)
-        (CR_of_Q R (pfb4 0 1 + (pfb4 1 2 + pfb4 1 3)) * (c 1%nat * c 1%nat))
+        (CR_of_Q R (c4g_pfb4 0 1 + (c4g_pfb4 1 2 + c4g_pfb4 1 3)) * (c 1%nat * c 1%nat))
         (rho4c * (c 1%nat * c 1%nat))
-        (CR_of_Q R (pfb4 0 2 + (pfb4 1 2 + pfb4 2 3)) * (c 2%nat * c 2%nat)
-         + CR_of_Q R (pfb4 0 3 + (pfb4 1 3 + pfb4 2 3)) * (c 3%nat * c 3%nat))
+        (CR_of_Q R (c4g_pfb4 0 2 + (c4g_pfb4 1 2 + c4g_pfb4 2 3)) * (c 2%nat * c 2%nat)
+         + CR_of_Q R (c4g_pfb4 0 3 + (c4g_pfb4 1 3 + c4g_pfb4 2 3)) * (c 3%nat * c 3%nat))
         (rho4c * (c 2%nat * c 2%nat) + rho4c * (c 3%nat * c 3%nat))).
       * apply (CRmult_le_compat_r (R:=R) (c 1%nat * c 1%nat)).
         -- exact (CRsqr_nonneg (c 1%nat)).
         -- apply CR_of_Q_le. exact qsum1_le_rho4.
       * apply (CRplus_le_compat (R:=R)
-          (CR_of_Q R (pfb4 0 2 + (pfb4 1 2 + pfb4 2 3)) * (c 2%nat * c 2%nat))
+          (CR_of_Q R (c4g_pfb4 0 2 + (c4g_pfb4 1 2 + c4g_pfb4 2 3)) * (c 2%nat * c 2%nat))
           (rho4c * (c 2%nat * c 2%nat))
-          (CR_of_Q R (pfb4 0 3 + (pfb4 1 3 + pfb4 2 3)) * (c 3%nat * c 3%nat))
+          (CR_of_Q R (c4g_pfb4 0 3 + (c4g_pfb4 1 3 + c4g_pfb4 2 3)) * (c 3%nat * c 3%nat))
           (rho4c * (c 3%nat * c 3%nat))).
         -- apply (CRmult_le_compat_r (R:=R) (c 2%nat * c 2%nat)).
            ++ exact (CRsqr_nonneg (c 2%nat)).
@@ -95282,7 +95320,7 @@ Qed.
 Lemma lam4c_expand : CReq R lam4c (CR_of_Q R (Qmake 1 1) + CRopp R rho4c).
 Proof.
   unfold lam4c, rho4c, lam4, Qminus.
-  setoid_rewrite <- (CR_of_Q_opp rho4).
+  setoid_rewrite <- (CR_of_Q_opp c4g_rho4).
   apply CR_of_Q_plus.
 Qed.
 
@@ -95396,20 +95434,20 @@ From Stdlib Require Import ConstructiveRcomplete.
 
 (* ρ₄ / λ* 窗口：Qnum/Qden 具象化（Z * positive） *)
 Definition c4g_rho4_window : Z * positive :=
-  (Qnum rho4, Qden rho4).
+  (Qnum c4g_rho4, Qden c4g_rho4).
 Definition c4g_lam4_window : Z * positive :=
   (Qnum lam4, Qden lam4).
 
 (* 逐对上界表（nat -> nat -> Q 可执行） *)
-Definition c4g_pfb4_table : nat -> nat -> Q := pfb4.
+Definition c4g_pfb4_table : nat -> nat -> Q := c4g_pfb4.
 
 (* 列和窗口 *)
 Definition c4g_col_window : nat -> Z * positive :=
-  fun j => (Qnum (col4 j), Qden (col4 j)).
+  fun j => (Qnum (c4g_col4 j), Qden (c4g_col4 j)).
 
 (* 可执行 bool 证书链：行 ≤ ρ₄、ρ₄ < 1、λ* > 0、总证书 *)
-Definition c4g_col_ok : nat -> bool := fun j => Qle_bool (col4 j) rho4.
-Definition c4g_rho_ok : bool := negb (Qle_bool (Qmake 1 1) rho4).
+Definition c4g_col_ok : nat -> bool := fun j => Qle_bool (c4g_col4 j) c4g_rho4.
+Definition c4g_rho_ok : bool := negb (Qle_bool (Qmake 1 1) c4g_rho4).
 (* Qlt_bool 不在默认 QArith（E179⑦）——用 negb ∘ Qle_bool 反向表达 *)
 Definition c4g_lam_ok : bool := negb (Qle_bool lam4 (Qmake 0 1)).
 Definition c4g_window_ok : bool :=
