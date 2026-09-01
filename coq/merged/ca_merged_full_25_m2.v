@@ -95849,6 +95849,9 @@ Extraction "z2b_int63mirror.ml" z2b_wrap z2b_dots63 z2b_check63 z2b_safe_bool
 
 (* ==================== 模块 77/77: probe_z3b_validregion ==================== *)
 
+Goal forall (a b : list nat) (x : nat), (x :: a) ++ b = x :: (a ++ b).
+Proof. intros. cbn [Datatypes.app]. Show. Abort.
+
 (* ============================================================
    #3b：检查器有效域双向刻画（充分性阈值）——probe_z3b_validregion.v
    （z 区构造性轨道，2026-09-01/02 收官——零 Admitted，Print Assumptions 全
