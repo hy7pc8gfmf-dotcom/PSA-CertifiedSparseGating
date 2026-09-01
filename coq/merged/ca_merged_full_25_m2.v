@@ -95849,9 +95849,6 @@ Extraction "z2b_int63mirror.ml" z2b_wrap z2b_dots63 z2b_check63 z2b_safe_bool
 
 (* ==================== 模块 77/77: probe_z3b_validregion ==================== *)
 
-Goal forall (a b : list nat) (x : nat), (x :: a) ++ b = x :: (a ++ b).
-Proof. intros. cbn [Datatypes.app]. Show. Abort.
-
 (* ============================================================
    #3b：检查器有效域双向刻画（充分性阈值）——probe_z3b_validregion.v
    （z 区构造性轨道，2026-09-01/02 收官——零 Admitted，Print Assumptions 全
@@ -95887,6 +95884,9 @@ Proof. intros. cbn [Datatypes.app]. Show. Abort.
    ============================================================ *)
 
 Local Open Scope nat_scope.   (* 合并语境：前序分区可能 Open Z/Q scope——数字 match 模式防劫持（E227） *)
+(* E190/E138① 同型注册块：前序 mathcomp 分区把 list 的 ++ 记号重声明为 ssr cat——
+   本分区 list 拼接一律强制回 Datatypes.app（scoped 重声明同义无害，独立环境仅 warning） *)
+Notation "x ++ y" := (Datatypes.app x y) : list_scope.
 
 (* ============================================================
    D0：定义（envelope / pair fraction as Q / tail / budget）
@@ -97191,7 +97191,7 @@ Qed.
 
 (* 融合：aux 对拼接表的两次累加 = 一次累加（左相位/右相位拆分的桥） *)
 Lemma z3b_aux_fusion : forall (L1 L2 orig : list nat) (i : nat) (acc : FrameCheckInstance.nat_pair) (j : nat),
-  FrameCheckInstance.row_sum_frac_aux (L1 ++ L2) orig i acc j =
+  FrameCheckInstance.row_sum_frac_aux (L1 ++ L2)%list orig i acc j =
   FrameCheckInstance.row_sum_frac_aux L2 orig i
     (FrameCheckInstance.row_sum_frac_aux L1 orig i acc j) (j + length L1).
 Proof.
@@ -97795,7 +97795,7 @@ Proof.
          (z3b_bands n0 m) i (0%nat, 1%nat) 0) (S i)).
   { unfold FrameCheckInstance.row_sum_frac.
     transitivity (FrameCheckInstance.row_sum_frac_aux
-      (firstn i (z3b_bands n0 m) ++ skipn i (z3b_bands n0 m))
+      (firstn i (z3b_bands n0 m) ++ skipn i (z3b_bands n0 m))%list
       (z3b_bands n0 m) i (0%nat, 1%nat) 0).
     - apply (f_equal (fun l : list nat =>
               FrameCheckInstance.row_sum_frac_aux l (z3b_bands n0 m) i (0%nat, 1%nat) 0)).
