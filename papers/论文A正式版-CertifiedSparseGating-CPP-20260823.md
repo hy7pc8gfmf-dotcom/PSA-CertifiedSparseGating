@@ -3,7 +3,7 @@
 
 > 正式版。投稿方向：CPP/ITP（形式化方法）。
 > 作者：王宝军、夏挽岚（通讯作者，xiawanlan33@163.com）、祖光照、周志农、高雪峰
-> 代码基态：合并版 `ca_merged_full_25_m2.v`（98187 行，77 模块分区，绿产物追加路线：E153 绿基线 87632 + M2/G-7/G-9 批次 + G-10/G-11/G-13/CS-21/CS-23/CS-22/Z2b 批次（2026-09-01 追加批次，合并全量编译 EXIT=0（9.1，run6）；基线 run20 2.5 全量 EXIT=0）），公理审计 54 Closed + 111 Dedekind 三公理、`Classical_Prop.classic` 零出现（2026-08-30 重跑确认）；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验。
+> 代码基态：合并版 `ca_merged_full_25_m2.v`（98187 行，77 模块分区，绿产物追加路线：E153 绿基线 87632 + M2/G-7/G-9 批次 + G-10/G-11/G-13/CS-21/CS-23/CS-22/Z2b 批次（2026-09-01 追加批次）+ z3b 批次（2026-09-02 追加批次，合并全量编译 EXIT=0：CI 09de44e 全局绿（Rocq 9.0 + mathcomp 2.6 真环境 + coqchk）+ 本地 9.1 链 run10）），公理审计 54 Closed + 111 Dedekind 三公理、`Classical_Prop.classic` 零出现（2026-08-30 重跑确认）；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验。
 
 ---
 
@@ -769,7 +769,7 @@ and Rocq 9.0.x/9.1.x) yielded the following first-hand feedback:
 部署级证书族构成三角支撑；**压缩感知族（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏
 唯一性）把「无条件基 + 频率阶梯」的理论优势推进到稀疏恢复**（k-原子 RIP 走纯构造性实数
 轨道、零经典公理）。全部开发零 Admitted、零自定义公理，165 项审计
-`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（98187 行，77 模块分区，探针族与构造性轨道全量至 Z2b
+`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（98187 行，77 模块分区，探针族与构造性轨道全量至 z3b
 ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实证共同构成「可证性（稀疏）—
 外推性（稠密）」双轨的机器检查 + 实证记录。
 
@@ -823,7 +823,7 @@ ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实�
 | Z 版整数检查器健全完备 iff（CS-22） | z/probe_z_frame_check.v（zfc_check_spec：Qle qsum 4/5 ↔ Z.leb (5·acc)(4·P)，5×Closed，Zarith 路线提取） | ✅ **已并入 m2 分区 70** |
 | 镜像一致性组合定理（Z2b，CS-16×CS-22） | z/probe_z2b_int63mirror.v（z2b_check63_eq / end_to_end_sound / decision_cert / [2^63;4] 溢出发散反例，8×Closed，提取 bench） | ✅ **已并入 m2 分区 76** |
 | 概率逐对界正向随机侧（CS-20） | src/ca_sparse_ext.v（pairwise_inner_bound_probabilistic） | ✅（库内已 Qed，本轮入文） |
-| 合并版 | src/ca_merged_full_25_m2.v（98187 行，77 模块分区，探针族全量至 Z2b） | ✅ **全量编译 EXIT=0（run20 2.5 基线 + run6 9.1 追加批次）** |
+| 合并版 | src/ca_merged_full_25_m2.v（98187 行，77 模块分区，探针族全量至 z3b） | ✅ **全量编译 EXIT=0（run20 2.5 基线 + run6 9.1 追加批次）** |
 | 归档基态 | D:\ComplexAnalysis\30模块\（SHA-256 与 src/z 一致） | ✅ |
 
 ---
