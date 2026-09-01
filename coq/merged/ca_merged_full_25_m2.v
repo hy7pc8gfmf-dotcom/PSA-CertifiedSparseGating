@@ -97193,10 +97193,10 @@ Lemma z3b_aux_fusion : forall (L1 L2 orig : list nat) (i : nat) (acc : FrameChec
     (FrameCheckInstance.row_sum_frac_aux L1 orig i acc j) (j + length L1).
 Proof.
   intros L1. induction L1 as [| h tl IH]; intros L2 orig i acc j.
-  - cbn [app length FrameCheckInstance.row_sum_frac_aux].
+  - cbn [Datatypes.app Datatypes.length FrameCheckInstance.row_sum_frac_aux].
     rewrite Nat.add_0_r. reflexivity.
   - destruct acc as [num den].
-    cbn [app length FrameCheckInstance.row_sum_frac_aux].
+    cbn [Datatypes.app Datatypes.length FrameCheckInstance.row_sum_frac_aux].
     replace (j + S (length tl))%nat with (S j + length tl)%nat
       by (rewrite Nat.add_succ_r; rewrite Nat.add_succ_l; reflexivity).
     destruct (Nat.eqb j i) eqn:Hji.
