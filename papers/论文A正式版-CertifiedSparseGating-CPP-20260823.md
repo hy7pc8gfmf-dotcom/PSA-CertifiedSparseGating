@@ -3,7 +3,7 @@
 
 > 正式版。投稿方向：CPP/ITP（形式化方法）。
 > 作者：王宝军、夏挽岚（通讯作者，xiawanlan33@163.com）、祖光照、周志农、高雪峰
-> 代码基态：合并版 `ca_merged_full_25.v`（93953 行，67 模块分区，SHA-256 基 4901f18e；G-7/G-9 批次见合并版 `ca_merged_full_25_m2.v`（92743 行，69 模块分区，本地 2.5 全量编译 EXIT=0，2026-08-31），公理审计 54 Closed + 111 Dedekind 三公理、`Classical_Prop.classic` 零出现（2026-08-30 重跑确认）；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验）。
+> 代码基态：合并版 `ca_merged_full_25_m2.v`（95810 行，76 模块分区，绿产物追加路线：E153 绿基线 87632 + M2/G-7/G-9 批次 + G-10/G-11/G-13/CS-21/CS-23/CS-22/Z2b 批次（2026-09-01 追加批次，七分区独立编译 EXIT=0；基线 run20 2.5 全量 EXIT=0）），公理审计 54 Closed + 111 Dedekind 三公理、`Classical_Prop.classic` 零出现（2026-08-30 重跑确认）；持续集成全链路验证通过——lib 依赖链、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验。
 
 ---
 
@@ -121,7 +121,7 @@ code 思想在数值框架界上的实例化；(iii) **构造性实数轨道**�
 7. **可执行提取**：门控/检查器 → OCaml（psa_guard.exe）→ Python FFI，24/24 参考值对齐。
 8. **反射检查器及其健全性**（FrameCheckInstance）：`frame_check_instance` 把「任意阶梯 →
    μ≤4/5」做成可判定**充分**判定（保守健全，系统扫描假阴性 49.1%），提取为原生 int 镜像（**注：健全性定理针对 Coq 内 nat 版判定函数；
-   运行时 int 镜像仅经 FFI 24/24 交叉校验，未形式化验证其等价性，且限有限整数范围，详见 §6**）；
+   运行时 int 镜像经 FFI 24/24 交叉校验；其与精确语义的等价性已在安全域内形式化（Z2b，2026-09-01，详见 §6），安全域外仍可能分歧（机器构造反例见 §6）**）；
    `frame_check_instance_sound` 证明判定
    通过 ⟹ Gershgorin 框架界——实例证书推广为通用运行时判定。
 9. **基表示稳定性复合证书**（核心展示定理）：七带几何阶梯 [3,7,15,31,63,127,255]
@@ -161,7 +161,7 @@ logits 不变，§5.3/§10）。证书链是**两条正交的定理簇**（表�
   Gershgorin → InstanceCertificate → M4bLengthConsistency → T8CoreCertificate →
   FrameCheckInstance → ChampionCertificate → FrameCheck2DNarrow → UnitaryInvariance →
   PhaseCoherence。
-- **合并版** `src/ca_merged_full_25_m2.v`：**92743 行 / 69 模块分区**（30 个 ca_* + PSA_framework +
+- **合并版** `src/ca_merged_full_25_m2.v`：**95810 行 / 76 模块分区**（30 个 ca_* + PSA_framework +
   独立模块 + z 区探针族与构造性轨道全量并入至 G-9：probe_grid_ortho/parseval/partial/pairbound/rowsum/
   pairdirichlet/incoherence/row_rip/c4_instance + welch/uncertainty_cr/g8_synthesis_cr/
   g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/
@@ -369,7 +369,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   系统扫描实测末带 < 2^20 的阶梯中仍有 14/89（15.7%）exe 与 Coq 语义分歧（如 C=6-sparse
   累积分母达 10^26 ≫ 2^63）。实验实际使用（带值 ≤255、m ≤ 8）全部落在 63-bit 安全区。
   **因此**：运行时检查器**不自动携带** Coq soundness——它只在有限整数范围内、且与 Coq
-  语义一致时接近。根本消除：Zarith（任意精度）提取（future work）。**安全域谓词（已形式化，CS-16，`probe_safe_domain.v`，2026-08-30）**：安全域从经验确认升级为机器检查定理——`zprod_bounded`（乘积上界递推，非平凡归纳核：全因子 0 < d ≤ D ⟹ 0 < ∏ ≤ D^length）、`no_overflow_consistent`（0 ≤ p < 2^63 ⟹ p mod 2^63 = p，63-bit int 镜像与精确语义一致）、`c4_safe_domain`（C=4 判定链分母连乘 = 2054520832000000000 < 2^63，落于安全域）、`safe_domain_bool`/`in_w63`（可提取 bool 函数，运行时可判定成员资格）；4 段 Print Assumptions 全 Closed（零公理）。全窗口任意阶梯的运行时安全检查与 Zarith 任意精度提取仍为后续工作。
+  语义一致时接近。根本消除：Zarith（任意精度）提取（future work）。**安全域谓词（已形式化，CS-16，`probe_safe_domain.v`，2026-08-30）**：安全域从经验确认升级为机器检查定理——`zprod_bounded`（乘积上界递推，非平凡归纳核：全因子 0 < d ≤ D ⟹ 0 < ∏ ≤ D^length）、`no_overflow_consistent`（0 ≤ p < 2^63 ⟹ p mod 2^63 = p，63-bit int 镜像与精确语义一致）、`c4_safe_domain`（C=4 判定链分母连乘 = 2054520832000000000 < 2^63，落于安全域）、`safe_domain_bool`/`in_w63`（可提取 bool 函数，运行时可判定成员资格）；4 段 Print Assumptions 全 Closed（零公理）。**镜像一致性组合定理（Z2b，`probe_z2b_int63mirror.v`，2026-09-01，纯构造性轨道：nat/Z/Q 层、Set 层 sigT 证书、8 段审计全 Closed、提取物 `z2b_int63mirror.ml` + 基准 `z2b_bench` 经 ocamlc 编译运行通过：C=4 双 true 相等、溢出发散确认）**：安全域内的 63-bit 镜像判定与精确语义的一致性从「域级」细化到「判定级」——`z2b_check63_eq`（安全域内镜像布尔 ≡ 精确布尔；组合 CS-16 安全域与 CS-22 Z 版整数检查器 `zfc_check_spec` 的健全完备 iff，`probe_z_frame_check.v`，2026-08-31：`Qle qsum 4/5 ↔ Z.leb (5·acc) (4·P)`，5 段审计 Closed、Zarith 路线提取）、`z2b_end_to_end_sound`（运行时 true ⟹ `Qle qsum 4/5`——Coq 健全性穿透运行时语义）、`z2b_decision_cert`（sigT 决策证书，可提取）；并给出**语义分歧的第一个机器构造反例**：[2^63; 4] 行和实例镜像判定 true / 精确判定 false（累积分母溢出的可复现构造，前述 14/89（15.7%）抽样分歧的确定性样本）。全窗口任意阶梯的运行时安全检查与 Zarith 任意精度提取仍为后续工作。
 - **两层提取的边界（CR 效率质询澄清）**：运行时检查全部由 Z/Q 反射层承载——上项基准中的四级判定、安全域、窗口判定与 `psa_guard` 原生镜像均为 nat/Z/Q 层函数（Pos/Z 二进制算术，无逼近循环）；构造性实数层（ConstructiveReals）不进入任何运行时路径——其提取物中 `CRcarrier` 保持抽象类型参数（`g7_welch_cr` 等），或仅作柯西实例化的编译验证（`taugrid_cr.ml`）；`CR_of_Q` 在该层仅用于把有理常数嵌入实数 carrier 以调用库引理，其二分表示不承载任何运行时判定。如实定位：构造性轨道提取物「经 DkMLNative 编译通过」是良构性与可执行结构验证，非运行时性能主张——该轨道的角色是公理独立性与可计算性验证，生产检查器由经典/反射轨道承担。
 - **逐行同构原则**（方法论）：提取代码应尽可能镜像 Coq Fixpoint 的结构（而非依赖高阶重写
   得到的"语义等价"的另一份代码）——本开发在 FFI 回归（24/24）中持续检查，并据此发现并
@@ -527,7 +527,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   对最大原子索引归纳，增量 1 + 2·INR(S M)·μ² 精确闭合）→ CR 代数移项（乘正消去）。
   **验收**：831 行 14 Qed / 0 Admitted / 0 公理，六段 Print Assumptions 全 "Closed
   under the global context"；提取物 g7_welch_cr.ml 经 DkMLNative ocamlc 编译通过；
-  已并入合并版 `ca_merged_full_25_m2.v`（现 92743 行，69 模块分区，本地 2.5 全量编译 EXIT=0）。
+  已并入合并版 `ca_merged_full_25_m2.v`（现 95810 行，76 模块分区，全量编译 EXIT=0）。
   **范围（如实）**：实原子版（原子分量为构造性实数；G-8 的消费为抽象相干上界 μ，
   实版直接衔接）；复原子版（复向量内积的 Welch 下界）列为后续工作。
 - **加权阶梯范数精确闭式（G-1，经典 R 轨道）** G1_norm_closed（probe_g1_norm_closed.v，
@@ -563,7 +563,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   `probe_decidability_premium_cr.v` 并入合并版 25 模块 55/55，Gram 相干行和 ≤ 63/80 + 反射界 21/16
   + 溢价 5/3，核心 `m4_CRinv_le_contravar` 纯构造反变单调，`m4_decidability_premium : {w & CRle w (63/80)}` Set 层 sigT 定理，Print Assumptions 全
   Closed——相干缺口闭合的构造性完成）。
-  **意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版） + 字典最优性⟹恢复保证合成（G-8），机器检查，其中 k-原子 RIP、唯一性骨架、不确定原理与相图合成走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接**：逐对判据覆盖前 3 原子 [3,13,53]（`C4_sparse_uniqueness_3`，μ=11289/33920 < 1/3）；**全窗口 4 原子唯一性已闭合（v2.23，CS-21/CS-23）**——两两相干判据对四原子关窗（μ·4 = 45156/33920 > 1，`c4_mu4_window` 机器判定）后，由两条构造性路线正面证得：CS-21 无枢轴求和坍缩合成单射（`c4u_synthesis_injective`，probe_c4_unique2sparse_cr.v，19 Qed 6 审计 Closed）与 CS-23 Gram 谱口径（λ\* = 1 − ρ₄ = 651/3200 > 0，`c4g_synthesis_injective` + `c4g_2sparse_unique`，probe_c4_gram_unique_cr.v，45 Qed 8 审计 Closed）——「4 原子未覆盖/λ_min 未定」的早期表述就此翻转；全库零 `Admitted`、零挂起证明义务的背书不变。**4 原子障碍分析（现况）**：两两相干口径硬限制 μ·4 ≈ 1.33 > 1 不变；出路中两条已落地（CS-21 求和坍缩、CS-23 Gram 行和谱窗），严格 3-稀疏信号由 `sparse_uniquenessM` 覆盖、Welch-窗口合成（G-8）为理论极限陈述；剩余开放项为更大阶实例（如 C=9 的 s≤4）及与 ρ^{−3/2} 行和紧界的合成。**数学新颖性说明**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle、CRg8_recovery_synthesis、C4_sparse_uniqueness_3 与 c4u_synthesis_injective/c4g_synthesis_injective（四原子唯一性的求和坍缩/Gershgorin 谱界构造性路线）是 Gershgorin/互干性唯一恢复、RIP、Donoho–Stark 不确定性原理与 Welch 界-恢复保证相图的机器检查（Welch 下界本身亦为经典结果的构造性机器检查），数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径、构造性轨道独立性验证与三角闭合相图合成）。本族主要探针已并入合并版 `ca_merged_full_25.v`（67 模块分区，MERGE_EXIT=0），
+  **意义**：本工作在**通用层**建立可认证稀疏恢复的理论保证（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 行和版 RIP 桥接 + 稀疏唯一性 + 唯一性⟹恢复正确性骨架 + 相干字典不确定原理（支撑大小版） + 字典最优性⟹恢复保证合成（G-8），机器检查，其中 k-原子 RIP、唯一性骨架、不确定原理与相图合成走纯构造性实数轨道、零经典公理），并在 **C=4 阶梯完成实例级拼接**：逐对判据覆盖前 3 原子 [3,13,53]（`C4_sparse_uniqueness_3`，μ=11289/33920 < 1/3）；**全窗口 4 原子唯一性已闭合（v2.23，CS-21/CS-23）**——两两相干判据对四原子关窗（μ·4 = 45156/33920 > 1，`c4_mu4_window` 机器判定）后，由两条构造性路线正面证得：CS-21 无枢轴求和坍缩合成单射（`c4u_synthesis_injective`，probe_c4_unique2sparse_cr.v，19 Qed 6 审计 Closed）与 CS-23 Gram 谱口径（λ\* = 1 − ρ₄ = 651/3200 > 0，`c4g_synthesis_injective` + `c4g_2sparse_unique`，probe_c4_gram_unique_cr.v，45 Qed 8 审计 Closed）——「4 原子未覆盖/λ_min 未定」的早期表述就此翻转；全库零 `Admitted`、零挂起证明义务的背书不变。**4 原子障碍分析（现况）**：两两相干口径硬限制 μ·4 ≈ 1.33 > 1 不变；出路中两条已落地（CS-21 求和坍缩、CS-23 Gram 行和谱窗），严格 3-稀疏信号由 `sparse_uniquenessM` 覆盖、Welch-窗口合成（G-8）为理论极限陈述；剩余开放项为更大阶实例（如 C=9 的 s≤4）及与 ρ^{−3/2} 行和紧界的合成。**数学新颖性说明**：sparse_uniquenessM、CRrip_bound_k、row_rip_bound_M、CRrecovery_correct_prefix、CRuncertainty_principle、CRg8_recovery_synthesis、C4_sparse_uniqueness_3 与 c4u_synthesis_injective/c4g_synthesis_injective（四原子唯一性的求和坍缩/Gershgorin 谱界构造性路线）是 Gershgorin/互干性唯一恢复、RIP、Donoho–Stark 不确定性原理与 Welch 界-恢复保证相图的机器检查（Welch 下界本身亦为经典结果的构造性机器检查），数学上非新，形式化价值在 Coq 验证（含 C=4 具体常数核验、行和版 RIP 常数紧化路径、构造性轨道独立性验证与三角闭合相图合成）。本族主要探针已并入合并版 `ca_merged_full_25_m2.v`（76 模块分区，全量编译 EXIT=0），
 独立 + 合并双通过；G-3（probe_g3_criterion）/G-5（probe_g5_premium）**已并入合并版**（2026-08-30 M2 批次），probe_recovery_cr 为构造性轨道独立验证。
 
 - **τ 裁剪最优性（CS-11，经典 R 轨道，2026-08-28 新增）** `probe_taugrid.v`（17 Qed / 0 Admitted）：**覆盖债精确量化** `coverage_fraction`/`coverage_debt`（S T < n ⟹ 窗 [0,T] 内能量恰 = (T+1)/n，窗外能量 1−(T+1)/n ∈ (0,1)——**τ 负债的机器可计算量**，"剪 255/127/63 应恶化"的定理侧镜像）；**支撑完备刻画** `support_classification`（n ≤ T ⟺ ψ_n 完全支撑训练窗，iff）；**裁剪证书单调** `prune_row_le`（kept 子族行和 ≤ 全族——上界型证书不损）；**C-梯子稀疏化迁移** `thinning_preserves_ratio`；**三连合成** `tau_prune_optimality`——randmax256/384 裁剪实验的定理化。
@@ -615,7 +615,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 > **代码仓库**：https://github.com/hy7pc8gfmf-dotcom/PSA-CertifiedSparseGating（Coq 形式化 + 论文 + 实证 + CI，Apache-2.0；CI 徽章见 README）。预印本 DOI：10.6084/m9.figshare.33312189。
 
 - **代码分布**：`src/`（正式模块，含 `_CoqProject`）；`z/`（探针）；合并版
-  `src/ca_merged_full_25_m2.v`（92743 行，69 模块分区，探针族与构造性轨道全量并入至 G-9）；归档基态
+  `src/ca_merged_full_25_m2.v`（95810 行，76 模块分区，探针族与构造性轨道全量并入至 Z2b）；归档基态
   `D:\ComplexAnalysis\30模块\`（ca_* + 探针 pro 版 + ca_zeta_euler + ca_rip_cr + 合并版，
   SHA-256 与 src/z 一致，旧版备份 `.sync-backup-20260823/`）。
 - **依赖版本**：Rocq/Coq 9.0.1（`C:\Rocq-Platform~9.0~2025.08\bin\coqc.exe`）；mathcomp
@@ -769,7 +769,7 @@ and Rocq 9.0.x/9.1.x) yielded the following first-hand feedback:
 部署级证书族构成三角支撑；**压缩感知族（单位范数 + RIP(2,μ) 基元 + k-原子 RIP + 稀疏
 唯一性）把「无条件基 + 频率阶梯」的理论优势推进到稀疏恢复**（k-原子 RIP 走纯构造性实数
 轨道、零经典公理）。全部开发零 Admitted、零自定义公理，165 项审计
-`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（92743 行，69 模块分区，探针族与构造性轨道全量至 G-9
+`Classical_Prop.classic` 零出现（post-M1.5 复核，完整 165/165 运行日志随稿）；合并版（95810 行，76 模块分区，探针族与构造性轨道全量至 Z2b
 ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实证共同构成「可证性（稀疏）—
 外推性（稠密）」双轨的机器检查 + 实证记录。
 
@@ -815,13 +815,15 @@ ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实�
 | 部署级证书族 | z/probe_kvevict.v / probe_quant.v / probe_multihead.v / probe_exprat.v | ✅（z 区独立验证） |
 | Welch 下界构造性证明（G-7） | z/probe_g7_welch_cr.v（g7_welch_lower，14 Qed 6×Closed） | ✅ **已并入 m2 分区 68** |
 | 渐近闭合式双带夹逼（G-9） | z/probe_g9_pairfrac_cr.v（10 项 4×Closed） | ✅ **已并入 m2 分区 69** |
-| i01 区间构造性代数 + noisy-OR 组合证书（G-10） | z/probe_itv_noisyor_cr.v（iq sigT 接口，6×Closed） | ✅（z 区独立验证） |
-| 检查器真 iff（G-11，D7 修复） | z/probe_g11_checkiff_cr.v（check_iff/reject_iff/fn_iff/decision_cert，6×Closed） | ✅（z 区独立验证） |
-| 四原子合成单射（CS-21，求和坍缩） | z/probe_c4_unique2sparse_cr.v（c4u_synthesis_injective + c4u_2sparse_unique，19 Qed 6×Closed） | ✅（z 区独立验证） |
-| 四原子 Gram 谱唯一性（CS-23） | z/probe_c4_gram_unique_cr.v（λ\*=651/3200，c4g_synthesis_injective，45 Qed 8×Closed，提取 bench） | ✅（z 区独立验证） |
-| cert_optimize 收紧器（G-13） | z/probe_g13_certtight_cr.v（ct_opt_cert，12 Qed 6×Closed，提取 bench） | ✅（z 区独立验证） |
+| i01 区间构造性代数 + noisy-OR 组合证书（G-10） | z/probe_itv_noisyor_cr.v（iq sigT 接口，6×Closed） | ✅ **已并入 m2 分区 71** |
+| 检查器真 iff（G-11，D7 修复） | z/probe_g11_checkiff_cr.v（check_iff/reject_iff/fn_iff/decision_cert，6×Closed） | ✅ **已并入 m2 分区 72** |
+| 四原子合成单射（CS-21，求和坍缩） | z/probe_c4_unique2sparse_cr.v（c4u_synthesis_injective + c4u_2sparse_unique，19 Qed 6×Closed） | ✅ **已并入 m2 分区 74** |
+| 四原子 Gram 谱唯一性（CS-23） | z/probe_c4_gram_unique_cr.v（λ\*=651/3200，c4g_synthesis_injective，45 Qed 8×Closed，提取 bench） | ✅ **已并入 m2 分区 75** |
+| cert_optimize 收紧器（G-13） | z/probe_g13_certtight_cr.v（ct_opt_cert，12 Qed 6×Closed，提取 bench） | ✅ **已并入 m2 分区 73** |
+| Z 版整数检查器健全完备 iff（CS-22） | z/probe_z_frame_check.v（zfc_check_spec：Qle qsum 4/5 ↔ Z.leb (5·acc)(4·P)，5×Closed，Zarith 路线提取） | ✅ **已并入 m2 分区 70** |
+| 镜像一致性组合定理（Z2b，CS-16×CS-22） | z/probe_z2b_int63mirror.v（z2b_check63_eq / end_to_end_sound / decision_cert / [2^63;4] 溢出发散反例，8×Closed，提取 bench） | ✅ **已并入 m2 分区 76** |
 | 概率逐对界正向随机侧（CS-20） | src/ca_sparse_ext.v（pairwise_inner_bound_probabilistic） | ✅（库内已 Qed，本轮入文） |
-| 合并版 | src/ca_merged_full_25_m2.v（92743 行，69 模块分区，探针族全量至 G-9） | ✅ **本地 2.5 全量 EXIT=0（run20）** |
+| 合并版 | src/ca_merged_full_25_m2.v（95810 行，76 模块分区，探针族全量至 Z2b） | ✅ **全量编译 EXIT=0（run20 基线；追加批次七分区独立 EXIT=0）** |
 | 归档基态 | D:\ComplexAnalysis\30模块\（SHA-256 与 src/z 一致） | ✅ |
 
 ---
