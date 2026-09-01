@@ -3,7 +3,7 @@
 > 正式版（对齐当前代码基态）。
 > 作者：王宝军、夏挽岚（通讯作者，xiawanlan33@163.com）、祖光照、周志农、高雪峰
 来源：论文 B 草稿清洗（删除会话/评审/版本内部注记），
-> 实验数据不变；配套论文 A（Coq 形式化）代码状态按当前基态（合并版 `ca_merged_full_25_m2.v`（95848 行，76 模块分区，绿产物追加路线：E153 绿基线 87632 + M2/G-7/G-9 批次 + G-10/G-11/G-13/CS-21/CS-23/CS-22/Z2b 批次（2026-09-01 追加批次，合并全量编译 EXIT=0（9.1，run6）；基线 run20 2.5 全量 EXIT=0）），
+> 实验数据不变；配套论文 A（Coq 形式化）代码状态按当前基态（合并版 `ca_merged_full_25_m2.v`（98187 行，77 模块分区，绿产物追加路线：E153 绿基线 87632 + M2/G-7/G-9 批次 + G-10/G-11/G-13/CS-21/CS-23/CS-22/Z2b 批次（2026-09-01 追加批次，合并全量编译 EXIT=0（9.1，run6）；基线 run20 2.5 全量 EXIT=0）），
 > 20 探针 + ca_zeta_euler/ca_rip_cr 构造性轨道并入、合并编译 MERGE_EXIT=0；**持续集成全链路验证通过**：lib 依赖链编译、合并版编译（Rocq 9.0 + mathcomp 2.6）、PSA 核心编译、零 Admitted 检查、coqchk 内核独立复验；165 项审计完整 165/165 日志随稿）。投稿方向：TACL/Findings（实证 + 可审计性）。
 
 ---
@@ -626,7 +626,7 @@ LongRoPE（Ding et al., ICLR 2024）。本文以「频率阶梯相位剖面」�
 | 165 项审计（Classical_Prop.classic 零出现） | PSA_audit.v（M1.5 已并入） | ✅ |
 | 碰撞刻画 / τ 机制 | z\probe_collision.v（C1–C5）/ probe_tchar.v（T1–T4）/ probe_taudicho.v | ✅（论文 A §8，z 区独立验证） |
 | ρ^{−3/2} 行和紧界（C=4 框架界） | z\probe_rowsum.v（row_sum_3halfs / row_bound_C4，23 Qed） | ✅ **已并入合并版** |
-| 合并版 | src\ca_merged_full_25_m2.v（95848 行，76 模块分区，探针族全量至 Z2b） | ✅ 全量编译 EXIT=0（run20 + run6） |
+| 合并版 | src\ca_merged_full_25_m2.v（98187 行，77 模块分区，探针族全量至 Z2b） | ✅ 全量编译 EXIT=0（run20 + run6） |
 | 经验数值（主表） | psa_empirical\测试数据\multi_seed_main_table.md | ✅ |
 | 偏置对照（ALiBi/T5/grid） | psa_empirical\测试数据\baseline_*.log | ✅ |
 | 正式配置 batch3/4 | psa_empirical\测试数据\（云端 T4，与本地逐位对齐） | ✅ |
