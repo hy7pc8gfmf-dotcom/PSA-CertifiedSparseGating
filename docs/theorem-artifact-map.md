@@ -1,0 +1,152 @@
+# 定理 → 代码位置映射表（2026-09-02）
+
+生成：`审计证据/gen_theorem_map.py`。声明形态 grep（Definition/Theorem/Lemma/…），
+源域 = Live_harness/src + z + repo coq/{lib,core,probes}（排除合并版/调试件）。
+
+> 用途：审稿人按论文定理名直查代码；`MISSING` 行 = 论文引用但源域未见声明（需人工核）。
+
+- **§1 贡献清单｜确定性门控（GreedyGate 主定理）**：（模块级贡献，见 PSA_framework.v 对应 Module）
+- **§1/§5 核心链｜certified_c4_frame_bounds**
+  - `certified_c4_frame_bounds` — src:PSA_framework.v:L3110；repo-core:PSA_framework.v:L3110
+- **§1/§5 核心链｜frame_check_instance（反射检查器）**
+  - `frame_check_instance` — src:PSA_framework.v:L3671；repo-core:PSA_framework.v:L3671
+- **§1/§5 核心链｜frame_check_instance_sound**
+  - `frame_check_instance_sound` — src:PSA_framework.v:L4425；repo-core:PSA_framework.v:L4425
+- **§1/§5 核心链｜champion_e5_composite_certificate**
+  - `champion_e5_composite_certificate` — src:PSA_framework.v:L4969；repo-core:PSA_framework.v:L4969
+- **§1/§4 核心链｜softmax_l1_bound_exp**
+  - `softmax_l1_bound_exp` — src:PSA_framework.v:L2216；repo-core:PSA_framework.v:L2216
+- **§5.6 帕累托律｜pareto_law_N511**
+  - `pareto_law_N511` — src:ParetoLaw.v:L374；repo-lib:ParetoLaw.v:L374
+- **§5.6 负定律｜t2b_general_m96 / t2b_general_m99**
+  - `t2b_general_m96` — z:probe_t2b_genm.v:L170
+  - `t2b_general_m99` — z:probe_t2b_genm.v:L177
+- **§5.6 负定律｜no_collision / fall9**
+  - `no_collision` — src:ParetoRandom.v:L192；repo-lib:ParetoRandom.v:L192
+  - `fall9` — src:ParetoRandom.v:L188；repo-lib:ParetoRandom.v:L188
+- **§5.6 CRT｜prime_ladder_8 / crt_inj**
+  - `prime_ladder_8` — src:CRTResolve.v:L189；repo-lib:CRTResolve.v:L189
+  - `crt_inj` — z:probe_crt.v:L35；repo-probes:probe_crt.v:L35
+- **§5.6.6 CS-1/2/3｜psi_norm_one / rip_bound2 / sparse_uniquenessM**
+  - `psi_norm_one` — z:probe_incoherence.v:L157；repo-probes:probe_incoherence.v:L157
+  - `rip_bound2` — z:probe_incoherence.v:L488；repo-probes:probe_incoherence.v:L488
+  - `sparse_uniquenessM` — z:probe_incoherence.v:L929；repo-probes:probe_incoherence.v:L929
+- **§5.6.6 CS-2′｜CRrip_bound_k（k-原子 RIP，构造性）**
+  - `CRrip_bound_k` — src:ca_rip_cr.v:L1140；repo-lib:ca_rip_cr.v:L1140
+- **§5.6.6 F3｜row_rip_bound_M（行和→RIP）**
+  - `row_rip_bound_M` — z:probe_row_rip.v:L435；repo-probes:probe_row_rip.v:L435
+- **§5.6.6 A2｜C4_sparse_uniqueness_3（C=4 实例）**
+  - `C4_sparse_uniqueness_3` — z:probe_c4_instance.v:L234；repo-probes:probe_c4_instance.v:L234
+- **§5.6.6 R4/F7｜CRrecovery_correct_prefix**
+  - `CRrecovery_correct_prefix` — z:probe_recovery_cr.v:L148；repo-probes:probe_recovery_cr.v:L148
+- **§5.6.6 F5｜CRuncertainty_principle**
+  - `CRuncertainty_principle` — z:probe_uncertainty_cr.v:L925；repo-probes:probe_uncertainty_cr.v:L925
+- **§5.6.6 G-8｜CRg8_recovery_synthesis / CRphase_window_nonempty**
+  - `CRg8_recovery_synthesis` — z:probe_g8_synthesis_cr.v:L198；repo-probes:probe_g8_synthesis_cr.v:L198
+  - `CRphase_window_nonempty` — z:probe_g8_synthesis_cr.v:L124；repo-probes:probe_g8_synthesis_cr.v:L124
+- **§5.6.6 G-1｜G1_norm_closed**
+  - `G1_norm_closed` — z:probe_g1_norm_closed.v:L449；repo-probes:probe_g1_norm_closed.v:L449
+- **§5.6.6 G-2｜mu_adj_decreasing / mu_adj_phase_transition / mu_adj_asymptotic**
+  - `mu_adj_decreasing` — z:probe_g2_mu_adj.v:L234；z:test_g2_r1.v:L149；repo-probes:probe_g2_mu_adj.v:L234
+  - `mu_adj_phase_transition` — z:probe_g2_mu_adj.v:L643；repo-probes:probe_g2_mu_adj.v:L643
+  - `mu_adj_asymptotic` — z:probe_g2_mu_adj.v:L679；z:test_g2_r3c.v:L82；repo-probes:probe_g2_mu_adj.v:L679
+- **§5.6.6 G-3｜g3_certifiable_iff**
+  - `g3_certifiable_iff` — z:probe_g3_criterion.v:L154；repo-probes:probe_g3_criterion.v:L154
+- **§5.6.6 G-5｜g5_premium**
+  - `g5_premium` — z:probe_g5_premium.v:L819；repo-probes:probe_g5_premium.v:L819
+- **§5.6.6 G-7｜g7_welch_lower（Welch 下界构造性）**
+  - `g7_welch_lower` — z:probe_g7_welch_cr.v:L790；repo-probes:probe_g7_welch_cr.v:L790
+- **§5.6.6 G-9｜g9_pf_square / g9_pf_sandwich / g9_closed_form_cert**
+  - `g9_pf_square` — z:probe_g9_pairfrac_cr.v:L122；repo-probes:probe_g9_pairfrac_cr.v:L122
+  - `g9_pf_sandwich` — z:probe_g9_pairfrac_cr.v:L142；repo-probes:probe_g9_pairfrac_cr.v:L142
+  - `g9_closed_form_cert` — z:probe_g9_pairfrac_cr.v:L216；repo-probes:probe_g9_pairfrac_cr.v:L216
+- **§5.6.6 G-11｜g11_check_iff / g11_reject_iff / g11_fn_iff / g11_decision_cert**
+  - `g11_check_iff` — z:probe_g11_checkiff_cr.v:L142；repo-probes:probe_g11_checkiff_cr.v:L142
+  - `g11_reject_iff` — z:probe_g11_checkiff_cr.v:L149；repo-probes:probe_g11_checkiff_cr.v:L149
+  - `g11_fn_iff` — z:probe_g11_checkiff_cr.v:L188；repo-probes:probe_g11_checkiff_cr.v:L188
+  - `g11_decision_cert` — z:probe_g11_checkiff_cr.v:L197；repo-probes:probe_g11_checkiff_cr.v:L197
+- **§5.6.6 G-13｜ct_opt_cert（收紧器 sigT 证书）**
+  - `ct_opt_cert` — z:probe_g13_certtight_cr.v:L230；repo-probes:probe_g13_certtight_cr.v:L230
+- **§5.6.6 CS-11｜tau_prune_optimality**
+  - `tau_prune_optimality` — z:probe_taugrid.v:L279；z:probe_taugrid_dbg.v:L237；repo-probes:probe_taugrid.v:L279
+- **§5.6.6 CS-13｜cs2_rip_uniform / cs3_unique / near_dup_coherence_12 / cs4c_explosion**
+  - `cs2_rip_uniform` — z:probe_cs.v:L338；repo-probes:probe_cs.v:L338
+  - `cs3_unique` — z:probe_cs.v:L460；repo-probes:probe_cs.v:L460
+  - `near_dup_coherence_12` — z:probe_cs.v:L572；repo-probes:probe_cs.v:L570
+  - `cs4c_explosion` — z:probe_cs.v:L601；repo-probes:probe_cs.v:L599
+- **§5.6.6 CS-14｜pair_dirichlet / mixed_grid_coherence**
+  - `pair_dirichlet` — z:probe_pairdirichlet.v:L67；z:backup-合并友好化-20260822\probe_pairdirichlet.v:L67；repo-probes:probe_pairdirichlet.v:L67
+  - `mixed_grid_coherence` — z:probe_pairdirichlet.v:L87；z:backup-合并友好化-20260822\probe_pairdirichlet.v:L87；repo-probes:probe_pairdirichlet.v:L87
+- **§5.6.6 CS-15｜c4_four_atom_energy_stability / c4_four_atom_layered_certificate**
+  - `c4_four_atom_energy_stability` — z:probe_c4_four_atom_cr.v:L91；repo-probes:probe_c4_four_atom_cr.v:L91
+  - `c4_four_atom_layered_certificate` — z:probe_c4_four_atom_cr.v:L121；repo-probes:probe_c4_four_atom_cr.v:L121
+- **§5.6.6 CS-16｜zprod_bounded / c4_safe_domain / no_overflow_consistent / safe_domain_bool**
+  - `zprod_bounded` — z:probe_safe_domain.v:L82；repo-probes:probe_safe_domain.v:L82
+  - `c4_safe_domain` — z:probe_safe_domain.v:L123；repo-probes:probe_safe_domain.v:L123
+  - `no_overflow_consistent` — z:probe_safe_domain.v:L102；repo-probes:probe_safe_domain.v:L102
+  - `safe_domain_bool` — z:probe_safe_domain.v:L118；repo-probes:probe_safe_domain.v:L118
+- **§5.6.6 CS-17｜frame_check_graduated_sound**
+  - `frame_check_graduated_sound` — z:probe_frame_check_graduated.v:L346；repo-probes:probe_frame_check_graduated.v:L346
+- **§5.6.6 CS-18｜psi_kernel_drift_bound / psi_attention_tvd_trunc**
+  - `psi_kernel_drift_bound` — z:probe_ab_bridge_pier.v:L184；z:backup-bridge2-20260902\probe_ab_bridge_pier.v:L141；repo-probes:probe_ab_bridge_pier.v:L141
+  - `psi_attention_tvd_trunc` — z:probe_ab_bridge_pier.v:L320；z:backup-bridge2-20260902\probe_ab_bridge_pier.v:L277；repo-probes:probe_ab_bridge_pier.v:L277
+- **PhaseCoherence 桥｜kernel_drift_controls_attention**
+  - `kernel_drift_controls_attention` — src:PSA_framework.v:L6507；z:probe_softmaxtvd.v:L44；repo-core:PSA_framework.v:L6507（共 4 处声明位）
+- **§5.6.6 CS-19｜relax_refine / checker_preserved_under_refinement**
+  - `relax_refine` — z:probe_relaxation_meta.v:L107；repo-probes:probe_relaxation_meta.v:L107
+  - `checker_preserved_under_refinement` — z:probe_relaxation_meta.v:L135；repo-probes:probe_relaxation_meta.v:L135
+- **§5.6.6 CS-20｜pairwise_inner_bound_probabilistic**
+  - `pairwise_inner_bound_probabilistic` — src:ca_sparse_ext.v:L312；repo-lib:ca_sparse_ext.v:L312
+- **§5.6.6 CS-21｜c4u_synthesis_injective / c4u_2sparse_unique**
+  - `c4u_synthesis_injective` — z:probe_c4_unique2sparse_cr.v:L691；repo-probes:probe_c4_unique2sparse_cr.v:L691
+  - `c4u_2sparse_unique` — z:probe_c4_unique2sparse_cr.v:L728；repo-probes:probe_c4_unique2sparse_cr.v:L728
+- **§5.6.6 CS-22｜zfc_check_spec（Z 版检查器 iff）**
+  - `zfc_check_spec` — z:probe_z_frame_check.v:L228；repo-probes:probe_z_frame_check.v:L228
+- **§5.6.6 CS-23｜c4g_synthesis_injective / c4g_2sparse_unique**
+  - `c4g_synthesis_injective` — z:probe_c4_gram_unique_cr.v:L824；repo-probes:probe_c4_gram_unique_cr.v:L824
+  - `c4g_2sparse_unique` — z:probe_c4_gram_unique_cr.v:L867；repo-probes:probe_c4_gram_unique_cr.v:L867
+- **§5.6.6 Z2b｜z2b_check63_eq / z2b_end_to_end_sound / z2b_decision_cert**
+  - `z2b_check63_eq` — z:probe_z2b_int63mirror.v:L192；repo-probes:probe_z2b_int63mirror.v:L192
+  - `z2b_end_to_end_sound` — z:probe_z2b_int63mirror.v:L229；repo-probes:probe_z2b_int63mirror.v:L229
+  - `z2b_decision_cert` — z:probe_z2b_int63mirror.v:L254；repo-probes:probe_z2b_int63mirror.v:L254
+- **§5.2 z3b｜z3b_sufficiency**
+  - `z3b_sufficiency` — z:probe_f84.v:L2291；z:probe_z3b_validregion.v:L2320；repo-probes:probe_z3b_validregion.v:L2320
+- **§5.2 T2b 一般 m｜（见 t2b_general_m96/99）**：（模块级贡献，见 PSA_framework.v 对应 Module）
+- **§5.2 C1 孪生｜gershgorin_frame_mu_qtw / gtw_gap_witness**
+  - `gershgorin_frame_mu_qtw` — z:probe_gershgorin_qtw.v:L493
+  - `gtw_gap_witness` — z:probe_gershgorin_qtw.v:L534
+- **§5.2 C6 碰撞最小 lag 孪生｜z_euclid / cop_char / cop_sig / g_char / g_sig**
+  - `z_euclid` — z:probe_collision_qtw.v:L51
+  - `cop_char` — z:probe_collision_qtw.v:L68
+  - `cop_sig` — z:probe_collision_qtw.v:L97
+  - `g_char` — z:probe_collision_qtw.v:L179
+  - `g_sig` — z:probe_collision_qtw.v:L228
+- **§5.2 C7 exp 窗口机｜window_bound / expq_uniform3 / expP_upper**
+  - `window_bound` — z:probe_expq_machine.v:L423
+  - `expq_uniform3` — z:probe_expq_machine.v:L543
+  - `expP_upper` — z:probe_expq_machine.v:L461
+- **§5.6.4 G-12｜g12_ortho_witness / g12_ortho_family**
+  - `g12_ortho_witness` — z:probe_g12_orthofam.v:L283
+  - `g12_ortho_family` — z:probe_g12_orthofam.v:L310
+- **§5.2 C2 孪生｜par_c_sandwich / par_c_lt_triggers / par_ratio_gap / no_collision_q**
+  - `par_c_sandwich` — z:probe_pareto_qtw.v:L103
+  - `par_c_lt_triggers` — z:probe_pareto_qtw.v:L139
+  - `par_ratio_gap` — z:probe_pareto_qtw.v:L116
+  - `no_collision_q` — z:probe_pareto_qtw.v:L244
+- **§6 T2 包络｜env_witness_complete / env_check_sound / rc_lt_dec**
+  - `env_witness_complete` — z:probe_rc_envelope.v:L564
+  - `env_check_sound` — z:probe_rc_envelope.v:L604
+  - `rc_lt_dec` — z:probe_rc_envelope.v:L641
+- **§6 酉不变｜unitary_invariance_psi_rope_theta**
+  - `unitary_invariance_psi_rope_theta` — src:PSA_framework.v:L6314；repo-core:PSA_framework.v:L6314
+- **§5.6.4 U5/碰撞｜golden_near_collision 相关**
+  - `golden_near_collision` — z:probe_nearcoll.v:L117；repo-probes:probe_nearcoll.v:L117
+- **M3 构造性 √｜sqrt21_lower / sqrt105_lower**
+  - `sqrt21_lower` — z:probe_sqrt_cr_m3.v:L1205
+  - `sqrt105_lower` — z:probe_sqrt_cr_m3.v:L1227
+- **Dirichlet/行和｜row_sum_3halfs / row_bound_C4**
+  - `row_sum_3halfs` — z:probe_rowsum.v:L543；repo-probes:probe_rowsum.v:L543
+  - `row_bound_C4` — z:probe_rowsum.v:L595；repo-probes:probe_rowsum.v:L595
+
+---
+统计：点名定理名 91 个，命中 91，MISSING 0

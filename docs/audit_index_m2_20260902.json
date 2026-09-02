@@ -1,0 +1,341 @@
+{
+  "generated": "2026-09-02",
+  "section_A": {
+    "desc": "PSA_framework.v 应用层固定审计清单（PSA_audit.v manifest，165 项）",
+    "summary": {
+      "total": 165,
+      "footprints": {
+        "ClassicalDedekindReals.sig_forall_dec+ClassicalDedekindReals.sig_not_dec+FunctionalExtensionality.functional_extensionality_dep": 80,
+        "CLOSED": 54,
+        "ClassicalDedekindReals.sig_forall_dec+FunctionalExtensionality.functional_extensionality_dep": 29,
+        "ClassicalDedekindReals.sig_forall_dec": 2
+      },
+      "classic_occurrences": 0
+    },
+    "items_ref": "audit_index_20260830.json（docs/ 同目录，SHA 见 manifest）"
+  },
+  "section_B": {
+    "desc": "论文点名探针——2026-09-02 当日新鲜重编译审计真值（coqc 9.1.0）+ 论文口径逐条对账",
+    "verified_count": 27,
+    "recorded_count": 5,
+    "classic_total": 1,
+    "classic_disclosure": "唯一 classic 出现于 g2_mu_adj（mu_adj_phase_transition）——与论文 A §88 显式披露一致",
+    "items": [
+      {
+        "probe": "probe_gershgorin_qtw",
+        "track": "constructive-Q",
+        "closed": 15,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: gershgorin_qtw.log)",
+        "extraction": "gershgorin_qtw.ml",
+        "extraction_status": "ocamlc 绿 + WSL 冒烟 true/true（当日）"
+      },
+      {
+        "probe": "probe_pareto_qtw",
+        "track": "constructive-Q",
+        "closed": 27,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: pareto_qtw_verify.log)",
+        "extraction": "pareto_qtw.ml",
+        "extraction_status": "ocamlc 绿 + WSL 冒烟（当日）+ 合并模拟 EXIT=0"
+      },
+      {
+        "probe": "qset_twin_base",
+        "track": "constructive-Q",
+        "closed": 44,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: base_reverify.log)",
+        "extraction": "qset_twin_base.ml",
+        "extraction_status": "ocamlc 绿"
+      },
+      {
+        "probe": "probe_rc_envelope",
+        "track": "constructive-Q",
+        "closed": 10,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: rc_envelope_verify.log)",
+        "extraction": "rc_envelope_t2.ml",
+        "extraction_status": "ocamlc 绿（当日复验）"
+      },
+      {
+        "probe": "probe_z3b_validregion",
+        "track": "constructive-Q",
+        "closed": 5,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_z3b_validregion.log)",
+        "extraction": "z3b_bench.ml",
+        "extraction_status": "WSL ocamlopt（论文记载）"
+      },
+      {
+        "probe": "probe_z2b_int63mirror",
+        "track": "constructive-Q",
+        "closed": 8,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_z2b_int63mirror.log)",
+        "extraction": "z2b_int63mirror.ml",
+        "extraction_status": "ocamlc + z2b_bench（论文记载）"
+      },
+      {
+        "probe": "probe_z_frame_check",
+        "track": "constructive-Q",
+        "closed": 5,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_z_frame_check.log)",
+        "extraction": "（Zarith 路线）",
+        "extraction_status": "论文记载"
+      },
+      {
+        "probe": "probe_c4_gram_unique_cr",
+        "track": "constructive-Q",
+        "closed": 8,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_c4_gram_unique_cr.log)",
+        "extraction": "提取 bench",
+        "extraction_status": "论文记载"
+      },
+      {
+        "probe": "probe_c4_unique2sparse_cr",
+        "track": "constructive-Q",
+        "closed": 6,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_c4_unique2sparse_cr.log)",
+        "extraction": null,
+        "extraction_status": null
+      },
+      {
+        "probe": "probe_g11_checkiff_cr",
+        "track": "constructive-Q",
+        "closed": 6,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_g11_checkiff_cr.log)",
+        "extraction": null,
+        "extraction_status": null
+      },
+      {
+        "probe": "probe_g13_certtight_cr",
+        "track": "constructive-Q",
+        "closed": 6,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_g13_certtight_cr.log)",
+        "extraction": "提取 bench",
+        "extraction_status": "论文记载"
+      },
+      {
+        "probe": "probe_g9_pairfrac_cr",
+        "track": "constructive-Q",
+        "closed": 4,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_g9_pairfrac_cr.log)",
+        "extraction": "g9_pairfrac_cr.ml",
+        "extraction_status": "ocamlc（论文记载）"
+      },
+      {
+        "probe": "probe_itv_noisyor_cr",
+        "track": "constructive-Q",
+        "closed": 6,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_itv_noisyor_cr.log)",
+        "extraction": null,
+        "extraction_status": null
+      },
+      {
+        "probe": "probe_c4_four_atom_cr",
+        "track": "constructive-Q",
+        "closed": 5,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_c4_four_atom_cr.log)",
+        "extraction": "c4_four_atom_cr.ml",
+        "extraction_status": "ocamlc（论文记载）"
+      },
+      {
+        "probe": "probe_safe_domain",
+        "track": "constructive-Q",
+        "closed": 4,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_safe_domain.log)",
+        "extraction": "safe_domain.ml",
+        "extraction_status": "ocamlc（论文记载）"
+      },
+      {
+        "probe": "probe_taugrid_cr",
+        "track": "constructive-Q",
+        "closed": 5,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_taugrid_cr.log)",
+        "extraction": "taugrid_cr.ml",
+        "extraction_status": "ocamlc（论文记载 CS-12）"
+      },
+      {
+        "probe": "probe_frame_check_graduated",
+        "track": "classic-R",
+        "closed": 0,
+        "axioms_blocks": 2,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_frame_check_graduated.log)",
+        "extraction": "frame_check_graduated.ml",
+        "extraction_status": "ocamlc（论文记载 CS-17）"
+      },
+      {
+        "probe": "probe_relaxation_meta",
+        "track": "classic-R",
+        "closed": 0,
+        "axioms_blocks": 2,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_relaxation_meta.log)",
+        "extraction": null,
+        "extraction_status": null
+      },
+      {
+        "probe": "probe_taugrid",
+        "track": "classic-R",
+        "closed": 1,
+        "axioms_blocks": 4,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_taugrid.log)",
+        "extraction": null,
+        "extraction_status": null
+      },
+      {
+        "probe": "probe_cs",
+        "track": "classic-R",
+        "closed": 0,
+        "axioms_blocks": 7,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_cs.log)",
+        "extraction": null,
+        "extraction_status": null
+      },
+      {
+        "probe": "probe_cs5",
+        "track": "classic-R",
+        "closed": 0,
+        "axioms_blocks": 4,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_cs5.log)",
+        "extraction": null,
+        "extraction_status": null
+      },
+      {
+        "probe": "probe_g5_premium",
+        "track": "classic-R",
+        "closed": 1,
+        "axioms_blocks": 3,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_g5_premium.log)",
+        "extraction": null,
+        "extraction_status": null
+      },
+      {
+        "probe": "probe_g3_criterion",
+        "track": "classic-R",
+        "closed": 0,
+        "axioms_blocks": 1,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_g3_criterion.log)",
+        "extraction": null,
+        "extraction_status": null
+      },
+      {
+        "probe": "probe_g2_mu_adj",
+        "track": "classic-R",
+        "closed": 0,
+        "axioms_blocks": 1,
+        "classic_occurrences": 1,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: _aud_probe_g2_mu_adj.log)",
+        "extraction": null,
+        "extraction_status": "★classic=1 即 mu_adj_phase_transition——论文显式披露项，独立复现"
+      },
+      {
+        "probe": "probe_g7_welch_cr",
+        "track": "classic-R",
+        "status": "recorded",
+        "note": "6×Closed（14 Qed，831 行）",
+        "desc": "合并语境（需 ca_taylor），G-7 Welch 下界",
+        "paper_ref": "A v2.16 修订摘要"
+      },
+      {
+        "probe": "probe_g1_norm_closed",
+        "track": "classic-R",
+        "status": "recorded",
+        "note": "21 Qed",
+        "desc": "合并语境，G-1 加权范数闭式",
+        "paper_ref": "A v2.23 修订摘要"
+      },
+      {
+        "probe": "ca_sparse_ext (CS-20)",
+        "track": "classic-R",
+        "status": "recorded",
+        "note": "库内 Qed",
+        "desc": "pairwise_inner_bound_probabilistic",
+        "paper_ref": "A v2.22 修订摘要"
+      },
+      {
+        "probe": "probe_ab_bridge_pier",
+        "track": "classic-R",
+        "status": "recorded",
+        "note": "论文口径零 Admitted",
+        "desc": "CS-18 A-B 桥墩（在飞代理持有，勿碰）",
+        "paper_ref": "A v2.15 修订摘要"
+      },
+      {
+        "probe": "probe_incoherence",
+        "track": "classic-R",
+        "status": "compile_verified",
+        "note": "EXIT=0（51 Qed，CS-1/2/3 主力）",
+        "desc": "独立编译绿；Print Assumptions 块在其库内审计跑（165 项覆盖）",
+        "verified": "2026-09-02 coqc 9.1.0 fresh EXIT=0"
+      },
+      {
+        "probe": "probe_expq_machine",
+        "track": "constructive-Q",
+        "closed": 15,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: expq_machine.log / zz_expq_sim 合并模拟 EXIT=0)",
+        "extraction": "expq_machine.ml/.mli",
+        "extraction_status": "ocamlc 双绿 + 已并入 84_m2 分区 81"
+      },
+      {
+        "probe": "probe_collision_qtw",
+        "track": "constructive-Q",
+        "closed": 12,
+        "axioms_blocks": 0,
+        "classic_occurrences": 0,
+        "verified": "2026-09-02 coqc 9.1.0 fresh (log: collision_qtw2.log / zz_collision_sim 合并模拟 EXIT=0)",
+        "extraction": "collision_qtw.ml/.mli",
+        "extraction_status": "ocamlc 双绿 + 已并入 84_m2 分区 82"
+      },
+      {
+        "probe": "probe_g12_orthofam",
+        "track": "classic-R",
+        "status": "recorded",
+        "note": "g12_ortho_witness/g12_ortho_family 双 Qed（Dedekind 三件套脚印），独立编译 EXIT=0 + 合并模拟 EXIT=0（2026-09-02，rot_atom→g12_rot_atom 撞名适配后）",
+        "desc": "μ=0 正交家族完备性（G-12），已并入 84_m2 分区 84",
+        "paper_ref": "A v2.28/§5.6.4 + v2.31 合并窗口"
+      }
+    ]
+  },
+  "section_C": {
+    "coqc": "Rocq 9.1.0 (Rocq-Platform~9.1~2026.01)",
+    "command": "coqc -q -R src '' -Q z '' <probe>.v",
+    "merged_baseline_note": "论文 v2.27 基线 = ca_merged_full_25_m2.v（98187 行/77 分区）；repo HEAD = ca_merged_full_84_m2.v（102174 行/84 分区，合并线推进中）——本索引锚定论文点名探针，不随合并版分区数变动",
+    "regen": "python gen_audit_index_m2.py（审计证据/）",
+    "sha_links": "manifest_sha256_20260902.json"
+  }
+}

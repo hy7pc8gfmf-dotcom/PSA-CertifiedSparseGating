@@ -1,0 +1,203 @@
+{
+ "generated": "2026-09-02",
+ "tool": "gen_artifact_manifest.py",
+ "note": "三方对照：Live_harness/src(+z) / 30模块归档 / PSA-CertifiedSparseGating repo",
+ "psa_core": {
+  "PSA_framework.v": {
+   "loc1": {
+    "root": "D:\\ComplexAnalysis\\Live_harness\\src",
+    "sha256": "2cbd1820a696dd2651db5abbd8e6f81c96ea1bd72adb37d599beb65c4b428d30"
+   },
+   "loc2": {
+    "root": "D:\\ComplexAnalysis\\30模块",
+    "sha256": "2cbd1820a696dd2651db5abbd8e6f81c96ea1bd72adb37d599beb65c4b428d30"
+   },
+   "loc3": {
+    "root": "D:\\ComplexAnalysis\\PSA-CertifiedSparseGating\\coq\\core",
+    "sha256": "2cbd1820a696dd2651db5abbd8e6f81c96ea1bd72adb37d599beb65c4b428d30"
+   },
+   "all_equal": true
+  },
+  "PSA_audit.v": {
+   "loc1": {
+    "root": "D:\\ComplexAnalysis\\Live_harness\\AI注意力算法",
+    "sha256": "172636b43739d2c02c0563f65934421a1ce3f201161f4c84f66db4da7d58da5a"
+   },
+   "loc2": {
+    "root": "D:\\ComplexAnalysis\\30模块",
+    "sha256": "172636b43739d2c02c0563f65934421a1ce3f201161f4c84f66db4da7d58da5a"
+   },
+   "loc3": {
+    "root": "D:\\ComplexAnalysis\\PSA-CertifiedSparseGating\\coq\\core",
+    "sha256": "172636b43739d2c02c0563f65934421a1ce3f201161f4c84f66db4da7d58da5a"
+   },
+   "all_equal": true
+  },
+  "PSA_extract.v": {
+   "loc1": {
+    "root": "D:\\ComplexAnalysis\\30模块",
+    "sha256": "7b2cb8efd7a0595053a5e804d166a1a2729c0847e317f3d5adff491d0cee4a09"
+   },
+   "loc2": {
+    "root": "D:\\ComplexAnalysis\\PSA-CertifiedSparseGating\\coq\\core",
+    "sha256": "7b2cb8efd7a0595053a5e804d166a1a2729c0847e317f3d5adff491d0cee4a09"
+   },
+   "all_equal": true
+  },
+  "_notes": {
+   "PSA_framework.v": "src/30模块/repo 三方一致",
+   "PSA_audit.v": "三态是否一致见 all_equal（工作区版含论文 v2.20 L179 注释清理）",
+   "PSA_extract.v": "权威位=repo coq/core（src 无此件）"
+  }
+ },
+ "ca_lib_family": {
+  "compared": 33,
+  "missing_in_archive": [],
+  "sha_equal": [
+   "ca_2d_wide_asm",
+   "ca_2d_wide_audit",
+   "ca_2d_wide_const",
+   "ca_2d_wide_engine",
+   "ca_4d_audit",
+   "ca_algebra",
+   "ca_base",
+   "ca_basis",
+   "ca_basis_3d",
+   "ca_basis_4d",
+   "ca_basis_4d_asm",
+   "ca_basis_lemmas",
+   "ca_char_ortho",
+   "ca_complex_analysis",
+   "ca_complex_foundation",
+   "ca_complex_log",
+   "ca_decay",
+   "ca_fourier",
+   "ca_gamma",
+   "ca_independence",
+   "ca_log_bounds",
+   "ca_prime_power",
+   "ca_primes",
+   "ca_probabilistic",
+   "ca_rip_cr",
+   "ca_sparse_ext",
+   "ca_tau",
+   "ca_taylor",
+   "ca_trig",
+   "ca_zeta_axioms",
+   "ca_zeta_euler",
+   "ca_zeta_honest",
+   "ca_zeta_scaffold"
+  ],
+  "sha_diff": [],
+  "detail": {
+   "ca_2d_wide_asm": "3d136ba73f7d08ec",
+   "ca_2d_wide_audit": "cd8f89dbe673497d",
+   "ca_2d_wide_const": "b70b55e92141306c",
+   "ca_2d_wide_engine": "d49508d4e4dce469",
+   "ca_4d_audit": "3658874517062d61",
+   "ca_algebra": "46df24bdd1489cc9",
+   "ca_base": "c87e7e6615445e24",
+   "ca_basis": "8e2808a8927caeef",
+   "ca_basis_3d": "7d633a96f4d4a690",
+   "ca_basis_4d": "5d884d887501d409",
+   "ca_basis_4d_asm": "d5cf35e4c593f3a8",
+   "ca_basis_lemmas": "885dc21cf7ac4f46",
+   "ca_char_ortho": "edf3010220379c54",
+   "ca_complex_analysis": "e2ac4f12c66c0511",
+   "ca_complex_foundation": "bc38b75da5bbe6b1",
+   "ca_complex_log": "dd4749ee2441d70a",
+   "ca_decay": "d57ea4b40d5e0a81",
+   "ca_fourier": "2e0d04607a2d371c",
+   "ca_gamma": "96c51751a62d18cc",
+   "ca_independence": "5377700597c20a4c",
+   "ca_log_bounds": "d520985ebeb81c5d",
+   "ca_prime_power": "286fd4698c9e49e9",
+   "ca_primes": "74bb99c90cec1846",
+   "ca_probabilistic": "d527c784cda05391",
+   "ca_rip_cr": "72c5fc91e0eff7d0",
+   "ca_sparse_ext": "1393e65ab1daadd1",
+   "ca_tau": "18064900aef315de",
+   "ca_taylor": "3e99e9771483f812",
+   "ca_trig": "1b3be686535aecbe",
+   "ca_zeta_axioms": "a67f262f73e8aea5",
+   "ca_zeta_euler": "e61795c536687e54",
+   "ca_zeta_honest": "367fdb8523d23538",
+   "ca_zeta_scaffold": "aad4b7dc30c94be4"
+  }
+ },
+ "boundary4": {
+  "ParetoLaw.v": {
+   "src": "9535a0612e3ca965ec65278e59af6992da277609525d40ae298fe5203abac08d",
+   "archive30": "9535a0612e3ca965ec65278e59af6992da277609525d40ae298fe5203abac08d",
+   "repo": "9535a0612e3ca965ec65278e59af6992da277609525d40ae298fe5203abac08d"
+  },
+  "P1Coherence.v": {
+   "src": "ce4ab080b871e7a126baec51a840e7cebc395c26102b8e45e00a9deb3b7c20e4",
+   "archive30": "ce4ab080b871e7a126baec51a840e7cebc395c26102b8e45e00a9deb3b7c20e4",
+   "repo": "ce4ab080b871e7a126baec51a840e7cebc395c26102b8e45e00a9deb3b7c20e4"
+  },
+  "ParetoRandom.v": {
+   "src": "2e43dcb11bfa9e099a6243e47a4f1fd660e1ffaaa756796192b8268f2c28266e",
+   "archive30": "2e43dcb11bfa9e099a6243e47a4f1fd660e1ffaaa756796192b8268f2c28266e",
+   "repo": "2e43dcb11bfa9e099a6243e47a4f1fd660e1ffaaa756796192b8268f2c28266e"
+  },
+  "CRTResolve.v": {
+   "src": "7a1cb0503b4b1d65fc561d425fb755d504d5a4709a179dcfa6cd560d50f42756",
+   "archive30": "7a1cb0503b4b1d65fc561d425fb755d504d5a4709a179dcfa6cd560d50f42756",
+   "repo": "7a1cb0503b4b1d65fc561d425fb755d504d5a4709a179dcfa6cd560d50f42756"
+  }
+ },
+ "merged_versions": {
+  "src_25_m2": {
+   "file": "ca_merged_full_25_m2.v",
+   "sha256": "cffdb30c5eb1b20cac207f6c1ebffe1a2786535a4443a202d473804b142df161",
+   "lines": 98187
+  },
+  "src_84_m2": {
+   "file": "ca_merged_full_84_m2.v",
+   "sha256": "5a9f9721202da3e78c4687eda71295d6e1af2f0d643f990b7df8cd87f2e26994",
+   "lines": 102174
+  },
+  "repo_merged_current": {
+   "file": "ca_merged_full_84_m2.v",
+   "sha256": "5a9f9721202da3e78c4687eda71295d6e1af2f0d643f990b7df8cd87f2e26994",
+   "lines": 102174
+  }
+ },
+ "c_series_z": {
+  "qset_twin_base.v": {
+   "sha256": "f90b5a9f71e146fac128895d2a45ba4332cfba44916f33d2131b8277bfc8cfe0",
+   "bytes": 31712,
+   "archive30": null
+  },
+  "probe_gershgorin_qtw.v": {
+   "sha256": "2cf07aa31b4d6b6015d345fabd4e65015f1081574b51e5270d1945b7bf339428",
+   "bytes": 28039,
+   "archive30": null
+  },
+  "probe_rc_envelope.v": {
+   "sha256": "5d6dfd27739e6708b523ff22540b9565abbdba7b90356c5a0d7c04f5c84c6691",
+   "bytes": 31835,
+   "archive30": null
+  },
+  "probe_pareto_qtw.v": {
+   "sha256": "79f1806cf136c8a999ec96fd2a62e0d40d173051df9f81248fc087fb0e7a4018",
+   "bytes": 20821,
+   "archive30": null
+  },
+  "probe_rc_real.v": {
+   "sha256": "e5e96e7e4458606089341db2136aae52c143280cc10db3626e63e647dec7e9e7",
+   "bytes": 16577,
+   "archive30": null
+  }
+ },
+ "audit_evidence": {
+  "audit_index_20260830.json": "0f78fba855a08802ad16c2ae8d298a57ac9aac211607d12de69b97c59b3a6183",
+  "audit_rerun_20260830.txt": "22ed24d2736ea3f56367e00059d12614d164981d2305abca18aecebbd74f73d0",
+  "audit_run_20260826_full.txt": "22ed24d2736ea3f56367e00059d12614d164981d2305abca18aecebbd74f73d0"
+ },
+ "audit_determinism": {
+  "rerun_20260830 == run_20260826 (byte-identical)": true,
+  "note": "Print Assumptions 纯 stdout 确定性输出——08-26 全量跑与 08-30 复跑逐字节相同，审计可复现性的直接证据"
+ }
+}

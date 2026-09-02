@@ -1,0 +1,117 @@
+--- extract probe_qset_twin_base -> qset_twin_base.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_qset_twin_base.v
+--- extract probe_probe_rc_envelope -> probe_rc_envelope.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_rc_envelope.v
+--- extract probe_probe_gershgorin_qtw -> probe_gershgorin_qtw.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_gershgorin_qtw.v
+--- extract probe_probe_pareto_qtw -> probe_pareto_qtw.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_pareto_qtw.v
+--- extract probe_probe_taugrid_cr -> probe_taugrid_cr.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_taugrid_cr.v
+--- extract probe_probe_c4_four_atom_cr -> probe_c4_four_atom_cr.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_c4_four_atom_cr.v
+--- extract probe_probe_safe_domain -> probe_safe_domain.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_safe_domain.v
+--- extract probe_probe_c4_unique2sparse_cr -> probe_c4_unique2sparse_cr.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_c4_unique2sparse_cr.v
+--- extract probe_probe_c4_gram_unique_cr -> probe_c4_gram_unique_cr.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_c4_gram_unique_cr.v
+--- extract probe_probe_g11_checkiff_cr -> probe_g11_checkiff_cr.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_g11_checkiff_cr.v
+--- extract probe_probe_g13_certtight_cr -> probe_g13_certtight_cr.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_g13_certtight_cr.v
+--- extract probe_probe_g9_pairfrac_cr -> probe_g9_pairfrac_cr.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_g9_pairfrac_cr.v
+--- extract probe_probe_itv_noisyor_cr -> probe_itv_noisyor_cr.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_itv_noisyor_cr.v
+--- extract probe_probe_z_frame_check -> probe_z_frame_check.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_z_frame_check.v
+--- extract probe_probe_z2b_int63mirror -> probe_z2b_int63mirror.ml
+Error:
+Can't find file
+D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_z2b_int63mirror.v
+--- extract probe_frame_check_graduated -> frame_check_graduated.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_frame_check_graduated.v", line 44, characters 15-22:
+Error: Cannot find a physical path bound to logical path ca_base.
+
+--- extract probe_g7_welch_cr -> g7_welch_cr.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 43, characters 15-32:
+Warning: Loading Stdlib without prefix is deprecated.
+Use "From Stdlib Require ConstructiveReals"
+or the deprecated "From Coq Require ConstructiveReals"
+for compatibility with older Coq versions.
+[deprecated-missing-stdlib,deprecated-since-9.0,deprecated,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+Warning: Hiding binding of key N to N_scope
+[hiding-delimiting-key,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+Warning: Notation "_ + _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+Warning: Notation "_ - _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+Warning: Notation "_ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+Warning: Notation "_ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+Warning: Notation "_ >= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+Warning: Notation "_ > _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+Warning: Notation "_ <= _ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+Warning: Notation "_ < _ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+Warning: Notation "_ <= _ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+Warning: Notation "_ < _ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+Warning: Notation "_ * _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+Warning: Notation "_ ^ _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 54, characters 15-24:
+Error: Cannot find a physical path bound to logical path ca_rip_cr.
+
+--- PSA_extract (psa_guard)
+File ".\PSA_extract.v", line 22, characters 15-32:
+Error: Cannot find a physical path bound to logical path PSA.PSA_framework.
+
