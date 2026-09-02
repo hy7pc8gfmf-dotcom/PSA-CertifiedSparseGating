@@ -19,8 +19,7 @@ ladder to its *phase-complete* bands (n_j < T_train) dramatically improves extra
 three ladders; (2) RoPE-style rotation on a phase-truncated ladder extrapolates far better than
 vanilla RoPE (best geometric-mean ppl 12.40 vs vanilla RoPE 25.30 at 8×); the best within the
 rotation family is a *random dense rotation ladder*
-(psi-rope-rand, [3,511] random angles, 6.45±0.03 at 8×, 3 seeds; n=10 full replication; certificate status: outside the frame-bound coverage of Paper A — random ladders do not pass the reflective checker; the provable content is limited to ℓ² linear independence
-4.00±0.5, ordering unchanged) — 44% below the 3-seed
+(psi-rope-rand, [3,511] random angles, 6.45±0.03 at 8×, 3 seeds; n=10 full replication 4.00±0.5 (tinystories quick-config chain, 3000 iters, b32 — App. C″; a different corpus from the Gutenberg main table of §4.1, so absolute values are not comparable across corpora while the ordering replicates), ordering unchanged; certificate status: outside the frame-bound coverage of Paper A — random ladders do not pass the reflective checker; the provable content is limited to ℓ² linear independence) — 44% below the 3-seed
 NTK number (11.54±1.18, p=0.018, d=−6.06, **directional at n=3, df=2; 5-seed replication
 completed 2026-08-24: rand vs ALiBi t=6.66, grid vs rand t=11.28, rand vs c3 t=−9.44, rand vs rope t=−6.20, all df≈4, all highly significant — the directional claims (ALiBi best / grid collapse / rand best-in-family / RoPE poor) hold at n=5**), with the 7-band geometric ladder [3,7,15,31,63,127,255]
 (12.40) and NTK-aware rescaling forming the strong baselines — while an uncertified strong baseline, ALiBi,
@@ -185,7 +184,7 @@ Holm 校正（方向性观察）；**n=5 复核已完成（2026-08-24，9 方案
   分布内 2× 优势换取外推脆弱性」的笼统交易：交易是周期参数化的属性，不是位置信息的
   属性**（ALiBi 分布内 4.64 仅比最优 4.48 差 0.16，且外推平坦）；NoPE 保留「位置必要性」
   的对照价值。
-- **rope-PI 无微调惨败**（37.87）——测试时修复不是无无免费午餐定理定理，NTK 是唯一有效形态。
+- **rope-PI 无微调惨败**（37.87）——测试时修复并非万能，NTK 是唯一有效形态。
 
 **阶梯族内判决**：
 - **七带阶梯 [3,7,15,31,63,127,255] 全程均值最优**（2×/4×/8× 全列第一）。
@@ -282,9 +281,17 @@ Holm 校正（方向性观察）；**n=5 复核已完成（2026-08-24，9 方案
   通过 35（30.7%）、假阴性 56（全量 49.1%、占拒绝 70.9%，集中于 C=2/3-sparse 与几何奇带）；**E5'' 七带精确
   行和（证书口径①）为 1.2287 > 4/5，检查器判 false 是真阴性（真值超阈）；复合证书
   `champion_e5_composite_certificate` 对 E5'' 下界空洞（单位系数 S=7、coh_e5=14.21、
-  下界 −7.21），是宽松复合界，非"紧证书"**。**提取整数范围**：exe 与 Coq
+  下界 −7.21），是宽松复合界，非"紧证书"**。**有效域充分性（z3b，2026-09-02）**：`z3b_sufficiency`（合并版分区 77，`probe_z3b_validregion.v`，纯构造性 nat/Z/Q 层、5 段 Print Assumptions 全 Closed）证明 q=8 几何阶梯（n0≥2、任意 m≥1）**无条件通过**反射检查器——与论文 A `pareto_law_main`（通过 ⟹ 增长比 ≥ c≈1.8501）合成 ⟹ 几何阶梯假阴性由此**限定于显式比率带 [c, 8) 内**，「49.1% 假阴性」经验数字获得定理带刻画；提取 `z3b_bench.ml`（[2,16,128]=true 机器实证、[2,3] 反例 false）。**提取整数范围**：exe 与 Coq
   语义分歧 27/114（23.7%），实验值（≤255、m≤8）均安全，通用界须逐阶梯核算 ∏ pair_den
   < 2^63，彻底消除改用 Zarith 任意精度（future work）。
+- **框架能量界构造性孪生（C1，2026-09-02）**：`gershgorin_frame_mu_qtw`（`probe_gershgorin_qtw.v`，
+  纯构造性 nat/Q 层、结论 Set 层 And-of-QleT、零经典公理、15 段 Print Assumptions 全 Closed；
+  提取物 `gershgorin_qtw.ml` 经 DkMLNative ocamlc 编译通过并经 WSL 冒烟运行 true/true）——
+  论文 A 依赖经典实数的 Gershgorin 框架能量界获得零经典孪生：单位行 + 离对角行和 ≤ μ 前提下
+  (1−μ)·Σc_i² ≤ Σ_k(Σ_i c_i v_ik)² ≤ (1+μ)·Σc_i² 双侧成立（μ 任意有理数，两侧均为可提取的
+  信息性 QleT 证据）；`gtw_gap_witness`：μ<1 时正间隙 d:=1−μ 的 sigT 见证
+  （0 < d ∧ d·Σc_i² ≤ F²）——能量下界从命题升级为带正 margin 的可提取数据（构造性轨道
+  定位同 v2.13 声明：公理独立性与可计算性验证，不进入生产检查器路径）。
 - **酉不变性接口声明（已机器检查）**：本文「旋转组」（psi-rope）= 基函数乘旋转矩阵；
   旋转是酉变换，不改变内积与范数，故论文 A 的框架界/衰减界/证书**自动覆盖旋转版本**
   （Module UnitaryInvariance：`unitary_invariance_psi_rope_theta` 等均 Qed 零 classic，
@@ -293,8 +300,7 @@ Holm 校正（方向性观察）；**n=5 复核已完成（2026-08-24，9 方案
   classic（免 H_dom，M_bound_2d_wide 4 = 768）；3D/4D 推广已全量编译（M_bound_3d 4 =
   3968 / M_bound_4d 4 = 19968，常数较 1D 显著保守——定位为上界证书 + 组合性演示）。
 - **代码状态**：论文 A 的 z 区 20 探针（grid_ortho + parseval/partial/pairbound/rowsum/
-  pairdirichlet/incoherence/row_rip/c4_instance/welch/uncertainty_cr/g8_synthesis_cr/g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/decidability_premium_cr）已 pro 化并入合并版 `ca_merged_full_25_m2.v`（98187 行，
-  67 模块分区，合并编译 MERGE_EXIT=0）——本证书链依赖的 parseval/partial/pairbound/rowsum/
+  pairdirichlet/incoherence/row_rip/c4_instance/welch/uncertainty_cr/g8_synthesis_cr/g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/decidability_premium_cr）已 pro 化并入合并版 `ca_merged_full_25_m2.v`（98187 行，77 模块分区，合并全量编译 EXIT=0）——本证书链依赖的 parseval/partial/pairbound/rowsum/
   pairdirichlet 均在合并版内全量验证，证书链验证等级从独立 .vo 升级为合并版全量验证。
 - **张力（可发表点）**：带证书方案中的性能领先者（七带）与直接证书（C=4）
   分离——带数与可认证性此消彼长，复合证书弥合二者；认证与外推性能呈温和负相关
@@ -685,7 +691,7 @@ training-adaptation effects, not purely geometric ones).
 
 ## 附录 C″ Seed-Robustness Convergence Table (n=3 → 5 → 10)
 
-n=10 full replication (9 schemes × 10 seeds {1337,42,7,2026,31415,2718,1618,31416,12345,999}, 2026-08-25, @4096):
+n=10 full replication (9 schemes × 10 seeds {1337,42,7,2026,31415,2718,1618,31416,12345,999}, 2026-08-25, @4096; corpus: tinystories quick config · 3000 iters · block 512 · batch 32 — the same replication chain as §10.9a; distinct from the Gutenberg main table of §4.1, so absolute values are not comparable across the two corpora while the ordering replicates):
 
 | Scheme | n | Mean | Median | Range | Rank |
 |---|---|---|---|---|---|
@@ -702,7 +708,10 @@ n=10 full replication (9 schemes × 10 seeds {1337,42,7,2026,31415,2718,1618,314
 Convergence: the ordering alibi < rand < t5rel < e5pp < c2 < c4 < c3 < grid < rope
 replicates at every stage n=3 → 5 → 10 with no transpositions; the 5 new seeds
 differ from the original 5 by ≤0.8 in mean with no directional drift. Welch t,
-Cohen's d and Holm-corrected values are provided in the artifact.
+Cohen's d and Holm-corrected values are provided in the artifact. Cross-corpus
+external validity (2026-08-24, owt held-out set, three schemes at 8×): e5pp 13.77
+[13.24, 14.31] / rand 8.00 [7.71, 8.29] / ALiBi 5.11 [4.92, 5.31] — the ordering
+alibi < rand < e5pp replicates the core ordering on a third corpus.
 
 ## 附录 D 常见问题与边界澄清
 

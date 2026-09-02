@@ -1,4 +1,4 @@
-﻿# Certified Sparse Gating over Phase-Truncated Frequency Ladders
+# Certified Sparse Gating over Phase-Truncated Frequency Ladders
 ## A Coq Formalization of Representation Stability and Sparse Recovery Guarantees
 
 > 正式版。投稿方向：CPP/ITP（形式化方法）。
@@ -98,7 +98,7 @@ same ladder family; this work supplies the formal guarantees.
 把"实例证书"推广为"任意阶梯 → μ≤4/5 的带健全性证明的运行时判定"，是 proof-carrying
 code 思想在数值框架界上的实例化；(iii) **构造性实数轨道**（ca_rip_cr.v）：在纯构造性
 实数上独立验证 k-原子 RIP，与经典轨道的经典排中依赖形成对照；(iv) **零自定义公理的
-审计纪律**：165 项 Print Assumptions 全审计（完整 165/165 运行日志随稿，post-M1.5 复核零 `Classical_Prop.classic`）、合并版 67 模块分区 全量编译。以下贡献清单中的
+审计纪律**：165 项 Print Assumptions 全审计（完整 165/165 运行日志随稿，post-M1.5 复核零 `Classical_Prop.classic`）、合并版 77 模块分区全量编译（`ca_merged_full_25_m2.v`，98187 行）。以下贡献清单中的
 核心定理（Gershgorin 框架界、RIP 基元、稀疏唯一性）均为经典结果的机器化，数学新颖性有限，
 但上述工程机制使其可判定、可提取、可审计——这是与"把经典数学写进 Coq"的本质区别。
 
@@ -166,7 +166,7 @@ logits 不变，§5.3/§10）。证书链是**两条正交的定理簇**（表�
   pairdirichlet/incoherence/row_rip/c4_instance + welch/uncertainty_cr/g8_synthesis_cr/
   g1_norm_closed/g2_mu_adj + 构造性族 pi_cr_m1a/m1b/sin_cr_m2/sqrt_cr_m3/s7_s9_mono/
   decidability_premium_cr + **构造性轨道 ca_zeta_euler / ca_rip_cr** + **CS 定理族 nearcoll/taugrid/taugrid_cr/cs/cs5** + **M2 批次 c4_four_atom_cr/safe_domain/frame_check_graduated/ab_bridge_pier/relaxation_meta/g3_criterion/g5_premium** + **g7_welch_cr + g9_pairfrac_cr（G-9）**），追加式并入，**本地 2.5 全量编译 EXIT=0（run20，2026-08-31）**。
-- **z 区探针（并入合并版 9 个：8 经典 pro 化 + c4_instance）**：grid_ortho 18 Qed / parseval 19 / partial 27 /
+- **z 区探针（并入合并版 42 个探针分区；首批 8 经典 pro 化 + c4_instance 的 Qed 明细如下，其后 M2 与 2026-08-30/09-01 批次追加至 42，见附录 A 交叉索引）**：grid_ortho 18 Qed / parseval 19 / partial 27 /
   pairbound 6 / rowsum 23 / pairdirichlet 5 / incoherence 51 / row_rip 9（行和→RIP 桥接）/ c4_instance 14（C=4 实例拼接）——
   各独立编译 EXIT=0 + 合并编译双通过。
 - **审计**：PSA_audit.v **165 项** Print Assumptions，RC=0，零 Admitted；全部 165 项
@@ -266,6 +266,13 @@ g7_welch_lower (M N) (v) (mu) : 1 ≤ N → N < M → (∀i<M: Σ_{k<N} v i k² 
   INR M − INR N ≤ INR N · INR (Nat.pred M) · mu · mu
   （Welch 下界平方形态，构造性轨道 probe_g7_welch_cr.v：Frobenius/Cauchy–Schwarz
   路线避特征值，14 Qed 六审计全 Closed，签名与 G-8 前提逐字一致）
+
+z3b_sufficiency (n0 m) : 2 ≤ n0 → 1 ≤ m →
+  frame_check_instance (z3b_bands n0 m) = true    （z3b_bands n0 m = n0·8^k 几何阶梯）
+  （检查器有效域充分性定理，构造性轨道 probe_z3b_validregion.v：q=8 几何阶梯
+  无条件通过反射检查器；与 pareto_law_main（通过 ⟹ 增长比 ≥ c≈1.8501）合成 ⟹
+  几何阶梯假阴性限定于显式比率带 [c, 8)，2314 行 70 Qed 五审计全 Closed，
+  提取 z3b_bench.ml：[2,16,128]=true 机器实证、[2,3] 反例 false）
 ```
 
 ## 4. Instance Certificates（C=4 / T8 / 七带复合）
@@ -338,7 +345,7 @@ psi-rope 行 3 个种子均值±std、dense 单个种子（b64 s1337）、rope �
 枚举、可单独收紧、可机械组合——收紧器核心已形式化（G-13，`probe_g13_certtight_cr.v`：三层证书链的收紧保序/裁定保持/贪心收紧器/sigT 决策证书，12 Qed 6 审计 Closed）；最优化搜索仍为 future work。相邻对有理界极限
 n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3）——松弛链的渐近代价有闭合形式（**已形式化（G-9，`probe_g9_pairfrac_cr.v`）：完全平方 C 精确闭合 + 一般 C 双带有理夹逼 + sigT 可提取证书，零经典零公理**）。
 
-**保守性（充分非必要）**：`frame_check_instance = true` 是框架界的充分非必要条件——floor-sqrt 有理松弛的保守因子约 1.5×，存在满足 Gershgorin 条件但因保守上界超 4/5 而被误拒的合法阶梯（假阴性）。典型真例证：[3,7,15]（起点最低的倍增三带）精确行和 0.7870 ≤ 4/5（满足框架条件），但有理保守界 1.3125 > 4/5 被误拒（可判定性溢价 ≈1.67）；而七带 E5'' 精确行和 1.2287 > 4/5，检查器判 false 是**真阴性**（真值超阈），不在误拒之列。 **充要性精确层口径（G-11，真 iff）**：注意 `probe_g3_criterion.v` 的 `g3_certifiable_iff` **实为单向蕴含**（检查器通过 ⟹ Gershgorin 框架界；名字取自早期草稿，未改）——真正的充要刻画由 **G-11 `probe_g11_checkiff_cr.v`**（2026-08-31，纯 nat/bool/Q 构造性，Set 层 sigT + 可提取 OCaml，6 段 Print Assumptions 全 Closed）给出：在精确有理算术层，行级检查裁定与行和阈值条件**双向等价**——`g11_check_iff`（通过 ⟺ 逐行 ≤ 4/5，健全+完备两方向）、`g11_reject_iff`（拒绝 ⟺ 存在超阈行）、`g11_fn_iff`（**假阴性量化 iff**：精确行在阈内且被松弛拒绝 ⟺ 阈值余量非负且小于松弛盈余）与 `g11_decision_cert`（sigT 决策证书，携带双向 iff）；假阴性全部来源于可判定松弛层的保守性，而非检查器逻辑的完备性缺口——G-11 的量化 iff 即此论断的精确形式（[3,7,15] 精确行和 ≈0.787 ≤ 4/5 被误拒，`probe_g5_premium.v` 机器验证）。正是这一不完备性使**复合证书成为必要**。宁可误拒、绝不放行的保守取向是可判定性的设计选择。系统扫描（114 阶梯 × 5 族）：通过 35（30.7%）、假阴性 56（全量 49.1%、占拒绝 70.9%；z3b 充分性定理（分区 77）证明 q=8 几何阶梯无条件通过检查器，几何阶梯假阴性由此限定于显式比率带 [c, 8) 内），集中于"有用"阶梯（C=2/3-sparse 12/13、几何奇带 9/9）。
+**保守性（充分非必要）**：`frame_check_instance = true` 是框架界的充分非必要条件——floor-sqrt 有理松弛的保守因子实测远高于标称值（E5'' 21 对实测：最小 1.5775、中位 2.6504、均值 6.61、远距对最大 36.18×，3–255 最劣），存在满足 Gershgorin 条件但因保守上界超 4/5 而被误拒的合法阶梯（假阴性）。典型真例证：[3,7,15]（起点最低的倍增三带）精确行和 0.7870 ≤ 4/5（满足框架条件），但有理保守界 1.3125 > 4/5 被误拒（可判定性溢价 ≈1.67）；而七带 E5'' 精确行和 1.2287 > 4/5，检查器判 false 是**真阴性**（真值超阈），不在误拒之列。 **充要性精确层口径（G-11，真 iff）**：注意 `probe_g3_criterion.v` 的 `g3_certifiable_iff` **实为单向蕴含**（检查器通过 ⟹ Gershgorin 框架界；名字取自早期草稿，未改）——真正的充要刻画由 **G-11 `probe_g11_checkiff_cr.v`**（2026-08-31，纯 nat/bool/Q 构造性，Set 层 sigT + 可提取 OCaml，6 段 Print Assumptions 全 Closed）给出：在精确有理算术层，行级检查裁定与行和阈值条件**双向等价**——`g11_check_iff`（通过 ⟺ 逐行 ≤ 4/5，健全+完备两方向）、`g11_reject_iff`（拒绝 ⟺ 存在超阈行）、`g11_fn_iff`（**假阴性量化 iff**：精确行在阈内且被松弛拒绝 ⟺ 阈值余量非负且小于松弛盈余）与 `g11_decision_cert`（sigT 决策证书，携带双向 iff）；假阴性全部来源于可判定松弛层的保守性，而非检查器逻辑的完备性缺口——G-11 的量化 iff 即此论断的精确形式（[3,7,15] 精确行和 ≈0.787 ≤ 4/5 被误拒，`probe_g5_premium.v` 机器验证）。正是这一不完备性使**复合证书成为必要**。宁可误拒、绝不放行的保守取向是可判定性的设计选择。系统扫描（114 阶梯 × 5 族）：通过 35（30.7%）、假阴性 56（全量 49.1%、占拒绝 70.9%；z3b 充分性定理（分区 77）证明 q=8 几何阶梯无条件通过检查器，几何阶梯假阴性由此限定于显式比率带 [c, 8) 内），集中于"有用"阶梯（C=2/3-sparse 12/13、几何奇带 9/9）。
 
 **证书覆盖地图（阶梯实例 × 认证状态 × 实证对照）**：
 
@@ -401,7 +408,11 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   且检查器通过 ⟹ 3·c^(m−1) ≤ N（c = ((5+√281)/16)² ≈ 1.8501）。**N=511 推论**：m ≥ 10
   必被拒绝。
 - **随机版（T2a/T2b）**：同箱对触发 P2 ⟹ P(拒绝) ≥ 1 − (9)_m/9^m；m=7 ⟹ ≥ 96/100、
-  m=8 ⟹ ≥ 99/100；m ≥ 10 由鸽笼确定性覆盖（`ten_bands_reject` 初等替代证明）。
+  m=8 ⟹ ≥ 99/100；**一般 m 定理（2026-09-02，`probe_t2b_genm.v`）**：fall9_succ/pow_succ_9
+  符号链小步 + lia 二进制收口（零大数物化，绕开 unary 栈溢出）+ 交叉相乘 R 转移 ⟹
+  **∀m ≥ 7：P ≥ 96/100、∀m ≥ 8：P ≥ 99/100**（`t2b_general_m96/99`，以 1 − no_collision m
+  一般口径给出，29 Qed 零 Admitted，公理足迹同 Dedekind 基底）；
+  m ≥ 10 由鸽笼确定性覆盖（`ten_bands_reject` 初等替代证明）。
 - **碰撞距离**：精确碰撞 ⟺ 角度有理（`collides_iff_rational_witness`，构造性 iff）；
   最小碰撞距离 = 分母（纯网格 q=1 恰为 N；偏移分母 q 把碰撞推至 q·N——"零成本旋钮"）；无理偏移
   （黄金比）⟹ 永无精确碰撞（`irrational_offset_no_collision`）；线性偏置（ALiBi）无碰撞端点
@@ -413,6 +424,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   交替级数，coqchk 复核通过）——近邻大带相干 ≈ 0.997 的解析根源成为定理。
 - **Parseval 能量守恒（μ=0 退化端点）**（probe_parseval）：互异网格原子在 a·N 窗口
   ‖Σc_t·u_t‖² = Σ|c_t|²（等式而非界——框架界退化端点）。
+- **μ=0 正交家族完备性（G-12，经典 R 轨道，2026-09-02 完成）** `probe_g12_orthofam.v`（`g12_ortho_witness` + `g12_ortho_family` 双 Qed、零 Admitted；脚印 = Dedekind 三件套，同 probe_grid_ortho 姊妹探针）：窗 N 内两两正交 ⟹ ∃θ₀ 与互异整数网格——θ_t = θ₀ + 2π·j_t/N、j_t mod N 互异——"不存在第三种正交家族"（μ=0 设计空间被 (N, {j_t}, θ₀) 完全参数化），与 probe_grid_ortho 的 ⟸ 方向合成 μ=0 情形的 ⟺ 完备刻画；并入合并版待下批合并窗口。
 - **窗口无关 Dirichlet 部分和界**（probe_partial）：j ≢ 0 (mod N) ⟹
   ‖Σ_{k<W} e^{2πikj/N}‖ ≤ N/(2·min(j mod N, N−j mod N))，窗口无关。
 - **任意角度对 Dirichlet 界与混合网格相干界**（probe_pairdirichlet）：任意角度 t1 t2，
@@ -558,7 +570,7 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
   M2 构造性 sin（`probe_sin_cr_m2` 39 Qed，交替幂级数）、M3 构造性 sqrt
   （`probe_sqrt_cr_m3` 59 Qed，Q 层二分，√21 ≥ 458/100、√105 ≥ 10246/1000）——
   纯 ConstructiveReals、零经典、零 Admitted、零自定义公理，Print Assumptions 全
-  Closed，已并入合并版 `ca_merged_full_25.v`（67 模块分区，MERGE_EXIT=0）。定位：
+  Closed，已并入合并版（现基态 `ca_merged_full_25_m2.v`，77 模块分区，MERGE_EXIT=0）。定位：
   G-5 主定理构造化版本的三角基座；**M4 可判定性溢价主定理已构造化完成**（2026-08-26：
   `probe_decidability_premium_cr.v` 并入合并版 25 模块 55/55，Gram 相干行和 ≤ 63/80 + 反射界 21/16
   + 溢价 5/3，核心 `m4_CRinv_le_contravar` 纯构造反变单调，`m4_decidability_premium : {w & CRle w (63/80)}` Set 层 sigT 定理，Print Assumptions 全
@@ -579,6 +591,9 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 - **四原子 Gram 谱口径唯一性（CS-23，纯构造性轨道，v2.23 入文）** `c4g_synthesis_injective` + `c4g_2sparse_unique`（probe_c4_gram_unique_cr.v，937 行 45 Qed 8 审计 Closed 零公理）：Gram 二次型能量恒等式 + 逐对 AM-GM 收口（ρ₄ ≈ 0.7966）⟹ **谱下界 λ\* = 1 − ρ₄ = 651/3200 ≈ 0.203 > 0**（sigT 证书 c4g_lam_sigT）——「全族两两相干窗口关闭」（μ₄·4 > 1）翻转为「Gram 行和谱窗口开启」，较逐对口径紧约 128 倍；提取 c4_gram_unique_cr.ml + bench（rho4/lam4/window_ok 全 true）。
 - **cert_optimize 收紧器（G-13，纯 nat/bool/Q 构造性，v2.23 入文）** `ct_opt_cert` sigT 决策证书（probe_g13_certtight_cr.v，253 行 12 Qed 6 审计 Closed）：三层松弛参数证书链的收紧保序（R1）+ 裁定保持（R2，「只强化不破坏」——CS-19 M4 的可执行实例）+ 传递/自反（R3）+ 贪心收紧器正确性（R4）+ 三分量证书（R5，可提取）——cert_optimize 方向从 future work 升级为有机器检查内核的收紧框架（最优化搜索仍为后续工作）；提取 g13_certtight_cr.ml + bench。
 
+- **区间 [0,1] 闭包与 noisy-OR 组合证书（G-10，纯构造性轨道，并入合并版分区 71）** `probe_itv_noisyor_cr.v`（13 Qed / 6 段审计全 Closed 零公理，提取物 itv_noisyor_cr.ml 经 ocamlc 编译）：承接上游 interval_inference elaboration 桩整节移除（E203）后把其中可实现主题非平凡化——[0,1] 区间代数在 Set 层做成可提取判定：`iq := {p : Q & iq_ok p = true}`，补元闭包、积闭包、noisy-OR 闭包（s(p,q) = 1−(1−p)(1−q) ∈ [0,1]）、单调性（非平凡核）与单位律，最终 sigT 组合证书携带 bool 闭包证据——"多事件概率组合保持 [0,1] 且判定保真"的证书层工具。
+- **Z 版整数检查器（CS-22，纯构造性 nat/Z/Q 轨道，并入合并版分区 70）** `probe_z_frame_check.v`（5 段审计全 Closed，提取 z_frame_check.ml）：把 μ ≤ 4/5 交叉相乘判定搬到 Z 精确算术（无舍入、无溢出概念），证健全 + 完备 iff——`zfc_check_spec`：全因子正 ⟹ `Qle qsum (4/5) ↔ Z.leb (5·acc) (4·P) = true`，配 C=4 可运行实例（[39;159;639]/[120;1200;10500] → true）；Zarith 提取路线（big-int 无溢出）地基，Z2b 的 63-bit 镜像一致性即在其上组合。
+
 ## 10. 部署级证书族（KV 逐出 / 量化 / 多头）
 
 - **KV 逐出**：`kv_eviction_controls_attention`——softmax ℓ₁ TVD ≤ e^{2·dropped_mass} − 1，
@@ -597,18 +612,16 @@ n₁n₂/(2(n₂−n₁)⌊√(n₁n₂)⌋) → √C/(2(C−1))（C=4 时 1/3�
 - **公理依赖（全部 165 项仅此）**：sig_not_dec / sig_forall_dec + functional_extensionality_dep
   ——标准 Dedekind 实数基础设施，**属可接受的 Reals 基底，非本开发应用层引入、非 `Classical_Prop.classic` 公理（显式声明）**；`Classical_Prop.classic`（排中律宏）
   **零出现（post-M1.5 复核成立）**。「classical-free」精确指排中律宏零出现，而非「无任何经典原则」——完整构造性未声称。**外部依赖说明**：mathcomp / Coquelicot 未纳入 165 项审计，"零 `Classical_Prop.classic`"仅限本开发应用层，不推广到整个开发依赖（Coquelicot 基于实数库，可能含经典公理，已明确声明）。
-**审计范围与合并版全基态的边界**：165 项审计的对象是 `PSA_framework.v` 应用层定理；合并版 `ca_merged_full_25.v` 其余模块中，`mu_adj_phase_transition`（μ 单调 ⟹ 相变存在性定理）的公理依赖含完整排中律 `classic`（CI 与本地编译日志一致确认）——"零 `Classical_Prop.classic`"结论限于 165 项审计范围，不覆盖合并版全部定理；应用层注意力证书/框架界/反射检查器定理链不受影响。审计分层口径：165 项输出块 = 54 项 Closed under the global context + 111 项 Dedekind 公理依赖（80 项三公理依赖 + 29 项 sig_forall_dec+fext + 2 项仅 sig_forall_dec，机器可读索引 `audit_index_20260830.json`）；构造性轨道（ca_rip_cr.v 33 定理、probe_uncertainty_cr.v 35 定理、probe_taugrid_cr.v 13 定理）各有独立 Print Assumptions 审计且全部 Closed，不在 165 项之内。**构造性轨道公理依赖（单独列出，2026-08-30）**：Stdlib `ConstructiveRcomplete.v`（ConstructiveReals 接口与柯西实例）自身 Axiom/Parameter 计数 = **0**（源文件直接核验——接口不依赖 funext、不依赖排中律）；构造性轨道各模块 Print Assumptions 全部 "Closed under the global context"（零公理，含 funext/classic 均零依赖），机器可读清单 `constructive_track_audit_20260830.json`。**审计计数勘误（166/165 差异关闭）**：PSA_audit.v 头注释提及 "Print Assumptions" 字样致子串计数 +1——语句实为 165 条，与日志 165 块一一对齐。
+**审计范围与合并版全基态的边界**：165 项审计的对象是 `PSA_framework.v` 应用层定理；合并版 `ca_merged_full_25_m2.v`（98187 行，2026-09-01 批次）其余模块中，`mu_adj_phase_transition`（μ 单调 ⟹ 相变存在性定理）的公理依赖含完整排中律 `classic`（CI 与本地编译日志一致确认）——"零 `Classical_Prop.classic`"结论限于 165 项审计范围，不覆盖合并版全部定理；应用层注意力证书/框架界/反射检查器定理链不受影响。审计分层口径：165 项输出块 = 54 项 Closed under the global context + 111 项 Dedekind 公理依赖（80 项三公理依赖 + 29 项 sig_forall_dec+fext + 2 项仅 sig_forall_dec，机器可读索引 `audit_index_20260830.json`）；构造性轨道（ca_rip_cr.v 33 定理、probe_uncertainty_cr.v 35 定理、probe_taugrid_cr.v 13 定理）各有独立 Print Assumptions 审计且全部 Closed，不在 165 项之内。**构造性轨道公理依赖（单独列出，2026-08-30）**：Stdlib `ConstructiveRcomplete.v`（ConstructiveReals 接口与柯西实例）自身 Axiom/Parameter 计数 = **0**（源文件直接核验——接口不依赖 funext、不依赖排中律）；构造性轨道各模块 Print Assumptions 全部 "Closed under the global context"（零公理，含 funext/classic 均零依赖），机器可读清单 `constructive_track_audit_20260830.json`。**审计计数勘误（166/165 差异关闭）**：PSA_audit.v 头注释提及 "Print Assumptions" 字样致子串计数 +1——语句实为 165 条，与日志 165 块一一对齐。
 - **M1.5 经典清零（post-M1.5 复核）**：`Module ExpSeries` 已 Qed（exp 幂级数路线），`exp_mono_le` 改走级数
   路线，语句不变、下游零改动——整个 CertifiedAttention 模块为纯构造性（不依赖实数完备性
   的排中律），据我们所知，这是第一个不依赖实数完备性排中律的深度学习注意力形式化验证。
   **过时记载更正**：`PSA_audit.v` L108–121 所载"4 项经 exp Rpower/MVT 继承 classic"系 pre-M1.5
-  （2026-08-19）过时记录；合并版 L63579（Module ExpSeries）/L63672（exp_mono_le_noclassic）/
-  L63719（应用）已并入，4 个注意力定理位于其后，`exp_increasing` 仅存于 ca_* 基础设施（非审计目标）。
+  （2026-08-19）过时记录；合并版 `ca_merged_full_25_m2.v`（98187 行，2026-09-01 批次）已并入（Module ExpSeries 段，含 `exp_mono_le_noclassic` 及其应用；4 个注意力定理位于其后），`exp_increasing` 仅存于 ca_* 基础设施（非审计目标）。
 - **提取计算性**：上述公理仅在证明层（Prop）使用，不参与提取的计算内容——提取出的判定函数
   为纯构造性计算。
 - **新定理族审计**：ParetoLaw/P1Coherence/ParetoRandom 仅 Stdlib Reals 自包含（其 165 项
-  审计范围以 PSA_audit.v 为准，P1 的经典 MVT 路线位于应用层之外，已明确声明）；z 区并入合并版的
-  8 经典 pro 化探针 + c4_instance（共 9 个）各自 Print Assumptions 仅标准库公理。
+  审计范围以 PSA_audit.v 为准，P1 的经典 MVT 路线位于应用层之外，已明确声明）；z 区并入合并版的首批 8 经典 pro 化探针 + c4_instance（共 9 个）各自 Print Assumptions 仅标准库公理。
 
 ## 12. Artifact & Reproducibility
 
@@ -733,8 +746,8 @@ and Rocq 9.0.x/9.1.x) yielded the following first-hand feedback:
 4. **`Print Assumptions` output lacks theorem names**: a 165-entry audit cannot
    mechanically align axiom blocks to theorems. *Suggestion*: an option to
    prefix outputs with theorem names — essential for audit automation.
-5. **`Require` inside a module**: concatenated-file developments (our 87K-line
-   merge of 55 partitions) inevitably trigger this warning — official guidance
+5. **`Require` inside a module**: concatenated-file developments (our 98K-line (98,187-line) merged
+   development assembled from 77 partitions, 42 of them probe partitions) inevitably trigger this warning — official guidance
    on safe conditions would help.
 6. **Toolchain**: coqc with large output over pipes can deadlock (hundreds of
    warnings during merged compilation); file redirection is required — chunked
@@ -823,6 +836,10 @@ ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实�
 | Z 版整数检查器健全完备 iff（CS-22） | z/probe_z_frame_check.v（zfc_check_spec：Qle qsum 4/5 ↔ Z.leb (5·acc)(4·P)，5×Closed，Zarith 路线提取） | ✅ **已并入 m2 分区 70** |
 | 镜像一致性组合定理（Z2b，CS-16×CS-22） | z/probe_z2b_int63mirror.v（z2b_check63_eq / end_to_end_sound / decision_cert / [2^63;4] 溢出发散反例，8×Closed，提取 bench） | ✅ **已并入 m2 分区 76** |
 | 概率逐对界正向随机侧（CS-20） | src/ca_sparse_ext.v（pairwise_inner_bound_probabilistic） | ✅（库内已 Qed，本轮入文） |
+| 构造性孪生基座（C 系列 Phase 1） | z/qset_twin_base.v（Q 层 Set 序工具包：QeqT 升级/qtw_tri 三分/margin 族/qsum 含端点包/AM-GM，44×Closed） | ❌ 未并入（z 区，C 系列批次） |
+| RC-real T2 区间包络 | z/probe_rc_envelope.v（env_witness_complete 序见证完备性 / env_check_sound + rc_lt_dec 双侧闭合 / plus+opp 传播，10×Closed） | ❌ 未并入（z 区，C 系列批次） |
+| Gershgorin 框架能量界构造性孪生（C1） | z/probe_gershgorin_qtw.v（gershgorin_frame_mu_qtw 双侧能量界 And-of-QleT + gtw_gap_witness sigT 正 gap + gtw_smoke 冒烟，15×Closed，提取 gershgorin_qtw.ml ocamlc 绿 + WSL 运行 true/true） | ❌ 未并入（z 区，C 系列批次） |
+| Pareto 负定律引擎构造性孪生（C2） | z/probe_pareto_qtw.v（par_c_lt_triggers 平方形触发引擎 / par_nc_decreasing·par_nc_le 单调链 / par_prob7·8 概率界 / par_fall10_zero 鸽笼确定性，√281 接口假设 + 夹界 167/10≤s≤84/5，审计全 Closed，提取 pareto_qtw.ml ocamlc 绿） | ❌ 未并入（z 区，C 系列批次） |
 | 合并版 | src/ca_merged_full_25_m2.v（98187 行，77 模块分区，探针族全量至 z3b） | ✅ **全量编译 EXIT=0（run20 2.5 基线 + run6 9.1 追加批次）** |
 | 归档基态 | D:\ComplexAnalysis\30模块\（SHA-256 与 src/z 一致） | ✅ |
 
