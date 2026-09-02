@@ -22,13 +22,13 @@
 | `rc_envelope_t2.ml+.mli ✅` | coq/probes/probe_rc_envelope.v:L756 | constructive-Q | §6 T2 包络 | bench_rc_env.log：env_lt_check 分离翻转 n=25 true 5.98ms |
 | `safe_domain.ml+.mli ✅` | coq/probes/probe_safe_domain.v:L148 | constructive-Q | §5.6.6 CS-16 | safe_domain_bool 运行时判定（<1ms） |
 | `taugrid_cr.ml+.mli ✅` | coq/probes/probe_taugrid_cr.v:L352 | constructive-Q | §5.6.6 CS-12 | ocamlc 绿（DkMLNative 4.14.2） |
-| `z2b_bench.ml（无 mli）` | ⚠️ 未解析到 Extraction 声明 | bench-driver | Z2b 基准驱动 | ocamlc 绿 |
+| `z2b_bench.ml（无 mli）` | 手写基准驱动（非 Extraction 生成物） | bench-driver | Z2b 基准驱动 | ocamlc 绿 |
 | `z2b_int63mirror.ml+.mli ✅` | coq/probes/probe_z2b_int63mirror.v:L373 | constructive-Q | §5.6.6 Z2b | z2b_bench：C=4 双 true + 溢出发散确认 |
-| `z3b_bench.ml+.mli ✅` | ⚠️ 未解析到 Extraction 声明 | classic-Q-bench | §5.2 z3b 充分性基准 | [2,16,128]=true / [2,3]=false 机器实证（WSL ocamlopt） |
+| `z3b_bench.ml+.mli ✅` | 手写基准驱动（非 Extraction 生成物） | classic-Q-bench | §5.2 z3b 充分性基准 | [2,16,128]=true / [2,3]=false 机器实证（WSL ocamlopt） |
 | `z_frame_check.ml+.mli ✅` | coq/probes/probe_z_frame_check.v:L322 | constructive-Q | §5.6.6 CS-22（Zarith 路线） | — |
 
 ---
-统计：跟踪 19 件（18 有 .mli），Extraction 声明全部解析；⚠️ 未解析：z2b_bench, z3b_bench。
+统计：跟踪 19 件（18 有 .mli），Extraction 声明全部解析。
 
 **确定性说明**：Extraction 为确定性输出——同版本提取器对同源产生逐字节相同产物；
 自检脚本对代表集重新提取并 diff，DRIFT 即「源已改而生成物未再生」或「提取器版本错位」，
