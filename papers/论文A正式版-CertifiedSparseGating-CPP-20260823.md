@@ -840,7 +840,7 @@ ca_zeta_euler / ca_rip_cr）全量合并编译通过。与配套论文 B 的实�
 | RC-real T2 区间包络 | z/probe_rc_envelope.v（env_witness_complete 序见证完备性 / env_check_sound + rc_lt_dec 双侧闭合 / plus+opp 传播，10×Closed） | ❌ 未并入（z 区，C 系列批次） |
 | Gershgorin 框架能量界构造性孪生（C1） | z/probe_gershgorin_qtw.v（gershgorin_frame_mu_qtw 双侧能量界 And-of-QleT + gtw_gap_witness sigT 正 gap + gtw_smoke 冒烟，15×Closed，提取 gershgorin_qtw.ml ocamlc 绿 + WSL 运行 true/true） | ❌ 未并入（z 区，C 系列批次） |
 | Pareto 负定律引擎构造性孪生（C2） | z/probe_pareto_qtw.v（par_c_lt_triggers 平方形触发引擎 / par_nc_decreasing·par_nc_le 单调链 / par_prob7·8 概率界 / par_fall10_zero 鸽笼确定性，√281 接口假设 + 夹界 167/10≤s≤84/5，审计全 Closed，提取 pareto_qtw.ml ocamlc 绿） | ❌ 未并入（z 区，C 系列批次） |
-| exp 部分和窗口机（C7，TVD 常数全有理化支撑件） | z/probe_expq_machine.v（expP 部分和窗口机：expP_monoT 窗口单调 / window_bound（Set：0≤x≤1 ⟹ 尾窗口 ≤ 2×首项）/ expq_uniform3（Set：[0,1] 上 expP N x ≤ 3#1）/ expq_cert_12 + smoke_bool 判定，15×Closed，提取 expq_machine.ml/.mli ocamlc 绿） | ❌ 未并入（z 区，C 系列批次） |
+| exp 部分和窗口机（C7，TVD 常数全有理化支撑件） | z/probe_expq_machine.v（expP 部分和窗口机：expP_monoT 窗口单调 / window_bound（Set：0≤x≤1 ⟹ 尾窗口 ≤ 2×首项）/ expq_uniform3（Set：[0,1] 上 expP N x ≤ 3）/ expq_cert_12 + smoke_bool 判定，15×Closed，提取 expq_machine.ml/.mli ocamlc 绿） | ❌ 未并入（z 区，C 系列批次） |
 | 碰撞最小 lag 数论孪生（C6） | z/probe_collision_qtw.v（z_euclid Euclid 引理 / cop_char·cop_sig 共素 iff + 最小性 sigT / g_char·g_sig 广义装配（任意 0<n<m：d_min = (n·m)/gcd(n·m, m−n)），12×Closed，提取 collision_qtw.ml/.mli ocamlc 绿） | ❌ 未并入（z 区，C 系列批次） |
 | 合并版 | src/ca_merged_full_25_m2.v（98187 行，77 模块分区，探针族全量至 z3b） | ✅ **全量编译 EXIT=0（run20 2.5 基线 + run6 9.1 追加批次）** |
 | 归档基态 | D:\ComplexAnalysis\30模块\（SHA-256 与 src/z 一致） | ✅ |
