@@ -1,117 +1,276 @@
---- extract probe_qset_twin_base -> qset_twin_base.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_qset_twin_base.v
---- extract probe_probe_rc_envelope -> probe_rc_envelope.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_rc_envelope.v
---- extract probe_probe_gershgorin_qtw -> probe_gershgorin_qtw.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_gershgorin_qtw.v
---- extract probe_probe_pareto_qtw -> probe_pareto_qtw.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_pareto_qtw.v
---- extract probe_probe_taugrid_cr -> probe_taugrid_cr.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_taugrid_cr.v
---- extract probe_probe_c4_four_atom_cr -> probe_c4_four_atom_cr.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_c4_four_atom_cr.v
---- extract probe_probe_safe_domain -> probe_safe_domain.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_safe_domain.v
---- extract probe_probe_c4_unique2sparse_cr -> probe_c4_unique2sparse_cr.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_c4_unique2sparse_cr.v
---- extract probe_probe_c4_gram_unique_cr -> probe_c4_gram_unique_cr.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_c4_gram_unique_cr.v
---- extract probe_probe_g11_checkiff_cr -> probe_g11_checkiff_cr.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_g11_checkiff_cr.v
---- extract probe_probe_g13_certtight_cr -> probe_g13_certtight_cr.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_g13_certtight_cr.v
---- extract probe_probe_g9_pairfrac_cr -> probe_g9_pairfrac_cr.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_g9_pairfrac_cr.v
---- extract probe_probe_itv_noisyor_cr -> probe_itv_noisyor_cr.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_itv_noisyor_cr.v
---- extract probe_probe_z_frame_check -> probe_z_frame_check.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_z_frame_check.v
---- extract probe_probe_z2b_int63mirror -> probe_z2b_int63mirror.ml
-Error:
-Can't find file
-D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_probe_z2b_int63mirror.v
---- extract probe_frame_check_graduated -> frame_check_graduated.ml
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_frame_check_graduated.v", line 44, characters 15-22:
-Error: Cannot find a physical path bound to logical path ca_base.
-
---- extract probe_g7_welch_cr -> g7_welch_cr.ml
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 43, characters 15-32:
+--- dep compile ca_rip_cr
+File ".\ca_rip_cr.v", line 26, characters 0-69:
+Warning: Hiding binding of key N to N_scope
+[hiding-delimiting-key,parsing,default]
+File ".\ca_rip_cr.v", line 26, characters 0-69:
+Warning: Notation "_ + _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File ".\ca_rip_cr.v", line 26, characters 0-69:
+Warning: Notation "_ - _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File ".\ca_rip_cr.v", line 26, characters 0-69:
+Warning: Notation "_ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File ".\ca_rip_cr.v", line 26, characters 0-69:
+Warning: Notation "_ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File ".\ca_rip_cr.v", line 26, characters 0-69:
+Warning: Notation "_ >= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File ".\ca_rip_cr.v", line 26, characters 0-69:
+Warning: Notation "_ > _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File ".\ca_rip_cr.v", line 26, characters 0-69:
+Warning: Notation "_ <= _ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File ".\ca_rip_cr.v", line 26, characters 0-69:
+Warning: Notation "_ < _ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File ".\ca_rip_cr.v", line 26, characters 0-69:
+Warning: Notation "_ <= _ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File ".\ca_rip_cr.v", line 26, characters 0-69:
+Warning: Notation "_ < _ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File ".\ca_rip_cr.v", line 26, characters 0-69:
+Warning: Notation "_ * _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File ".\ca_rip_cr.v", line 26, characters 0-69:
+Warning: Notation "_ ^ _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+--- extract qset_twin_base -> qset_twin_base.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/qset_twin_base.v", line 845, characters 0-161:
+Warning: The extraction is currently set to bypass opacity, the following
+opaque constant bodies have been accessed
+: QeqT_of_Qeq Qle_to_QleT qtw_NatLe_of_le qtw_ltT_of_eq_true
+  qtw_eqT_of_eq_true Qlt_to_QltT.
+ [extraction-opaque-accessed,extraction,default]
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+--- extract probe_rc_envelope -> rc_envelope_t2.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_rc_envelope.v", line 756, characters 0-71:
+Warning: The extraction is currently set to bypass opacity, the following
+opaque constant bodies have been accessed : Qlt_to_QltT.
+ [extraction-opaque-accessed,extraction,default]
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+--- extract probe_gershgorin_qtw -> gershgorin_qtw.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_gershgorin_qtw.v", line 594, characters 0-142:
+Warning: The extraction is currently set to bypass opacity, the following
+opaque constant bodies have been accessed
+: QeqT_of_Qeq Qle_to_QleT Qlt_to_QltT.
+ [extraction-opaque-accessed,extraction,default]
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+--- extract probe_pareto_qtw -> pareto_qtw.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_pareto_qtw.v", line 456, characters 0-267:
+Warning: The extraction is currently set to bypass opacity, the following
+opaque constant bodies have been accessed
+: QeqT_of_Qeq par_c_sandwich QleT_trans Qle_to_QleT par_prob_mono par_div_leT
+  QleT_refl Qmult_ltT_compat_r Qmult_leT_compat_r par_pow9_posT
+  qtw_leT_congr_r qtw_leT_congr_l Qmult_leT_0_compat par_qnat_le9
+  par_fall9q_nonnegT QltT_trans par_prob8 par_prob7 par_nc_le
+  par_same_bin_quad par_nc7_val par_c_lt_triggers Qlt_to_QltT
+  par_nc_decreasing par_c_ratio_lt par_fall10_zero par_qnat_nonnegT.
+ [extraction-opaque-accessed,extraction,default]
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+--- extract probe_taugrid_cr -> taugrid_cr.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_taugrid_cr.v", line 55, characters 0-78:
+Warning: Notation "_ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_taugrid_cr.v", line 56, characters 0-77:
+Warning: Notation "_ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_taugrid_cr.v", line 57, characters 0-78:
+Warning: Notation "_ >= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_taugrid_cr.v", line 58, characters 0-77:
+Warning: Notation "_ > _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_taugrid_cr.v", line 352, characters 0-99:
+Warning: The extraction is currently set to bypass opacity, the following
+opaque constant bodies have been accessed
+: ConstructiveCauchyReals.CReal_plus_lt_reg_r
+  ConstructiveCauchyReals.CReal_plus_lt_reg_l Rcauchy_complete
+  CRealLtDisjunctEpsilon ConstructiveCauchyRealsMult.CRealArchimedean
+  ConstructiveCauchyRealsMult.CReal_inv_0_lt_compat
+  ConstructiveCauchyRealsMult.CRealQ_dense
+  ConstructiveExtra.constructive_indefinite_ground_description_Z
+  CMorphisms.Reflexive_partial_app_morphism CMorphisms.iffT_arrow_subrelation
+  ConstructiveCauchyReals.CRealLt_morph ConstructiveCauchyReals.CRealLt_above
+  CMorphisms.subrelation_proper ConstructiveCauchyReals.CReal_lt_le_trans
+  CMorphisms.iffT_flip_arrow_subrelation
+  ConstructiveCauchyReals.CReal_plus_lt_compat_l
+  CMorphisms.subrelation_respectful CRealLtIsLinear
+  ConstructiveCauchyReals.CRealLt_dec ConstructiveCauchyReals.CRealLt_0_1
+  ConstructiveCauchyReals.CRealLtEpsilon ConstructiveCauchyReals.inject_Q_lt
+  Rup_pos CRealComplete ConstructiveCauchyReals.CReal_lt_trans
+  ConstructiveCauchyReals.CReal_le_lt_trans.
+ [extraction-opaque-accessed,extraction,default]
+--- extract probe_c4_four_atom_cr -> c4_four_atom_cr.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 30, characters 15-32:
 Warning: Loading Stdlib without prefix is deprecated.
 Use "From Stdlib Require ConstructiveReals"
 or the deprecated "From Coq Require ConstructiveReals"
 for compatibility with older Coq versions.
 [deprecated-missing-stdlib,deprecated-since-9.0,deprecated,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 37, characters 0-75:
 Warning: Hiding binding of key N to N_scope
 [hiding-delimiting-key,parsing,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 37, characters 0-75:
 Warning: Notation "_ + _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 37, characters 0-75:
 Warning: Notation "_ - _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 37, characters 0-75:
 Warning: Notation "_ <= _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 37, characters 0-75:
 Warning: Notation "_ < _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 37, characters 0-75:
 Warning: Notation "_ >= _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 37, characters 0-75:
 Warning: Notation "_ > _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 37, characters 0-75:
 Warning: Notation "_ <= _ <= _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 37, characters 0-75:
 Warning: Notation "_ < _ <= _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 37, characters 0-75:
 Warning: Notation "_ <= _ < _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 37, characters 0-75:
 Warning: Notation "_ < _ < _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 37, characters 0-75:
 Warning: Notation "_ * _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 52, characters 0-75:
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 37, characters 0-75:
 Warning: Notation "_ ^ _" was already used in scope nat_scope.
 [notation-overridden,parsing,default]
-File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g7_welch_cr.v", line 54, characters 15-24:
-Error: Cannot find a physical path bound to logical path ca_rip_cr.
-
---- PSA_extract (psa_guard)
-File ".\PSA_extract.v", line 22, characters 15-32:
-Error: Cannot find a physical path bound to logical path PSA.PSA_framework.
-
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 44, characters 0-80:
+Warning: Notation "_ + _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 45, characters 0-80:
+Warning: Notation "_ - _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 46, characters 0-80:
+Warning: Notation "_ * _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 47, characters 0-78:
+Warning: Notation "_ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 48, characters 0-77:
+Warning: Notation "_ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 49, characters 0-78:
+Warning: Notation "_ >= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 50, characters 0-77:
+Warning: Notation "_ > _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 59, characters 0-59:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 64, characters 0-60:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]

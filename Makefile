@@ -78,8 +78,10 @@ check:
 	@echo "=== coqchk 内核独立复验 ==="
 	$(COQCHK) $(COREQ) $(LIBQ) $(DEPSQ) PSA.PSA_framework PSA.PSA_audit
 
-extract: $(CORE_DIR)/PSA_extract.vo
-	@echo "Extraction: run 'coqc ... PSA_extract.v' then ocamlc (see README §复现指引)"
+extract:
+	bash scripts/extract_artifacts.sh
+	@echo "再生后运行: python scripts/check_extraction_determinism.py（源与生成物漂移自检）"
+	@echo "漂移检查: git status --short coq/probes（非空 = 生成物与源不同步）"
 
 clean:
 	rm -f $(LIB_DIR)/*.vo $(LIB_DIR)/*.glob $(LIB_DIR)/*.vos $(LIB_DIR)/*.vok

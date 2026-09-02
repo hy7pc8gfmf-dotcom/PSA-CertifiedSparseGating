@@ -50,19 +50,24 @@ extract_one() { # $1=src file 基名(不含.v)  $2=产物名  $3...=flags
 }
 
 echo "=== extract_artifacts $(date +%F) coqc=$($COQC --version 2>/dev/null | head -1) ==="
+# 依赖库按需编译（ca_rip_cr 等构造性 lib 件，自足无 mathcomp）
+LIB="$REPO_DIR/coq/lib"
+for dep in ca_rip_cr; do
+  if [ ! -f "$LIB/$dep.vo" ] && [ -f "$LIB/$dep.v" ]; then
+    echo "--- dep compile $dep" >> "$LOG"
+    ( cd "$LIB" && "$COQC" -q "$dep.v" >> "$LOG" 2>&1 ) \
+      && echo "OK(dep) $dep" || { echo "FAIL(dep) $dep"; fail=$((fail+1)); }
+  fi
+done
+q_flags=(-Q "$PROBES" "" -Q "$LIB" "")
 for pair in $Q_LIST; do
   out="${pair%%:*}"; src="${pair##*:}"
   extract_one "$src" "$out" "${q_flags[@]}" || true
 done
-# core 提取驱动（psa_guard）：依赖 lib 链 .vo 与 mathcomp/Coquelicot——
-# 不满足则 SKIP（提示 make lib），不硬失败
-if [ -f "$CORE/PSA_extract.v" ]; then
-  if ls "$CORE"/*.vo >/dev/null 2>&1 || ls "${CORE%/core}/lib"/*.vo >/dev/null 2>&1; then
-    echo "--- PSA_extract (psa_guard)" >> "$LOG"
-    ( cd "$CORE" && "$COQC" -q PSA_extract.v >> "$LOG" 2>&1 ) && { echo "OK(psa_guard)"; pass=$((pass+1)); } || { echo "FAIL(psa_guard)"; fail=$((fail+1)); }
-  else
-    echo "SKIP(psa_guard): lib 链 .vo 未编译（先 make lib）"
-  fi
+# core psa_guard：全链再提取需 make lib——此处仅对跟踪件做 ocamlc 良构性验证
+if command -v "$OCAMLC" >/dev/null 2>&1 && [ -f "$REPO_DIR/coq/psa_guard.ml" ]; then
+  ( cd "$REPO_DIR/coq" && "$OCAMLC" -c psa_guard.mli >> "$LOG" 2>&1 && "$OCAMLC" -c psa_guard.ml >> "$LOG" 2>&1 ) \
+    && { echo "OK(ocamlc psa_guard)"; pass=$((pass+1)); } || { echo "FAIL(ocamlc psa_guard)"; fail=$((fail+1)); }
 fi
 echo "=== extract summary: pass=$pass fail=$fail log=$LOG ==="
 [ "$fail" -eq 0 ]
