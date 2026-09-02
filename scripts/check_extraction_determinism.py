@@ -34,7 +34,9 @@ def check_one(src_base):
     out_name = extraction_target(src)
     assert out_name, src_base + " 无 Extraction 命令"
     with tempfile.TemporaryDirectory() as tmp:
-        r = subprocess.run([COQC, "-q", "-Q", PROBES, "", "-output-directory", tmp, src],
+        lib = os.path.join(REPO, "coq", "lib")
+        r = subprocess.run([COQC, "-q", "-Q", PROBES, "", "-Q", lib, "",
+                            "-output-directory", tmp, src],
                            capture_output=True, text=True, timeout=300)
         ok_files, drift = [], []
         for ext in (".ml", ".mli"):

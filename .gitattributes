@@ -6,6 +6,11 @@
 *.py text eol=lf
 *.ps1 text eol=crlf
 *.sh text eol=lf
+# 2026-09-02 补钉：Makefile（WSL make）与提取产物（确定性自检逐字节比对）
+Makefile text eol=lf
+*.ml text eol=lf
+*.mli text eol=lf
+*.json text eol=lf
 # 二进制文件
 *.vo binary
 *.pt binary

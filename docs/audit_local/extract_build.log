@@ -274,3 +274,285 @@ applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
 File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 64, characters 0-60:
 Warning: To avoid stack overflow, large numbers in nat are interpreted as
 applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_four_atom_cr.v", line 162, characters 0-95:
+Warning: The extraction is currently set to bypass opacity, the following
+opaque constant bodies have been accessed
+: ConstructiveCauchyReals.CReal_plus_lt_reg_r
+  ConstructiveCauchyReals.CReal_plus_lt_reg_l Rcauchy_complete
+  CRealLtDisjunctEpsilon ConstructiveCauchyRealsMult.CRealArchimedean
+  ConstructiveCauchyRealsMult.CReal_inv_0_lt_compat
+  ConstructiveCauchyRealsMult.CRealQ_dense
+  ConstructiveExtra.constructive_indefinite_ground_description_Z
+  CMorphisms.Reflexive_partial_app_morphism CMorphisms.iffT_arrow_subrelation
+  ConstructiveCauchyReals.CRealLt_morph ConstructiveCauchyReals.CRealLt_above
+  CMorphisms.subrelation_proper ConstructiveCauchyReals.CReal_lt_le_trans
+  CMorphisms.iffT_flip_arrow_subrelation
+  ConstructiveCauchyReals.CReal_plus_lt_compat_l
+  CMorphisms.subrelation_respectful CRealLtIsLinear
+  ConstructiveCauchyReals.CRealLt_dec ConstructiveCauchyReals.CRealLt_0_1
+  ConstructiveCauchyReals.CRealLtEpsilon ConstructiveCauchyReals.inject_Q_lt
+  Rup_pos CRealComplete ConstructiveCauchyReals.CReal_lt_trans
+  ConstructiveCauchyReals.CReal_le_lt_trans.
+ [extraction-opaque-accessed,extraction,default]
+--- extract probe_safe_domain -> safe_domain.ml
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+--- extract probe_c4_unique2sparse_cr -> c4_unique2sparse_cr.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 33, characters 15-32:
+Warning: Loading Stdlib without prefix is deprecated.
+Use "From Stdlib Require ConstructiveReals"
+or the deprecated "From Coq Require ConstructiveReals"
+for compatibility with older Coq versions.
+[deprecated-missing-stdlib,deprecated-since-9.0,deprecated,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 40, characters 0-69:
+Warning: Hiding binding of key N to N_scope
+[hiding-delimiting-key,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 40, characters 0-69:
+Warning: Notation "_ + _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 40, characters 0-69:
+Warning: Notation "_ - _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 40, characters 0-69:
+Warning: Notation "_ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 40, characters 0-69:
+Warning: Notation "_ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 40, characters 0-69:
+Warning: Notation "_ >= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 40, characters 0-69:
+Warning: Notation "_ > _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 40, characters 0-69:
+Warning: Notation "_ <= _ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 40, characters 0-69:
+Warning: Notation "_ < _ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 40, characters 0-69:
+Warning: Notation "_ <= _ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 40, characters 0-69:
+Warning: Notation "_ < _ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 40, characters 0-69:
+Warning: Notation "_ * _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_unique2sparse_cr.v", line 40, characters 0-69:
+Warning: Notation "_ ^ _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+--- extract probe_c4_gram_unique_cr -> c4_gram_unique_cr.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 43, characters 15-32:
+Warning: Loading Stdlib without prefix is deprecated.
+Use "From Stdlib Require ConstructiveReals"
+or the deprecated "From Coq Require ConstructiveReals"
+for compatibility with older Coq versions.
+[deprecated-missing-stdlib,deprecated-since-9.0,deprecated,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 50, characters 0-69:
+Warning: Hiding binding of key N to N_scope
+[hiding-delimiting-key,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 50, characters 0-69:
+Warning: Notation "_ + _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 50, characters 0-69:
+Warning: Notation "_ - _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 50, characters 0-69:
+Warning: Notation "_ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 50, characters 0-69:
+Warning: Notation "_ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 50, characters 0-69:
+Warning: Notation "_ >= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 50, characters 0-69:
+Warning: Notation "_ > _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 50, characters 0-69:
+Warning: Notation "_ <= _ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 50, characters 0-69:
+Warning: Notation "_ < _ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 50, characters 0-69:
+Warning: Notation "_ <= _ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 50, characters 0-69:
+Warning: Notation "_ < _ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 50, characters 0-69:
+Warning: Notation "_ * _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 50, characters 0-69:
+Warning: Notation "_ ^ _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 61, characters 0-80:
+Warning: Notation "_ + _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 62, characters 0-80:
+Warning: Notation "_ - _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 63, characters 0-80:
+Warning: Notation "_ * _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 64, characters 0-78:
+Warning: Notation "_ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 65, characters 0-77:
+Warning: Notation "_ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 66, characters 0-78:
+Warning: Notation "_ >= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 67, characters 0-77:
+Warning: Notation "_ > _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_c4_gram_unique_cr.v", line 934, characters 0-200:
+Warning: The extraction is currently set to bypass opacity, the following
+opaque constant bodies have been accessed
+: ConstructiveCauchyReals.CReal_plus_lt_reg_r
+  ConstructiveCauchyReals.CReal_plus_lt_reg_l Rcauchy_complete
+  CRealLtDisjunctEpsilon ConstructiveCauchyRealsMult.CRealArchimedean
+  ConstructiveCauchyRealsMult.CReal_inv_0_lt_compat
+  ConstructiveCauchyRealsMult.CRealQ_dense
+  ConstructiveExtra.constructive_indefinite_ground_description_Z
+  CMorphisms.Reflexive_partial_app_morphism CMorphisms.iffT_arrow_subrelation
+  ConstructiveCauchyReals.CRealLt_morph ConstructiveCauchyReals.CRealLt_above
+  CMorphisms.subrelation_proper ConstructiveCauchyReals.CReal_lt_le_trans
+  CMorphisms.iffT_flip_arrow_subrelation
+  ConstructiveCauchyReals.CReal_plus_lt_compat_l
+  CMorphisms.subrelation_respectful CRealLtIsLinear
+  ConstructiveCauchyReals.CRealLt_dec ConstructiveCauchyReals.CRealLt_0_1
+  ConstructiveCauchyReals.CRealLtEpsilon ConstructiveCauchyReals.inject_Q_lt
+  Rup_pos CRealComplete ConstructiveCauchyReals.CReal_lt_trans
+  ConstructiveCauchyReals.CReal_le_lt_trans.
+ [extraction-opaque-accessed,extraction,default]
+--- extract probe_g11_checkiff_cr -> g11_checkiff_cr.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g11_checkiff_cr.v", line 40, characters 0-78:
+Warning: Notation "_ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g11_checkiff_cr.v", line 41, characters 0-77:
+Warning: Notation "_ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g11_checkiff_cr.v", line 42, characters 0-78:
+Warning: Notation "_ >= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g11_checkiff_cr.v", line 43, characters 0-77:
+Warning: Notation "_ > _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g11_checkiff_cr.v", line 221, characters 0-93:
+Warning: The extraction is currently set to bypass opacity, the following
+opaque constant bodies have been accessed : g11_decision_cert.
+ [extraction-opaque-accessed,extraction,default]
+--- extract probe_g13_certtight_cr -> g13_certtight_cr.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g13_certtight_cr.v", line 36, characters 0-78:
+Warning: Notation "_ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g13_certtight_cr.v", line 37, characters 0-77:
+Warning: Notation "_ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g13_certtight_cr.v", line 38, characters 0-78:
+Warning: Notation "_ >= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g13_certtight_cr.v", line 39, characters 0-77:
+Warning: Notation "_ > _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g13_certtight_cr.v", line 253, characters 0-79:
+Warning: The extraction is currently set to bypass opacity, the following
+opaque constant bodies have been accessed : ct_opt_cert.
+ [extraction-opaque-accessed,extraction,default]
+--- extract probe_g9_pairfrac_cr -> g9_pairfrac_cr.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g9_pairfrac_cr.v", line 42, characters 0-78:
+Warning: Notation "_ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g9_pairfrac_cr.v", line 43, characters 0-77:
+Warning: Notation "_ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g9_pairfrac_cr.v", line 44, characters 0-78:
+Warning: Notation "_ >= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g9_pairfrac_cr.v", line 45, characters 0-77:
+Warning: Notation "_ > _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_g9_pairfrac_cr.v", line 234, characters 0-79:
+Warning: The extraction is currently set to bypass opacity, the following
+opaque constant bodies have been accessed : g9_closed_form_cert.
+ [extraction-opaque-accessed,extraction,default]
+--- extract probe_itv_noisyor_cr -> itv_noisyor_cr.ml
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_itv_noisyor_cr.v", line 38, characters 0-78:
+Warning: Notation "_ <= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_itv_noisyor_cr.v", line 39, characters 0-77:
+Warning: Notation "_ < _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_itv_noisyor_cr.v", line 40, characters 0-78:
+Warning: Notation "_ >= _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_itv_noisyor_cr.v", line 41, characters 0-77:
+Warning: Notation "_ > _" was already used in scope nat_scope.
+[notation-overridden,parsing,default]
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+File "D:/ComplexAnalysis/PSA-CertifiedSparseGating/coq/probes/probe_itv_noisyor_cr.v", line 214, characters 0-84:
+Warning: The extraction is currently set to bypass opacity, the following
+opaque constant bodies have been accessed : iq_nor_mono_cert iq_nor_cert.
+ [extraction-opaque-accessed,extraction,default]
+--- extract probe_z_frame_check -> z_frame_check.ml
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+--- extract probe_z2b_int63mirror -> z2b_int63mirror.ml
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
